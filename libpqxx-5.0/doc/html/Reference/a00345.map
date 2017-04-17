@@ -1,0 +1,6 @@
+<map id="pqxx::robusttransaction&lt; ISOLATIONLEVEL &gt;" name="pqxx::robusttransaction&lt; ISOLATIONLEVEL &gt;">
+<area shape="rect" id="node2" href="$a00014.html" title="pqxx::basic_robusttransaction" alt="" coords="5,229,200,256"/>
+<area shape="rect" id="node3" href="$a00032.html" title="pqxx::dbtransaction" alt="" coords="35,155,169,181"/>
+<area shape="rect" id="node4" href="$a00102.html" title="pqxx::transaction_base" alt="" coords="24,80,181,107"/>
+<area shape="rect" id="node5" href="$a00059.html" title="pqxx::internal::namedclass" alt="" coords="13,5,192,32"/>
+</map>

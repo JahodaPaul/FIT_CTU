@@ -1,0 +1,34 @@
+# Makefile.am is generated automatically for automake whenever test programs are
+# added to libpqxx.
+SUBDIRS = unit
+
+EXTRA_DIST = Makefile.am.template
+
+AM_CPPFLAGS=-I$(top_builddir)/include -I$(top_srcdir)/include
+
+# Override automatically generated list of default includes.  It contains only
+# unnecessary entries, and incorrectly mentions include/pqxx directly.
+DEFAULT_INCLUDES=
+
+noinst_HEADERS = test_helpers.hxx test_main.hxx
+
+CLEANFILES=pqxxlo.txt
+MAINTAINERCLEANFILES=Makefile.in
+
+#TESTS_ENVIRONMENT=PGDATABASE=libpqxx
+# PGDATABASE, PGHOST, PGPORT, PGUSER
+
+runner_SOURCES = \
+###MAKTEMPLATE:FOREACH test/test*.cxx
+  ###BASENAME###.cxx \
+###MAKTEMPLATE:ENDFOREACH
+  runner.cxx
+
+runner_LDADD = $(top_builddir)/src/libpqxx.la ${POSTGRES_LIB}
+
+TESTS = runner
+check_PROGRAMS = ${TESTS}
+
+# ###MAKTEMPLATE:FOREACH test/test*.cxx
+# ###BASENAME###_SOURCES = ###BASENAME###.cxx
+# ###BASENAME###_LDADD = $(top_builddir)/src/libpqxx.la ${POSTGRES_LIB}
