@@ -2,6 +2,8 @@
 #include "Connection.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Connection c;
+    c.Connect();
+    //std::cout << "Hello, World!" << std::endl;
     return 0;
 }
