@@ -3,3 +3,8 @@
 //
 
 #include "Connection.h"
+
+void Connection::Connect()
+{
+
+}
