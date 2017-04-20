@@ -8,39 +8,50 @@ Connection::Connection() {
 
 }
 
-void Connection::Connect()
+bool Connection::Connect(string name,string password)
 {
-    string sql;
     try{
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
-      host=horton.elephantsql.com port=5432");
+        host=horton.elephantsql.com port=5432");
         if (C.is_open()) {
-            cout << "Opened database successfully: " << C.dbname() << endl;
 
         } else {
             cout << "Can't open database" << endl;
-            return;
+            return false;
         }
-            /* Create SQL statement */
-            sql = "SELECT * FROM \"public\".\"cheese\" WHERE name_cheese='Acorn';";
+        string sql = "SELECT * FROM \"public\".\"users\" WHERE user_name='" + name + "' AND user_password='" + password + "';";
 
-            /* Create a non-transactional object. */
-            nontransaction N(C);
+        nontransaction N(C);
 
-            /* Execute SQL query */
-            result R( N.exec( sql ));
-
-            /* List down all the records */
-            for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
-                cout << "ID = " << c[0].as<int>() << endl;
-                cout << "Name = " << c[1].as<string>() << endl;
-            }
-
-
-
+        // Execute SQL query
+        result R( N.exec( sql ));
+        if(R.size()==0)
+        {
+            cout << "username and password does not match" << endl;
+            C.disconnect ();
+            return false;
+        }
+        cout << "successful login" << endl;
         C.disconnect ();
     }catch (const std::exception &e){
         cerr << e.what() << std::endl;
-        return;
+        return false;
     }
+    return true;
+}
+
+result Connection::query(string sql) {
+    result r;
+    try{
+        connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
+        host=horton.elephantsql.com port=5432");
+        work txn{C};
+        // SQL statement
+        result r = txn.exec(sql);
+        txn.commit();
+    }
+    catch (const std::exception &e){
+        cerr << e.what() << std::endl;
+    }
+    return r;
 }

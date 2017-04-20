@@ -14,10 +14,10 @@ class Connection
 {
 public:
     Connection();
-    void Connect();
-    void Disconnect();
-
+    bool Connect(string,string);
+    result query(string sql);
 private:
+
 };
 
 #endif //RECIPE_MANAGER_CONNECTION_H
