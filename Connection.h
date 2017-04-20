@@ -15,6 +15,7 @@ class Connection
 public:
     Connection();
     bool Connect(string,string);
+    bool Register(string,string);
     result query(string sql);
 private:
 

@@ -27,11 +27,44 @@ bool Connection::Connect(string name,string password)
         result R( N.exec( sql ));
         if(R.size()==0)
         {
-            cout << "username and password does not match" << endl;
+            cout << "Username and password does not match" << endl;
             C.disconnect ();
             return false;
         }
-        cout << "successful login" << endl;
+        cout << "Successful login." << endl;
+        C.disconnect ();
+    }catch (const std::exception &e){
+        cerr << e.what() << std::endl;
+        return false;
+    }
+    return true;
+}
+
+bool Connection::Register(string name, string password) {
+    try{
+        connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
+        host=horton.elephantsql.com port=5432");
+        if (C.is_open()) {
+
+        } else {
+            cout << "Can't open database" << endl;
+            return false;
+        }
+        string sql = "SELECT * FROM \"public\".\"users\" WHERE user_name='" + name + "';";
+        work txn(C);
+        // SQL statement
+        result R = txn.exec(sql);
+        // Execute SQL query
+        if(R.size()!=0)
+        {
+            cout << "Username taken." << endl;
+            C.disconnect ();
+            return false;
+        }
+        sql = "INSERT INTO \"public\".\"users\" (user_name,user_password) VALUES (" + txn.quote(name) + ", " + txn.quote(password) + ");";
+        txn.exec(sql);
+        cout << "Successful registration." << endl;
+        txn.commit();
         C.disconnect ();
     }catch (const std::exception &e){
         cerr << e.what() << std::endl;
@@ -45,7 +78,7 @@ result Connection::query(string sql) {
     try{
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
-        work txn{C};
+        work txn(C);
         // SQL statement
         result r = txn.exec(sql);
         txn.commit();

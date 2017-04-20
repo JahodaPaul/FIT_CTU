@@ -1,27 +1,35 @@
 #include <iostream>
+#include <stdlib.h>
 #include "Connection.h"
 
 int main() {
     string loginOrRegister="",login="",password="";
     Connection c;
-    cout << "To register press 0 and enter, to login press 1 and enter" << endl;
+    bool loggedIn=false;
 
-    cin >> loginOrRegister;
-    if(loginOrRegister=="1")
+    while(!loggedIn)
     {
-        cout << "login: ";
-        cin >> login;
-        cout << "password: ";
-        cin >> password;
-        c.Connect(login,password);
+        system("clear");
+        cout << "To register press 0 and enter. To login press 1 and enter. To exit, type \"exit\"." << endl;
+        cin >> loginOrRegister;
+        if (loginOrRegister == "1") {
+            cout << "login: ";
+            cin >> login;
+            cout << "password: ";
+            cin >> password;
+            loggedIn = c.Connect(login, password);
+        }
+        else if (loginOrRegister == "0") {
+            cout << "login: ";
+            cin >> login;
+            cout << "password: ";
+            cin >> password;
+            loggedIn = c.Register(login,password);
+        }
+        else if(loginOrRegister=="exit"){
+            return 0;
+        }
     }
-    else
-    {
 
-    }
-
-
-    //c.Connect();
-    //std::cout << "Hello, World!" << std::endl;
     return 0;
 }
