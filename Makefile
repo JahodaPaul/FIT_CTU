@@ -1,4 +1,4 @@
-CXXFLAGS = -std=c++11 -lpqxx -lpq -Ilibpqxx-5.0/include
+CXXFLAGS = -std=c++11 -lpqxx -lpq -Ilibpqxx-5.0/include -lncurses
 STRICTFLAGS = -std=c++11 -Wall -pedantic -Wno-long-long -O2 -c 
 
 all: Connection.o main.o output
