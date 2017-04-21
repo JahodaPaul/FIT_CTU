@@ -1,5 +1,5 @@
-to start this project(make communication with postges database possible) 
-you need to download and install libpqxx and libpq
+to start this project
+you need to download and install libpqxx, libpq(for database communication) and ncurses (for UI)
 -----------------------------
 sudo apt-get install libpq-dev
 
@@ -9,6 +9,12 @@ cd libpqxx
 make
 sudo make install
 
+-----------------------------
+for ncurses:
+sudo apt-get install ncurses-dev
+
+or if you have fedore:
+yum install ncurses-*
 
 
 Unfortunatly it is not possible to run this program on windows, yet.
