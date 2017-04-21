@@ -81,7 +81,7 @@ result Connection::query(string sql) {
         host=horton.elephantsql.com port=5432");
         work txn(C);
         // SQL statement
-        result r = txn.exec(sql);
+        r = txn.exec(sql);
         txn.commit();
     }
     catch (const std::exception &e){
