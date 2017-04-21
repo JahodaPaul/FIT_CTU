@@ -1,7 +1,7 @@
 CXXFLAGS = -std=c++11 -lpqxx -lpq -Ilibpqxx-5.0/include -lncurses
-STRICTFLAGS = -std=c++11 -Wall -pedantic -Wno-long-long -O2 -c 
+STRICTFLAGS = -std=c++11 -Wall -pedantic -Wno-long-long -O0 -ggdb -c 
 
-all: Connection.o main.o output
+all: Connection.o Data.o Frontend.o User.o main.o output
 
 output: main.o Connection.o User.o Data.o Frontend.o
 	$(CXX) main.o Connection.o User.o Data.o Frontend.o -o output $(CXXFLAGS)

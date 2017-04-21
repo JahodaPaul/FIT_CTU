@@ -1,10 +1,6 @@
 //
 // Created by pjahoda on 4/21/17.
 //
-#include <iostream>
-#include <string>
-#include "curses/ncurses.h"
-
 #include "Frontend.h"
 
 

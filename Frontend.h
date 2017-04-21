@@ -8,10 +8,13 @@
 #include "Connection.h"
 #include "Data.h"
 #include "Colormode.h"
-Modifier red(FG_RED);
-Modifier green(FG_GREEN);
-Modifier blue(FG_BLUE);
-Modifier def(FG_DEFAULT);
+#include "curses/ncurses.h"
+#include <iostream>
+#include <string>
+//Modifier red(FG_RED);
+//Modifier green(FG_GREEN);
+//Modifier blue(FG_BLUE);
+//Modifier def(FG_DEFAULT);
 
 class Frontend
 {
