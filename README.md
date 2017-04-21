@@ -15,9 +15,11 @@ sudo make install
 
 -----------------------------
 for ncurses: 
+
 sudo apt-get install ncurses-dev
 
-or if you have fedore: 
+or if you have fedora:
+
 yum install ncurses-*
 
 
