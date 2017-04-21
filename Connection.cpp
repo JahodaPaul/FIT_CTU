@@ -61,10 +61,11 @@ bool Connection::Register(string name, string password) {
             C.disconnect ();
             return false;
         }
-        sql = "INSERT INTO \"public\".\"users\" (user_name,user_password) VALUES (" + txn.quote(name) + ", " + txn.quote(password) + ");";
-        txn.exec(sql);
+        C.disconnect();
+        sql = "INSERT INTO \"public\".\"users\" (id_user,user_name,user_password) VALUES (nextval('serial'), " + txn.quote(name) + ", " + txn.quote(password) + ");";
+        R = this->query(sql);
+        //txn.exec(sql);
         cout << "Successful registration." << endl;
-        txn.commit();
         C.disconnect ();
     }catch (const std::exception &e){
         cerr << e.what() << std::endl;
