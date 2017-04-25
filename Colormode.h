@@ -5,7 +5,6 @@
 #ifndef RECIPE_MANAGER_COLORMODE_H
 #define RECIPE_MANAGER_COLORMODE_H
 
-//direct copy from internet
 #include <ostream>
     enum Code {
         FG_RED      = 31,
