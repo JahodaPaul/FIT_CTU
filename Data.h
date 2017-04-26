@@ -14,12 +14,12 @@ class Data : public Connection
 public:
     Data();
     void GetDataFromDatabase();
+    map<string,string>& GetMapOfIngridients();
 protected:
 private:
     void CopyIntoMap(pqxx::result,string);
+    void PrintWaitDownloading(int dots);
     map<string,string> foodNameAndCategory;
-    void printWaitDownloading(int dots);
-
     struct Recipe
     {
         Recipe(vector<string> ingridients, vector<int> ingridientWeight,bool containsMeat, bool containsSecondVegetable, bool containsNuts)

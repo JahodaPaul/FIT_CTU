@@ -20,35 +20,35 @@ void Data::GetDataFromDatabase() {
     //cout << r.size() << endl;
     //CopyIntoMap(r,"#bev");
 
-    printWaitDownloading(1);
+    PrintWaitDownloading(1);
 
     r = query("SELECT * FROM \"public\".\"cheese\"");
     CopyIntoMap(r,"cheese");
-    printWaitDownloading(2);
+    PrintWaitDownloading(2);
 
     r = query("SELECT * FROM \"public\".\"fruit\"");
     CopyIntoMap(r,"fruit");
-    printWaitDownloading(3);
+    PrintWaitDownloading(3);
 
     r = query("SELECT * FROM \"public\".\"meat\"");
     CopyIntoMap(r,"meat");
-    printWaitDownloading(1);
+    PrintWaitDownloading(1);
 
     r = query("SELECT * FROM \"public\".\"nuts\"");
     CopyIntoMap(r,"nuts");
-    printWaitDownloading(2);
+    PrintWaitDownloading(2);
 
     r = query("SELECT * FROM \"public\".\"sides\"");
     CopyIntoMap(r,"side");
-    printWaitDownloading(3);
+    PrintWaitDownloading(3);
 
     r = query("SELECT * FROM \"public\".\"spices\"");
     CopyIntoMap(r,"spice2");
-    printWaitDownloading(1);
+    PrintWaitDownloading(1);
 
     r = query("SELECT * FROM \"public\".\"vegetables\"");
     CopyIntoMap(r,"vegetable");
-    printWaitDownloading(2);
+    PrintWaitDownloading(2);
 
     //just for testing purposes
     //cout << foodNameAndCategory.begin()->first << endl;
@@ -63,7 +63,7 @@ void Data::CopyIntoMap(result R,string category) {
     }
 }
 
-void Data::printWaitDownloading(int dots) {
+void Data::PrintWaitDownloading(int dots) {
     string s = "Successful login.\nDownloading data ";
     for(int i=0;i<dots;i++)
     {
@@ -71,4 +71,8 @@ void Data::printWaitDownloading(int dots) {
     }
     system("clear");
     cout << s << endl;
+}
+
+map<string, string> &Data::GetMapOfIngridients() {
+    return foodNameAndCategory;
 }

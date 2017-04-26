@@ -22,15 +22,21 @@ public:
     Frontend();
     ~Frontend();
     void Run(Connection & c, Data & data);
+    void RunIngridientSelection(const map<string,string>&);
 protected:
 private:
     int counter;
     void PrintRegisterLoginOrExist(int );
-    void PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &);
+    void PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &,const int& from,const int& to);
+    int RunLogin();
     int loginStartx;
     int loginStarty;
     int loginBoxWidth;
     int loginBoxHeight;
+    int ingridientStartx;
+    int ingridientStarty;
+    int ingridientBoxWidth;
+    int ingridientBoxHeight;
     vector<string> choices;
     int highlight;
     bool userPressedEnter;
