@@ -4,65 +4,57 @@
 #include "Frontend.h"
 
 
-#define WIDTH 25
-#define HEIGHT 8
-
-string choices[3] = {"Login", "Register", "Exit",};
-int n_choices = 3;
-
 void Frontend::Run(Connection &c,Data & data) {
     bool loggedIn=false;
     string loginOrRegister="",login="",password="";
     while(!loggedIn)
     {
-        WINDOW *menu_win;
-        int highlight = 1;
-        int choice = 0;
-        int key;
-
-        initscr();
+        highlight=0;
+        userPressedEnter=false;
         clear();
+        initscr();
         noecho();
-        cbreak();	/* Line buffering disabled. pass on everything */
-        startx = (COLS - WIDTH) / 2;
-        starty = (LINES - HEIGHT) / 2;
+        cbreak();
+        loginStartx = (COLS - loginBoxWidth) / 2;
+        loginStarty = (LINES - loginBoxHeight) / 2;
+        WINDOW *menu_win = newwin(loginBoxHeight, loginBoxWidth, loginStarty, loginStartx);
 
-        menu_win = newwin(HEIGHT, WIDTH, starty, startx);
+
         keypad(menu_win, TRUE);
         mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
         refresh();
-        print_menu(menu_win, highlight);
+        PrintMenu(menu_win, highlight,choices,true,loginBoxWidth,loginBoxHeight,averageStringSizeLogin);
         while(1)
         {	key = wgetch(menu_win);
             switch(key)
             {	case KEY_UP:
-                    if(highlight == 1)
-                        highlight = n_choices;
+                    if(highlight == 0)
+                        highlight = 2;
                     else
                         --highlight;
                     break;
                 case KEY_DOWN:
-                    if(highlight == n_choices)
-                        highlight = 1;
+                    if(highlight == 2)
+                        highlight = 0;
                     else
                         ++highlight;
                     break;
                 case 10:
-                    choice = highlight;
+                    userPressedEnter=true;
                     break;
                 default:
                     refresh();
                     break;
             }
-            print_menu(menu_win, highlight);
-            if(choice != 0)	/* User did a choice come out of the infinite loop */
+            PrintMenu(menu_win, highlight,choices,true,loginBoxWidth,loginBoxHeight,averageStringSizeLogin);
+            if(userPressedEnter)
                 break;
         }
         clrtoeol();
         refresh();
         endwin();
         system("clear");
-        if(choice==1)
+        if(highlight==0)
             {
                 cout << "login: ";
                 cin >> login;
@@ -70,7 +62,7 @@ void Frontend::Run(Connection &c,Data & data) {
                 cin >> password;
                 loggedIn = c.Connect(login, password);
             }
-            else if(choice==2)
+            else if(highlight==1)
             {
                 cout << "login: ";
                 cin >> login;
@@ -89,24 +81,48 @@ void Frontend::Run(Connection &c,Data & data) {
 }
 
 Frontend::Frontend() {
-    startx = 0;
-    starty = 0;
+    loginBoxWidth=25;
+    loginBoxHeight=7;
+    choices.push_back("login");
+    choices.push_back("register");
+    choices.push_back("exit");
+    averageStringSizeLogin=0;
+    for(unsigned int i=0;i<choices.size();i++)
+    {
+        averageStringSizeLogin+=choices[i].length();
+    }
+    averageStringSizeLogin /= choices.size();
 }
 
-void Frontend::print_menu(WINDOW *menu_win, int highlight)
+void Frontend::PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &averageStringSize)
 {
-    int x = 2;
-    int y = 2;
+    int x,y;
+    int size=(int)choices.size();
+    if(center)
+    {
+        x=(boxWidth/2 - averageStringSize/2);
+        y=(boxHeight/2 - (size/2));
+    }
+    else
+    {
+        x=1;
+        y=1;
+    }
     box(menu_win, 0, 0);
-    for(int i = 0; i < n_choices; ++i)
-    {	if(highlight == i + 1) /* High light the present choice */
+    for(int i = 0; i < size; ++i)
+    {
+        if(highlight == i) // Highlight the present choice
         {	wattron(menu_win, A_REVERSE);
             mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
             wattroff(menu_win, A_REVERSE);
         }
         else
             mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
-        ++y;
+        y++;
     }
     wrefresh(menu_win);
+}
+
+Frontend::~Frontend() {
+
 }

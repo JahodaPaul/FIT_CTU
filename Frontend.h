@@ -20,14 +20,22 @@ class Frontend
 {
 public:
     Frontend();
+    ~Frontend();
     void Run(Connection & c, Data & data);
 protected:
 private:
     int counter;
     void PrintRegisterLoginOrExist(int );
-    void print_menu(WINDOW *menu_win, int highlight);
-    int startx;
-    int starty;
+    void PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &);
+    int loginStartx;
+    int loginStarty;
+    int loginBoxWidth;
+    int loginBoxHeight;
+    vector<string> choices;
+    int highlight;
+    bool userPressedEnter;
+    int key;
+    int averageStringSizeLogin;
 };
 
 #endif //RECIPE_MANAGER_FRONTEND_H

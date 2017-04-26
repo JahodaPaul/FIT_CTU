@@ -3,8 +3,9 @@
 int main()
 {
     Connection c;
-    Frontend frontend;
     Data backendData;
+    Frontend frontend;
+
 
     frontend.Run(c,backendData);
 
