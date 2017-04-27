@@ -28,6 +28,8 @@ private:
     int counter;
     void PrintRegisterLoginOrExist(int );
     void PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &,const int& from,const int& to);
+    void RefreshWholeWindow(WINDOW *menu_win);
+    bool Contain(const vector<string>& arr, string lookingFor);
     int RunLogin();
     int loginStartx;
     int loginStarty;
@@ -37,6 +39,10 @@ private:
     int ingridientStarty;
     int ingridientBoxWidth;
     int ingridientBoxHeight;
+    int pickedIngridientsStartx;
+    int pickedIngridientsStarty;
+    int pickedIngridientsBoxWidth;
+    int pickedIngridientsBoxHeight;
     vector<string> choices;
     int highlight;
     bool userPressedEnter;
