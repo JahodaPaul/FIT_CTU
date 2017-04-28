@@ -31,7 +31,7 @@ private:
     void RefreshWholeWindow(WINDOW *menu_win);
     bool Contain(const vector<string>& arr, string lookingFor);
     void PrintTextInfoForUser();
-    void PrintUserTypedIngredient(string &,vector<string> &,bool newChar,const map<string,string> &);
+    void PrintUserTypedIngredient(string &,vector<string> &,bool newChar,const map<string,string> &,int &from,int &to,int &highlight,int &selected);
     int RunLogin();
     int loginStartx;
     int loginStarty;

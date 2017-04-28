@@ -16,9 +16,9 @@ void Frontend::Run(Connection &c,Data & data) {
             cin >> login;
             cout << "password: ";
             cin >> password;
-            //DELETE AND UNCOMMENT WHEN DONT TESTING
-            loggedIn=true;
-            //loggedIn = c.Connect(login, password);
+//            //DELETE AND UNCOMMENT WHEN DONT TESTING
+//            loggedIn=true;
+            loggedIn = c.Connect(login, password);
         }
         else if(choice==1)
         {
@@ -34,7 +34,7 @@ void Frontend::Run(Connection &c,Data & data) {
         }
     }
     //UNCOMMENT WHEN DONE TESTING
-    //data.GetDataFromDatabase();
+    data.GetDataFromDatabase();
     RunIngridientSelection(data.GetMapOfIngridients());
 
 }
@@ -140,7 +140,7 @@ void Frontend::RunIngridientSelection(map<string, string> & mapa) {
     userPressedEnter=false;
     bool userPressedDoubleEnter=false;
     bool finishSelection=false;
-    int from=0,to=0,picked=0;
+    int from=0,to=0,picked=0,selected=0;
     string ingredientSelectionString="",temporaryString;
     clear();
     initscr();
@@ -161,10 +161,10 @@ void Frontend::RunIngridientSelection(map<string, string> & mapa) {
     for(auto const &pair : mapa) {
         options.push_back(pair.first);
     }
-    //DELETE WHEN DONE TESTING
-    options.push_back("Ananas");options.push_back("Jablko");options.push_back("Jahoda");options.push_back("Hruska");
-    mapa.insert(make_pair("Ananas","Whatever"));mapa.insert(make_pair("Jablko","Whatever"));mapa.insert(make_pair("Jahoda","Whatever"));mapa.insert(make_pair("Hruska","Whatever"));
-    //
+//    //DELETE WHEN DONE TESTING
+//    options.push_back("Ananas");options.push_back("Jablko");options.push_back("Jahoda");options.push_back("Hruska");
+//    mapa.insert(make_pair("Ananas","Whatever"));mapa.insert(make_pair("Jablko","Whatever"));mapa.insert(make_pair("Jahoda","Whatever"));mapa.insert(make_pair("Hruska","Whatever"));
+//    //
 
     PrintTextInfoForUser();
     keypad(menu_win, TRUE);
@@ -225,7 +225,9 @@ void Frontend::RunIngridientSelection(map<string, string> & mapa) {
                 break;
             case 10:
                 ingredientSelectionString="";
-                PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa);
+                PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa,from,to,highlight,selected);
+                menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+                RefreshWholeWindow(menu_win);
                 if(userPressedEnter)
                 {
                     userPressedDoubleEnter=true;
@@ -233,22 +235,24 @@ void Frontend::RunIngridientSelection(map<string, string> & mapa) {
                 }
                 else
                 {
-                    if(!Contain(pickedIngridients,options[highlight])) {
+                    if(!Contain(pickedIngridients,options[selected])) {
                         picked++;
-                        pickedIngridients.push_back(options[highlight]);
+                        pickedIngridients.push_back(options[selected]);
                     }
                     PrintMenu(menuWinPickedIngridients,-1,pickedIngridients,false,pickedIngridientsBoxWidth,pickedIngridientsBoxHeight,0,0,picked);
                     userPressedEnter=true;
                 }
                 break;
             case KEY_BACKSPACE:
-                temporaryString=ingredientSelectionString;
+                temporaryString="";
                 for(int i=0;i<(int)(ingredientSelectionString.length())-1;i++)
                 {
                     temporaryString+=ingredientSelectionString[i];
                 }
                 ingredientSelectionString=temporaryString;
-                PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa);
+                PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa,from,to,highlight,selected);
+                menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+                RefreshWholeWindow(menu_win);
                 userPressedEnter=false;
                 if(userPressedEnter)
                 {
@@ -257,7 +261,9 @@ void Frontend::RunIngridientSelection(map<string, string> & mapa) {
                 break;
             default:
                 ingredientSelectionString+=(char)key;
-                PrintUserTypedIngredient(ingredientSelectionString,options,true,mapa);
+                PrintUserTypedIngredient(ingredientSelectionString,options,true,mapa,from,to,highlight,selected);
+                menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+                RefreshWholeWindow(menu_win);
                 userPressedEnter=false;
                 refresh();
                 break;
@@ -306,19 +312,263 @@ void Frontend::PrintTextInfoForUser() {
     mvprintw(3,0,s.c_str());
 }
 
-void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap) {
+void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap,int &from, int &to,int &highlight,int &selected) {
     unsigned int wordLenght = s.length();
-    attron(A_BOLD);
-    mvprintw(4, 0, s.c_str());
-    attroff(A_BOLD);
     if(newChar)
     {
-        for(auto const &word:arr)
+        unsigned int index=wordLenght-1;
+        if(wordLenght==1)
         {
-            
+            char tmp=toupper(s[index]);
+            s=tmp;
+        }
+        else
+        {
+            char tmp=tolower(s[index]);
+            string tmpString="";
+            for(unsigned int i =0;i<index;i++)
+            {
+                tmpString+=s[i];
+            }
+            tmpString+=tmp;
+            s=tmpString;
+        }
+        attron(A_BOLD);
+        mvprintw(4, 0, s.c_str());
+        attroff(A_BOLD);
+        bool found=false;
+        bool changed=false;
+        unsigned int lowerBound=0;
+        for(unsigned int i=0;i<arr.size();i++)
+        {
+            if(found)
+            {
+                if(arr[i].length() < wordLenght)
+                {
+                    vector<string> tmp;
+                    for(unsigned int j=lowerBound;j<i;j++)
+                    {
+                        tmp.push_back(arr[j]);
+                    }
+                    arr.clear();
+                    arr=tmp;
+                    from=0;
+                    highlight=0;
+                    if((int)arr.size()>ingridientBoxHeight-3)
+                    {
+                        to=ingridientBoxHeight-3;
+                    }
+                    else
+                    {
+                        to=(int)arr.size();
+                    }
+                    changed=true;
+                    break;
+                }
+                if(s[index]!=arr[i][index])
+                {
+                    vector<string> tmp;
+                    for(unsigned int j=lowerBound;j<i;j++)
+                    {
+                        tmp.push_back(arr[j]);
+                    }
+                    arr.clear();
+                    arr=tmp;
+                    from=0;
+                    highlight=0;
+                    if((int)arr.size()>ingridientBoxHeight-3)
+                    {
+                        to=ingridientBoxHeight-3;
+                    }
+                    else
+                    {
+                        to=(int)arr.size();
+                    }
+                    changed=true;
+                    break;
+                }
+            }
+            else if(arr[i].length() >= wordLenght)
+            {
+                if(s[index]==arr[i][index])
+                {
+                    found=true;
+                    lowerBound=i;
+                }
+            }
+        }
+        if(!found)
+        {
+            arr.clear();
+            from=0;
+            to=0;
+            highlight=0;
+        }
+        else if(found && !changed)
+        {
+            vector<string> tmp;
+            for(unsigned int j=lowerBound;j<arr.size();j++)
+            {
+                tmp.push_back(arr[j]);
+            }
+            arr.clear();
+            arr=tmp;
+            from=0;
+            highlight=0;
+            if((int)arr.size()>ingridientBoxHeight-3)
+            {
+                to=ingridientBoxHeight-3;
+            }
+            else
+            {
+                to=(int)arr.size();
+            }
         }
     }
     else{
-
+        string tmp="";
+        for(int i=0;i<COLS-1;i++)
+        {
+            tmp+=' ';
+        }
+        mvprintw(4,0,tmp.c_str());
+        attron(A_BOLD);
+        mvprintw(4, 0, s.c_str());
+        attroff(A_BOLD);
+        // if user selected ingredient by pressing enter----------------------------------------------------------------
+        if(s=="")
+        {
+            string selectedString=arr[highlight];
+            arr.clear();
+            int i=0;
+            for(auto const &pair : myMap) {
+                if(selectedString==pair.first)
+                {
+                    selected=i;
+                }
+                arr.push_back(pair.first);
+                i++;
+            }
+            from=0;
+            highlight=0;
+            if((int)arr.size()>ingridientBoxHeight-3)
+            {
+                to=ingridientBoxHeight-3;
+            }
+            else
+            {
+                to=(int)arr.size();
+            }
+            return;
+        }
+        //--------------------------------------------------------------------------------------------------------------
+        //User pressed backspace
+        bool found=false;
+        bool changed=false;
+        typedef map<string, string>::const_iterator it_type;
+        it_type lowerbound;
+        for(it_type iterator = myMap.begin(); iterator != myMap.end(); ++iterator) {
+            if(found)
+            {
+                if(iterator->first.length() < wordLenght)
+                {
+                    vector<string> tmp;
+                    for(it_type iterator2 = lowerbound; iterator2 != iterator; ++iterator2)
+                    {
+                        tmp.push_back(iterator2->first);
+                    }
+                    arr.clear();
+                    arr=tmp;
+                    from=0;
+                    highlight=0;
+                    if((int)arr.size()>ingridientBoxHeight-3)
+                    {
+                        to=ingridientBoxHeight-3;
+                    }
+                    else
+                    {
+                        to=(int)arr.size();
+                    }
+                    changed=true;
+                    break;
+                }
+                bool b=true;
+                for(unsigned int i=0;i<wordLenght;i++)
+                {
+                    if(s[i]!=iterator->first[i])
+                    {
+                        b=false;
+                        break;
+                    }
+                }
+                if(!b)
+                {
+                    vector<string> tmp;
+                    for(it_type iterator2 = lowerbound; iterator2 != iterator; ++iterator2)
+                    {
+                        tmp.push_back(iterator2->first);
+                    }
+                    arr.clear();
+                    arr=tmp;
+                    from=0;
+                    highlight=0;
+                    if((int)arr.size()>ingridientBoxHeight-3)
+                    {
+                        to=ingridientBoxHeight-3;
+                    }
+                    else
+                    {
+                        to=(int)arr.size();
+                    }
+                    changed=true;
+                    break;
+                }
+            }
+            else if(iterator->first.length() >= wordLenght)
+            {
+                bool b=true;
+                for(unsigned int i=0;i<wordLenght;i++)
+                {
+                    if(s[i]!=iterator->first[i])
+                    {
+                        b=false;
+                        break;
+                    }
+                }
+                if(b)
+                {
+                    found = true;
+                    lowerbound = iterator;
+                }
+            }
+        }
+        if(!found)
+        {
+            arr.clear();
+            from=0;
+            to=0;
+            highlight=0;
+        }
+        else if(found && !changed)
+        {
+            vector<string> tmp;
+            for(it_type iterator2 = lowerbound; iterator2 != myMap.end(); ++iterator2)
+            {
+                tmp.push_back(iterator2->first);
+            }
+            arr.clear();
+            arr=tmp;
+            from=0;
+            highlight=0;
+            if((int)arr.size()>ingridientBoxHeight-3)
+            {
+                to=ingridientBoxHeight-3;
+            }
+            else
+            {
+                to=(int)arr.size();
+            }
+        }
+        //--------------------------------------------------------------------------------------------------------------
     }
 }
