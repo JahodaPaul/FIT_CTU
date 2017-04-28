@@ -16,7 +16,9 @@ void Frontend::Run(Connection &c,Data & data) {
             cin >> login;
             cout << "password: ";
             cin >> password;
-            loggedIn = c.Connect(login, password);
+            //DELETE AND UNCOMMENT WHEN DONT TESTING
+            loggedIn=true;
+            //loggedIn = c.Connect(login, password);
         }
         else if(choice==1)
         {
@@ -132,17 +134,19 @@ int Frontend::RunLogin() {
     return highlight;
 }
 
-void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
+//WHEN DONE TESTING WRITE CONST MAP
+void Frontend::RunIngridientSelection(map<string, string> & mapa) {
     highlight=0;
     userPressedEnter=false;
     bool userPressedDoubleEnter=false;
     bool finishSelection=false;
     int from=0,to=0,picked=0;
+    string ingredientSelectionString="",temporaryString;
     clear();
     initscr();
     noecho();
     cbreak();
-    ingridientBoxHeight= LINES-3;
+    ingridientBoxHeight= LINES-5;
     ingridientBoxWidth=COLS-20;
     ingridientStartx = 0;
     ingridientStarty = LINES-ingridientBoxHeight;
@@ -159,11 +163,11 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
     }
     //DELETE WHEN DONE TESTING
     options.push_back("Ananas");options.push_back("Jablko");options.push_back("Jahoda");options.push_back("Hruska");
-    mvprintw(1,0,"Press double enter to Search for recipes containing chosen ingridients.");
-    mvprintw(2,0,"Press enter and backspace to exit the application.");
+    mapa.insert(make_pair("Ananas","Whatever"));mapa.insert(make_pair("Jablko","Whatever"));mapa.insert(make_pair("Jahoda","Whatever"));mapa.insert(make_pair("Hruska","Whatever"));
+    //
 
+    PrintTextInfoForUser();
     keypad(menu_win, TRUE);
-    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
     refresh();
     if((int)options.size()>ingridientBoxHeight-3)
     {
@@ -220,6 +224,8 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
                 }
                 break;
             case 10:
+                ingredientSelectionString="";
+                PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa);
                 if(userPressedEnter)
                 {
                     userPressedDoubleEnter=true;
@@ -236,6 +242,13 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
                 }
                 break;
             case KEY_BACKSPACE:
+                temporaryString=ingredientSelectionString;
+                for(int i=0;i<(int)(ingredientSelectionString.length())-1;i++)
+                {
+                    temporaryString+=ingredientSelectionString[i];
+                }
+                ingredientSelectionString=temporaryString;
+                PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa);
                 userPressedEnter=false;
                 if(userPressedEnter)
                 {
@@ -243,6 +256,8 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
                 }
                 break;
             default:
+                ingredientSelectionString+=(char)key;
+                PrintUserTypedIngredient(ingredientSelectionString,options,true,mapa);
                 userPressedEnter=false;
                 refresh();
                 break;
@@ -265,9 +280,7 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
 
 void Frontend::RefreshWholeWindow(WINDOW *menu_win) {
     keypad(menu_win, TRUE);
-    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
-    mvprintw(1,0,"Press double enter to Search for recipes containing chosen ingridients.");
-    mvprintw(2,0,"Press enter and backspace to exit the application.");
+    PrintTextInfoForUser();
     refresh();
 }
 
@@ -279,4 +292,33 @@ bool Frontend::Contain(const vector<string> &arr, string lookingFor) {
         }
     }
     return false;
+}
+
+void Frontend::PrintTextInfoForUser() {
+    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
+    mvprintw(1,0,"Press double enter to Search for recipes containing chosen ingridients.");
+    mvprintw(2,0,"Press enter and backspace to exit the application.");
+    string s="";
+    for(int i=0;i<COLS;i++)
+    {
+        s+='-';
+    }
+    mvprintw(3,0,s.c_str());
+}
+
+void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap) {
+    unsigned int wordLenght = s.length();
+    attron(A_BOLD);
+    mvprintw(4, 0, s.c_str());
+    attroff(A_BOLD);
+    if(newChar)
+    {
+        for(auto const &word:arr)
+        {
+            
+        }
+    }
+    else{
+
+    }
 }
