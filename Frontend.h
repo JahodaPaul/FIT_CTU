@@ -22,16 +22,20 @@ public:
     Frontend();
     ~Frontend();
     void Run(Connection & c, Data & data);
-    void RunIngridientSelection(map<string,string>&);
+    void RunIngridientSelection(const map<string,string>&);
 protected:
 private:
-    int counter;
-    void PrintRegisterLoginOrExist(int );
     void PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &,const int& from,const int& to);
     void RefreshWholeWindow(WINDOW *menu_win);
     bool Contain(const vector<string>& arr, string lookingFor);
     void PrintTextInfoForUser();
     void PrintUserTypedIngredient(string &,vector<string> &,bool newChar,const map<string,string> &,int &from,int &to,int &highlight,int &selected);
+    void AssignValueToVariableTo(int &to,const int &sizeOfVector);
+    template <class T>
+    void OnlySelectedRangeOfStringsRemain(T lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings,T higherbound, bool &changed);
+    void OnlySelectedRangeOfStringsRemain(unsigned int lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings, unsigned int higherbound, bool &changed);
+
+
     int RunLogin();
     int loginStartx;
     int loginStarty;

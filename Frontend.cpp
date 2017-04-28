@@ -16,8 +16,6 @@ void Frontend::Run(Connection &c,Data & data) {
             cin >> login;
             cout << "password: ";
             cin >> password;
-//            //DELETE AND UNCOMMENT WHEN DONT TESTING
-//            loggedIn=true;
             loggedIn = c.Connect(login, password);
         }
         else if(choice==1)
@@ -33,7 +31,7 @@ void Frontend::Run(Connection &c,Data & data) {
             return;
         }
     }
-    //UNCOMMENT WHEN DONE TESTING
+
     data.GetDataFromDatabase();
     RunIngridientSelection(data.GetMapOfIngridients());
 
@@ -86,6 +84,7 @@ Frontend::~Frontend() {
 }
 
 int Frontend::RunLogin() {
+    //variables---------------------------------------------------------------------------------------------------------
     highlight=0;
     userPressedEnter=false;
     clear();
@@ -95,6 +94,7 @@ int Frontend::RunLogin() {
     loginStartx = (COLS - loginBoxWidth) / 2;
     loginStarty = (LINES - loginBoxHeight) / 3;
     WINDOW *menu_win = newwin(loginBoxHeight, loginBoxWidth, loginStarty, loginStartx);
+    //------------------------------------------------------------------------------------------------------------------
 
     keypad(menu_win, TRUE);
     mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
@@ -134,18 +134,13 @@ int Frontend::RunLogin() {
     return highlight;
 }
 
-//WHEN DONE TESTING WRITE CONST MAP
-void Frontend::RunIngridientSelection(map<string, string> & mapa) {
+void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
+    //variables---------------------------------------------------------------------------------------------------------
     highlight=0;
     userPressedEnter=false;
-    bool userPressedDoubleEnter=false;
-    bool finishSelection=false;
+    bool userPressedDoubleEnter=false,finishSelection=false;//,typedSomething=false,refreshMenu=false;
     int from=0,to=0,picked=0,selected=0;
     string ingredientSelectionString="",temporaryString;
-    clear();
-    initscr();
-    noecho();
-    cbreak();
     ingridientBoxHeight= LINES-5;
     ingridientBoxWidth=COLS-20;
     ingridientStartx = 0;
@@ -158,25 +153,21 @@ void Frontend::RunIngridientSelection(map<string, string> & mapa) {
     WINDOW *menuWinPickedIngridients = newwin(pickedIngridientsBoxHeight,pickedIngridientsBoxWidth,pickedIngridientsStarty,pickedIngridientsStartx);
     vector<string> options;
     vector<string> pickedIngridients;
+    //------------------------------------------------------------------------------------------------------------------
+
+    clear();
+    initscr();
+    noecho();
+    cbreak();
+
     for(auto const &pair : mapa) {
         options.push_back(pair.first);
     }
-//    //DELETE WHEN DONE TESTING
-//    options.push_back("Ananas");options.push_back("Jablko");options.push_back("Jahoda");options.push_back("Hruska");
-//    mapa.insert(make_pair("Ananas","Whatever"));mapa.insert(make_pair("Jablko","Whatever"));mapa.insert(make_pair("Jahoda","Whatever"));mapa.insert(make_pair("Hruska","Whatever"));
-//    //
 
     PrintTextInfoForUser();
     keypad(menu_win, TRUE);
     refresh();
-    if((int)options.size()>ingridientBoxHeight-3)
-    {
-        to=ingridientBoxHeight-3;
-    }
-    else
-    {
-        to=(int)options.size();
-    }
+    AssignValueToVariableTo(to,(int)options.size());
     PrintMenu(menu_win, highlight,options,false,ingridientBoxWidth,ingridientBoxHeight,0,from,to);
     PrintMenu(menuWinPickedIngridients,-1,pickedIngridients,false,pickedIngridientsBoxWidth,pickedIngridientsBoxHeight,0,0,picked);
     while(1)
@@ -314,8 +305,11 @@ void Frontend::PrintTextInfoForUser() {
 
 void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap,int &from, int &to,int &highlight,int &selected) {
     unsigned int wordLenght = s.length();
+    bool found=false;
+    bool changed=false;
     if(newChar)
     {
+        //user typed new Character--------------------------------------------------------------------------------------
         unsigned int index=wordLenght-1;
         if(wordLenght==1)
         {
@@ -336,8 +330,7 @@ void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newCh
         attron(A_BOLD);
         mvprintw(4, 0, s.c_str());
         attroff(A_BOLD);
-        bool found=false;
-        bool changed=false;
+
         unsigned int lowerBound=0;
         for(unsigned int i=0;i<arr.size();i++)
         {
@@ -345,46 +338,12 @@ void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newCh
             {
                 if(arr[i].length() < wordLenght)
                 {
-                    vector<string> tmp;
-                    for(unsigned int j=lowerBound;j<i;j++)
-                    {
-                        tmp.push_back(arr[j]);
-                    }
-                    arr.clear();
-                    arr=tmp;
-                    from=0;
-                    highlight=0;
-                    if((int)arr.size()>ingridientBoxHeight-3)
-                    {
-                        to=ingridientBoxHeight-3;
-                    }
-                    else
-                    {
-                        to=(int)arr.size();
-                    }
-                    changed=true;
+                    OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,i,changed);
                     break;
                 }
                 if(s[index]!=arr[i][index])
                 {
-                    vector<string> tmp;
-                    for(unsigned int j=lowerBound;j<i;j++)
-                    {
-                        tmp.push_back(arr[j]);
-                    }
-                    arr.clear();
-                    arr=tmp;
-                    from=0;
-                    highlight=0;
-                    if((int)arr.size()>ingridientBoxHeight-3)
-                    {
-                        to=ingridientBoxHeight-3;
-                    }
-                    else
-                    {
-                        to=(int)arr.size();
-                    }
-                    changed=true;
+                    OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,i,changed);
                     break;
                 }
             }
@@ -406,26 +365,12 @@ void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newCh
         }
         else if(found && !changed)
         {
-            vector<string> tmp;
-            for(unsigned int j=lowerBound;j<arr.size();j++)
-            {
-                tmp.push_back(arr[j]);
-            }
-            arr.clear();
-            arr=tmp;
-            from=0;
-            highlight=0;
-            if((int)arr.size()>ingridientBoxHeight-3)
-            {
-                to=ingridientBoxHeight-3;
-            }
-            else
-            {
-                to=(int)arr.size();
-            }
+            OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,arr.size(),changed);
         }
+        //--------------------------------------------------------------------------------------------------------------
     }
-    else{
+    else
+    {
         string tmp="";
         for(int i=0;i<COLS-1;i++)
         {
@@ -451,20 +396,11 @@ void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newCh
             }
             from=0;
             highlight=0;
-            if((int)arr.size()>ingridientBoxHeight-3)
-            {
-                to=ingridientBoxHeight-3;
-            }
-            else
-            {
-                to=(int)arr.size();
-            }
+            AssignValueToVariableTo(to,(int)arr.size());
             return;
         }
         //--------------------------------------------------------------------------------------------------------------
         //User pressed backspace
-        bool found=false;
-        bool changed=false;
         typedef map<string, string>::const_iterator it_type;
         it_type lowerbound;
         for(it_type iterator = myMap.begin(); iterator != myMap.end(); ++iterator) {
@@ -472,24 +408,7 @@ void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newCh
             {
                 if(iterator->first.length() < wordLenght)
                 {
-                    vector<string> tmp;
-                    for(it_type iterator2 = lowerbound; iterator2 != iterator; ++iterator2)
-                    {
-                        tmp.push_back(iterator2->first);
-                    }
-                    arr.clear();
-                    arr=tmp;
-                    from=0;
-                    highlight=0;
-                    if((int)arr.size()>ingridientBoxHeight-3)
-                    {
-                        to=ingridientBoxHeight-3;
-                    }
-                    else
-                    {
-                        to=(int)arr.size();
-                    }
-                    changed=true;
+                    OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,iterator,changed);
                     break;
                 }
                 bool b=true;
@@ -503,24 +422,7 @@ void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newCh
                 }
                 if(!b)
                 {
-                    vector<string> tmp;
-                    for(it_type iterator2 = lowerbound; iterator2 != iterator; ++iterator2)
-                    {
-                        tmp.push_back(iterator2->first);
-                    }
-                    arr.clear();
-                    arr=tmp;
-                    from=0;
-                    highlight=0;
-                    if((int)arr.size()>ingridientBoxHeight-3)
-                    {
-                        to=ingridientBoxHeight-3;
-                    }
-                    else
-                    {
-                        to=(int)arr.size();
-                    }
-                    changed=true;
+                    OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,iterator,changed);
                     break;
                 }
             }
@@ -551,24 +453,48 @@ void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newCh
         }
         else if(found && !changed)
         {
-            vector<string> tmp;
-            for(it_type iterator2 = lowerbound; iterator2 != myMap.end(); ++iterator2)
-            {
-                tmp.push_back(iterator2->first);
-            }
-            arr.clear();
-            arr=tmp;
-            from=0;
-            highlight=0;
-            if((int)arr.size()>ingridientBoxHeight-3)
-            {
-                to=ingridientBoxHeight-3;
-            }
-            else
-            {
-                to=(int)arr.size();
-            }
+            OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,myMap.end(),changed);
         }
         //--------------------------------------------------------------------------------------------------------------
     }
 }
+
+void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector) {
+    if(sizeOfVector>ingridientBoxHeight-3)
+    {
+        to=ingridientBoxHeight-3;
+    }
+    else
+    {
+        to=sizeOfVector;
+    }
+}
+
+void Frontend::OnlySelectedRangeOfStringsRemain(unsigned int lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings, unsigned int higherbound, bool &changed) {
+    vector<string> tmp;
+    for (unsigned int i = lowerbound; i != higherbound; ++i) {
+        tmp.push_back(vectorOfStrings[i]);
+    }
+    vectorOfStrings.clear();
+    vectorOfStrings=tmp;
+    from=0;
+    highlight=0;
+    AssignValueToVariableTo(to,(int)vectorOfStrings.size());
+    changed=true;
+}
+
+template<class T>
+void Frontend::OnlySelectedRangeOfStringsRemain(T lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings,T higherbound, bool &changed) {
+    vector<string> tmp;
+    for (T i = lowerbound; i != higherbound; ++i) {
+        tmp.push_back(i->first);
+    }
+    vectorOfStrings.clear();
+    vectorOfStrings=tmp;
+    from=0;
+    highlight=0;
+    AssignValueToVariableTo(to,(int)vectorOfStrings.size());
+    changed=true;
+}
+
+
