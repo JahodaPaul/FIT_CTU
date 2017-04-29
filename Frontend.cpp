@@ -142,11 +142,11 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
     int from=0,to=0,picked=0,selected=0;
     string ingredientSelectionString="",temporaryString;
     ingridientBoxHeight= LINES-5;
-    ingridientBoxWidth=COLS-20;
+    ingridientBoxWidth=COLS-30;
     ingridientStartx = 0;
     ingridientStarty = LINES-ingridientBoxHeight;
     pickedIngridientsBoxHeight=ingridientBoxHeight;
-    pickedIngridientsBoxWidth=COLS-ingridientBoxWidth-1;
+    pickedIngridientsBoxWidth=COLS-ingridientBoxWidth;
     pickedIngridientsStartx=ingridientBoxWidth;
     pickedIngridientsStarty=ingridientStarty;
     WINDOW *menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
@@ -222,7 +222,6 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
                 if(userPressedEnter)
                 {
                     userPressedDoubleEnter=true;
-                    userPressedEnter=false;
                 }
                 else
                 {
@@ -231,8 +230,8 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
                         pickedIngridients.push_back(options[selected]);
                     }
                     PrintMenu(menuWinPickedIngridients,-1,pickedIngridients,false,pickedIngridientsBoxWidth,pickedIngridientsBoxHeight,0,0,picked);
-                    userPressedEnter=true;
                 }
+                userPressedEnter=!userPressedEnter;
                 break;
             case KEY_BACKSPACE:
                 temporaryString="";
@@ -244,11 +243,11 @@ void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
                 PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa,from,to,highlight,selected);
                 menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
                 RefreshWholeWindow(menu_win);
-                userPressedEnter=false;
                 if(userPressedEnter)
                 {
                     finishSelection=true;
                 }
+                userPressedEnter=false;
                 break;
             default:
                 ingredientSelectionString+=(char)key;
@@ -301,6 +300,10 @@ void Frontend::PrintTextInfoForUser() {
         s+='-';
     }
     mvprintw(3,0,s.c_str());
+    mvprintw(4,COLS-30,"|");
+    attron(A_BOLD);
+    mvprintw(4,COLS-29,"   Selected ingredients");
+    attroff(A_BOLD);
 }
 
 void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap,int &from, int &to,int &highlight,int &selected) {
