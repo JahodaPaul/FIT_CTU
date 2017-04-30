@@ -18,7 +18,6 @@ public:
 protected:
 private:
     void CopyIntoMap(pqxx::result,string,map<string,string> &);
-    void PrintWaitDownloading(int dots);
     map<string,string> beveragesAndCategory;
     map<string,string> foodNameAndCategory;
 

@@ -501,7 +501,8 @@ void Frontend::OnlySelectedRangeOfStringsRemain(T lowerbound, int &from, int &to
     changed=true;
 }
 
-void Frontend::ProgressBar(Data *d,void (Data::*function)(int),int max)
+template<class TRIDA>
+void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max)
 {
 
     int outOf=25,before=0,percentage=0,y=1,x=1;
@@ -550,4 +551,9 @@ void Frontend::ProgressBar(Data *d,void (Data::*function)(int),int max)
     refresh();
     endwin();
     system("clear");
+}
+
+void Frontend::Print(int j)
+{
+    mvprintw(1, 1, "NECOO");
 }
