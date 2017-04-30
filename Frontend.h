@@ -37,7 +37,6 @@ private:
     template <class TRIDA>
     void ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max);
     int RunLogin();
-    void Print(int j);
 
     int loginStartx;
     int loginStarty;

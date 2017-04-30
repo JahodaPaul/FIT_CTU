@@ -552,8 +552,3 @@ void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max)
     endwin();
     system("clear");
 }
-
-void Frontend::Print(int j)
-{
-    mvprintw(1, 1, "NECOO");
-}
