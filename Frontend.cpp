@@ -32,7 +32,7 @@ void Frontend::Run(Connection &c,Data & data) {
         }
     }
 
-    data.GetDataFromDatabase();
+    ProgressBar(&data,&Data::GetDataFromDatabase,18);
     RunIngridientSelection(data.GetMapOfIngridients());
 
 }
@@ -68,7 +68,8 @@ void Frontend::PrintMenu(WINDOW *menu_win, const int highlight,const vector<stri
     for(int i = from; i < to; ++i)
     {
         if(highlight == i) // Highlight the present choice
-        {	wattron(menu_win, A_STANDOUT);
+        {
+            wattron(menu_win, A_STANDOUT);
             mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
             wattroff(menu_win, A_STANDOUT);
         }
@@ -500,4 +501,53 @@ void Frontend::OnlySelectedRangeOfStringsRemain(T lowerbound, int &from, int &to
     changed=true;
 }
 
+void Frontend::ProgressBar(Data *d,void (Data::*function)(int),int max)
+{
 
+    int outOf=25,before=0,percentage=0,y=1,x=1;
+    string s="",percentageString="";
+    WINDOW *win = newwin(3, loginBoxWidth, loginStarty, loginStartx);
+
+    clear();
+    initscr();
+    noecho();
+    cbreak();
+
+    mvprintw(loginStarty-1,loginStartx,"Downloading Data: ");
+    attron(A_BOLD);
+    mvprintw(loginStarty-1,loginStartx+18,"0%%");
+    attroff(A_BOLD);
+    box(win, 0, 0);
+
+    refresh();
+    wrefresh(win);
+    for(int i=1;i<=max;i++)
+    {
+        outOf=25;
+        (d->*function)(i);
+        outOf=25*(i+1)/max;
+        for(int j=0;j<outOf-before;j++)
+        {
+            s+='=';
+        }
+        wattron(win, A_STANDOUT);
+        mvwprintw(win, y, x, "%s", s.c_str());
+        wattroff(win, A_STANDOUT);
+        before=outOf;
+
+        percentage=outOf*4;
+        percentageString = std::to_string(percentage);
+        percentageString+="%%";
+        attron(A_BOLD);
+        mvprintw(loginStarty-1,loginStartx+18,percentageString.c_str());
+        attroff(A_BOLD);
+
+        refresh();
+        wrefresh(win);
+    }
+    wrefresh(win);
+    clrtoeol();
+    refresh();
+    endwin();
+    system("clear");
+}

@@ -13,13 +13,15 @@ class Data : public Connection
 {
 public:
     Data();
-    void GetDataFromDatabase();
+    void GetDataFromDatabase(int);
     map<string,string>& GetMapOfIngridients();
 protected:
 private:
-    void CopyIntoMap(pqxx::result,string);
+    void CopyIntoMap(pqxx::result,string,map<string,string> &);
     void PrintWaitDownloading(int dots);
+    map<string,string> beveragesAndCategory;
     map<string,string> foodNameAndCategory;
+
     struct Recipe
     {
         Recipe(vector<string> ingridients, vector<int> ingridientWeight,bool containsMeat, bool containsSecondVegetable, bool containsNuts)

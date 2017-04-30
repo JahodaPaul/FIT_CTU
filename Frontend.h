@@ -34,9 +34,9 @@ private:
     template <class T>
     void OnlySelectedRangeOfStringsRemain(T lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings,T higherbound, bool &changed);
     void OnlySelectedRangeOfStringsRemain(unsigned int lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings, unsigned int higherbound, bool &changed);
-
-
+    void ProgressBar(Data *d,void (Data::*function)(int),int max);
     int RunLogin();
+
     int loginStartx;
     int loginStarty;
     int loginBoxWidth;
