@@ -2,28 +2,30 @@
 // Created by pjahoda on 4/21/17.
 //
 #include "Frontend.h"
+#include "Screen.h"
+#include "ScreenLogin.h"
+#include "ScreenIngredients.h"
 
 
 void Frontend::Run(Connection &c,Data & data) {
-    bool loggedIn=false;
+    //variables---------------------------------------------------------------------------------------------------------
+    Screen * loginScreen = new ScreenLogin();
+    Screen * ingredientScreen = new ScreenIngredients();
+    bool loggedIn=false,downloadedData=false;
     string loginOrRegister="",login="",password="";
+    //------------------------------------------------------------------------------------------------------------------
+
     while(!loggedIn)
     {
-        int choice = RunLogin();
+        int choice = loginScreen->Run();
         if(choice==0)
         {
-            cout << "login: ";
-            cin >> login;
-            cout << "password: ";
-            cin >> password;
+            loginScreen->GetUserInfo(login,password);
             loggedIn = c.Connect(login, password);
         }
         else if(choice==1)
         {
-            cout << "login: ";
-            cin >> login;
-            cout << "password: ";
-            cin >> password;
+            loginScreen->GetUserInfo(login,password);
             loggedIn = c.Register(login,password);
         }
         else
@@ -33,252 +35,13 @@ void Frontend::Run(Connection &c,Data & data) {
     }
 
     ProgressBar(&data,&Data::GetDataFromDatabase,18);
-    RunIngridientSelection(data.GetMapOfIngridients());
+    downloadedData=true;
+    ingredientScreen->Run(data.GetMapOfIngridients());
 
-}
 
-Frontend::Frontend() {
-    loginBoxWidth=25;
-    loginBoxHeight=7;
-    choices.push_back("login");
-    choices.push_back("register");
-    choices.push_back("exit");
-    averageStringSizeLogin=0;
-    for(unsigned int i=0;i<choices.size();i++)
-    {
-        averageStringSizeLogin+=choices[i].length();
-    }
-    averageStringSizeLogin /= choices.size();
-}
-
-void Frontend::PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &averageStringSize,const int& from,const int& to)
-{
-    int x,y;
-    if(center)
-    {
-        x=(boxWidth/2 - averageStringSize/2);
-        y=(boxHeight/2 - (to/2));
-    }
-    else
-    {
-        x=2;
-        y=1;
-    }
-    box(menu_win, 0, 0);
-    for(int i = from; i < to; ++i)
-    {
-        if(highlight == i) // Highlight the present choice
-        {
-            wattron(menu_win, A_STANDOUT);
-            mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
-            wattroff(menu_win, A_STANDOUT);
-        }
-        else
-            mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
-        y++;
-    }
-    wrefresh(menu_win);
-}
-
-Frontend::~Frontend() {
-
-}
-
-int Frontend::RunLogin() {
-    //variables---------------------------------------------------------------------------------------------------------
-    highlight=0;
-    userPressedEnter=false;
-    clear();
-    initscr();
-    noecho();
-    cbreak();
-    loginStartx = (COLS - loginBoxWidth) / 2;
-    loginStarty = (LINES - loginBoxHeight) / 3;
-    WINDOW *menu_win = newwin(loginBoxHeight, loginBoxWidth, loginStarty, loginStartx);
-    //------------------------------------------------------------------------------------------------------------------
-
-    keypad(menu_win, TRUE);
-    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
-    refresh();
-    PrintMenu(menu_win, highlight,choices,true,loginBoxWidth,loginBoxHeight,averageStringSizeLogin,0,(int)choices.size());
-    while(1)
-    {
-        key = wgetch(menu_win);
-        switch(key)
-        {	case KEY_UP:
-                if(highlight == 0)
-                    highlight = (int)(choices.size()-1);
-                else
-                    highlight--;
-                break;
-            case KEY_DOWN:
-                if(highlight == (int)(choices.size()-1))
-                    highlight = 0;
-                else
-                    highlight++;
-                break;
-            case 10:
-                userPressedEnter=true;
-                break;
-            default:
-                refresh();
-                break;
-        }
-        PrintMenu(menu_win, highlight,choices,true,loginBoxWidth,loginBoxHeight,averageStringSizeLogin,0,(int)choices.size());
-        if(userPressedEnter)
-            break;
-    }
-    clrtoeol();
-    refresh();
-    endwin();
-    system("clear");
-    return highlight;
-}
-
-void Frontend::RunIngridientSelection(const map<string, string> & mapa) {
-    //variables---------------------------------------------------------------------------------------------------------
-    highlight=0;
-    userPressedEnter=false;
-    bool userPressedDoubleEnter=false,finishSelection=false;//,typedSomething=false,refreshMenu=false;
-    int from=0,to=0,picked=0,selected=0;
-    string ingredientSelectionString="",temporaryString;
-    ingridientBoxHeight= LINES-5;
-    ingridientBoxWidth=COLS-30;
-    ingridientStartx = 0;
-    ingridientStarty = LINES-ingridientBoxHeight;
-    pickedIngridientsBoxHeight=ingridientBoxHeight;
-    pickedIngridientsBoxWidth=COLS-ingridientBoxWidth;
-    pickedIngridientsStartx=ingridientBoxWidth;
-    pickedIngridientsStarty=ingridientStarty;
-    WINDOW *menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-    WINDOW *menuWinPickedIngridients = newwin(pickedIngridientsBoxHeight,pickedIngridientsBoxWidth,pickedIngridientsStarty,pickedIngridientsStartx);
-    vector<string> options;
-    vector<string> pickedIngridients;
-    //------------------------------------------------------------------------------------------------------------------
-
-    clear();
-    initscr();
-    noecho();
-    cbreak();
-
-    for(auto const &pair : mapa) {
-        options.push_back(pair.first);
-    }
-
-    PrintTextInfoForUser();
-    keypad(menu_win, TRUE);
-    refresh();
-    AssignValueToVariableTo(to,(int)options.size());
-    PrintMenu(menu_win, highlight,options,false,ingridientBoxWidth,ingridientBoxHeight,0,from,to);
-    PrintMenu(menuWinPickedIngridients,-1,pickedIngridients,false,pickedIngridientsBoxWidth,pickedIngridientsBoxHeight,0,0,picked);
-    while(1)
-    {
-        key = wgetch(menu_win);
-        switch(key)
-        {	case KEY_UP:
-                userPressedEnter=false;
-                if(highlight == 0) {
-                    highlight = (int) (options.size() - 1);
-                    int diff=to-from;
-                    to=options.size();
-                    from=to-diff;
-                    menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-                    RefreshWholeWindow(menu_win);
-                }
-                else {
-                    highlight--;
-                    if(from>highlight) {
-                        menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-                        RefreshWholeWindow(menu_win);
-                        from--;
-                        to--;
-                    }
-                }
-                break;
-            case KEY_DOWN:
-                userPressedEnter=false;
-                if(highlight == (int)(options.size()-1)) {
-                    highlight = 0;
-                    int diff=to-from;
-                    from=0;
-                    to=diff;
-                    menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-                    RefreshWholeWindow(menu_win);
-                }
-                else {
-                    highlight++;
-                    if(highlight==to) {
-                        menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-                        RefreshWholeWindow(menu_win);
-                        from++;
-                        to++;
-                    }
-                }
-                break;
-            case 10:
-                ingredientSelectionString="";
-                PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa,from,to,highlight,selected);
-                menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-                RefreshWholeWindow(menu_win);
-                if(userPressedEnter)
-                {
-                    userPressedDoubleEnter=true;
-                }
-                else
-                {
-                    if(!Contain(pickedIngridients,options[selected])) {
-                        picked++;
-                        pickedIngridients.push_back(options[selected]);
-                    }
-                    PrintMenu(menuWinPickedIngridients,-1,pickedIngridients,false,pickedIngridientsBoxWidth,pickedIngridientsBoxHeight,0,0,picked);
-                }
-                userPressedEnter=!userPressedEnter;
-                break;
-            case KEY_BACKSPACE:
-                temporaryString="";
-                for(int i=0;i<(int)(ingredientSelectionString.length())-1;i++)
-                {
-                    temporaryString+=ingredientSelectionString[i];
-                }
-                ingredientSelectionString=temporaryString;
-                PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa,from,to,highlight,selected);
-                menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-                RefreshWholeWindow(menu_win);
-                if(userPressedEnter)
-                {
-                    finishSelection=true;
-                }
-                userPressedEnter=false;
-                break;
-            default:
-                ingredientSelectionString+=(char)key;
-                PrintUserTypedIngredient(ingredientSelectionString,options,true,mapa,from,to,highlight,selected);
-                menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-                RefreshWholeWindow(menu_win);
-                userPressedEnter=false;
-                refresh();
-                break;
-        }
-        PrintMenu(menu_win, highlight,options,false,ingridientBoxWidth,ingridientBoxHeight,0,from,to);
-        if(finishSelection)
-            break;
-    }
-    clrtoeol();
-    refresh();
-    endwin();
-    system("clear");
-    if(userPressedDoubleEnter)
-    {
-        //TODO
-    }
-    //return highlight;
-
-}
-
-void Frontend::RefreshWholeWindow(WINDOW *menu_win) {
-    keypad(menu_win, TRUE);
-    PrintTextInfoForUser();
-    refresh();
+    // at the end of program delete Screen instances
+    delete loginScreen;
+    delete ingredientScreen;
 }
 
 bool Frontend::Contain(const vector<string> &arr, string lookingFor) {
@@ -291,21 +54,6 @@ bool Frontend::Contain(const vector<string> &arr, string lookingFor) {
     return false;
 }
 
-void Frontend::PrintTextInfoForUser() {
-    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
-    mvprintw(1,0,"Press double enter to Search for recipes containing chosen ingridients.");
-    mvprintw(2,0,"Press enter and backspace to exit the application.");
-    string s="";
-    for(int i=0;i<COLS;i++)
-    {
-        s+='-';
-    }
-    mvprintw(3,0,s.c_str());
-    mvprintw(4,COLS-30,"|");
-    attron(A_BOLD);
-    mvprintw(4,COLS-29,"   Selected ingredients");
-    attroff(A_BOLD);
-}
 
 void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap,int &from, int &to,int &highlight,int &selected) {
     unsigned int wordLenght = s.length();
@@ -464,9 +212,9 @@ void Frontend::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newCh
 }
 
 void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector) {
-    if(sizeOfVector>ingridientBoxHeight-3)
+    if(sizeOfVector>(LINES-5)-3)//TODO do not hardcode it
     {
-        to=ingridientBoxHeight-3;
+        to=(LINES-5)-3;
     }
     else
     {
@@ -504,19 +252,21 @@ void Frontend::OnlySelectedRangeOfStringsRemain(T lowerbound, int &from, int &to
 template<class TRIDA>
 void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max)
 {
-
     int outOf=25,before=0,percentage=0,y=1,x=1;
     string s="",percentageString="";
-    WINDOW *win = newwin(3, loginBoxWidth, loginStarty, loginStartx);
+    int loginBoxWidth=25,loginBoxHeight=7;
+    middleStartX = (COLS - loginBoxWidth) / 2;
+    middleStartY = (LINES - loginBoxHeight) / 3;
+    WINDOW *win = newwin(3, 25, middleStartY, middleStartX);
 
     clear();
     initscr();
     noecho();
     cbreak();
 
-    mvprintw(loginStarty-1,loginStartx,"Downloading Data: ");
+    mvprintw(middleStartY-1,middleStartX,"Downloading Data: ");
     attron(A_BOLD);
-    mvprintw(loginStarty-1,loginStartx+18,"0%%");
+    mvprintw(middleStartY-1,middleStartX+18,"0%%");
     attroff(A_BOLD);
     box(win, 0, 0);
 
@@ -540,7 +290,7 @@ void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max)
         percentageString = std::to_string(percentage);
         percentageString+="%%";
         attron(A_BOLD);
-        mvprintw(loginStarty-1,loginStartx+18,percentageString.c_str());
+        mvprintw(middleStartY-1,middleStartX+18,percentageString.c_str());
         attroff(A_BOLD);
 
         refresh();
@@ -551,4 +301,12 @@ void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max)
     refresh();
     endwin();
     system("clear");
+}
+
+Frontend::Frontend() {
+
+}
+
+Frontend::~Frontend() {
+
 }

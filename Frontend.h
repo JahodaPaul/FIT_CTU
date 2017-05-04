@@ -24,11 +24,8 @@ public:
     void Run(Connection & c, Data & data);
     void RunIngridientSelection(const map<string,string>&);
 protected:
-private:
-    void PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &,const int& from,const int& to);
     void RefreshWholeWindow(WINDOW *menu_win);
     bool Contain(const vector<string>& arr, string lookingFor);
-    void PrintTextInfoForUser();
     void PrintUserTypedIngredient(string &,vector<string> &,bool newChar,const map<string,string> &,int &from,int &to,int &highlight,int &selected);
     void AssignValueToVariableTo(int &to,const int &sizeOfVector);
     template <class T>
@@ -36,25 +33,11 @@ private:
     void OnlySelectedRangeOfStringsRemain(unsigned int lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings, unsigned int higherbound, bool &changed);
     template <class TRIDA>
     void ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max);
-    int RunLogin();
 
-    int loginStartx;
-    int loginStarty;
-    int loginBoxWidth;
-    int loginBoxHeight;
-    int ingridientStartx;
-    int ingridientStarty;
-    int ingridientBoxWidth;
-    int ingridientBoxHeight;
-    int pickedIngridientsStartx;
-    int pickedIngridientsStarty;
-    int pickedIngridientsBoxWidth;
-    int pickedIngridientsBoxHeight;
-    vector<string> choices;
-    int highlight;
-    bool userPressedEnter;
-    int key;
-    int averageStringSizeLogin;
+    int middleStartX;
+    int middleStartY;
+private:
+
 };
 
 #endif //RECIPE_MANAGER_FRONTEND_H
