@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libpqxx
+Description: a C++ API to the PostgreSQL database management system.
+Version: 5.0
+Libs: -L${libdir} -L/usr/lib64 -lpqxx
+Cflags: -I${includedir} -I/usr/include

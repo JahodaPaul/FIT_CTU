@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ANSI_X3.4-1968" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=ANSI_X3.4-1968" /><title>Performing a transaction</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="libpqxx tutorial" /><link rel="up" href="ch03.html" title="Chapter&#160;3.&#160;Tutorial" /><link rel="prev" href="ch03s02.html" title="Setting up a connection" /><link rel="next" href="ch03s04.html" title="Ending a transaction" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Performing a transaction</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s02.html">Prev</a>&#160;</td><th width="60%" align="center">Chapter&#160;3.&#160;Tutorial</th><td width="20%" align="right">&#160;<a accesskey="n" href="ch03s04.html">Next</a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="trans-performing"></a>Performing a transaction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="trans-whatis"></a>What's a Transaction?</h3></div></div></div><p>
+	  A transaction demarcates a "unit of work" operating on the database,
+	  ie.  a series of operations that must either complete successfully, or
+	  if it is aborted at any stage, must not affect the data in the
+	  database at all.  Hence the process of completing a transaction is
+	  called the "commit" operation, and the process of aborting it and
+	  undoing any changes it may have made is called "rollback."
+	</p><p>
+	  All access to the database in <span class="productname">libpqxx</span>&#8482;
+	  must go through a transaction object, so familiarity with this
+	  class family's interface is essential.
+	</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="trans-creating"></a>Creating a transaction object</h3></div></div></div><p>
+	  Creating a transaction object is not normally something you will
+	  have to do.  The <code class="literal">transactor</code> class, discussed
+	  below, will take care of that and some other red tape besides.
+	  Still, there are cases where creating the object is unavoidable
+	  (when acting on multiple database connections simultaneously) or
+	  just plain easier to do.  Please consider using a
+	  <code class="literal">transactor</code> whereever possible.
+	</p><p>
+	  When creating a transaction, pass it the <code class="literal">connection</code>
+	  object it is to act on, and optionally an identifying name for your
+	  transaction.  The name, which need not be unique but should begin with
+	  a letter and may contain only letters, digits and underscores, can be
+	  used by <span class="productname">libpqxx</span>&#8482; to make some error messages
+	  more specific.
+
+	  </p><pre class="programlisting">
+	    transaction&lt;&gt; Xaction(Conn, "DemoTransaction");
+	  </pre><p>
+
+	  Or, alternatively (once you get fed up with typing
+	  <code class="literal">transaction&lt;&gt;</code>):
+
+	  </p><pre class="programlisting">
+	    work Xaction(Conn, "DemoTransaction");
+	  </pre><p>
+	</p><p>
+	  The lifetime of the transaction object demarcates the unit of work.
+	  Its construction marks the beginning of the transaction, and its
+	  destruction means that the transaction is ended--whether through
+	  commit or rollback.
+	</p><p>
+	  The transaction class hierarchy is built on the principle of "explicit
+	  commit," ie. the commit operation must always be explicit in the code.
+	  If the transaction is destroyed before a commit was given, the
+	  transaction is implicitly aborted (rolled back).  If your transaction
+	  makes no changes to the database, however, there is nothing to commit
+	  or roll back and the commit may safely be omitted.
+	</p><p>
+	  Destroying the connection object while the transaction still exists
+	  is an error that may result in a program crash, although the
+	  library will try to log an error message.  Transactions cannot be
+	  copied, nor assigned, nor constructed without a connection
+	  (default-constructed); attempts to do any of these will result in
+	  compile errors.
+	</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s02.html">Prev</a>&#160;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right">&#160;<a accesskey="n" href="ch03s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Setting up a connection&#160;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&#160;Ending a transaction</td></tr></table></div></body></html>
