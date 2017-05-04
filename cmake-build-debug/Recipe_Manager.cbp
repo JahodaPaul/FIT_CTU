@@ -8,82 +8,47 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug"/>
+				<Option working_dir="/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="Recipe_Manager">
-				<Option output="C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Recipe_Manager.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/../../../../x86_64-w64-mingw32/include"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/lib/gcc/../../x86_64-w64-mingw32/include/c++"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/lib/gcc/../../x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/lib/gcc/../../x86_64-w64-mingw32/include/c++/backward"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 Recipe_Manager"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="Recipe_Manager/fast">
-				<Option output="C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Recipe_Manager.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/../../../../x86_64-w64-mingw32/include"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/lib/gcc/../../x86_64-w64-mingw32/include/c++"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/lib/gcc/../../x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/lib/gcc/../../x86_64-w64-mingw32/include/c++/backward"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 Recipe_Manager/fast"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug"/>
+				<Option working_dir="/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug"/>
+				<Option working_dir="/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.2-W/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="output">
+				<Option working_dir="/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 output"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/Pavel/Desktop/Recipe_Manager/main.cpp">
-			<Option target="Recipe_Manager"/>
-		</Unit>
-		<Unit filename="C:/Users/Pavel/Desktop/Recipe_Manager/CMakeLists.txt">
+		<Unit filename="/home/pjahoda/Desktop/Recipe_Manager/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

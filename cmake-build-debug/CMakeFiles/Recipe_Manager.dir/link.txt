@@ -1,3 +1,0 @@
-"C:\Program Files (x86)\JetBrains\CLion 2016.3.4\bin\cmake\bin\cmake.exe" -E remove -f CMakeFiles\Recipe_Manager.dir/objects.a
-C:\PROGRA~1\MINGW-~1\X86_64~1.2-W\mingw64\bin\ar.exe cr CMakeFiles\Recipe_Manager.dir/objects.a @CMakeFiles\Recipe_Manager.dir\objects1.rsp
-C:\PROGRA~1\MINGW-~1\X86_64~1.2-W\mingw64\bin\G__~1.EXE  -g   -Wl,--whole-archive CMakeFiles\Recipe_Manager.dir/objects.a -Wl,--no-whole-archive  -o Recipe_Manager.exe -Wl,--out-implib,libRecipe_Manager.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Recipe_Manager.dir\linklibs.rsp

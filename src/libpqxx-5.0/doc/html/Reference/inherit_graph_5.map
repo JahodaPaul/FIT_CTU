@@ -1,5 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$a00036.html" title="Base class for error&#45;handler callbacks. " alt="" coords="215,5,342,32"/>
-<area shape="rect" id="node4" href="$a00104.html" title="pqxx::transactor\&lt; TRANSACTION \&gt;" alt="" coords="160,56,397,83"/>
-<area shape="rect" id="node3" href="$a00073.html" title="An error handler that suppresses any previously registered error handlers. " alt="" coords="446,5,607,32"/>
-</map>

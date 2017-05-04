@@ -1,18 +1,18 @@
-"C:\Program Files (x86)\JetBrains\CLion 2016.3.4\bin\cmake\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\Pavel\Desktop\Recipe_Manager
--- The C compiler identification is GNU 4.9.2
--- The CXX compiler identification is GNU 4.9.2
--- Check for working C compiler: C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/gcc.exe
--- Check for working C compiler: C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/gcc.exe -- works
+/home/pjahoda/Documents/CLion-2017.1/clion-2017.1/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/pjahoda/Desktop/Recipe_Manager
+-- The C compiler identification is GNU 6.3.1
+-- The CXX compiler identification is GNU 6.3.1
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Check for working CXX compiler: C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/g++.exe
--- Check for working CXX compiler: C:/Program Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v4-rev4/mingw64/bin/g++.exe -- works
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Users/Pavel/Desktop/Recipe_Manager/cmake-build-debug
+-- Build files have been written to: /home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug

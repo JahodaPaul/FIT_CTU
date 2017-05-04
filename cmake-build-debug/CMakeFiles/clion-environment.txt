@@ -1,3 +1,2 @@
-ToolSet: w64 5.0@C:\Program Files\mingw-w64\x86_64-4.9.2-win32-seh-rt_v4-rev4\mingw64
 Options: 
-CMake: 3.7.1@C:\Program Files (x86)\JetBrains\CLion 2016.3.4\bin\cmake\bin\cmake.exe
+CMake: 3.7.1@/home/pjahoda/Documents/CLion-2017.1/clion-2017.1/bin/cmake/bin/cmake
