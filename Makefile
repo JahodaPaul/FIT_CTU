@@ -1,5 +1,6 @@
-CXXFLAGS = -std=c++11 -lpqxx -lpq -Ilibpqxx-5.0/include -lncurses
+CXXFLAGS = -lpqxx -lpq -Ilibpqxx-5.0/include -lncurses
 STRICTFLAGS = -std=c++11 -Wall -pedantic -Wno-long-long -O0 -ggdb -c
+LESSSTRICTFLAGS = -Wall -pedantic -Wno-long-long -O0 -ggdb -c
 
 all: Connection.o Data.o Frontend.o Screen.o ScreenLogin.o ScreenIngredients.o User.o main.o output
 
@@ -9,7 +10,7 @@ compile: main.o Connection.o User.o Data.o Frontend.o Screen.o ScreenLogin.o Scr
 
 
 Connection.o: src/Backend/Connection.cpp src/Backend/Connection.h
-	$(CXX) $(STRICTFLAGS) src/Backend/Connection.cpp -o jahodpa1/Connection.o
+	$(CXX) $(LESSSTRICTFLAGS) src/Backend/Connection.cpp -o jahodpa1/Connection.o
 
 Data.o: src/Backend/Data.cpp src/Backend/Data.h
 	$(CXX) $(STRICTFLAGS) src/Backend/Data.cpp -o jahodpa1/Data.o
