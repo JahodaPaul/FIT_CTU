@@ -23,4 +23,4 @@ or if you have fedora:
 yum install ncurses-*
 
 
-Unfortunatly it is not possible to run this program on windows, yet.
+Unfortunately it is not possible to run this program on windows, yet.

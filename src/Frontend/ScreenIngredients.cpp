@@ -155,7 +155,7 @@ void ScreenIngredients::RefreshWholeWindow(WINDOW *menu_win) {
 
 void ScreenIngredients::PrintTextInfoForUser() {
     mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
-    mvprintw(1,0,"Press double enter to Search for recipes containing chosen ingridients.");
+    mvprintw(1,0,"Press double enter to Search for recipes containing chosen ingredients.");
     mvprintw(2,0,"Press enter and backspace to exit the application.");
     string s="";
     for(int i=0;i<COLS;i++)
