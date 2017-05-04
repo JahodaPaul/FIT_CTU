@@ -1,4 +1,0 @@
-<map id="pqxx::field" name="pqxx::field">
-<area shape="rect" id="node2" href="$a00028.html" title="Iterator for fields in a row. Use as row::const_iterator. " alt="" coords="4,80,168,107"/>
-<area shape="rect" id="node3" href="$a00027.html" title="Reverse iterator for a row. Use as row::const_reverse_iterator. " alt="" coords="17,155,156,197"/>
-</map>
