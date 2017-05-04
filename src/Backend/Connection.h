@@ -5,7 +5,7 @@
 #define RECIPE_MANAGER_CONNECTION_H
 
 #include <iostream>
-#include "../libpqxx-5.0/include/pqxx/pqxx"
+#include "../../lib/libpqxx-5.0/include/pqxx/pqxx"
 
 using namespace std;
 using namespace pqxx;

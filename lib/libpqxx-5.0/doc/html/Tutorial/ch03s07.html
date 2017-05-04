@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="ANSI_X3.4-1968" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=ANSI_X3.4-1968" /><title>Doing Transactions Right: Transactors</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="libpqxx tutorial" /><link rel="up" href="ch03.html" title="Chapter&#160;3.&#160;Tutorial" /><link rel="prev" href="ch03s06.html" title="Getting query results" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Doing Transactions Right: Transactors</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s06.html">Prev</a>&#160;</td><th width="60%" align="center">Chapter&#160;3.&#160;Tutorial</th><td width="20%" align="right">&#160;</td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="transactors"></a>Doing Transactions Right: Transactors</h2></div></div></div><p>
+	Writing database code can be tricky.  One of the most complicated
+	areas is dealing with unexpected error conditions, such as losing
+	one's connection to the database server.  For long-running processes
+	you'll frequently find yourself rewriting code for a simple
+	transaction to make it:
+      </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+	    Attempt to perform the transaction.
+	  </p></li><li class="listitem"><p>
+	    Check for "connection lost" errors.
+	  </p></li><li class="listitem"><p>
+	    Attempt to restore the connection.
+	  </p></li><li class="listitem"><p>
+	    Repeat until the transaction succeeds.
+	  </p></li></ul></div><p>
+	This is bad for the heart, and clutters up your code besides.  The
+	<code class="literal">transactor</code> framework will take this work out of
+	your hands if you let it.
+      </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="functors"></a>Functors</h3></div></div></div><p>
+	  The mechanism is based on the concept of
+	  <span class="emphasis"><em>Functors</em></span>, a powerful object-oriented design
+	  pattern that replaces the older practice of passing callback
+	  functions (or hooks, as they're sometimes called, or exits) to
+	  foreign code.  Unlike classic callback functions, Functors provide
+	  an elegant way of maintaining custom state in your callback code,
+	  when the exact form or size of that state was not known in advance
+	  to the writer of the foreign code that will eventually invoke your
+	  callback.
+	</p><p>
+	  Functors in C++ are simple objects that can be invoked just like
+	  functions or function pointers can, by virtue of providing the
+	  function invocation operator, <code class="function">operator()</code>.
+	</p><p>
+	  A simple functor could look like this:
+	</p><pre class="programlisting">
+	  struct HelloFunctor
+	  {
+	  void operator()() { cout &lt;&lt; "Hello World" &lt;&lt; endl; }
+	  };
+	</pre><p>
+	  ...And once an object of this functor type has been created, it can
+	  be "invoked" just as if it were a function:
+	</p><pre class="programlisting">
+	  HelloFunctor Hi;
+	  Hi();
+	</pre><p>
+	  But the invoking code may also be foreign code knowing nothing
+	  about the type of your functor.  The foreign code is usually a
+	  template, so it automatically becomes "specialized" to your type of
+	  functor when the one meets the other:
+	</p><pre class="programlisting">
+	  template&lt;typename FUNCTOR&gt; void DoFunctor(const FUNCTOR &amp;Hi)
+	  {
+	  Hi();
+	  }
+	</pre><p>
+	  The great thing about functors is that they can carry state.  This
+	  is most useful when you need to pass a functor object to foreign
+	  code like <code class="function">DoFunctor</code> above, but you need
+	  certain extra parameters to be passed to your functor that the
+	  foreign code isn't going to pass.  The classic C solution to this
+	  problem is to let you pass both a function pointer and a
+	  pointer-to-<code class="literal">void</code> as a method of letting you
+	  provide any type of data of your liking to it.  This generally
+	  makes programs a little harder to read, and is not very safe or
+	  convenient.
+	</p><p>
+	  With functors, there is a better way to do the same thing.  Let's
+	  say you want to adapt the <code class="literal">HelloFunctor</code> class to
+	  print its output to a different output stream.  What you'd really
+	  like to do is add a parameter to your <code class="literal">()</code>
+	  operator to indicate which stream to print to:
+	</p><pre class="programlisting">
+	  void operator()(ostream &amp;Stream)
+	  {
+	  Stream &lt;&lt; "Hello World" &lt;&lt; endl;
+	  }
+	</pre><p>
+	  Unfortunately, <code class="function">DoFunctor</code> doesn't know about
+	  this new parameter, let alone what argument to pass!  So instead,
+	  let's make this
+	  <code class="literal">Stream</code> a class member:
+	</p><pre class="programlisting">
+	  struct HelloFunctor
+	  {
+	  ostream &amp;Stream;
+
+	  // Set Stream when creating a HelloFunctor
+	  explicit HelloFunctor(ostream &amp;S) : Stream(S) { }
+
+	  // Print to output stream selected at construction time
+	  void operator()()
+	  {
+	  Stream &lt;&lt; "Hello World" &lt;&lt; endl;
+	  }
+	  };
+	</pre><p>
+	  We can now provide the necessary information (ie., which stream to
+	  print to) to our <code class="literal">HelloFunctor</code> before we pass it
+	  to <code class="function">DoFunctor</code>:
+	</p><pre class="programlisting">
+	  HelloFunctor Hi1(cout), Hi2(cerr);
+
+	  DoFunctor(Hi1);  // Print to cout
+	  DoFunctor(Hi2);  // Print to cerr
+	</pre><p>
+	  Naturally a functor's <code class="literal">()</code> operator may also return
+	  some other type than <code class="literal">void</code>, and it may take
+	  arguments just like any other function.  This mechanism is used
+	  extensively by the STL to sort containers, to find items in sorted
+	  containers like <code class="literal">set</code> or <code class="literal">map</code>, and
+	  so on.
+	</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="transactor-working"></a>How Transactors Work</h3></div></div></div><p>
+	  A transactor is a functor derived from an instantiation of
+	  <code class="filename">libpqxx</code>'s <code class="literal">transactor</code> class
+	  template.  Instead of writing your database transaction inline with
+	  the rest of your code, you encapsulate it in your functor's
+	  <code class="literal">()</code> operator.  When the time comes to execute
+	  your transaction, you create an object of your functor type and
+	  pass it to the <code class="function">perform</code> method of your
+	  <code class="literal">connection</code> to the database.
+	</p><p>
+	  <code class="function">perform</code> will make a copy of your transactor
+	  (which means it needs to be copy-constructible, by the way).  It
+	  will also create a transaction object and invoke your transactor's
+	  <code class="literal">()</code> operator, passing the transaction object to
+	  it.  All your transactor needs to do is perform its queries on this
+	  object and return, after which <code class="function">perform</code> will
+	  commit the transaction.  If your <code class="literal">()</code> operator
+	  throws an exception instead, <code class="function">perform</code> will
+	  discard the copy of your original transactor, and try again with a
+	  new copy until it either succeeds or eventually gives up
+	  <a href="#ftn.idp24837788" class="footnote" id="idp24837788"><sup class="footnote">[6]</sup></a>.
+	  If the connection is lost, the transaction will fail but
+	  <code class="function">perform</code> will restore it transparently and
+	  simply try again.
+	</p><p>
+	  To make all this work, your transactor's <code class="literal">()</code>
+	  operator must make <span class="emphasis"><em>no</em></span> changes to the rest of
+	  your program's state.  Any intermediate results, data to be
+	  processed, and so on, must stay within your transactor, and be
+	  destroyed when the transactor is.  That is the magic trick that
+	  allows <code class="function">perform</code> to create copies of your
+	  transactor and use them to rerun the transaction as
+	  many times as needed, without your program noticing.
+	</p><p>
+	  So how does your transactor pass query results back to the outside
+	  world once it's done?  For this purpose, you may redefine
+	  <code class="literal">transactor</code>'s <code class="function">on_commit</code>
+	  member function to pass any data back to the rest of your program.
+	  This member function will be called only if your transaction
+	  succeeded.
+	</p><p>
+	  (You may also wish to go the other route, storing data to variables
+	  outside the transactor right away, and override the
+	  <code class="function">on_abort</code> and <code class="function">on_doubt</code>
+	  functions to remove the data again if the transaction failed, but
+	  this is much more likely to cause subtle bugs.)
+	</p><p>
+	  Please refer to the reference manual, the source code, and the test
+	  programs that come with <code class="filename">libpqxx</code> to learn more
+	  about how transactors work.
+	</p></div><div class="footnotes"><br /><hr style="width:100; text-align:left;margin-left: 0" /><div id="ftn.idp24837788" class="footnote"><p><a href="#idp24837788" class="para"><sup class="para">[6] </sup></a>
+	      <code class="function">perform</code> gives up if the transaction fails
+	      too many times in succession.  The maximum number of attempts
+	      that are made can be passed to <code class="function">perform</code> as
+	      an optional second argument.
+	    </p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s06.html">Prev</a>&#160;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right">&#160;</td></tr><tr><td width="40%" align="left" valign="top">Getting query results&#160;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&#160;</td></tr></table></div></body></html>

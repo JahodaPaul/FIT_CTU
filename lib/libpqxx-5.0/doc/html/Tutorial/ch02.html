@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="ANSI_X3.4-1968" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=ANSI_X3.4-1968" /><title>Chapter&#160;2.&#160;Class overview</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="libpqxx tutorial" /><link rel="up" href="index.html" title="libpqxx tutorial" /><link rel="prev" href="ch01.html" title="Chapter&#160;1.&#160;About libpqxx" /><link rel="next" href="ch03.html" title="Chapter&#160;3.&#160;Tutorial" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&#160;2.&#160;Class overview</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01.html">Prev</a>&#160;</td><th width="60%" align="center">&#160;</th><td width="20%" align="right">&#160;<a accesskey="n" href="ch03.html">Next</a></td></tr></table><hr /></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="classoverview"></a>Chapter&#160;2.&#160;Class overview</h1></div></div></div><p>
+      To work with <span class="productname">libpqxx</span>&#8482;, you need to be aware of
+      at least the following classes.  These are all introduced in a dedicated
+      namespace, <code class="literal">pqxx</code>:
+    </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+	  <code class="literal">connection</code> represents a connection from your
+	  program to a <span class="productname">PostgreSQL</span>&#8482; back-end server.
+	  Naturally your program may open multiple connections, simultaneous or
+	  not, to any number of databases.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">work</code>, actually a typedef for the
+	  <code class="literal">transaction</code> class template, represents a
+	  transaction being executed in the context of a
+	  <code class="literal">connection</code>. This is a unit of work that must be
+	  completed as a whole by the database backend.  If execution fails,
+	  everything done within that <code class="literal">transaction</code> is undone
+	  by the backend as if it had never happened.
+
+	  <a href="#ftn.idp21830668" class="footnote" id="idp21830668"><sup class="footnote">[1]</sup></a>
+
+	  You may execute any number of transactions on a single
+	  <code class="literal">connection</code>, but only one at a time.
+	</p><p>
+	  I recommend that you do not set up your own
+	  <code class="literal">transaction</code>s, but have them managed for you
+	  by a <code class="literal">transactor</code> instead (see below).
+	</p></li><li class="listitem"><p>
+	  A <code class="literal">result</code> is a container holding the resulting data
+	  coming out of a query or command executed in a
+	  <code class="literal">transaction</code>.  It behaves just like a standard C++
+	  container as found in the STL, although its contents can't be modified
+          in any way.  (You can assign or copy it cheaply though; it's basically
+          a smart pointer).  The rows held in the result in turn behave much
+          like non-modifiable containers themselves.
+	</p></li></ul></div><p>
+      I would also like to use this opportunity to plug the
+      <code class="function">esc</code> function, which you should use whenever you want
+      to include a variable as a string in your SQL (eg. insert it into a text
+      field in a table).  See below.
+    </p><p>
+      There are other classes that may be of interest to you, but which you
+      don't necessarily need to be aware of for writing programs.  You will
+      probably want to look them up at some point when it becomes necessary to
+      figure out complex compiler warnings.
+    </p><p>
+      Some of the classes you may become interested in fairly quickly are:
+    </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+	  <code class="literal">broken_connection</code> is an exception class that is
+	  thrown if <span class="productname">libpqxx</span>&#8482; loses its connection to
+	  the back-end.  It is derived from the standard C++ exception
+	  <code class="literal">std::runtime_error</code>, and can generally be treated as
+	  such.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">sql_error</code> is an exception class that is thrown if
+	  a query to the back-end fails.  Like
+	  <code class="literal">broken_connection</code> it
+	  is derived from <code class="literal">std::runtime_error</code>, but it also
+	  carries information about the failed query.  This may be useful for
+	  debugging.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">icursorstream</code> is a way of iterating over a query
+	  result using an SQL cursor.  This can be useful for selectively
+	  retrieving parts of a query, or for retrieving and processing results
+	  in chunks so your program can do useful work on one chunk while the
+	  next is still coming in over a network connection.  Or you may want to
+	  use this to give progress reports to the user between chunk transfers.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">in_doubt_error</code> is an exception class to indicate a
+	  rare and difficult error condition.  Explaining this is a bit painful,
+	  since it invalidates some of what was said above (and is commonly said
+	  in the database world).
+	</p><p>
+	  In theory, a "transaction" is an integral, atomic unit of work that
+	  either fails or succeeds.  This is a beautiful idea, but in practice
+	  there is nothing that cannot be broken.  There is a tiny risk that,
+          like Schroedinger's Cat, the transaction can end up in an
+          indeterminate state.  This happens when the connection to the backend
+          is lost just when you were waiting for confirmation after completing
+          your transaction.  Your transaction may have succeeded (in fact it
+          probably has), but if the connection is lost during just this small
+          time window, there is no way to confirm this to your application.
+	</p><p>
+	  When this happens, libpqxx throws an <code class="literal">in_doubt_error</code>
+	  on the client side, which you may want to <code class="literal">catch</code> as
+	  a special case.  If you do, make sure all alarm bells go off!
+	</p><p>
+	  See also the description for <code class="literal">robusttransaction</code>,
+	  which sacrifices some performance to minimize this risk.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">nontransaction</code> is just like a regular
+	  <code class="literal">transaction</code> as far your code is concerned (except
+	  that it's not a template).  The big difference is that where the
+	  latter opens a back-end transaction to keep your view and
+	  modifications of the database atomic, the former does
+	  <span class="emphasis"><em>nothing</em></span> to maintain integrity.  It just passes
+	  your queries directly to the database, with no enclosing transaction.
+	  This difference is expressed by the fact that the other transaction
+	  classes are derived from <code class="literal">dbtransaction</code>, an
+	  abstract class that expresses the presence of a real backend
+	  transaction, whereas <code class="literal">nontransaction</code> is not.
+	</p><p>
+	  This may give you better performance if your transaction does not
+	  modify the database, but if it does, may have unforeseen implications
+	  if you expect certain levels of consistency in the
+	  database--especially if other processes or threads may be modifying
+	  the database at the same time.  You'll probably only want to use this
+	  in the following cases:
+	</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+	      If you only want to read from the database, not modify it, and
+	      you know that the data is not going to be updated while your
+	      program is running.
+	    </p></li><li class="listitem"><p>
+	      If you are interested in always getting the very latest
+	      information out of your database, even if that means that you may
+	      not get a temporally consistent view of the database.
+	    </p></li><li class="listitem"><p>
+	      When making changes to the database schema; some operations may
+	      not be supported by the backend inside backend transactions.
+	    </p></li></ul></div></li><li class="listitem"><p>
+	  <code class="literal">robusttransaction</code> (a template just like
+	  <code class="literal">transaction</code>) is essentially the same as a
+	  <code class="literal">transaction</code>, ie. an atomic unit of work, except
+	  that it works harder to prevent <code class="literal">in_doubt_error</code>s
+	  from happening.  This comes at the cost of some performance, which is
+	  one reason why this behaviour isn't the default.  It also creates
+	  some extra tables in your database to keep track of what's happening.
+	</p><p>
+	  Use this class instead of plain old <code class="literal">transaction</code> if
+	  you get <code class="literal">in_doubt_error</code>s in your application--but
+	  only <span class="emphasis"><em>after</em></span> thoroughly inspecting your code for
+	  bugs that might be causing the problem, or you'll only be hiding
+	  glitches that should be fixed instead.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">transaction_base</code> defines the common public
+	  interface for the <code class="literal">transaction</code>-like classes:
+	  <code class="literal">nontransaction</code>,
+	  <code class="literal">robusttransaction</code>, and
+	  <code class="literal">transaction</code> itself.  To look up methods available
+	  in these classes, see the definition (or documentation) for
+	  <code class="literal">transaction_base</code> instead.
+	</p><p>
+	  You'll usually want to refer to the default
+	  <code class="literal">transaction</code> type as <code class="literal">work</code>, a
+	  typedef that means "<code class="literal">transaction</code> with default
+	  (read-committed) isolation level."
+	</p></li><li class="listitem"><p>
+	  <code class="literal">transactor&lt;&gt;</code> provides a framework that makes
+	  it easier for you to write correct, robust transaction code to be
+	  executed in a transaction.  You should generally try to write your
+	  code as a class derived from <code class="literal">transactor&lt;&gt;</code>,
+	  but this is not required.
+	</p><p>
+	  A <code class="literal">transactor</code>-derived class may select its own
+	  "quality of service" in transactional integrity by choosing a
+	  transaction type as its template argument, e.g.
+	  <code class="literal">transactor&lt;robusttransaction&lt;&gt; &gt;</code>.  The
+	  default <code class="literal">transactor&lt;&gt;</code> is equivalent to
+	  <code class="literal">transactor&lt;work&gt;</code>.  Within your class you can
+	  refer to the transaction type used as
+	  <code class="literal">argument_type</code>.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">notification_receiver</code> is an instance of the
+	  Observer design pattern.  Any code connected to a backend may flag an
+	  event using the <span class="productname">PostgreSQL</span>&#8482;
+	  <code class="literal">NOTIFY</code> command.  Frontends connected to that same
+	  backend database may be listening for an event of that name to occur.
+	  A frontend using <span class="productname">libpqxx</span>&#8482; does this by
+	  registering an observer object derived from
+	  <code class="literal">notification_receiver</code>, which will be invoked by
+	  <span class="productname">libpqxx</span>&#8482; to handle the event when it occurs.
+	</p><p>
+	  Something every programmer using notification receivers in PostgreSQL
+	  should know, by the way, is that notifications are not delivered to
+	  your program while it is inside a back-end transaction.  Nor are they
+	  sent until the notifying process has committed any transaction it may
+	  be in.  This makes sense from a correctness point of view (otherwise
+	  your processing of the event might get rolled back just because the
+	  transaction you're in happens to fail), but may be a little confusing
+	  to the unaware programmer.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">row</code> refers to a row of data within a
+	  <code class="literal">result</code> object.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">field</code> refers to one field within a
+	  <code class="literal">row</code>.  A <code class="literal">field</code> contains one
+	  retrieved value such as a number or a string, and can be read into
+	  variables of various types such as <code class="literal">int</code>s or
+	  <code class="literal">string</code>s.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">result::const_iterator</code> allows you to enumerate the
+	  <code class="literal">row</code>s in a <code class="literal">result</code> in a similar
+	  way to the iterators defined by any standard C++ container.
+	</p></li><li class="listitem"><p>
+	  <code class="literal">result::row::const_iterator</code> similarly iterates
+	  over the <code class="literal">field</code>s in a <code class="literal">row</code>.
+	</p></li></ul></div><p>
+      Finally, there are also some functions that you may want to know about,
+      that live alone in the <code class="literal">pqxx</code> namespace without being
+      part of any class:
+    </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+	  <code class="function">esc</code>, found in the transaction classes, is the
+	  canonical way to use strings in your SQL.  This function escapes any
+	  quotes, backslashes, and other characters in your input string that
+	  would otherwise cause syntax errors (or worse, security holes) in your
+	  queries when included directly.
+	</p><p>
+	  <span class="emphasis"><em>Use these functions</em></span> whenever you want to have a
+	  variable string in your SQL queries.  If you don't, you'll be left
+	  with annoying bugs or possibly even security holes in your program.
+	  Use this function, use this function, use this function.  Please.
+	  Make me proud.
+	</p></li><li class="listitem"><p>
+	  <code class="function">to_string</code> knows how to render many types of
+	  values as strings.  This is used internally by
+	  <code class="literal">libpqxx</code> to convert values coming out of or going
+	  into the backend, and doesn't respect locale settings.
+	</p></li><li class="listitem"><p>
+	  <code class="function">from_string</code> is the inverse of
+	  <code class="function">to_string</code>.  It is used by eg.
+	  <code class="function">field::to()</code> to convert the incoming
+	  field data (which is in text format) to the desired C++ type.
+	</p></li></ul></div><div class="footnotes"><br /><hr style="width:100; text-align:left;margin-left: 0" /><div id="ftn.idp21830668" class="footnote"><p><a href="#idp21830668" class="para"><sup class="para">[1] </sup></a>
+	      Actually <span class="productname">libpqxx</span>&#8482; provides three classes
+	      doing this at various levels of reliability, called
+	      <code class="literal">nontransaction</code>, <code class="literal">transaction</code>,
+	      and <code class="literal">robusttransaction</code> for no, standard, and
+	      best reliability respectively.  You probably shouldn't mess with
+              <code class="literal">robusttransaction</code> though, because it comes with
+              complications.
+	    </p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01.html">Prev</a>&#160;</td><td width="20%" align="center">&#160;</td><td width="40%" align="right">&#160;<a accesskey="n" href="ch03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&#160;1.&#160;About libpqxx&#160;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&#160;Chapter&#160;3.&#160;Tutorial</td></tr></table></div></body></html>

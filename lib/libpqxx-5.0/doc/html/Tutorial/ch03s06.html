@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="ANSI_X3.4-1968" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=ANSI_X3.4-1968" /><title>Getting query results</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="libpqxx tutorial" /><link rel="up" href="ch03.html" title="Chapter&#160;3.&#160;Tutorial" /><link rel="prev" href="ch03s05.html" title="Executing queries" /><link rel="next" href="ch03s07.html" title="Doing Transactions Right: Transactors" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Getting query results</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s05.html">Prev</a>&#160;</td><th width="60%" align="center">Chapter&#160;3.&#160;Tutorial</th><td width="20%" align="right">&#160;<a accesskey="n" href="ch03s07.html">Next</a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="queryresults"></a>Getting query results</h2></div></div></div><p>
+	Obviously not all queries are commands--the more common kind actually
+	returns useful data.  Result data in
+	<span class="productname">libpqxx</span>&#8482; are encapsulated in a
+	<code class="literal">result</code> object, which acts as a container similar
+	to the STL's <code class="literal">vector</code> template.
+      </p><pre class="programlisting">
+	result R = T.exec("SELECT firstname FROM employee WHERE lastname='Ng'");
+      </pre><p>
+	This executes a query on the database, collects all matching data, and
+	stores it in the form of a <code class="literal">result</code>.
+      </p><p>
+	Two ways are provided to get at individual rows in a
+	<code class="literal">result</code>: first, through indexing with the array
+	index operator <code class="literal">[]</code> or the <code class="function">at</code>
+	member function, and second, through random-access iterators.  Either
+	will give you a <code class="literal">row</code> object that in turn can be
+        addressed with the array index operator (or the
+	<code class="function">at</code> member function) or using iterators to get at
+	its individual fields
+
+	<a href="#ftn.idp24796980" class="footnote" id="idp24796980"><sup class="footnote">[3]</sup></a>.
+      </p><p>
+	Thus, <code class="literal">R[0]</code> will return the first ("zeroth") row
+	in R.  You won't normally want to bother with
+	<code class="literal">row</code>s though; they don't contain the actual data,
+	but rather serve as placeholders to later tell
+	<code class="literal">result</code> which fields to fetch when field values
+	from the row are requested.  The class exists mostly for technical
+	reasons related to the array index operators
+	<a href="#ftn.idp24799900" class="footnote" id="idp24799900"><sup class="footnote">[4]</sup></a>.
+
+	What you'll usually do is index the row directly to get at the field
+	you want, e.g. <code class="literal">R[0][0]</code> to get the first field of
+	the first row.
+      </p><p>
+	Array indexing of rows also works with the fields' names instead of
+	their numbers, eg.:
+      </p><pre class="programlisting">
+	// Process employees' names one by one.  ProcessNames() doesn't know exactly
+	// what columns are going to be in R, but there must be one called "lastname".
+	void ProcessNames(result R)
+	{
+	for (result::size_type i = 0; i != R.size(); ++i)
+	Process(R[i]["lastname"]);
+	}
+      </pre><p>
+	As for the alternative, accessing the result rows through an iterator,
+	only <code class="literal">const</code> iterators are provided so the contents of
+	the result cannot be modified.  Use these iterators as random-access
+	iterators like with any STL-like container:
+      </p><pre class="programlisting">
+	for (result::const_iterator i = R.begin(); i != R.end(); ++i)
+	Process(*i);
+      </pre><p>
+	Iterators may be incremented or decremented (whether pre- or post-),
+	they may be added to or subtracted from to jump through the result
+	rows; their positions may be compared (provided they point into the
+	same <code class="literal">result</code>), and they may be dereferenced through
+	the <code class="literal">*</code> or <code class="literal">-&gt;</code> operators.
+      </p><p>
+	Finally, the iterated rows' fields may be addressed using the array
+	index operator on the iterator directly, eg.
+	<code class="literal">R.begin()[0]</code> gets you the first field of
+	<code class="literal">R</code>'s first row, just like
+	<code class="literal">R[0][0]</code> would
+	<a href="#ftn.idp24806756" class="footnote" id="idp24806756"><sup class="footnote">[5]</sup></a>.
+      </p><p>
+	Either way, once you've indexed the <code class="literal">row</code>
+	you get a <code class="literal">field</code>--which is another
+	placeholder, but this time encapsulates an actual field value in our
+	query result.  A <code class="literal">field</code> <code class="literal">F</code> also
+	knows its column name, which can be obtained as
+	<code class="literal">F.Name()</code>.
+      </p><p>
+	Again, there is more than one way to read the field's value.  Let's
+	start out with the easy one, <code class="function">c_str</code>, which reads
+	the value as a C string:
+      </p><pre class="programlisting">
+	cout &lt;&lt; "Name: " &lt;&lt; F.c_str() &lt;&lt; endl;
+      </pre><p>
+	This will return the empty string (<code class="literal">""</code>) if field F
+	has the null value.  Use <code class="function">is_null</code> to see if this
+	is the case:
+      </p><pre class="programlisting">
+	if (!F.is_null())
+	cout &lt;&lt; "Name: " &lt;&lt; F.c_str() &lt;&lt; endl;
+      </pre><p>
+	In practice of course, not all data is going to consist of strings.
+	Many fields will be integer values, or decimals, or Booleans.  To
+	convert the field's value to one of these, use its
+	<code class="function">to</code> method.  This adapts itself to the type of
+	variable you pass it, expecting the field value to be of an
+	appropriate form for that type.  For convenience,
+	<code class="function">to</code> returns <code class="literal">false</code> if the field
+	had the null value, and <code class="literal">true</code> otherwise.  In the
+	former case, the variable will retain the value it had before the
+	call.
+      </p><pre class="programlisting">
+	// Pay an employee his salary.  Add bonus for managers.
+	// The employee row must contain the fields
+	void PaySalary(result::const_iterator empl)
+	{
+	long id;
+	float salary;
+	bool is_manager=false;
+
+	// Get id.  Must never be null.
+	if (!empl[0].to(id)) throw runtime_error("No id!");
+
+	// Get salary.  If this employee has no salary, skip payment.
+	if (!empl[1].to(salary)) return;
+
+	// Get manager status.  If field is null, variable's original value (false)
+	// will be preserved.
+	empl[2].to(is_manager);
+
+	if (is_manager) salary += Bonus;
+
+	TransferMoney(id, salary);
+	}
+      </pre><p>
+	If conversion fails, e.g. when trying to convert a floating-point
+	value to an integer variable, <code class="function">to</code> will throw a
+	<code class="literal">runtime_error</code> reporting the problem in its
+	<code class="function">what</code> message.
+      </p><div class="footnotes"><br /><hr style="width:100; text-align:left;margin-left: 0" /><div id="ftn.idp24796980" class="footnote"><p><a href="#idp24796980" class="para"><sup class="para">[3] </sup></a>
+	    The difference between <code class="literal">[]</code> and
+	    <code class="function">at</code> is that the latter is guaranteed to perform
+	    bounds-checking, throwing an exception if you pass it an illegal
+	    index value.  With the array index operator you may get slightly
+	    better performance, but attempting to address a nonexistant row or
+	    field will result in undefined behaviour such as program crashes or
+	    inexplicably strange results.
+	  </p></div><div id="ftn.idp24799900" class="footnote"><p><a href="#idp24799900" class="para"><sup class="para">[4] </sup></a>
+	    This is an instance of the <em class="wordasword">Proxy</em>
+	    implementation pattern, needed to allow a <code class="literal">result</code>
+	    to be indexed as if it were a two-dimensional array.  C++'s array
+	    index operator doesn't allow this usage directly, but the operator
+	    can be applied to the result of a previous use of the same operator.
+	    The "result in the middle" needs to have a type of its own, though,
+	    and that's what <code class="literal">row</code> is for.
+	  </p></div><div id="ftn.idp24806756" class="footnote"><p><a href="#idp24806756" class="para"><sup class="para">[5] </sup></a>
+	    Or <code class="literal">(*R.begin())[0]</code>.  It may seem quirky to
+	    have <code class="literal">R.begin()</code> and
+	    <code class="literal">*R.begin()</code> mean the same thing, but it makes
+	    practical use of iterators a lot easier.  In fact it matches how
+	    arrays and pointers work in C and C++.
+	  </p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s05.html">Prev</a>&#160;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right">&#160;<a accesskey="n" href="ch03s07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Executing queries&#160;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&#160;Doing Transactions Right: Transactors</td></tr></table></div></body></html>

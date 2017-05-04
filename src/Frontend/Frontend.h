@@ -8,7 +8,7 @@
 #include "../Backend/Connection.h"
 #include "../Backend/Data.h"
 #include "../Colormode.h"
-#include "../curses/ncurses.h"
+#include "../../lib/curses/ncurses.h"
 #include <iostream>
 #include <string>
 //Modifier red(FG_RED);

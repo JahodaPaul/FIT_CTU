@@ -1,0 +1,7 @@
+<map id="pqxx::broken_connection" name="pqxx::broken_connection">
+<area shape="rect" id="node6" href="$a00100.html" title="pqxx::too_many_connections" alt="" coords="63,304,255,331"/>
+<area shape="rect" id="node2" href="$a00038.html" title="Run&#45;time failure encountered by libpqxx, similar to std::runtime_error. " alt="" coords="112,155,205,181"/>
+<area shape="rect" id="node3" href="$a00071.html" title="Mixin base class to identify libpqxx&#45;specific exception types. " alt="" coords="4,80,152,107"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="177,80,300,107"/>
+<area shape="rect" id="node5" title="STL class. " alt="" coords="187,5,291,32"/>
+</map>
