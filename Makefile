@@ -1,7 +1,7 @@
 CXXFLAGS = -std=c++1y -lpqxx -lpq -Ilibpqxx-5.0/include -lncurses
 STRICTFLAGS = -std=c++1y -Wall -pedantic -Wno-long-long -O0 -ggdb -c
 
-all: build/Connection.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenIngredients.o build/User.o build/main.o compile
+all: build/Connection.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenIngredients.o build/User.o build/main.o compile doc
 
 compile: build/main.o build/Connection.o build/User.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenIngredients.o
 	cd build;$(CXX) main.o Connection.o User.o Data.o Frontend.o Screen.o ScreenLogin.o ScreenIngredients.o -o jahodpa1 $(CXXFLAGS)
@@ -33,8 +33,12 @@ build/main.o: src/main.cpp
 	$(CXX) $(STRICTFLAGS) src/main.cpp -o build/main.o
 
 clean:	
-	rm -rf build/*.o jahodpa1
+	rm -rf build/*.o jahodpa1 doc
 run:
 	./jahodpa1
 count:
-	cat src/*.cpp src/*.h src/Backend/*.cpp /src/Backend/*.h src/Frontend/*.cpp src/Frontend/*.h 2>/dev/null | wc -l
+	cat src/*.cpp src/*.h src/Backend/*.cpp src/Backend/*.h src/Frontend/*.cpp src/Frontend/*.h 2>/dev/null | wc -l
+
+doc:
+	mkdir -p doc
+	doxygen Doxyfile
