@@ -4,7 +4,12 @@
 
 #include "ScreenIngredients.h"
 
-
+/**
+ * Shows list(vector) of strings and highlights selected one, user can select ingredient by pressing enter
+ * scrolling using arrows is also fully functional
+ * @param mapa
+ * \return 0 if user pressed backspace and 1 if user is done selecting ingredients
+ */
 int ScreenIngredients::Run(const map<string, string> & mapa) {
     //variables---------------------------------------------------------------------------------------------------------
     highlight=0;
@@ -45,7 +50,7 @@ int ScreenIngredients::Run(const map<string, string> & mapa) {
     {
         key = wgetch(menu_win);
         switch(key)
-        {	case KEY_UP:
+        {	case KEY_UP://arrow up
                 userPressedEnter=false;
                 if(highlight == 0) {
                     highlight = (int) (options.size() - 1);
@@ -65,7 +70,7 @@ int ScreenIngredients::Run(const map<string, string> & mapa) {
                     }
                 }
                 break;
-            case KEY_DOWN:
+            case KEY_DOWN://arrow down
                 userPressedEnter=false;
                 if(highlight == (int)(options.size()-1)) {
                     highlight = 0;
@@ -86,6 +91,7 @@ int ScreenIngredients::Run(const map<string, string> & mapa) {
                 }
                 break;
             case 10:
+                //user selected ingredient or is done selecting
                 ingredientSelectionString="";
                 PrintUserTypedIngredient(ingredientSelectionString,options,false,mapa,from,to,highlight,selected);
                 menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
@@ -105,6 +111,7 @@ int ScreenIngredients::Run(const map<string, string> & mapa) {
                 userPressedEnter=!userPressedEnter;
                 break;
             case KEY_BACKSPACE:
+                //user deleted character
                 temporaryString="";
                 for(int i=0;i<(int)(ingredientSelectionString.length())-1;i++)
                 {
@@ -121,7 +128,9 @@ int ScreenIngredients::Run(const map<string, string> & mapa) {
                 userPressedEnter=false;
                 break;
             default:
-                ingredientSelectionString+=(char)key;
+                //user pressed character other than backspace, enter and arrows up and down
+                if((key>96 && key < 123)||(key > 64 && key < 91)||(key > 47 && key < 58) && key!=KEY_RIGHT && key!=KEY_LEFT)
+                    ingredientSelectionString+=(char)key;
                 PrintUserTypedIngredient(ingredientSelectionString,options,true,mapa,from,to,highlight,selected);
                 menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
                 RefreshWholeWindow(menu_win);
@@ -147,6 +156,7 @@ int ScreenIngredients::Run(const map<string, string> & mapa) {
 
 }
 
+///refreshed curses WINDOW so it does not show visual bugs
 void ScreenIngredients::RefreshWholeWindow(WINDOW *menu_win) {
     keypad(menu_win, TRUE);
     PrintTextInfoForUser();
@@ -172,8 +182,6 @@ void ScreenIngredients::PrintTextInfoForUser() {
 ScreenIngredients::ScreenIngredients() {
 
 }
-
-
 
 ScreenIngredients::~ScreenIngredients() {
 

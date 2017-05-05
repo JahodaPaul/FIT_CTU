@@ -6,7 +6,7 @@
 #include "ScreenLogin.h"
 #include "ScreenIngredients.h"
 
-
+/// The main Frontend functions from which all Screens are created
 void Frontend::Run(Connection &c,Data & data) {
     //variables---------------------------------------------------------------------------------------------------------
     Screen * loginScreen = new ScreenLogin();
@@ -39,11 +39,14 @@ void Frontend::Run(Connection &c,Data & data) {
     ingredientScreen->Run(data.GetMapOfIngridients());
 
 
-    // at the end of program delete Screen instances
+    /// at the end of program delete Screen instances
     delete loginScreen;
     delete ingredientScreen;
 }
 
+/**
+ * \return true if string exists in vector of string
+ */
 bool Frontend::Contain(const vector<string> &arr, string lookingFor) {
     for(auto const &item : arr) {
         if(item==lookingFor)
@@ -54,9 +57,9 @@ bool Frontend::Contain(const vector<string> &arr, string lookingFor) {
     return false;
 }
 
-
+/// Variable to is used to determinate how many strings to show in WINDOW Box
 void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector) {
-    if(sizeOfVector>(LINES-5)-3)//TODO do not hardcode it
+    if(sizeOfVector>(LINES-5)-3)///TODO do not hardcode it
     {
         to=(LINES-5)-3;
     }
@@ -66,7 +69,7 @@ void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector) {
     }
 }
 
-
+///shows progress given given task with n (parameter max) tasks to be done
 template<class TRIDA>
 void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max)
 {

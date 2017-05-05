@@ -8,6 +8,7 @@ Connection::Connection() {
 
 }
 
+///used for user login - connect to database and look if name and password match
 bool Connection::Connect(string name,string password)
 {
     try{
@@ -40,6 +41,7 @@ bool Connection::Connect(string name,string password)
     return true;
 }
 
+/// if registered name does not exist in database, inserts it into database
 bool Connection::Register(string name, string password) {
     try{
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
@@ -64,7 +66,6 @@ bool Connection::Register(string name, string password) {
         C.disconnect();
         sql = "INSERT INTO \"public\".\"users\" (id_user,user_name,user_password) VALUES (nextval('serial'), " + txn.quote(name) + ", " + txn.quote(password) + ");";
         R = this->query(sql);
-        //txn.exec(sql);
         cout << "Successful registration." << endl;
         C.disconnect ();
     }catch (const std::exception &e){
@@ -74,6 +75,7 @@ bool Connection::Register(string name, string password) {
     return true;
 }
 
+///connects to database and queries database using given sql statement
 result Connection::query(string sql) {
     result r;
     try{
@@ -88,4 +90,7 @@ result Connection::query(string sql) {
         cerr << e.what() << std::endl;
     }
     return r;
+    /**
+     *  \return pqxx:return from sql query
+     */
 }

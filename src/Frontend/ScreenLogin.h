@@ -17,7 +17,9 @@ public:
     int Run(const map<string, string> & mapa){return 0;}
 protected:
 private:
+    /// \property login screen choices - login, register, exit
     vector<string> choices;
+
     int averageStringSizeLogin;
     int loginStartx;
     int loginStarty;

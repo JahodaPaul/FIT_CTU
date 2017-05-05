@@ -9,9 +9,14 @@ Data::Data() {
 
 }
 
+/**
+   copy food ingredients into map, key is its name and values is its category - name of a category is a name of column in recipes table
+   careful, vegetables has two columns vegetable and vegetable2, so does spices - spice and spice2
+   integer parameter is used to show progressBar progress
+ * @param select
+ */
 void Data::GetDataFromDatabase(int select) {
-    //copy food ingredients into map, key is its name and values is its category - name of a category is a name of column in recipes table
-    //careful, vegetables has two columns vegetable and vegetable2, so does spices - spice and spice2
+
     result r;
     switch(select)
     {
@@ -83,12 +88,16 @@ void Data::GetDataFromDatabase(int select) {
     }
 }
 
+///copies ingredient name from pqxx::result as a key and ingredient category as value into the map
 void Data::CopyIntoMap(result R,string category, map<string,string> & myMap) {
     for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
         myMap.insert(make_pair(c[1].as<string>(),category));
     }
 }
 
+/**
+ * \return map foodNameAndCategory
+ */
 map<string, string> &Data::GetMapOfIngridients() {
     return foodNameAndCategory;
 }

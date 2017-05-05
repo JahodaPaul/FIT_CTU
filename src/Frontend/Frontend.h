@@ -7,14 +7,9 @@
 
 #include "../Backend/Connection.h"
 #include "../Backend/Data.h"
-#include "../Colormode.h"
 #include "../../lib/curses/ncurses.h"
 #include <iostream>
 #include <string>
-//Modifier red(FG_RED);
-//Modifier green(FG_GREEN);
-//Modifier blue(FG_BLUE);
-//Modifier def(FG_DEFAULT);
 
 class Frontend
 {

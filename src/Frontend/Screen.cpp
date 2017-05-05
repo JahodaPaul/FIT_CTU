@@ -4,6 +4,20 @@
 
 #include "Screen.h"
 
+/**
+ *
+ * @param menu_win
+ * @param highlight
+ * @param choices
+ * @param center
+ * @param boxWidth
+ * @param boxHeight
+ * @param averageStringSize
+ * @param from
+ * @param to
+ * It prints given a vector of strings in the middle or at the top left corner.
+ * Can also highlight one of the strings given integer parameter highlight
+ */
 void Screen::PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &averageStringSize,const int& from,const int& to)
 {
     int x,y;
@@ -33,6 +47,11 @@ void Screen::PrintMenu(WINDOW *menu_win, const int highlight,const vector<string
     wrefresh(menu_win);
 }
 
+/**
+ * @param login
+ * @param password
+ * gets username nad password
+ */
 void Screen::GetUserInfo(string &login, string &password) {
     cout << "login: ";
     cin >> login;
@@ -44,6 +63,20 @@ Screen::Screen() {
 
 }
 
+/**
+ *
+ * @param s
+ * @param arr
+ * @param newChar
+ * @param myMap
+ * @param from
+ * @param to
+ * @param highlight
+ * @param selected
+ * Shows list of strings based on user input
+ * for example: users types character A, so only strings that begin with character A remain in vector of strings arr
+ * it also reacts to character deletion using backspace and string selection using enter
+ */
 void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap,int &from, int &to,int &highlight,int &selected) {
     unsigned int wordLenght = s.length();
     bool found=false;
@@ -200,9 +233,11 @@ void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar
     }
 }
 
+/// used by PrintUserTypedIngredient function so only range of strings remain in vector of strings
 void Screen::OnlySelectedRangeOfStringsRemain(unsigned int lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings, unsigned int higherbound, bool &changed) {
     vector<string> tmp;
-    for (unsigned int i = lowerbound; i != higherbound; ++i) {
+    for (unsigned int i = lowerbound; i != higherbound; ++i)
+    {
         tmp.push_back(vectorOfStrings[i]);
     }
     vectorOfStrings.clear();
@@ -213,10 +248,12 @@ void Screen::OnlySelectedRangeOfStringsRemain(unsigned int lowerbound, int &from
     changed=true;
 }
 
+/// used by PrintUserTypedIngredient function so only range of strings remain in vector of strings
 template<class T>
 void Screen::OnlySelectedRangeOfStringsRemain(T lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings,T higherbound, bool &changed) {
     vector<string> tmp;
-    for (T i = lowerbound; i != higherbound; ++i) {
+    for (T i = lowerbound; i != higherbound; ++i)
+    {
         tmp.push_back(i->first);
     }
     vectorOfStrings.clear();

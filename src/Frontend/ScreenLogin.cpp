@@ -4,6 +4,11 @@
 
 #include "ScreenLogin.h"
 
+/**
+ * Login screen which has three choices: login, register and exit
+ * scrolling  is fully functional
+ * \return selected choice: 0 for login, 1 for register and 2 for exit
+ */
 int ScreenLogin::Run() {
     //variables---------------------------------------------------------------------------------------------------------
     highlight=0;
@@ -55,6 +60,7 @@ int ScreenLogin::Run() {
     return highlight;
 }
 
+/// sets login screen choices (login ect) and calculates averages string size of vector choices for better looking UI
 ScreenLogin::ScreenLogin()
 {
     loginBoxWidth=25;
