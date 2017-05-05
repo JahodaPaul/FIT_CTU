@@ -5,6 +5,8 @@
 #define RECIPE_MANAGER_CONNECTION_H
 
 #include <iostream>
+#include <string>
+#include <algorithm>
 #include "../../lib/libpqxx-5.0/include/pqxx/pqxx"
 
 using namespace std;
@@ -16,8 +18,9 @@ public:
     Connection();
     bool Connect(string,string);
     bool Register(string,string);
-    result query(string sql);
+    result query(const string sql);
 private:
+    bool CheckForSQLInjection(string,string) const;
 
 };
 

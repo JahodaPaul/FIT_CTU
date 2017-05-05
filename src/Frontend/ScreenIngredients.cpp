@@ -129,7 +129,7 @@ int ScreenIngredients::Run(const map<string, string> & mapa) {
                 break;
             default:
                 //user pressed character other than backspace, enter and arrows up and down
-                if((key>96 && key < 123)||(key > 64 && key < 91)||(key > 47 && key < 58) && key!=KEY_RIGHT && key!=KEY_LEFT)
+                if(((key>96 && key < 123) || (key > 64 && key < 91) || (key > 47 && key < 58)) && (key!=KEY_RIGHT) && (key!=KEY_LEFT))
                     ingredientSelectionString+=(char)key;
                 PrintUserTypedIngredient(ingredientSelectionString,options,true,mapa,from,to,highlight,selected);
                 menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
@@ -163,7 +163,7 @@ void ScreenIngredients::RefreshWholeWindow(WINDOW *menu_win) {
     refresh();
 }
 
-void ScreenIngredients::PrintTextInfoForUser() {
+void ScreenIngredients::PrintTextInfoForUser() const {
     mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
     mvprintw(1,0,"Press double enter to Search for recipes containing chosen ingredients.");
     mvprintw(2,0,"Press enter and backspace to exit the application.");

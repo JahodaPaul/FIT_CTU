@@ -13,11 +13,11 @@ class Data : public Connection
 {
 public:
     Data();
-    void GetDataFromDatabase(int);
+    void GetDataFromDatabase(const int);
     map<string,string>& GetMapOfIngridients();
 protected:
 private:
-    void CopyIntoMap(pqxx::result,string,map<string,string> &);
+    void CopyIntoMap(const pqxx::result &,const string,map<string,string> &);
     map<string,string> beveragesAndCategory;
     map<string,string> foodNameAndCategory;
 

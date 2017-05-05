@@ -25,6 +25,10 @@ void Screen::PrintMenu(WINDOW *menu_win, const int highlight,const vector<string
     {
         x=(boxWidth/2 - averageStringSize/2);
         y=(boxHeight/2 - (to/2));
+        if(to==1)
+        {
+            y=1;
+        }
     }
     else
     {
@@ -53,10 +57,94 @@ void Screen::PrintMenu(WINDOW *menu_win, const int highlight,const vector<string
  * gets username nad password
  */
 void Screen::GetUserInfo(string &login, string &password) {
-    cout << "login: ";
-    cin >> login;
-    cout << "password: ";
-    cin >> password;
+    GetUserInputOneLine("login: ",login,false);
+    GetUserInputOneLine("password: ",password,true);
+}
+
+/**
+ * Shows box in the middle of the screen where user types input
+ * \param toBeShown string which is placed before user typed input
+ * @param get
+ * @param getPassword
+ */
+void Screen::GetUserInputOneLine(string toBeShown,string &get,const bool getPassword)
+{
+    //variables---------------------------------------------------------------------------------------------------------
+    string temporaryString="";
+    highlight=10;
+    vector<string> shownToUser;
+    shownToUser.push_back(toBeShown);
+    userPressedEnter=false;
+    clear();
+    initscr();
+    noecho();
+    cbreak();
+    int width=25;
+    int height=3;
+    Frontend::middleStartX = (COLS - width) / 2;
+    Frontend::middleStartY = (LINES - height) / 3;
+    WINDOW *menu_win = newwin(height, width, middleStartY, middleStartX);
+    //------------------------------------------------------------------------------------------------------------------
+
+    keypad(menu_win, TRUE);
+    mvprintw(0, 0, "Press enter to confirm input.");
+    refresh();
+    PrintMenu(menu_win,highlight, shownToUser,true,width,height,20,0,(int)shownToUser.size());
+    while(1)
+    {
+        key = wgetch(menu_win);
+        switch(key)
+        {
+            case KEY_BACKSPACE:
+                //user deleted character
+                temporaryString="";
+                for(int i=0;i<(int)(get.length())-1;i++)
+                {
+                    temporaryString+=get[i];
+                }
+                get=temporaryString;
+                if(getPassword)
+                {
+                    temporaryString="";
+                    for(int i=0;i<(int)(get.length())-1;i++)
+                    {
+                        temporaryString+='*';
+                    }
+                }
+                shownToUser[0]=toBeShown+temporaryString;
+                menu_win = newwin(height, width, middleStartY, middleStartX);
+                keypad(menu_win, TRUE);
+                refresh();
+                break;
+            case 10:
+                userPressedEnter=true;
+                break;
+            default:
+                if((key>96 && key < 123) || (key > 64 && key < 91) || (key > 47 && key < 58))
+                {
+                    shownToUser[0]+=char(key);
+                    get+=char(key);
+                    if(getPassword)
+                    {
+                        temporaryString="";
+                        for(int i=0;i<(int)(get.length())-1;i++)
+                        {
+                            temporaryString+='*';
+                        }
+                        shownToUser[0]=toBeShown+temporaryString;
+                        shownToUser[0]+=(char)(key);
+                    }
+                    refresh();
+                }
+                break;
+        }
+        PrintMenu(menu_win,highlight, shownToUser,true,width,height,20,0,(int)shownToUser.size());
+        if(userPressedEnter)
+            break;
+    }
+    clrtoeol();
+    refresh();
+    endwin();
 }
 
 Screen::Screen() {
@@ -234,7 +322,7 @@ void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar
 }
 
 /// used by PrintUserTypedIngredient function so only range of strings remain in vector of strings
-void Screen::OnlySelectedRangeOfStringsRemain(unsigned int lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings, unsigned int higherbound, bool &changed) {
+void Screen::OnlySelectedRangeOfStringsRemain(const unsigned int lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings, const unsigned int higherbound, bool &changed) {
     vector<string> tmp;
     for (unsigned int i = lowerbound; i != higherbound; ++i)
     {
@@ -250,7 +338,7 @@ void Screen::OnlySelectedRangeOfStringsRemain(unsigned int lowerbound, int &from
 
 /// used by PrintUserTypedIngredient function so only range of strings remain in vector of strings
 template<class T>
-void Screen::OnlySelectedRangeOfStringsRemain(T lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings,T higherbound, bool &changed) {
+void Screen::OnlySelectedRangeOfStringsRemain(const T lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings,const T higherbound, bool &changed) {
     vector<string> tmp;
     for (T i = lowerbound; i != higherbound; ++i)
     {

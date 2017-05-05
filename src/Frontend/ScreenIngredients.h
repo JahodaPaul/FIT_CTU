@@ -17,7 +17,7 @@ public:
 protected:
 private:
     void RefreshWholeWindow(WINDOW *menu_win);
-    void PrintTextInfoForUser();
+    void PrintTextInfoForUser() const;
 };
 
 #endif //RECIPE_MANAGER_SCREENINGREDIENTS_H

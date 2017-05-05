@@ -23,8 +23,9 @@ protected:
     void PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &averageStringSize,const int& from,const int& to);
     void PrintUserTypedIngredient(string &,vector<string> &,bool newChar,const map<string,string> &,int &from,int &to,int &highlight,int &selected);
     template <class T>
-    void OnlySelectedRangeOfStringsRemain(T lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings,T higherbound, bool &changed);
-    void OnlySelectedRangeOfStringsRemain(unsigned int lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings, unsigned int higherbound, bool &changed);
+    void OnlySelectedRangeOfStringsRemain(const T lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings,const T higherbound, bool &changed);
+    void OnlySelectedRangeOfStringsRemain(const unsigned int lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings, const unsigned int higherbound, bool &changed);
+    void GetUserInputOneLine(string toBeShown,string &get,const bool getPassword);
 
 private:
 };

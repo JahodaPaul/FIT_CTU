@@ -15,7 +15,7 @@ Data::Data() {
    integer parameter is used to show progressBar progress
  * @param select
  */
-void Data::GetDataFromDatabase(int select) {
+void Data::GetDataFromDatabase(const int select) {
 
     result r;
     switch(select)
@@ -89,7 +89,7 @@ void Data::GetDataFromDatabase(int select) {
 }
 
 ///copies ingredient name from pqxx::result as a key and ingredient category as value into the map
-void Data::CopyIntoMap(result R,string category, map<string,string> & myMap) {
+void Data::CopyIntoMap(const result &R,const string category, map<string,string> & myMap) {
     for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
         myMap.insert(make_pair(c[1].as<string>(),category));
     }
@@ -98,6 +98,6 @@ void Data::CopyIntoMap(result R,string category, map<string,string> & myMap) {
 /**
  * \return map foodNameAndCategory
  */
-map<string, string> &Data::GetMapOfIngridients() {
+map<string, string> &Data::GetMapOfIngridients(){
     return foodNameAndCategory;
 }

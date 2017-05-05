@@ -7,7 +7,7 @@
 #include "ScreenIngredients.h"
 
 /// The main Frontend functions from which all Screens are created
-void Frontend::Run(Connection &c,Data & data) {
+void Frontend::Run(Connection &c, Data & data) {
     //variables---------------------------------------------------------------------------------------------------------
     Screen * loginScreen = new ScreenLogin();
     Screen * ingredientScreen = new ScreenIngredients();
@@ -17,6 +17,7 @@ void Frontend::Run(Connection &c,Data & data) {
 
     while(!loggedIn)
     {
+        login="";password="";
         int choice = loginScreen->Run();
         if(choice==0)
         {
@@ -47,7 +48,7 @@ void Frontend::Run(Connection &c,Data & data) {
 /**
  * \return true if string exists in vector of string
  */
-bool Frontend::Contain(const vector<string> &arr, string lookingFor) {
+bool Frontend::Contain(const vector<string> &arr,const string lookingFor) const {
     for(auto const &item : arr) {
         if(item==lookingFor)
         {
@@ -71,7 +72,7 @@ void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector) {
 
 ///shows progress given given task with n (parameter max) tasks to be done
 template<class TRIDA>
-void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max)
+void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),const int max)
 {
     int outOf=25,before=0,percentage=0,y=1,x=1;
     string s="",percentageString="";

@@ -19,12 +19,11 @@ public:
     void Run(Connection & c, Data & data);
     void RunIngridientSelection(const map<string,string>&);
 protected:
-    void RefreshWholeWindow(WINDOW *menu_win);
-    bool Contain(const vector<string>& arr, string lookingFor);
+    bool Contain(const vector<string>& arr, const string lookingFor) const;
     void AssignValueToVariableTo(int &to,const int &sizeOfVector);
 
     template <class TRIDA>
-    void ProgressBar(TRIDA *d,void (TRIDA::*function)(int),int max);
+    void ProgressBar(TRIDA *d,void (TRIDA::*function)(int),const int max);
 
     int middleStartX;
     int middleStartY;

@@ -12,6 +12,10 @@ Connection::Connection() {
 bool Connection::Connect(string name,string password)
 {
     try{
+        if(CheckForSQLInjection(name,password))
+        {
+            return false;
+        }
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
         if (C.is_open()) {
@@ -44,6 +48,10 @@ bool Connection::Connect(string name,string password)
 /// if registered name does not exist in database, inserts it into database
 bool Connection::Register(string name, string password) {
     try{
+        if(CheckForSQLInjection(name,password))
+        {
+            return false;
+        }
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
         if (C.is_open()) {
@@ -76,7 +84,7 @@ bool Connection::Register(string name, string password) {
 }
 
 ///connects to database and queries database using given sql statement
-result Connection::query(string sql) {
+result Connection::query(const string sql) {
     result r;
     try{
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
@@ -93,4 +101,35 @@ result Connection::query(string sql) {
     /**
      *  \return pqxx:return from sql query
      */
+}
+
+/**
+ *
+ * @param firstString
+ * @param secondString
+ * \return true if there is a danger
+ */
+bool Connection::CheckForSQLInjection(string firstString,string secondString) const
+{
+    transform(firstString.begin(), firstString.end(), firstString.begin(), ::toupper);
+    transform(secondString.begin(), secondString.end(), secondString.begin(), ::toupper);
+    if ((firstString.find("DROP") != string::npos) || (secondString.find("DROP") != string::npos)) {
+        return true;
+    }
+    if ((firstString.find("DELETE") != string::npos) || (secondString.find("DELETE") != string::npos)) {
+        return true;
+    }
+    if ((firstString.find("ALTER") != string::npos) || (secondString.find("ALTER") != string::npos)) {
+        return true;
+    }
+    if ((firstString.find("UPDATE") != string::npos) || (secondString.find("UPDATE") != string::npos)) {
+        return true;
+    }
+    if ((firstString.find("GETREQUESTSRING") != string::npos) || (secondString.find("GETREQUESTSRING") != string::npos)) {
+        return true;
+    }
+    if ((firstString.find(" OR ") != string::npos) || (secondString.find(" OR ") != string::npos)) {
+        return true;
+    }
+    return false;
 }
