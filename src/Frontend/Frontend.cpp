@@ -12,6 +12,7 @@ void Frontend::Run(Connection &c, Data & data) {
     Screen * loginScreen = new ScreenLogin();
     Screen * ingredientScreen = new ScreenIngredients();
     bool loggedIn=false;//,downloadedData=false;
+    int userID=0;
     string loginOrRegister="",login="",password="";
     //------------------------------------------------------------------------------------------------------------------
 
@@ -22,18 +23,19 @@ void Frontend::Run(Connection &c, Data & data) {
         if(choice==0)
         {
             loginScreen->GetUserInfo(login,password);
-            loggedIn = c.Connect(login, password);
+            loggedIn = c.Connect(login, password,userID);
         }
         else if(choice==1)
         {
             loginScreen->GetUserInfo(login,password);
-            loggedIn = c.Register(login,password);
+            loggedIn = c.Register(login,password,userID);
         }
         else
         {
             return;
         }
     }
+    data.CreateNewUser(new User(userID,login));
 
     ProgressBar(&data,&Data::GetDataFromDatabase,18);
     //downloadedData=true;

@@ -11,10 +11,8 @@ using namespace std;
 
 class User{
 public:
-    User();
+    User(int id,string name);
     int GetUserId();
-    void SetUserId(int);
-    void SetUserName(string);
     ~User(){};
 protected:
 private:

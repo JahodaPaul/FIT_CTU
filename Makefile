@@ -40,7 +40,7 @@ clean:
 run:
 	./jahodpa1
 count:
-	cat src/*.cpp src/*.h src/Backend/*.cpp src/Backend/*.h src/Frontend/*.cpp src/Frontend/*.h 2>/dev/null | wc -l
+	./src/.countNumberOfLines.sh
 
 doc:
 	mkdir -p doc

@@ -6,7 +6,13 @@
 #include <iostream>
 
 Data::Data() {
+    user=NULL;
+}
 
+///deletes User*
+Data::~Data()
+{
+    delete user;
 }
 
 /**
@@ -179,4 +185,19 @@ Recipe& Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
         }
     }
     return (*p);
+}
+
+/// \return pointer to a user
+User * Data::GetUser()
+{
+    return this->user;
+}
+
+/// creates a user if it does not exist
+void Data::CreateNewUser(User * user1)
+{
+    if(this->user==NULL)
+    {
+        user=user1;
+    }
 }

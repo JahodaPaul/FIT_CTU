@@ -5,16 +5,8 @@
 #include "User.h"
 
 
-User::User(){
-
-}
-
-void User::SetUserId(int id)
-{
+User::User(int id,string name){
     this->id=id;
-}
-
-void User::SetUserName(string name) {
     this->name=name;
 }
 

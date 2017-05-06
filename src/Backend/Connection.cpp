@@ -8,8 +8,8 @@ Connection::Connection() {
 
 }
 
-///used for user login - connect to database and look if name and password match
-bool Connection::Connect(string name,string password)
+///used for user login - connect to database and look if name and password match, assigns value to id
+bool Connection::Connect(string name,string password,int &id)
 {
     try{
         if(CheckForSQLInjection(name,password))
@@ -36,6 +36,10 @@ bool Connection::Connect(string name,string password)
             C.disconnect ();
             return false;
         }
+        for (result::const_iterator c = R.begin(); c != R.end(); ++c)
+        {
+            id = c[0].as<int>();
+        }
         cout << "Successful login." << endl;
         C.disconnect ();
     }catch (const std::exception &e){
@@ -45,8 +49,8 @@ bool Connection::Connect(string name,string password)
     return true;
 }
 
-/// if registered name does not exist in database, inserts it into database
-bool Connection::Register(string name, string password) {
+/// if registered name does not exist in database, inserts it into database, assigns value to id
+bool Connection::Register(string name, string password,int &id) {
     try{
         if(CheckForSQLInjection(name,password))
         {
@@ -74,6 +78,18 @@ bool Connection::Register(string name, string password) {
         C.disconnect();
         sql = "INSERT INTO \"public\".\"users\" (id_user,user_name,user_password) VALUES (nextval('serial'), " + txn.quote(name) + ", " + txn.quote(password) + ");";
         R = this->query(sql);
+
+        sql = "SELECT * FROM \"public\".\"users\" WHERE user_name='" + name + "' AND user_password='" + password + "';";
+        R=this->query(sql);
+
+        if(R.size()!=0)
+        {
+            for (result::const_iterator c = R.begin(); c != R.end(); ++c)
+            {
+                id = c[0].as<int>();
+            }
+        }
+
         cout << "Successful registration." << endl;
         C.disconnect ();
     }catch (const std::exception &e){

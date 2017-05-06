@@ -8,6 +8,7 @@
 #include "Connection.h"
 #include <set>
 #include "Recipe.h"
+#include "User.h"
 
 class Data : public Connection
 {
@@ -16,6 +17,9 @@ public:
     void GetDataFromDatabase(const int);
     map<string,string>& GetMapOfIngridients();
     Recipe& GetRecommendedRecipe(const Recipe& recipe, const int userID);
+    ~Data();
+    User * GetUser();
+    void CreateNewUser(User * user1);
 protected:
 private:
     void CopyIntoMap(const pqxx::result &,const string,map<string,string> &);
@@ -23,6 +27,7 @@ private:
     map<string,string> beveragesAndCategory;
     map<string,string> foodNameAndCategory;
     map<int,vector<Recipe *> > mapOfUsersAndRecipesTheyLiked;
+    User * user;
 
 };
 
