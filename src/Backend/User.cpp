@@ -5,6 +5,21 @@
 #include "User.h"
 
 
-User::User(string name, string id):name(name),id(id) {
+User::User(){
 
+}
+
+void User::SetUserId(int id)
+{
+    this->id=id;
+}
+
+void User::SetUserName(string name) {
+    this->name=name;
+}
+
+/// \return integer user id
+int User::GetUserId()
+{
+    return this->id;
 }

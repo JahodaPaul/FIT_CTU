@@ -83,7 +83,10 @@ bool Connection::Register(string name, string password) {
     return true;
 }
 
-///connects to database and queries database using given sql statement
+/**
+ * connects to database and queries database using given sql statement
+ *  \return pqxx:return from sql query
+ */
 result Connection::query(const string sql) {
     result r;
     try{
@@ -98,9 +101,6 @@ result Connection::query(const string sql) {
         cerr << e.what() << std::endl;
     }
     return r;
-    /**
-     *  \return pqxx:return from sql query
-     */
 }
 
 /**

@@ -7,7 +7,7 @@
 
 #include "Connection.h"
 #include <set>
-#include <iostream>
+#include "Recipe.h"
 
 class Data : public Connection
 {
@@ -15,50 +15,14 @@ public:
     Data();
     void GetDataFromDatabase(const int);
     map<string,string>& GetMapOfIngridients();
+    Recipe& GetRecommendedRecipe(const Recipe& recipe, const int userID);
 protected:
 private:
     void CopyIntoMap(const pqxx::result &,const string,map<string,string> &);
+    void CopyIntoMapRecipes(const pqxx::result &,map<int,vector<Recipe*> > &);
     map<string,string> beveragesAndCategory;
     map<string,string> foodNameAndCategory;
-
-    struct Recipe
-    {
-        Recipe(vector<string> ingridients, vector<int> ingridientWeight,bool containsMeat, bool containsSecondVegetable, bool containsNuts)
-        {
-            this->ingridients=ingridients;
-            this->ingridientWeight=ingridientWeight;
-            this->containsMeat=containsMeat;
-            this->containsSecondVegetable=containsSecondVegetable;
-            this->containsNuts=containsNuts;
-            this->numberOfIngridients= (int) this->ingridients.size();
-        }
-        bool operator==(Recipe & r)
-        {
-            if(r.numberOfIngridients!=this->numberOfIngridients)
-            {
-                return false;
-            }
-            for(int i=0;i<this->numberOfIngridients;i++)
-            {
-                if(this->ingridients[i]!=r.ingridients[i])
-                {
-                    return false;
-                }
-                if(this->ingridientWeight[i]!=r.ingridientWeight[i])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        vector<string> ingridients;
-        vector<int> ingridientWeight;
-        bool containsMeat;
-        bool containsSecondVegetable;
-        bool containsNuts;
-        int numberOfIngridients;
-    };
-    vector<Recipe> vectorOfRecipes;
+    map<int,vector<Recipe *> > mapOfUsersAndRecipesTheyLiked;
 
 };
 
