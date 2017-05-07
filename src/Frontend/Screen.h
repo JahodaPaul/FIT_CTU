@@ -11,10 +11,18 @@ class Screen : public Frontend
 {
 public:
     Screen();
-    virtual ~Screen(){}
+    virtual ~Screen();
     virtual int Run(){return 0;}
     virtual int Run(const map<string, string> & mapa,vector<string> &){return 0;}
-    void GetUserInfo(string &login, string &password);
+    virtual void Run(string &, string &){};
+    void ReactToUserInput(const int &key);
+    virtual void KeyUp(){};
+    virtual void KeyDown(){};
+    virtual void KeyLeft(){};
+    virtual void KeyRight(){};
+    virtual void Backspace(){};
+    virtual void Enter(){};
+    virtual void OtherKey(){};
 
 protected:
     int key;
@@ -25,7 +33,6 @@ protected:
     template <class T>
     void OnlySelectedRangeOfStringsRemain(const T lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings,const T higherbound, bool &changed);
     void OnlySelectedRangeOfStringsRemain(const unsigned int lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings, const unsigned int higherbound, bool &changed);
-    void GetUserInputOneLine(string toBeShown,string &get,const bool getPassword);
 
 private:
 };

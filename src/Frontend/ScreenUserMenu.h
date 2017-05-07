@@ -14,6 +14,14 @@ public:
     ~ScreenUserMenu();
     int Run(const map<string, string> & mapa, vector<string> &){return 0;}
     int Run(){return 0;}
+    void Run(string &, string &){};
+    void KeyUp(){};
+    void KeyDown(){};
+    void KeyLeft(){};
+    void KeyRight(){};
+    void Backspace(){};
+    void Enter(){};
+    void OtherKey(){};
 protected:
 private:
 

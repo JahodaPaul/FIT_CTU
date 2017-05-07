@@ -5,14 +5,6 @@
 #include "Recipe.h"
 
 
-Recipe::Recipe(vector <string> ingredients, vector<int> ingredientWeight, int idRecipe)
-{
-    this->ingredients=ingredients;
-    this->ingredientWeight=ingredientWeight;
-    this->idRecipe=idRecipe;
-}
-
-
 /**
  * calculates percentage of same ingredients
  * @param recipe1
@@ -53,4 +45,15 @@ int Recipe::HowMuchAreRecipesSame(const Recipe & recipe2)
     }
     percentage=(100*nOfSameIngredients)/9;
     return percentage;
+}
+
+Recipe::Recipe(vector <string> ingredients, vector<int> ingredientWeight, int idRecipe)
+{
+    this->ingredients=ingredients;
+    this->ingredientWeight=ingredientWeight;
+    this->idRecipe=idRecipe;
+}
+
+Recipe::~Recipe() {
+
 }

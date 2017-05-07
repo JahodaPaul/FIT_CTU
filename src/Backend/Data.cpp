@@ -5,15 +5,6 @@
 #include "Data.h"
 #include <iostream>
 
-Data::Data() {
-    user=NULL;
-}
-
-///deletes User*
-Data::~Data()
-{
-    delete user;
-}
 
 /**
    copy food ingredients into map, key is its name and values is its category - name of a category is a name of column in recipes table
@@ -200,4 +191,14 @@ void Data::CreateNewUser(User * user1)
     {
         this->user=user1;
     }
+}
+
+Data::Data() {
+    user=NULL;
+}
+
+///deletes User*
+Data::~Data()
+{
+    delete user;
 }

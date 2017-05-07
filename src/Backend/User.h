@@ -13,7 +13,7 @@ class User{
 public:
     User(const int& id,const string& name);
     int GetUserId() const;
-    ~User(){};
+    ~User();
 protected:
 private:
     string name;

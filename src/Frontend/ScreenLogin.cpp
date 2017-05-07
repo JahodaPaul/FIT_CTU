@@ -29,26 +29,7 @@ int ScreenLogin::Run() {
     while(1)
     {
         key = wgetch(menu_win);
-        switch(key)
-        {	case KEY_UP:
-                if(highlight == 0)
-                    highlight = (int)(choices.size()-1);
-                else
-                    highlight--;
-                break;
-            case KEY_DOWN:
-                if(highlight == (int)(choices.size()-1))
-                    highlight = 0;
-                else
-                    highlight++;
-                break;
-            case 10:
-                userPressedEnter=true;
-                break;
-            default:
-                refresh();
-                break;
-        }
+        ReactToUserInput(key);
         PrintMenu(menu_win, highlight,choices,true,loginBoxWidth,loginBoxHeight,averageStringSizeLogin,0,(int)choices.size());
         if(userPressedEnter)
             break;
@@ -58,6 +39,28 @@ int ScreenLogin::Run() {
     endwin();
     system("clear");
     return highlight;
+}
+
+void ScreenLogin::KeyUp() {
+    if(highlight == 0)
+        highlight = (int)(choices.size()-1);
+    else
+        highlight--;
+}
+
+void ScreenLogin::KeyDown() {
+    if(highlight == (int)(choices.size()-1))
+        highlight = 0;
+    else
+        highlight++;
+}
+
+void ScreenLogin::Enter() {
+    userPressedEnter=true;
+}
+
+void ScreenLogin::OtherKey() {
+    refresh();
 }
 
 /// sets login screen choices (login ect) and calculates averages string size of vector choices for better looking UI

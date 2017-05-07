@@ -4,9 +4,6 @@
 
 #include "Connection.h"
 
-Connection::Connection() {
-
-}
 
 ///used for user login - connect to database and look if name and password match, assigns value to id
 bool Connection::Connect(const string &name,const string &password,int &id)
@@ -148,4 +145,12 @@ bool Connection::CheckForSQLInjection(string firstString,string secondString) co
         return true;
     }
     return false;
+}
+
+Connection::Connection() {
+
+}
+
+Connection::~Connection() {
+
 }

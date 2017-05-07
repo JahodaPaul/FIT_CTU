@@ -32,7 +32,7 @@ public:
         }
         return true;
     }
-
+    ~Recipe();
 
 protected:
 private:

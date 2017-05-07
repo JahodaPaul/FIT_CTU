@@ -5,6 +5,37 @@
 #include "Screen.h"
 
 /**
+ * when user presses key virtual method is called which is implemented based on Screen
+ * \param key which keyboard key user pressed
+ */
+void Screen::ReactToUserInput(const int &key) {
+    switch(key)
+    {
+        case KEY_UP://arrow up
+            KeyUp();
+            break;
+        case KEY_DOWN://arrow down
+            KeyDown();
+            break;
+        case KEY_LEFT://arrow left
+            KeyLeft();
+            break;
+        case KEY_RIGHT://arrow Down
+            KeyRight();
+            break;
+        case 10://enter
+            Enter();
+            break;
+        case KEY_BACKSPACE:
+            Backspace();
+            break;
+        default:
+            OtherKey();
+            break;
+    }
+}
+
+/**
  *
  * @param menu_win
  * @param highlight
@@ -49,108 +80,6 @@ void Screen::PrintMenu(WINDOW *menu_win, const int highlight,const vector<string
         y++;
     }
     wrefresh(menu_win);
-}
-
-/**
- * @param login
- * @param password
- * gets username nad password
- */
-void Screen::GetUserInfo(string &login, string &password) {
-    GetUserInputOneLine("login: ",login,false);
-    GetUserInputOneLine("password: ",password,true);
-}
-
-/**
- * Shows box in the middle of the screen where user types input
- * \param toBeShown string which is placed before user typed input
- * @param get
- * @param getPassword
- */
-void Screen::GetUserInputOneLine(string toBeShown,string &get,const bool getPassword)
-{
-    //variables---------------------------------------------------------------------------------------------------------
-    string temporaryString="";
-    highlight=10;
-    vector<string> shownToUser;
-    shownToUser.push_back(toBeShown);
-    userPressedEnter=false;
-    clear();
-    initscr();
-    noecho();
-    cbreak();
-    int width=25;
-    int height=3;
-    Frontend::middleStartX = (COLS - width) / 2;
-    Frontend::middleStartY = (LINES - height) / 3;
-    WINDOW *menu_win = newwin(height, width, middleStartY, middleStartX);
-    //------------------------------------------------------------------------------------------------------------------
-
-    keypad(menu_win, TRUE);
-    mvprintw(0, 0, "Press enter to confirm input.");
-    refresh();
-    PrintMenu(menu_win,highlight, shownToUser,true,width,height,20,0,(int)shownToUser.size());
-    while(1)
-    {
-        key = wgetch(menu_win);
-        switch(key)
-        {
-            case KEY_BACKSPACE:
-                //user deleted character
-                temporaryString="";
-                for(int i=0;i<(int)(get.length())-1;i++)
-                {
-                    temporaryString+=get[i];
-                }
-                get=temporaryString;
-                if(getPassword)
-                {
-                    temporaryString="";
-                    for(int i=0;i<(int)(get.length())-1;i++)
-                    {
-                        temporaryString+='*';
-                    }
-                }
-                shownToUser[0]=toBeShown+temporaryString;
-                menu_win = newwin(height, width, middleStartY, middleStartX);
-                keypad(menu_win, TRUE);
-                refresh();
-                break;
-            case 10:
-                userPressedEnter=true;
-                break;
-            default:
-                if((key>96 && key < 123) || (key > 64 && key < 91) || (key > 47 && key < 58))
-                {
-                    shownToUser[0]+=char(key);
-                    get+=char(key);
-                    if(getPassword)
-                    {
-                        temporaryString="";
-                        for(int i=0;i<(int)(get.length())-1;i++)
-                        {
-                            temporaryString+='*';
-                        }
-                        shownToUser[0]=toBeShown+temporaryString;
-                        shownToUser[0]+=(char)(key);
-                    }
-                    refresh();
-                }
-                break;
-        }
-        PrintMenu(menu_win,highlight, shownToUser,true,width,height,20,0,(int)shownToUser.size());
-        if(userPressedEnter)
-            break;
-    }
-    clrtoeol();
-    refresh();
-    endwin();
-}
-
-Screen::Screen() {
-    userPressedEnter=false;
-    highlight=0;
-    key=0;
 }
 
 /**
@@ -352,4 +281,14 @@ void Screen::OnlySelectedRangeOfStringsRemain(const T lowerbound, int &from, int
     highlight=0;
     AssignValueToVariableTo(to,(int)vectorOfStrings.size());
     changed=true;
+}
+
+Screen::Screen() {
+    userPressedEnter=false;
+    highlight=0;
+    key=0;
+}
+
+Screen::~Screen() {
+
 }

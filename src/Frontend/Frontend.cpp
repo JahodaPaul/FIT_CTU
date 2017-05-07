@@ -4,14 +4,17 @@
 #include "Frontend.h"
 #include "Screen.h"
 #include "ScreenLogin.h"
+#include "ScreenLoginPassword.h"
 #include "ScreenIngredients.h"
 #include "ScreenRecipes.h"
 #include "ScreenUserMenu.h"
 
 #define SCREEN_LOGIN_MENU 0
-#define SCREEN_USER_MENU 1
-#define SCREEN_INGREDIENTS 2
-#define SCREEN_RECIPES 3
+#define SCREEN_LOGIN_PASSWORD 1
+#define SCREEN_USER_MENU 2
+#define SCREEN_INGREDIENTS 3
+#define SCREEN_RECIPES 4
+
 
 /// The main Frontend functions from which all Screens are created
 void Frontend::Run(Connection &c, Data & data) {
@@ -30,12 +33,14 @@ void Frontend::Run(Connection &c, Data & data) {
         int choice = screen->Run();
         if(choice==0)
         {
-            screen->GetUserInfo(login,password);
+            switchScreens(SCREEN_LOGIN_PASSWORD,screen);
+            screen->Run(login,password);
             loggedIn = c.Connect(login, password,userID);
         }
         else if(choice==1)
         {
-            screen->GetUserInfo(login,password);
+            switchScreens(SCREEN_LOGIN_PASSWORD,screen);
+            screen->Run(login,password);
             loggedIn = c.Register(login,password,userID);
         }
         else
@@ -52,8 +57,6 @@ void Frontend::Run(Connection &c, Data & data) {
     if(showOrCreateRecipe){
 
     }
-
-
 
     /// at the end of program delete Screen instances
     if(screen!=NULL)
@@ -75,6 +78,9 @@ void Frontend::switchScreens(const int screenChoice,Screen *&currentScreen) {
             break;
         case SCREEN_RECIPES:
             currentScreen = new ScreenRecipes();
+            break;
+        case SCREEN_LOGIN_PASSWORD:
+            currentScreen = new ScreenLoginPassword();
             break;
         default:
             return;
