@@ -148,7 +148,9 @@ void Screen::GetUserInputOneLine(string toBeShown,string &get,const bool getPass
 }
 
 Screen::Screen() {
-
+    userPressedEnter=false;
+    highlight=0;
+    key=0;
 }
 
 /**

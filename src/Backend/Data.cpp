@@ -155,7 +155,7 @@ Recipe& Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
     int max=0;
     typedef map<int, vector<Recipe *> >::iterator it_type;
     it_type it;
-    for(it_type iterator = mapOfUsersAndRecipesTheyLiked.begin(); iterator != mapOfUsersAndRecipesTheyLiked.end(); iterator++){
+    for(it_type iterator = mapOfUsersAndRecipesTheyLiked.begin(); iterator != mapOfUsersAndRecipesTheyLiked.end(); ++iterator){
         if((*iterator).first== userID)
         {
             continue;

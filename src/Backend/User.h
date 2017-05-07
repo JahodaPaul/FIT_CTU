@@ -11,8 +11,8 @@ using namespace std;
 
 class User{
 public:
-    User(int id,string name);
-    int GetUserId();
+    User(const int& id,const string& name);
+    int GetUserId() const;
     ~User(){};
 protected:
 private:

@@ -16,8 +16,8 @@ class Connection
 {
 public:
     Connection();
-    bool Connect(string,string,int &id);
-    bool Register(string,string,int &id);
+    bool Connect(const string&,const string&,int &id);
+    bool Register(const string&,const string&,int &id);
     result query(const string sql);
 private:
     bool CheckForSQLInjection(string,string) const;

@@ -5,13 +5,13 @@
 #include "User.h"
 
 
-User::User(int id,string name){
+User::User(const int& id,const string& name){
     this->id=id;
     this->name=name;
 }
 
 /// \return integer user id
-int User::GetUserId()
+int User::GetUserId() const
 {
     return this->id;
 }

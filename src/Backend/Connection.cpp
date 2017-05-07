@@ -9,7 +9,7 @@ Connection::Connection() {
 }
 
 ///used for user login - connect to database and look if name and password match, assigns value to id
-bool Connection::Connect(string name,string password,int &id)
+bool Connection::Connect(const string &name,const string &password,int &id)
 {
     try{
         if(CheckForSQLInjection(name,password))
@@ -50,7 +50,7 @@ bool Connection::Connect(string name,string password,int &id)
 }
 
 /// if registered name does not exist in database, inserts it into database, assigns value to id
-bool Connection::Register(string name, string password,int &id) {
+bool Connection::Register(const string &name, const string &password,int &id) {
     try{
         if(CheckForSQLInjection(name,password))
         {

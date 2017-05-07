@@ -19,7 +19,7 @@ public:
     void Run(Connection & c, Data & data);
     void RunIngridientSelection(const map<string,string>&);
 protected:
-    bool Contain(const vector<string>& arr, const string lookingFor) const;
+    bool Contain(const vector<string>& arr, const string& lookingFor) const;
     void AssignValueToVariableTo(int &to,const int &sizeOfVector);
 
     template <class TRIDA>

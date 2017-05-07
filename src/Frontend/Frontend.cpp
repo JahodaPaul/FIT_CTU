@@ -50,7 +50,7 @@ void Frontend::Run(Connection &c, Data & data) {
 /**
  * \return true if string exists in vector of string
  */
-bool Frontend::Contain(const vector<string> &arr,const string lookingFor) const {
+bool Frontend::Contain(const vector<string> &arr,const string &lookingFor) const {
     for(auto const &item : arr) {
         if(item==lookingFor)
         {
