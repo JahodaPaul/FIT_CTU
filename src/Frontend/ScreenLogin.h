@@ -14,7 +14,7 @@ public:
     ScreenLogin();
     ~ScreenLogin();
     int Run();
-    int Run(const map<string, string> & mapa){return 0;}
+    int Run(const map<string, string> & mapa, vector<string> &){return 0;}
 protected:
 private:
     /// \property login screen choices - login, register, exit

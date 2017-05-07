@@ -12,7 +12,7 @@ class ScreenIngredients : public Screen
 public:
     ScreenIngredients();
     ~ScreenIngredients();
-    int Run(const map<string, string> & mapa);
+    int Run(const map<string, string> & mapa, vector<string> &);
     int Run(){return 0;}
 protected:
 private:

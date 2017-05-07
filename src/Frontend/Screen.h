@@ -13,7 +13,7 @@ public:
     Screen();
     virtual ~Screen(){}
     virtual int Run(){return 0;}
-    virtual int Run(const map<string, string> & mapa){return 0;}
+    virtual int Run(const map<string, string> & mapa,vector<string> &){return 0;}
     void GetUserInfo(string &login, string &password);
 
 protected:

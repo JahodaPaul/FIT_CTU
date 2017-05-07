@@ -2,6 +2,8 @@
 // Created by pjahoda on 4/21/17.
 //
 
+
+
 #ifndef RECIPE_MANAGER_FRONTEND_H
 #define RECIPE_MANAGER_FRONTEND_H
 
@@ -11,6 +13,7 @@
 #include <iostream>
 #include <string>
 
+class Screen;
 class Frontend
 {
 public:
@@ -28,6 +31,7 @@ protected:
     int middleStartX;
     int middleStartY;
 private:
+    void switchScreens(const int screenChoice,Screen *& currentScreen);
 
 };
 

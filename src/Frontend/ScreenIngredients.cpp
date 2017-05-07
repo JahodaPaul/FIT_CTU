@@ -10,7 +10,7 @@
  * @param mapa
  * \return 0 if user pressed backspace and 1 if user is done selecting ingredients
  */
-int ScreenIngredients::Run(const map<string, string> & mapa) {
+int ScreenIngredients::Run(const map<string, string> & mapa,vector<string> & pickedIngridients) {
     //variables---------------------------------------------------------------------------------------------------------
     highlight=0;
     userPressedEnter=false;
@@ -28,7 +28,6 @@ int ScreenIngredients::Run(const map<string, string> & mapa) {
     WINDOW *menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
     WINDOW *menuWinPickedIngridients = newwin(pickedIngridientsBoxHeight,pickedIngridientsBoxWidth,pickedIngridientsStarty,pickedIngridientsStartx);
     vector<string> options;
-    vector<string> pickedIngridients;
     //------------------------------------------------------------------------------------------------------------------
 
     clear();

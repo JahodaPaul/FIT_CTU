@@ -5,29 +5,37 @@
 #include "Screen.h"
 #include "ScreenLogin.h"
 #include "ScreenIngredients.h"
+#include "ScreenRecipes.h"
+#include "ScreenUserMenu.h"
+
+#define SCREEN_LOGIN_MENU 0
+#define SCREEN_USER_MENU 1
+#define SCREEN_INGREDIENTS 2
+#define SCREEN_RECIPES 3
 
 /// The main Frontend functions from which all Screens are created
 void Frontend::Run(Connection &c, Data & data) {
     //variables---------------------------------------------------------------------------------------------------------
-    Screen * loginScreen = new ScreenLogin();
-    Screen * ingredientScreen = new ScreenIngredients();
+    Screen * screen = NULL;
     bool loggedIn=false;//,downloadedData=false;
-    int userID=0;
+    int userID=0,showOrCreateRecipe=0;
     string loginOrRegister="",login="",password="";
+    vector<string> pickedIngredients;
     //------------------------------------------------------------------------------------------------------------------
 
     while(!loggedIn)
     {
         login="";password="";
-        int choice = loginScreen->Run();
+        switchScreens(SCREEN_LOGIN_MENU,screen);
+        int choice = screen->Run();
         if(choice==0)
         {
-            loginScreen->GetUserInfo(login,password);
+            screen->GetUserInfo(login,password);
             loggedIn = c.Connect(login, password,userID);
         }
         else if(choice==1)
         {
-            loginScreen->GetUserInfo(login,password);
+            screen->GetUserInfo(login,password);
             loggedIn = c.Register(login,password,userID);
         }
         else
@@ -39,12 +47,40 @@ void Frontend::Run(Connection &c, Data & data) {
 
     ProgressBar(&data,&Data::GetDataFromDatabase,18);
     //downloadedData=true;
-    ingredientScreen->Run(data.GetMapOfIngridients());
+    switchScreens(SCREEN_INGREDIENTS,screen);
+    showOrCreateRecipe=screen->Run(data.GetMapOfIngridients(),pickedIngredients);
+    if(showOrCreateRecipe){
+
+    }
+
 
 
     /// at the end of program delete Screen instances
-    delete loginScreen;
-    delete ingredientScreen;
+    if(screen!=NULL)
+        delete screen;
+}
+
+void Frontend::switchScreens(const int screenChoice,Screen *&currentScreen) {
+    Screen *tmpScreen = currentScreen;
+    switch (screenChoice)
+    {
+        case SCREEN_LOGIN_MENU:
+            currentScreen = new ScreenLogin();
+            break;
+        case SCREEN_USER_MENU:
+            currentScreen = new ScreenUserMenu();
+            break;
+        case SCREEN_INGREDIENTS:
+            currentScreen = new ScreenIngredients();
+            break;
+        case SCREEN_RECIPES:
+            currentScreen = new ScreenRecipes();
+            break;
+        default:
+            return;
+    }
+    if(tmpScreen!=NULL)
+        delete tmpScreen;
 }
 
 /**

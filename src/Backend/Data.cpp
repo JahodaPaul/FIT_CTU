@@ -198,6 +198,6 @@ void Data::CreateNewUser(User * user1)
 {
     if(this->user==NULL)
     {
-        user=user1;
+        this->user=user1;
     }
 }
