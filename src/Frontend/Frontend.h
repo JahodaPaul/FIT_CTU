@@ -23,7 +23,7 @@ public:
     void RunIngridientSelection(const map<string,string>&);
 protected:
     bool Contain(const vector<string>& arr, const string& lookingFor) const;
-    void AssignValueToVariableTo(int &to,const int &sizeOfVector);
+    void AssignValueToVariableTo(int &to,const int &sizeOfVector, const int & boxSize);
 
     template <class TRIDA>
     void ProgressBar(TRIDA *d,void (TRIDA::*function)(int),const int max);

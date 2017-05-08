@@ -29,10 +29,10 @@ protected:
     bool userPressedEnter;
     int highlight;
     void PrintMenu(WINDOW *menu_win, const int highlight,const vector<string>& choices,const bool center,const int& boxWidth,const int& boxHeight,const int &averageStringSize,const int& from,const int& to);
-    void PrintUserTypedIngredient(string &,vector<string> &,bool newChar,const map<string,string> &,int &from,int &to,int &highlight,int &selected);
+    void PrintUserTypedIngredient(string &,vector<string> &,bool newChar,const map<string,string> &,int &from,int &to,int &highlight,int &selected, const int & boxSize);
     template <class T>
-    void OnlySelectedRangeOfStringsRemain(const T lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings,const T higherbound, bool &changed);
-    void OnlySelectedRangeOfStringsRemain(const unsigned int lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings, const unsigned int higherbound, bool &changed);
+    void OnlySelectedRangeOfStringsRemain(const T lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings,const T higherbound, bool &changed, const int & boxSize);
+    void OnlySelectedRangeOfStringsRemain(const unsigned int lowerbound,int &from,int &to,int &highlight,vector<string> &vectorOfStrings, const unsigned int higherbound, bool &changed, const int & boxSize);
 
 private:
 };

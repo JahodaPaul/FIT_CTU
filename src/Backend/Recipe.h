@@ -16,7 +16,7 @@ class Recipe
 public:
     Recipe(vector<string> ingredients, vector<int> ingredientWeight, int idRecipe);
     int HowMuchAreRecipesSame(const Recipe &);
-
+    string ToString();
     bool operator==(Recipe & r)
     {
         for(unsigned int i=0;i<this->ingredients.size();i++)

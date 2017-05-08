@@ -96,7 +96,7 @@ void Screen::PrintMenu(WINDOW *menu_win, const int highlight,const vector<string
  * for example: users types character A, so only strings that begin with character A remain in vector of strings arr
  * it also reacts to character deletion using backspace and string selection using enter
  */
-void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap,int &from, int &to,int &highlight,int &selected) {
+void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar,const map<string,string>& myMap,int &from, int &to,int &highlight,int &selected, const int & boxHeight) {
     unsigned int wordLenght = s.length();
     bool found=false;
     bool changed=false;
@@ -131,12 +131,12 @@ void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar
             {
                 if(arr[i].length() < wordLenght)
                 {
-                    OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,i,changed);
+                    OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,i,changed,boxHeight);
                     break;
                 }
                 if(s[index]!=arr[i][index])
                 {
-                    OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,i,changed);
+                    OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,i,changed,boxHeight);
                     break;
                 }
             }
@@ -158,7 +158,7 @@ void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar
         }
         else if(found && !changed)
         {
-            OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,arr.size(),changed);
+            OnlySelectedRangeOfStringsRemain(lowerBound,from,to,highlight,arr,arr.size(),changed,boxHeight);
         }
         //--------------------------------------------------------------------------------------------------------------
     }
@@ -189,7 +189,7 @@ void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar
             }
             from=0;
             highlight=0;
-            AssignValueToVariableTo(to,(int)arr.size());
+            AssignValueToVariableTo(to,(int)arr.size(),boxHeight);
             return;
         }
         //--------------------------------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar
             {
                 if(iterator->first.length() < wordLenght)
                 {
-                    OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,iterator,changed);
+                    OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,iterator,changed,boxHeight);
                     break;
                 }
                 bool b=true;
@@ -215,7 +215,7 @@ void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar
                 }
                 if(!b)
                 {
-                    OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,iterator,changed);
+                    OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,iterator,changed,boxHeight);
                     break;
                 }
             }
@@ -246,14 +246,14 @@ void Screen::PrintUserTypedIngredient(string &s,vector<string>& arr,bool newChar
         }
         else if(found && !changed)
         {
-            OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,myMap.end(),changed);
+            OnlySelectedRangeOfStringsRemain(lowerbound,from,to,highlight,arr,myMap.end(),changed,boxHeight);
         }
         //--------------------------------------------------------------------------------------------------------------
     }
 }
 
 /// used by PrintUserTypedIngredient function so only range of strings remain in vector of strings
-void Screen::OnlySelectedRangeOfStringsRemain(const unsigned int lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings, const unsigned int higherbound, bool &changed) {
+void Screen::OnlySelectedRangeOfStringsRemain(const unsigned int lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings, const unsigned int higherbound, bool &changed, const int & boxSize) {
     vector<string> tmp;
     for (unsigned int i = lowerbound; i != higherbound; ++i)
     {
@@ -263,13 +263,13 @@ void Screen::OnlySelectedRangeOfStringsRemain(const unsigned int lowerbound, int
     vectorOfStrings=tmp;
     from=0;
     highlight=0;
-    AssignValueToVariableTo(to,(int)vectorOfStrings.size());
+    AssignValueToVariableTo(to,(int)vectorOfStrings.size(),boxSize);
     changed=true;
 }
 
 /// used by PrintUserTypedIngredient function so only range of strings remain in vector of strings
 template<class T>
-void Screen::OnlySelectedRangeOfStringsRemain(const T lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings,const T higherbound, bool &changed) {
+void Screen::OnlySelectedRangeOfStringsRemain(const T lowerbound, int &from, int &to, int &highlight, vector<string> &vectorOfStrings,const T higherbound, bool &changed, const int & boxSize) {
     vector<string> tmp;
     for (T i = lowerbound; i != higherbound; ++i)
     {
@@ -279,7 +279,7 @@ void Screen::OnlySelectedRangeOfStringsRemain(const T lowerbound, int &from, int
     vectorOfStrings=tmp;
     from=0;
     highlight=0;
-    AssignValueToVariableTo(to,(int)vectorOfStrings.size());
+    AssignValueToVariableTo(to,(int)vectorOfStrings.size(),boxSize);
     changed=true;
 }
 

@@ -23,14 +23,15 @@ public:
     void Enter();
     void OtherKey();
 protected:
-private:
+    int ingridientBoxHeight,ingridientBoxWidth,ingridientStartx,ingridientStarty;
+    int pickedIngridientsBoxHeight,pickedIngridientsBoxWidth,pickedIngridientsStartx,pickedIngridientsStarty;
+
     void RefreshWholeWindow(WINDOW *menu_win);
     void PrintTextInfoForUser() const;
 
     string ingredientSelectionString;
     int from,to,picked,selected;
-    int ingridientBoxHeight,ingridientBoxWidth,ingridientStartx,ingridientStarty;
-    int pickedIngridientsBoxHeight,pickedIngridientsBoxWidth,pickedIngridientsStartx,pickedIngridientsStarty;
+
 
     WINDOW *menu_win;
     WINDOW *menuWinPickedIngridients;
@@ -40,6 +41,8 @@ private:
     vector<string> myPickedIngridients;
     vector<string> options;
     const map<string, string> * myMap;
+private:
+
 };
 
 #endif //RECIPE_MANAGER_SCREENINGREDIENTS_H

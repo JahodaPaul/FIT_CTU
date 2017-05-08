@@ -7,7 +7,6 @@
 
 /**
  * calculates percentage of same ingredients
- * @param recipe1
  * @param recipe2
  * \return integer percentage
  */
@@ -45,6 +44,32 @@ int Recipe::HowMuchAreRecipesSame(const Recipe & recipe2)
     }
     percentage=(100*nOfSameIngredients)/9;
     return percentage;
+}
+
+///converts vector of ingredients into string presented to user
+string Recipe::ToString() {
+    string result="";
+    unsigned int cnt=0;
+    for (const string& ingredient : ingredients) {
+        cnt++;
+        if(cnt>4)
+            return result;
+
+        if(cnt>2 && ingredient!="#")
+        {
+            result+="and ";
+        }
+        else if(cnt==2 && ingredient!="#")
+        {
+            result+="with ";
+        }
+        if(ingredient!="#")
+        {
+            result+=ingredient;
+            result+=' ';
+        }
+    }
+    return result;
 }
 
 Recipe::Recipe(vector <string> ingredients, vector<int> ingredientWeight, int idRecipe)

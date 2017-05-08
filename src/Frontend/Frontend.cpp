@@ -24,6 +24,7 @@ void Frontend::Run(Connection &c, Data & data) {
     int userID=0,showOrCreateRecipe=0;
     string loginOrRegister="",login="",password="";
     vector<string> pickedIngredients;
+    vector<string> recommendedRecipeVector;
     //------------------------------------------------------------------------------------------------------------------
 
     while(!loggedIn)
@@ -55,7 +56,15 @@ void Frontend::Run(Connection &c, Data & data) {
     switchScreens(SCREEN_INGREDIENTS,screen);
     showOrCreateRecipe=screen->Run(data.GetMapOfIngridients(),pickedIngredients);
     if(showOrCreateRecipe){
-
+        data.GetRecipesBySelectedIngredients(pickedIngredients);
+        data.CreateRecipeBasedOnIngredientsSelected(pickedIngredients);
+        string recommendedRecipe = data.GetRecommendedRecipe((*data.GetRecipe()),data.GetUser()->GetUserId());
+        data.DeleteRecipeBasedOnIngredients();
+        recommendedRecipeVector.push_back(recommendedRecipe);
+        switchScreens(SCREEN_RECIPES,screen);
+        //TODO MAYBE?
+        screen->Run(data.GetMapOfRecipes(),recommendedRecipeVector);
+        //screen->Run();
     }
 
     /// at the end of program delete Screen instances
@@ -103,10 +112,10 @@ bool Frontend::Contain(const vector<string> &arr,const string &lookingFor) const
 }
 
 /// Variable to is used to determinate how many strings to show in WINDOW Box
-void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector) {
-    if(sizeOfVector>(LINES-5)-3)///TODO do not hardcode it
+void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector, const int & boxSize) {
+    if(sizeOfVector>(boxSize)-3)///TODO do not hardcode it
     {
-        to=(LINES-5)-3;
+        to=(boxSize)-3;
     }
     else
     {

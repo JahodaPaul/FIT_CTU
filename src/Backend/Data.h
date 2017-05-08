@@ -15,20 +15,36 @@ class Data : public Connection
 public:
     Data();
     void GetDataFromDatabase(const int);
+    void GetRecipesBySelectedIngredients(const vector<string> & selectedIngredients);
     map<string,string>& GetMapOfIngridients();
-    Recipe& GetRecommendedRecipe(const Recipe& recipe, const int userID);
+    map<string,string>& GetMapOfRecipes();
+    string GetRecommendedRecipe(const Recipe& recipe, const int userID);
     ~Data();
     User * GetUser();
     void CreateNewUser(User * user1);
+
+    void CreateRecipeBasedOnIngredientsSelected(const vector<string> & selectedIngredients);
+    Recipe * GetRecipe();
+    void DeleteRecipeBasedOnIngredients();
+
+
 protected:
 private:
     void CopyIntoMap(const pqxx::result &,const string,map<string,string> &);
     void CopyIntoMapRecipes(const pqxx::result &,map<int,vector<Recipe*> > &);
+    void FindItInAMapOfIngredients(string category,vector<string> & ingredients,const vector <string> &selectedIngredients);
+
     map<string,string> beveragesAndCategory;
     map<string,string> foodNameAndCategory;
     map<int,vector<Recipe *> > mapOfUsersAndRecipesTheyLiked;
+
     User * user;
 
+    vector<Recipe *> recipesSelectByIngredients;
+    map<string,string> recipesString;
+
+    Recipe * recipe;
+    Recipe * recommendedRecipe;
 };
 
 #endif //RECIPE_MANAGER_DATA_H
