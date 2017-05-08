@@ -15,6 +15,7 @@ int ScreenLogin::Run() {
     userPressedEnter=false;
     clear();
     initscr();
+    start_color();// makes it a little bit brighter
     noecho();
     cbreak();
     Frontend::middleStartX = (COLS - loginBoxWidth) / 2;

@@ -47,12 +47,12 @@ int Recipe::HowMuchAreRecipesSame(const Recipe & recipe2)
 }
 
 ///converts vector of ingredients into string presented to user
-string Recipe::ToString() {
+string Recipe::ToString(const int & screenWidth) {
     string result="";
     unsigned int cnt=0;
     for (const string& ingredient : ingredients) {
         cnt++;
-        if(cnt>4)
+        if(cnt>4 || (int)(result.length()+7+ingredient.length() ) >= screenWidth)
             return result;
 
         if(cnt>2 && ingredient!="#")
@@ -63,10 +63,15 @@ string Recipe::ToString() {
         {
             result+="with ";
         }
+
         if(ingredient!="#")
         {
             result+=ingredient;
             result+=' ';
+        }
+        else
+        {
+            cnt--;
         }
     }
     return result;

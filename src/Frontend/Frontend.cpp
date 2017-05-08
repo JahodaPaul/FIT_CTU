@@ -49,6 +49,8 @@ void Frontend::Run(Connection &c, Data & data) {
             return;
         }
     }
+
+    data.UpdateScreenWidth(COLS);
     data.CreateNewUser(new User(userID,login));
 
     ProgressBar(&data,&Data::GetDataFromDatabase,18);

@@ -27,7 +27,7 @@ public:
     Recipe * GetRecipe();
     void DeleteRecipeBasedOnIngredients();
 
-
+    void UpdateScreenWidth(const int width);
 protected:
 private:
     void CopyIntoMap(const pqxx::result &,const string,map<string,string> &);
@@ -45,6 +45,8 @@ private:
 
     Recipe * recipe;
     Recipe * recommendedRecipe;
+
+    int screenWidth;
 };
 
 #endif //RECIPE_MANAGER_DATA_H

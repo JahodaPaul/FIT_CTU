@@ -22,7 +22,7 @@ public:
     //void Backspace(){};
     void Enter();
     //void OtherKey(){};
-
+    virtual void PrintTextInfoForUser() const;
 protected:
 private:
 };

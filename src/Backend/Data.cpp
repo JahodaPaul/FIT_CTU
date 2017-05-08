@@ -183,7 +183,7 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
         }
     }
     this->recommendedRecipe=p;
-    return (*p).ToString();
+    return (*p).ToString(this->screenWidth);
 }
 
 /**
@@ -250,7 +250,7 @@ void Data::GetRecipesBySelectedIngredients(const vector <string> &selectedIngred
             weights.push_back(c[j].as<int>());
         }
         recipesSelectByIngredients.push_back(new Recipe(ingredients,weights,idRecipe));
-        string recipeString=recipesSelectByIngredients.back()->ToString();
+        string recipeString=recipesSelectByIngredients.back()->ToString(this->screenWidth);
         recipesString.insert(make_pair(recipeString,""));
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -290,7 +290,9 @@ void Data::FindItInAMapOfIngredients(string category,vector<string> & ingredient
             return;
         }
     }
-    ingredients.push_back("#");
+    // should not be # as it would mean user does not want meat for example,
+    // but user just might want something more than meat
+    ingredients.push_back(".");
 }
 
 /// \return pointer to recipe created by selected ingredients
@@ -320,6 +322,10 @@ void Data::CreateNewUser(User * user1)
     {
         this->user=user1;
     }
+}
+
+void Data::UpdateScreenWidth(const int width) {
+    screenWidth=width;
 }
 
 ///DO NOT delete recommended recipe as it points to recipe in vector of recipes which will deleted separately

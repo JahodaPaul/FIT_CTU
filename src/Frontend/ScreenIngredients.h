@@ -27,7 +27,7 @@ protected:
     int pickedIngridientsBoxHeight,pickedIngridientsBoxWidth,pickedIngridientsStartx,pickedIngridientsStarty;
 
     void RefreshWholeWindow(WINDOW *menu_win);
-    void PrintTextInfoForUser() const;
+    virtual void PrintTextInfoForUser() const;
 
     string ingredientSelectionString;
     int from,to,picked,selected;
