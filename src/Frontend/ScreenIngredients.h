@@ -15,6 +15,8 @@ public:
     int Run(const map<string, string> & mapa, vector<string> &);
     int Run(){return 0;}
     void Run(string &, string &){};
+    void AssignData(Data & data){myData=&data;};
+
     void KeyUp();
     void KeyDown();
     void KeyLeft(){};
@@ -23,8 +25,8 @@ public:
     void Enter();
     void OtherKey();
 protected:
-    int ingridientBoxHeight,ingridientBoxWidth,ingridientStartx,ingridientStarty;
-    int pickedIngridientsBoxHeight,pickedIngridientsBoxWidth,pickedIngridientsStartx,pickedIngridientsStarty;
+    int firstWindowHeight,firstWindowWidth,firstWindowStartX,firstWindowStartY;
+    int secondWindowHeight,secondWindowWidth,secondWindowStartX,secondWindowStartY;
 
     void RefreshWholeWindow(WINDOW *menu_win);
     virtual void PrintTextInfoForUser() const;
@@ -42,7 +44,7 @@ protected:
     vector<string> options;
     const map<string, string> * myMap;
 private:
-
+    Data * myData;
 };
 
 #endif //RECIPE_MANAGER_SCREENINGREDIENTS_H

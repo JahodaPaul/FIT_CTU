@@ -20,19 +20,19 @@ void ScreenRecipes::PrintTextInfoForUser() const {
     mvprintw(2,0,s.c_str());
 
     attron(A_BOLD);
-    mvprintw(pickedIngridientsStarty-1,1,"You might like this recipe: ");
+    mvprintw(secondWindowStartY-1,1,"You might like this recipe: ");
     attroff(A_BOLD);
 }
 
 ScreenRecipes::ScreenRecipes() {
-    ingridientBoxHeight= LINES-9;
-    ingridientBoxWidth=COLS;
-    ingridientStartx = 0;
-    ingridientStarty = LINES-ingridientBoxHeight-6;
-    pickedIngridientsBoxHeight=3;
-    pickedIngridientsBoxWidth=ingridientBoxWidth;
-    pickedIngridientsStartx=0;
-    pickedIngridientsStarty=ingridientStarty+ingridientBoxHeight+2;
+    firstWindowHeight= LINES-9;
+    firstWindowWidth=COLS;
+    firstWindowStartX = 0;
+    firstWindowStartY = LINES-firstWindowHeight-6;
+    secondWindowHeight=3;
+    secondWindowWidth=firstWindowWidth;
+    secondWindowStartX=0;
+    secondWindowStartY=firstWindowStartY+firstWindowHeight+2;
 }
 
 ScreenRecipes::~ScreenRecipes() {

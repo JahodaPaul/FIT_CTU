@@ -30,6 +30,7 @@ protected:
 
     int middleStartX;
     int middleStartY;
+
 private:
     void switchScreens(const int screenChoice,Screen *& currentScreen);
 

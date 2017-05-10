@@ -26,8 +26,11 @@ public:
     void CreateRecipeBasedOnIngredientsSelected(const vector<string> & selectedIngredients);
     Recipe * GetRecipe();
     void DeleteRecipeBasedOnIngredients();
+    void DeleteRecipesRetrievedFromDatabase();
 
     void UpdateScreenWidth(const int width);
+
+
 protected:
 private:
     void CopyIntoMap(const pqxx::result &,const string,map<string,string> &);

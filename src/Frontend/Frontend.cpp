@@ -56,9 +56,9 @@ void Frontend::Run(Connection &c, Data & data) {
     ProgressBar(&data,&Data::GetDataFromDatabase,18);
     //downloadedData=true;
     switchScreens(SCREEN_INGREDIENTS,screen);
+    screen->AssignData(data);
     showOrCreateRecipe=screen->Run(data.GetMapOfIngridients(),pickedIngredients);
     if(showOrCreateRecipe){
-        data.GetRecipesBySelectedIngredients(pickedIngredients);
         data.CreateRecipeBasedOnIngredientsSelected(pickedIngredients);
         string recommendedRecipe = data.GetRecommendedRecipe((*data.GetRecipe()),data.GetUser()->GetUserId());
         data.DeleteRecipeBasedOnIngredients();
@@ -66,7 +66,6 @@ void Frontend::Run(Connection &c, Data & data) {
         switchScreens(SCREEN_RECIPES,screen);
         //TODO MAYBE?
         screen->Run(data.GetMapOfRecipes(),recommendedRecipeVector);
-        //screen->Run();
     }
 
     /// at the end of program delete Screen instances
@@ -181,7 +180,6 @@ void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),const int max)
 }
 
 Frontend::Frontend() {
-
 }
 
 Frontend::~Frontend() {

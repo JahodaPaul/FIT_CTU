@@ -15,6 +15,8 @@ public:
     virtual int Run(){return 0;}
     virtual int Run(const map<string, string> & mapa,vector<string> &){return 0;}
     virtual void Run(string &, string &){};
+    virtual void AssignData(Data & data){};
+
     void ReactToUserInput(const int &key);
     virtual void KeyUp(){};
     virtual void KeyDown(){};

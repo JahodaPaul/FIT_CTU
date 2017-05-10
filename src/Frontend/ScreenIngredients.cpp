@@ -17,8 +17,8 @@ int ScreenIngredients::Run(const map<string, string> & mapa,vector<string> & pic
     userPressedDoubleEnter=false;finishSelection=false;
     from=0;to=0;picked=0;selected=0;
     ingredientSelectionString="";
-    menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
-    menuWinPickedIngridients = newwin(pickedIngridientsBoxHeight,pickedIngridientsBoxWidth,pickedIngridientsStarty,pickedIngridientsStartx);
+    menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
+    menuWinPickedIngridients = newwin(secondWindowHeight,secondWindowWidth,secondWindowStartY,secondWindowStartX);
     options.clear();
     this->myMap=&mapa;
     this->myPickedIngridients=pickedIngridients;
@@ -37,16 +37,16 @@ int ScreenIngredients::Run(const map<string, string> & mapa,vector<string> & pic
     PrintTextInfoForUser();
     keypad(menu_win, TRUE);
     refresh();
-    AssignValueToVariableTo(to,(int)options.size(),ingridientBoxHeight);
-    PrintMenu(menu_win, highlight,options,false,ingridientBoxWidth,ingridientBoxHeight,0,from,to);
-    PrintMenu(menuWinPickedIngridients,-1,myPickedIngridients,false,pickedIngridientsBoxWidth,pickedIngridientsBoxHeight,0,0,picked);
+    AssignValueToVariableTo(to,(int)options.size(),firstWindowHeight);
+    PrintMenu(menu_win, highlight,options,false,firstWindowWidth,firstWindowHeight,0,from,to);
+    PrintMenu(menuWinPickedIngridients,-1,myPickedIngridients,false,secondWindowWidth,secondWindowHeight,0,0,picked);
 
 
     while(1)
     {
         key = wgetch(menu_win);
         ReactToUserInput(key);
-        PrintMenu(menu_win, highlight,options,false,ingridientBoxWidth,ingridientBoxHeight,0,from,to);
+        PrintMenu(menu_win, highlight,options,false,firstWindowWidth,firstWindowHeight,0,from,to);
         if(finishSelection)
             break;
     }
@@ -73,13 +73,13 @@ void ScreenIngredients::KeyUp() {
         int diff=to-from;
         to=options.size();
         from=to-diff;
-        menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+        menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
         RefreshWholeWindow(menu_win);
     }
     else {
         highlight--;
         if(from>highlight) {
-            menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+            menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
             RefreshWholeWindow(menu_win);
             from--;
             to--;
@@ -94,13 +94,13 @@ void ScreenIngredients::KeyDown() {
         int diff=to-from;
         from=0;
         to=diff;
-        menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+        menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
         RefreshWholeWindow(menu_win);
     }
     else {
         highlight++;
         if(highlight==to) {
-            menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+            menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
             RefreshWholeWindow(menu_win);
             from++;
             to++;
@@ -110,8 +110,8 @@ void ScreenIngredients::KeyDown() {
 
 void ScreenIngredients::Enter() {
     ingredientSelectionString="";
-    PrintUserTypedIngredient(ingredientSelectionString,options,false,*myMap,from,to,highlight,selected,ingridientBoxHeight);
-    menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+    PrintUserTypedIngredient(ingredientSelectionString,options,false,*myMap,from,to,highlight,selected,firstWindowHeight);
+    menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
     RefreshWholeWindow(menu_win);
     if(userPressedEnter)
     {
@@ -121,10 +121,12 @@ void ScreenIngredients::Enter() {
     else
     {
         if(!Contain(myPickedIngridients,options[selected])) {
+            myData->DeleteRecipesRetrievedFromDatabase();
             picked++;
             myPickedIngridients.push_back(options[selected]);
+            myData->GetRecipesBySelectedIngredients(myPickedIngridients);
         }
-        PrintMenu(menuWinPickedIngridients,-1,myPickedIngridients,false,pickedIngridientsBoxWidth,pickedIngridientsBoxHeight,0,0,picked);
+        PrintMenu(menuWinPickedIngridients,-1,myPickedIngridients,false,secondWindowWidth,secondWindowHeight,0,0,picked);
     }
     userPressedEnter=!userPressedEnter;
 }
@@ -136,8 +138,8 @@ void ScreenIngredients::Backspace() {
         temporaryString+=ingredientSelectionString[i];
     }
     ingredientSelectionString=temporaryString;
-    PrintUserTypedIngredient(ingredientSelectionString,options,false,*myMap,from,to,highlight,selected,ingridientBoxHeight);
-    menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+    PrintUserTypedIngredient(ingredientSelectionString,options,false,*myMap,from,to,highlight,selected,firstWindowHeight);
+    menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
     RefreshWholeWindow(menu_win);
     if(userPressedEnter)
     {
@@ -149,8 +151,8 @@ void ScreenIngredients::Backspace() {
 void ScreenIngredients::OtherKey() {
     if((key>96 && key < 123) || (key > 64 && key < 91) || (key > 47 && key < 58))
         ingredientSelectionString+=(char)key;
-    PrintUserTypedIngredient(ingredientSelectionString,options,true,*myMap,from,to,highlight,selected,ingridientBoxHeight);
-    menu_win = newwin(ingridientBoxHeight, ingridientBoxWidth, ingridientStarty, ingridientStartx);
+    PrintUserTypedIngredient(ingredientSelectionString,options,true,*myMap,from,to,highlight,selected,firstWindowHeight);
+    menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
     RefreshWholeWindow(menu_win);
     userPressedEnter=false;
     refresh();
@@ -180,14 +182,14 @@ void ScreenIngredients::PrintTextInfoForUser() const {
 }
 
 ScreenIngredients::ScreenIngredients() {
-    ingridientBoxHeight= LINES-5;
-    ingridientBoxWidth=COLS-30;
-    ingridientStartx = 0;
-    ingridientStarty = LINES-ingridientBoxHeight;
-    pickedIngridientsBoxHeight=ingridientBoxHeight;
-    pickedIngridientsBoxWidth=COLS-ingridientBoxWidth;
-    pickedIngridientsStartx=ingridientBoxWidth;
-    pickedIngridientsStarty=ingridientStarty;
+    firstWindowHeight= LINES-5;
+    firstWindowWidth=COLS-30;
+    firstWindowStartX = 0;
+    firstWindowStartY = LINES-firstWindowHeight;
+    secondWindowHeight=firstWindowHeight;
+    secondWindowWidth=COLS-firstWindowWidth;
+    secondWindowStartX=firstWindowWidth;
+    secondWindowStartY=firstWindowStartY;
 }
 
 ScreenIngredients::~ScreenIngredients() {

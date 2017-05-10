@@ -192,6 +192,8 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
  * @param selectedIngredients
  */
 void Data::GetRecipesBySelectedIngredients(const vector <string> &selectedIngredients) {
+    int index=0;
+    string indexString="";
     //SQL statement-----------------------------------------------------------------------------------------------------
     string sql = "SELECT * FROM \"public\".\"recipes\" ";
     if(selectedIngredients.size() >= 1)
@@ -209,7 +211,6 @@ void Data::GetRecipesBySelectedIngredients(const vector <string> &selectedIngred
         if(it!=foodNameAndCategory.end()) {
             if(it->second=="vegetable")
             {
-                //( OR )
                 sql+='(';
                 sql+=it->second;
                 sql+='=';
@@ -251,9 +252,20 @@ void Data::GetRecipesBySelectedIngredients(const vector <string> &selectedIngred
         }
         recipesSelectByIngredients.push_back(new Recipe(ingredients,weights,idRecipe));
         string recipeString=recipesSelectByIngredients.back()->ToString(this->screenWidth);
-        recipesString.insert(make_pair(recipeString,""));
+        indexString=to_string(index);
+        recipesString.insert(make_pair(recipeString,indexString));
+        index++;
     }
     //------------------------------------------------------------------------------------------------------------------
+}
+
+/// deletes objects created by method GetRecipesBySelectedIngredients
+void Data::DeleteRecipesRetrievedFromDatabase() {
+    recipesString.clear();
+//    for(unsigned int i=0;i<recipesSelectByIngredients.size();++i){
+//        delete recipesSelectByIngredients[i];
+//    }
+//    recipesSelectByIngredients.clear();
 }
 
 void Data::CreateRecipeBasedOnIngredientsSelected(const vector <string> &selectedIngredients) {
