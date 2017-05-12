@@ -6,6 +6,11 @@
 
 void ScreenRecipes::Enter() {
     //TODO
+    string unusedString="";
+    PrintUserTypedIngredient(unusedString,options,false,*myMap,from,to,highlight,selected,firstWindowHeight);
+    auto it = myMap->find(options[selected]);
+    myPickedIngridients.clear();
+    myPickedIngridients.push_back(it->second);
     finishSelection=true;
 }
 

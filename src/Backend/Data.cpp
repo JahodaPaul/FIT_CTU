@@ -262,10 +262,10 @@ void Data::GetRecipesBySelectedIngredients(const vector <string> &selectedIngred
 /// deletes objects created by method GetRecipesBySelectedIngredients
 void Data::DeleteRecipesRetrievedFromDatabase() {
     recipesString.clear();
-//    for(unsigned int i=0;i<recipesSelectByIngredients.size();++i){
-//        delete recipesSelectByIngredients[i];
-//    }
-//    recipesSelectByIngredients.clear();
+    for(unsigned int i=0;i<recipesSelectByIngredients.size();++i){
+        delete recipesSelectByIngredients[i];
+    }
+    recipesSelectByIngredients.clear();
 }
 
 void Data::CreateRecipeBasedOnIngredientsSelected(const vector <string> &selectedIngredients) {
@@ -308,8 +308,14 @@ void Data::FindItInAMapOfIngredients(string category,vector<string> & ingredient
 }
 
 /// \return pointer to recipe created by selected ingredients
-Recipe * Data::GetRecipe() {
+Recipe * Data::GetRecipe() const{
     return this->recipe;
+}
+
+Recipe * Data::GetRecipeByIndex(const string & index) const
+{
+    int indexInt = stoi(index);
+    return this->recipesSelectByIngredients[indexInt];
 }
 
 /// deletes recipe created based on user selected ingredients
@@ -322,7 +328,7 @@ void Data::DeleteRecipeBasedOnIngredients() {
 }
 
 /// \return pointer to a user
-User * Data::GetUser()
+User * Data::GetUser() const
 {
     return this->user;
 }

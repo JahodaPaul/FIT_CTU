@@ -8,12 +8,14 @@
 #include "ScreenIngredients.h"
 #include "ScreenRecipes.h"
 #include "ScreenUserMenu.h"
+#include "ScreenSingleRecipe.h"
 
 #define SCREEN_LOGIN_MENU 0
 #define SCREEN_LOGIN_PASSWORD 1
 #define SCREEN_USER_MENU 2
 #define SCREEN_INGREDIENTS 3
 #define SCREEN_RECIPES 4
+#define SCREEN_SINGLE_RECIPE 5
 
 
 /// The main Frontend functions from which all Screens are created
@@ -24,7 +26,8 @@ void Frontend::Run(Connection &c, Data & data) {
     int userID=0,showOrCreateRecipe=0;
     string loginOrRegister="",login="",password="";
     vector<string> pickedIngredients;
-    vector<string> recommendedRecipeVector;
+    vector<string> recipeVector;// first it holds recommended recipe, then after recipe selection it holds string index
+    //of selected recipe
     //------------------------------------------------------------------------------------------------------------------
 
     while(!loggedIn)
@@ -58,14 +61,20 @@ void Frontend::Run(Connection &c, Data & data) {
     switchScreens(SCREEN_INGREDIENTS,screen);
     screen->AssignData(data);
     showOrCreateRecipe=screen->Run(data.GetMapOfIngridients(),pickedIngredients);
+
     if(showOrCreateRecipe){
         data.CreateRecipeBasedOnIngredientsSelected(pickedIngredients);
         string recommendedRecipe = data.GetRecommendedRecipe((*data.GetRecipe()),data.GetUser()->GetUserId());
         data.DeleteRecipeBasedOnIngredients();
-        recommendedRecipeVector.push_back(recommendedRecipe);
+        recipeVector.push_back(recommendedRecipe);
         switchScreens(SCREEN_RECIPES,screen);
         //TODO MAYBE?
-        screen->Run(data.GetMapOfRecipes(),recommendedRecipeVector);
+        screen->Run(data.GetMapOfRecipes(),recipeVector);
+
+        switchScreens(SCREEN_SINGLE_RECIPE,screen);
+        screen->AssignData(data);
+        screen->Run(map<string,string>(),recipeVector);
+
     }
 
     /// at the end of program delete Screen instances
@@ -91,6 +100,9 @@ void Frontend::switchScreens(const int screenChoice,Screen *&currentScreen) {
             break;
         case SCREEN_LOGIN_PASSWORD:
             currentScreen = new ScreenLoginPassword();
+            break;
+        case SCREEN_SINGLE_RECIPE:
+            currentScreen = new ScreenSingleRecipe();
             break;
         default:
             return;

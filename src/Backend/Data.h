@@ -20,16 +20,17 @@ public:
     map<string,string>& GetMapOfRecipes();
     string GetRecommendedRecipe(const Recipe& recipe, const int userID);
     ~Data();
-    User * GetUser();
+    User * GetUser() const;
     void CreateNewUser(User * user1);
 
     void CreateRecipeBasedOnIngredientsSelected(const vector<string> & selectedIngredients);
-    Recipe * GetRecipe();
+    Recipe * GetRecipe() const;
     void DeleteRecipeBasedOnIngredients();
     void DeleteRecipesRetrievedFromDatabase();
 
     void UpdateScreenWidth(const int width);
 
+    Recipe * GetRecipeByIndex(const string & index) const;
 
 protected:
 private:
