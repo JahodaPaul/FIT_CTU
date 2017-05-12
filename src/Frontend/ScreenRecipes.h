@@ -18,14 +18,15 @@ public:
     void AssignData(Data & data){};
     //void KeyUp(){};
     //void KeyDown(){};
-    void KeyLeft(){};
-    void KeyRight(){};
+    void KeyLeft();
+    void KeyRight();
     //void Backspace(){};
     void Enter();
     //void OtherKey(){};
     void PrintTextInfoForUser() const;
 protected:
 private:
+    void ChangeFocus();
 };
 
 #endif //RECIPE_MANAGER_SCREENRECIPES_H

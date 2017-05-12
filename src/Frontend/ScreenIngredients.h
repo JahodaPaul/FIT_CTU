@@ -38,7 +38,7 @@ protected:
     WINDOW *menu_win;
     WINDOW *menuWinPickedIngridients;
 
-    bool userPressedDoubleEnter,finishSelection;
+    bool userPressedDoubleEnter,finishSelection,selectedRecommendedRecipe;
 
     vector<string> myPickedIngridients;
     vector<string> options;

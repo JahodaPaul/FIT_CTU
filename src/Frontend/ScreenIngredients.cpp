@@ -67,43 +67,47 @@ int ScreenIngredients::Run(const map<string, string> & mapa,vector<string> & pic
 }
 
 void ScreenIngredients::KeyUp() {
-    userPressedEnter=false;
-    if(highlight == 0) {
-        highlight = (int) (options.size() - 1);
-        int diff=to-from;
-        to=options.size();
-        from=to-diff;
-        menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
-        RefreshWholeWindow(menu_win);
-    }
-    else {
-        highlight--;
-        if(from>highlight) {
+    if(!selectedRecommendedRecipe) {
+        userPressedEnter = false;
+        if (highlight == 0) {
+            highlight = (int) (options.size() - 1);
+            int diff = to - from;
+            to = options.size();
+            from = to - diff;
             menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
             RefreshWholeWindow(menu_win);
-            from--;
-            to--;
+        }
+        else {
+            highlight--;
+            if (from > highlight) {
+                menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
+                RefreshWholeWindow(menu_win);
+                from--;
+                to--;
+            }
         }
     }
 }
 
 void ScreenIngredients::KeyDown() {
-    userPressedEnter=false;
-    if(highlight == (int)(options.size()-1)) {
-        highlight = 0;
-        int diff=to-from;
-        from=0;
-        to=diff;
-        menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
-        RefreshWholeWindow(menu_win);
-    }
-    else {
-        highlight++;
-        if(highlight==to) {
+    if(!selectedRecommendedRecipe) {
+        userPressedEnter = false;
+        if (highlight == (int) (options.size() - 1)) {
+            highlight = 0;
+            int diff = to - from;
+            from = 0;
+            to = diff;
             menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
             RefreshWholeWindow(menu_win);
-            from++;
-            to++;
+        }
+        else {
+            highlight++;
+            if (highlight == to) {
+                menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
+                RefreshWholeWindow(menu_win);
+                from++;
+                to++;
+            }
         }
     }
 }
@@ -190,6 +194,7 @@ ScreenIngredients::ScreenIngredients() {
     secondWindowWidth=COLS-firstWindowWidth;
     secondWindowStartX=firstWindowWidth;
     secondWindowStartY=firstWindowStartY;
+    selectedRecommendedRecipe=false;
 }
 
 ScreenIngredients::~ScreenIngredients() {

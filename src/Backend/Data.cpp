@@ -307,15 +307,27 @@ void Data::FindItInAMapOfIngredients(string category,vector<string> & ingredient
     ingredients.push_back(".");
 }
 
-/// \return pointer to recipe created by selected ingredients
+/// \return pointer to recipe created by selected ingredients (used to find recommended recipe)
 Recipe * Data::GetRecipe() const{
     return this->recipe;
 }
 
+/**
+ * \param index string index of selected recipe
+ * \return pointer to selected(given by index parameter) Recipe object
+ */
 Recipe * Data::GetRecipeByIndex(const string & index) const
 {
     int indexInt = stoi(index);
-    return this->recipesSelectByIngredients[indexInt];
+    //if user selected recommended recipe
+    if(indexInt==-1)
+    {
+        return this->recommendedRecipe;
+    }
+    else
+    {
+        return this->recipesSelectByIngredients[indexInt];
+    }
 }
 
 /// deletes recipe created based on user selected ingredients

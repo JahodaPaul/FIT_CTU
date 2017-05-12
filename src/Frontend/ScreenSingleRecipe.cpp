@@ -4,6 +4,7 @@
 
 #include "ScreenSingleRecipe.h"
 
+///main method of this class
 int ScreenSingleRecipe::Run(const map<string, string> & mapa,vector<string> & pickedIngridients) {
     Recipe * recipe = myData->GetRecipeByIndex(pickedIngridients[0]);
     WINDOW * menu_win = newwin(5, 5, 5, 5);

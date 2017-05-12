@@ -6,12 +6,46 @@
 
 void ScreenRecipes::Enter() {
     //TODO
-    string unusedString="";
-    PrintUserTypedIngredient(unusedString,options,false,*myMap,from,to,highlight,selected,firstWindowHeight);
-    auto it = myMap->find(options[selected]);
-    myPickedIngridients.clear();
-    myPickedIngridients.push_back(it->second);
-    finishSelection=true;
+    if(!selectedRecommendedRecipe) {
+        string unusedString = "";
+        PrintUserTypedIngredient(unusedString, options, false, *myMap, from, to, highlight, selected,
+                                 firstWindowHeight);
+        auto it = myMap->find(options[selected]);
+        myPickedIngridients.clear();
+        myPickedIngridients.push_back(it->second);
+    }
+    else if(selectedRecommendedRecipe){
+        myPickedIngridients.clear();
+        myPickedIngridients.push_back("-1");
+    }
+    finishSelection = true;
+}
+
+/**
+ * Changes focus from list of recipes retrieved from database based on selected recipes
+ * to recommended recipe and visa versa when arrow key left or right is pressed
+ */
+void ScreenRecipes::ChangeFocus() {
+    selectedRecommendedRecipe=!selectedRecommendedRecipe;
+    if(!selectedRecommendedRecipe)
+    {
+        highlight = (int)(options.size()-1);
+        KeyDown();
+        PrintMenu(menuWinPickedIngridients,-1,myPickedIngridients,false,secondWindowWidth,secondWindowHeight,0,0,(int)myPickedIngridients.size());
+    }
+    else
+    {
+        highlight=-1;
+        PrintMenu(menuWinPickedIngridients,0,myPickedIngridients,false,secondWindowWidth,secondWindowHeight,0,0,(int)myPickedIngridients.size());
+    }
+}
+
+void ScreenRecipes::KeyLeft() {
+    ChangeFocus();
+}
+
+void ScreenRecipes::KeyRight() {
+    ChangeFocus();
 }
 
 void ScreenRecipes::PrintTextInfoForUser() const {
@@ -38,6 +72,7 @@ ScreenRecipes::ScreenRecipes() {
     secondWindowWidth=firstWindowWidth;
     secondWindowStartX=0;
     secondWindowStartY=firstWindowStartY+firstWindowHeight+2;
+    selectedRecommendedRecipe=false;
 }
 
 ScreenRecipes::~ScreenRecipes() {
