@@ -7,23 +7,34 @@
 
 #include "Screen.h"
 
-class ScreenUserMenu: public Screen
+class ScreenUserMenu : public Screen
 {
 public:
     ScreenUserMenu();
-    ~ScreenUserMenu();
-    int Run(const map<string, string> & mapa, vector<string> &){return 0;}
-    int Run(){return 0;}
-    void Run(string &, string &){};
-    void AssignData(Data & data){};
 
-    void KeyUp(){};
-    void KeyDown(){};
-    void KeyLeft(){};
-    void KeyRight(){};
-    void Backspace(){};
-    void Enter(){};
-    void OtherKey(){};
+    ~ScreenUserMenu();
+
+    int Run(const map <string, string> &mapa, vector <string> &) { return 0; }
+
+    int Run() { return 0; }
+
+    void Run(string &, string &) {};
+
+    void AssignData(Data &data) {};
+
+    void KeyUp() {};
+
+    void KeyDown() {};
+
+    void KeyLeft() {};
+
+    void KeyRight() {};
+
+    void Backspace() {};
+
+    void Enter() {};
+
+    void OtherKey() {};
 protected:
 private:
 

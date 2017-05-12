@@ -12,23 +12,35 @@ class ScreenLogin : public Screen
 
 public:
     ScreenLogin();
+
     ~ScreenLogin();
+
     int Run();
-    int Run(const map<string, string> & mapa, vector<string> &){return 0;}
-    void Run(string &, string &){};
-    void AssignData(Data & data){};
+
+    int Run(const map <string, string> &mapa, vector <string> &) { return 0; }
+
+    void Run(string &, string &) {};
+
+    void AssignData(Data &data) {};
 
     void KeyUp();
+
     void KeyDown();
-    void KeyLeft(){};
-    void KeyRight(){};
-    void Backspace(){};
+
+    void KeyLeft() {};
+
+    void KeyRight() {};
+
+    void Backspace() {};
+
     void Enter();
+
     void OtherKey();
+
 protected:
 private:
     /// \property login screen choices - login, register, exit
-    vector<string> choices;
+    vector <string> choices;
 
     int averageStringSizeLogin;
     int loginStartx;

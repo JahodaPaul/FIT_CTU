@@ -11,21 +11,33 @@ class ScreenSingleRecipe : public Screen
 {
 public:
     ScreenSingleRecipe();
+
     ~ScreenSingleRecipe();
-    int Run(const map<string, string> & mapa, vector<string> &);
-    int Run(){return 0;}
-    void Run(string &, string &){};
-    void AssignData(Data & data);
-    void KeyUp(){};
-    void KeyDown(){};
-    void KeyLeft(){};
-    void KeyRight(){};
-    void Backspace(){};
+
+    int Run(const map <string, string> &mapa, vector <string> &);
+
+    int Run() { return 0; }
+
+    void Run(string &, string &) {};
+
+    void AssignData(Data &data);
+
+    void KeyUp() {};
+
+    void KeyDown() {};
+
+    void KeyLeft() {};
+
+    void KeyRight() {};
+
+    void Backspace() {};
+
     void Enter();
-    void OtherKey(){};
+
+    void OtherKey() {};
 protected:
 private:
-    Data * myData;
+    Data *myData;
     bool finishSelection;
 };
 

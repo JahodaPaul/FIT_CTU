@@ -5,8 +5,9 @@
 #include "ScreenSingleRecipe.h"
 
 ///main method of this class
-int ScreenSingleRecipe::Run(const map<string, string> & mapa,vector<string> & pickedIngridients) {
-    Recipe * recipe = myData->GetRecipeByIndex(pickedIngridients[0]);
+int ScreenSingleRecipe::Run(const map <string, string> &mapa, vector <string> &pickedIngridients)
+{
+    Recipe *recipe = myData->GetRecipeByIndex(pickedIngridients[0]);
     WINDOW * menu_win = newwin(5, 5, 5, 5);
     clear();
     initscr();
@@ -22,7 +23,9 @@ int ScreenSingleRecipe::Run(const map<string, string> & mapa,vector<string> & pi
         key = wgetch(menu_win);
         ReactToUserInput(key);
         if(finishSelection)
+        {
             break;
+        }
     }
 
     clrtoeol();
@@ -33,21 +36,25 @@ int ScreenSingleRecipe::Run(const map<string, string> & mapa,vector<string> & pi
     return 0;
 }
 
-void ScreenSingleRecipe::Enter() {
+void ScreenSingleRecipe::Enter()
+{
     //TODO
-    finishSelection=true;
+    finishSelection = true;
 }
 
-void ScreenSingleRecipe::AssignData(Data & data) {
-    myData=&data;
+void ScreenSingleRecipe::AssignData(Data &data)
+{
+    myData = &data;
 }
 
 
-ScreenSingleRecipe::ScreenSingleRecipe() {
-    myData=NULL;
-    finishSelection=false;
+ScreenSingleRecipe::ScreenSingleRecipe()
+{
+    myData = NULL;
+    finishSelection = false;
 }
 
-ScreenSingleRecipe::~ScreenSingleRecipe() {
+ScreenSingleRecipe::~ScreenSingleRecipe()
+{
 
 }

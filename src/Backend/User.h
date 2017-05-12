@@ -9,11 +9,15 @@
 
 using namespace std;
 
-class User{
+class User
+{
 public:
-    User(const int& id,const string& name);
+    User(const int &id, const string &name);
+
     int GetUserId() const;
+
     ~User();
+
 protected:
 private:
     string name;

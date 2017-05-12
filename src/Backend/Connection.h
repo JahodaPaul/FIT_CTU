@@ -16,12 +16,17 @@ class Connection
 {
 public:
     Connection();
+
     ~Connection();
-    bool Connect(const string&,const string&,int &id);
-    bool Register(const string&,const string&,int &id);
+
+    bool Connect(const string &, const string &, int &id);
+
+    bool Register(const string &, const string &, int &id);
+
     result query(const string sql);
+
 private:
-    bool CheckForSQLInjection(string,string) const;
+    bool CheckForSQLInjection(string, string) const;
 
 };
 

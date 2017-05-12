@@ -19,33 +19,35 @@
 
 
 /// The main Frontend functions from which all Screens are created
-void Frontend::Run(Connection &c, Data & data) {
+void Frontend::Run(Connection &c, Data &data)
+{
     //variables---------------------------------------------------------------------------------------------------------
-    Screen * screen = NULL;
-    bool loggedIn=false;//,downloadedData=false;
-    int userID=0,showOrCreateRecipe=0;
-    string loginOrRegister="",login="",password="";
-    vector<string> pickedIngredients;
-    vector<string> recipeVector;// first it holds recommended recipe, then after recipe selection it holds string index
+    Screen *screen = NULL;
+    bool loggedIn = false;//,downloadedData=false;
+    int userID = 0, showOrCreateRecipe = 0;
+    string loginOrRegister = "", login = "", password = "";
+    vector <string> pickedIngredients;
+    vector <string> recipeVector;// first it holds recommended recipe, then after recipe selection it holds string index
     //of selected recipe
     //------------------------------------------------------------------------------------------------------------------
 
     while(!loggedIn)
     {
-        login="";password="";
-        switchScreens(SCREEN_LOGIN_MENU,screen);
+        login = "";
+        password = "";
+        switchScreens(SCREEN_LOGIN_MENU, screen);
         int choice = screen->Run();
-        if(choice==0)
+        if(choice == 0)
         {
-            switchScreens(SCREEN_LOGIN_PASSWORD,screen);
-            screen->Run(login,password);
-            loggedIn = c.Connect(login, password,userID);
+            switchScreens(SCREEN_LOGIN_PASSWORD, screen);
+            screen->Run(login, password);
+            loggedIn = c.Connect(login, password, userID);
         }
-        else if(choice==1)
+        else if(choice == 1)
         {
-            switchScreens(SCREEN_LOGIN_PASSWORD,screen);
-            screen->Run(login,password);
-            loggedIn = c.Register(login,password,userID);
+            switchScreens(SCREEN_LOGIN_PASSWORD, screen);
+            screen->Run(login, password);
+            loggedIn = c.Register(login, password, userID);
         }
         else
         {
@@ -54,37 +56,41 @@ void Frontend::Run(Connection &c, Data & data) {
     }
 
     data.UpdateScreenWidth(COLS);
-    data.CreateNewUser(new User(userID,login));
+    data.CreateNewUser(new User(userID, login));
 
-    ProgressBar(&data,&Data::GetDataFromDatabase,18);
+    ProgressBar(&data, &Data::GetDataFromDatabase, 18);
     //downloadedData=true;
-    switchScreens(SCREEN_INGREDIENTS,screen);
+    switchScreens(SCREEN_INGREDIENTS, screen);
     screen->AssignData(data);
-    showOrCreateRecipe=screen->Run(data.GetMapOfIngridients(),pickedIngredients);
+    showOrCreateRecipe = screen->Run(data.GetMapOfIngridients(), pickedIngredients);
 
-    if(showOrCreateRecipe){
+    if(showOrCreateRecipe)
+    {
         data.CreateRecipeBasedOnIngredientsSelected(pickedIngredients);
-        string recommendedRecipe = data.GetRecommendedRecipe((*data.GetRecipe()),data.GetUser()->GetUserId());
+        string recommendedRecipe = data.GetRecommendedRecipe((*data.GetRecipe()), data.GetUser()->GetUserId());
         data.DeleteRecipeBasedOnIngredients();
         recipeVector.push_back(recommendedRecipe);
-        switchScreens(SCREEN_RECIPES,screen);
+        switchScreens(SCREEN_RECIPES, screen);
         //TODO MAYBE?
-        screen->Run(data.GetMapOfRecipes(),recipeVector);
+        screen->Run(data.GetMapOfRecipes(), recipeVector);
 
-        switchScreens(SCREEN_SINGLE_RECIPE,screen);
+        switchScreens(SCREEN_SINGLE_RECIPE, screen);
         screen->AssignData(data);
-        screen->Run(map<string,string>(),recipeVector);
+        screen->Run(map<string, string>(), recipeVector);
 
     }
 
     /// at the end of program delete Screen instances
-    if(screen!=NULL)
+    if(screen != NULL)
+    {
         delete screen;
+    }
 }
 
-void Frontend::switchScreens(const int screenChoice,Screen *&currentScreen) {
+void Frontend::switchScreens(const int screenChoice, Screen *&currentScreen)
+{
     Screen *tmpScreen = currentScreen;
-    switch (screenChoice)
+    switch(screenChoice)
     {
         case SCREEN_LOGIN_MENU:
             currentScreen = new ScreenLogin();
@@ -107,16 +113,20 @@ void Frontend::switchScreens(const int screenChoice,Screen *&currentScreen) {
         default:
             return;
     }
-    if(tmpScreen!=NULL)
+    if(tmpScreen != NULL)
+    {
         delete tmpScreen;
+    }
 }
 
 /**
  * \return true if string exists in vector of string
  */
-bool Frontend::Contain(const vector<string> &arr,const string &lookingFor) const {
-    for(auto const &item : arr) {
-        if(item==lookingFor)
+bool Frontend::Contain(const vector <string> &arr, const string &lookingFor) const
+{
+    for(auto const &item : arr)
+    {
+        if(item == lookingFor)
         {
             return true;
         }
@@ -125,60 +135,61 @@ bool Frontend::Contain(const vector<string> &arr,const string &lookingFor) const
 }
 
 /// Variable to is used to determinate how many strings to show in WINDOW Box
-void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector, const int & boxSize) {
-    if(sizeOfVector>(boxSize)-3)///TODO do not hardcode it
+void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector, const int &boxSize)
+{
+    if(sizeOfVector > (boxSize) - 3)///TODO do not hardcode it
     {
-        to=(boxSize)-3;
+        to = (boxSize) - 3;
     }
     else
     {
-        to=sizeOfVector;
+        to = sizeOfVector;
     }
 }
 
 ///shows progress given given task with n (parameter max) tasks to be done
 template<class TRIDA>
-void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),const int max)
+void Frontend::ProgressBar(TRIDA *d, void (TRIDA::*function)(int), const int max)
 {
-    int outOf=25,before=0,percentage=0,y=1,x=1;
-    string s="",percentageString="";
-    int loginBoxWidth=25,loginBoxHeight=7;
+    int outOf = 25, before = 0, percentage = 0, y = 1, x = 1;
+    string s = "", percentageString = "";
+    int loginBoxWidth = 25, loginBoxHeight = 7;
     middleStartX = (COLS - loginBoxWidth) / 2;
     middleStartY = (LINES - loginBoxHeight) / 3;
-    WINDOW *win = newwin(3, 25, middleStartY, middleStartX);
+    WINDOW * win = newwin(3, 25, middleStartY, middleStartX);
 
     clear();
     initscr();
     noecho();
     cbreak();
 
-    mvprintw(middleStartY-1,middleStartX,"Downloading Data: ");
+    mvprintw(middleStartY - 1, middleStartX, "Downloading Data: ");
     attron(A_BOLD);
-    mvprintw(middleStartY-1,middleStartX+18,"0%%");
+    mvprintw(middleStartY - 1, middleStartX + 18, "0%%");
     attroff(A_BOLD);
     box(win, 0, 0);
 
     refresh();
     wrefresh(win);
-    for(int i=1;i<=max;i++)
+    for(int i = 1; i <= max; i++)
     {
-        outOf=25;
+        outOf = 25;
         (d->*function)(i);
-        outOf=25*(i+1)/max;
-        for(int j=0;j<outOf-before;j++)
+        outOf = 25 * (i + 1) / max;
+        for(int j = 0; j < outOf - before; j++)
         {
-            s+='=';
+            s += '=';
         }
         wattron(win, A_STANDOUT);
         mvwprintw(win, y, x, "%s", s.c_str());
         wattroff(win, A_STANDOUT);
-        before=outOf;
+        before = outOf;
 
-        percentage=outOf*4;
+        percentage = outOf * 4;
         percentageString = std::to_string(percentage);
-        percentageString+="%%";
+        percentageString += "%%";
         attron(A_BOLD);
-        mvprintw(middleStartY-1,middleStartX+18,percentageString.c_str());
+        mvprintw(middleStartY - 1, middleStartX + 18, percentageString.c_str());
         attroff(A_BOLD);
 
         refresh();
@@ -191,9 +202,11 @@ void Frontend::ProgressBar(TRIDA *d,void (TRIDA::*function)(int),const int max)
     system("clear");
 }
 
-Frontend::Frontend() {
+Frontend::Frontend()
+{
 }
 
-Frontend::~Frontend() {
+Frontend::~Frontend()
+{
 
 }

@@ -6,18 +6,22 @@
 
 
 ///used for user login - connect to database and look if name and password match, assigns value to id
-bool Connection::Connect(const string &name,const string &password,int &id)
+bool Connection::Connect(const string &name, const string &password, int &id)
 {
-    try{
-        if(CheckForSQLInjection(name,password))
+    try
+    {
+        if(CheckForSQLInjection(name, password))
         {
             return false;
         }
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
-        if (C.is_open()) {
+        if(C.is_open())
+        {
 
-        } else {
+        }
+        else
+        {
             cout << "Can't open database" << endl;
             return false;
         }
@@ -26,20 +30,22 @@ bool Connection::Connect(const string &name,const string &password,int &id)
         nontransaction N(C);
 
         // Execute SQL query
-        result R( N.exec( sql ));
-        if(R.size()==0)
+        result R(N.exec(sql));
+        if(R.size() == 0)
         {
             cout << "Username and password does not match" << endl;
-            C.disconnect ();
+            C.disconnect();
             return false;
         }
-        for (result::const_iterator c = R.begin(); c != R.end(); ++c)
+        for(result::const_iterator c = R.begin(); c != R.end(); ++c)
         {
             id = c[0].as<int>();
         }
         cout << "Successful login." << endl;
-        C.disconnect ();
-    }catch (const std::exception &e){
+        C.disconnect();
+    }
+    catch(const std::exception &e)
+    {
         cerr << e.what() << std::endl;
         return false;
     }
@@ -47,17 +53,22 @@ bool Connection::Connect(const string &name,const string &password,int &id)
 }
 
 /// if registered name does not exist in database, inserts it into database, assigns value to id
-bool Connection::Register(const string &name, const string &password,int &id) {
-    try{
-        if(CheckForSQLInjection(name,password))
+bool Connection::Register(const string &name, const string &password, int &id)
+{
+    try
+    {
+        if(CheckForSQLInjection(name, password))
         {
             return false;
         }
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
-        if (C.is_open()) {
+        if(C.is_open())
+        {
 
-        } else {
+        }
+        else
+        {
             cout << "Can't open database" << endl;
             return false;
         }
@@ -66,30 +77,33 @@ bool Connection::Register(const string &name, const string &password,int &id) {
         // SQL statement
         result R = txn.exec(sql);
         // Execute SQL query
-        if(R.size()!=0)
+        if(R.size() != 0)
         {
             cout << "Username taken." << endl;
-            C.disconnect ();
+            C.disconnect();
             return false;
         }
         C.disconnect();
-        sql = "INSERT INTO \"public\".\"users\" (id_user,user_name,user_password) VALUES (nextval('serial'), " + txn.quote(name) + ", " + txn.quote(password) + ");";
+        sql = "INSERT INTO \"public\".\"users\" (id_user,user_name,user_password) VALUES (nextval('serial'), " + txn.quote(name) + ", " +
+              txn.quote(password) + ");";
         R = this->query(sql);
 
         sql = "SELECT * FROM \"public\".\"users\" WHERE user_name='" + name + "' AND user_password='" + password + "';";
-        R=this->query(sql);
+        R = this->query(sql);
 
-        if(R.size()!=0)
+        if(R.size() != 0)
         {
-            for (result::const_iterator c = R.begin(); c != R.end(); ++c)
+            for(result::const_iterator c = R.begin(); c != R.end(); ++c)
             {
                 id = c[0].as<int>();
             }
         }
 
         cout << "Successful registration." << endl;
-        C.disconnect ();
-    }catch (const std::exception &e){
+        C.disconnect();
+    }
+    catch(const std::exception &e)
+    {
         cerr << e.what() << std::endl;
         return false;
     }
@@ -100,9 +114,11 @@ bool Connection::Register(const string &name, const string &password,int &id) {
  * connects to database and queries database using given sql statement
  *  \return pqxx:return from sql query
  */
-result Connection::query(const string sql) {
+result Connection::query(const string sql)
+{
     result r;
-    try{
+    try
+    {
         connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
         work txn(C);
@@ -110,7 +126,8 @@ result Connection::query(const string sql) {
         r = txn.exec(sql);
         txn.commit();
     }
-    catch (const std::exception &e){
+    catch(const std::exception &e)
+    {
         cerr << e.what() << std::endl;
     }
     return r;
@@ -122,35 +139,43 @@ result Connection::query(const string sql) {
  * @param secondString
  * \return true if there is a danger
  */
-bool Connection::CheckForSQLInjection(string firstString,string secondString) const
+bool Connection::CheckForSQLInjection(string firstString, string secondString) const
 {
     transform(firstString.begin(), firstString.end(), firstString.begin(), ::toupper);
     transform(secondString.begin(), secondString.end(), secondString.begin(), ::toupper);
-    if ((firstString.find("DROP") != string::npos) || (secondString.find("DROP") != string::npos)) {
+    if((firstString.find("DROP") != string::npos) || (secondString.find("DROP") != string::npos))
+    {
         return true;
     }
-    if ((firstString.find("DELETE") != string::npos) || (secondString.find("DELETE") != string::npos)) {
+    if((firstString.find("DELETE") != string::npos) || (secondString.find("DELETE") != string::npos))
+    {
         return true;
     }
-    if ((firstString.find("ALTER") != string::npos) || (secondString.find("ALTER") != string::npos)) {
+    if((firstString.find("ALTER") != string::npos) || (secondString.find("ALTER") != string::npos))
+    {
         return true;
     }
-    if ((firstString.find("UPDATE") != string::npos) || (secondString.find("UPDATE") != string::npos)) {
+    if((firstString.find("UPDATE") != string::npos) || (secondString.find("UPDATE") != string::npos))
+    {
         return true;
     }
-    if ((firstString.find("GETREQUESTSRING") != string::npos) || (secondString.find("GETREQUESTSRING") != string::npos)) {
+    if((firstString.find("GETREQUESTSRING") != string::npos) || (secondString.find("GETREQUESTSRING") != string::npos))
+    {
         return true;
     }
-    if ((firstString.find(" OR ") != string::npos) || (secondString.find(" OR ") != string::npos)) {
+    if((firstString.find(" OR ") != string::npos) || (secondString.find(" OR ") != string::npos))
+    {
         return true;
     }
     return false;
 }
 
-Connection::Connection() {
+Connection::Connection()
+{
 
 }
 
-Connection::~Connection() {
+Connection::~Connection()
+{
 
 }

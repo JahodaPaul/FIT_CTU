@@ -11,11 +11,13 @@ int User::GetUserId() const
     return this->id;
 }
 
-User::User(const int& id,const string& name){
-    this->id=id;
-    this->name=name;
+User::User(const int &id, const string &name)
+{
+    this->id = id;
+    this->name = name;
 }
 
-User::~User() {
+User::~User()
+{
 
 }

@@ -4,10 +4,12 @@
 
 #include "ScreenUserMenu.h"
 
-ScreenUserMenu::ScreenUserMenu() {
+ScreenUserMenu::ScreenUserMenu()
+{
 
 }
 
-ScreenUserMenu::~ScreenUserMenu() {
+ScreenUserMenu::~ScreenUserMenu()
+{
 
 }

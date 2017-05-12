@@ -14,29 +14,33 @@ using namespace std;
 class Recipe
 {
 public:
-    Recipe(vector<string> ingredients, vector<int> ingredientWeight, int idRecipe);
+    Recipe(vector <string> ingredients, vector<int> ingredientWeight, int idRecipe);
+
     int HowMuchAreRecipesSame(const Recipe &);
-    string ToString(const int & screenWidth);
-    bool operator==(Recipe & r)
+
+    string ToString(const int &screenWidth);
+
+    bool operator==(Recipe &r)
     {
-        for(unsigned int i=0;i<this->ingredients.size();i++)
+        for(unsigned int i = 0; i < this->ingredients.size(); i++)
         {
-            if(this->ingredients[i]!=r.ingredients[i])
+            if(this->ingredients[i] != r.ingredients[i])
             {
                 return false;
             }
-            if(this->ingredientWeight[i]!=r.ingredientWeight[i])
+            if(this->ingredientWeight[i] != r.ingredientWeight[i])
             {
                 return false;
             }
         }
         return true;
     }
+
     ~Recipe();
 
 protected:
 private:
-    vector<string> ingredients;
+    vector <string> ingredients;
     vector<int> ingredientWeight;
     int idRecipe;
 };
