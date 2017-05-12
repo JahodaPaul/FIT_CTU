@@ -41,6 +41,7 @@ int ScreenIngredients::Run(const map <string, string> &mapa, vector <string> &pi
     }
 
     PrintTextInfoForUser();
+    SetVariables();
     keypad(menu_win, TRUE);
     refresh();
     AssignValueToVariableTo(to, (int) options.size(), firstWindowHeight);

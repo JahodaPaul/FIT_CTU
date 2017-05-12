@@ -44,6 +44,8 @@ protected:
 
     virtual void PrintTextInfoForUser() const;
 
+    virtual void SetVariables(){};
+
     string ingredientSelectionString;
     int from, to, picked, selected;
 

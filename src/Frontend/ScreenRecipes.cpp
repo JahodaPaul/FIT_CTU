@@ -74,6 +74,14 @@ void ScreenRecipes::PrintTextInfoForUser() const
     attroff(A_BOLD);
 }
 
+void ScreenRecipes::SetVariables()
+{
+    if(options.size() == 0)
+    {
+        selectedRecommendedRecipe = true;
+    }
+}
+
 ScreenRecipes::ScreenRecipes()
 {
     firstWindowHeight = LINES - 9;
@@ -84,15 +92,7 @@ ScreenRecipes::ScreenRecipes()
     secondWindowWidth = firstWindowWidth;
     secondWindowStartX = 0;
     secondWindowStartY = firstWindowStartY + firstWindowHeight + 2;
-    if(options.size() != 0)
-    {
-        selectedRecommendedRecipe = false;
-    }
-    else
-    {
-        selectedRecommendedRecipe = true;
-    }
-
+    selectedRecommendedRecipe = false;
 }
 
 ScreenRecipes::~ScreenRecipes()

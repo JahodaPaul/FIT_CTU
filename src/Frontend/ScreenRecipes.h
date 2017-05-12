@@ -33,6 +33,8 @@ public:
     //void OtherKey(){};
     void PrintTextInfoForUser() const;
 
+    void SetVariables();
+
 protected:
 private:
     void ChangeFocus();
