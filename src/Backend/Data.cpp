@@ -18,60 +18,61 @@ void Data::GetDataFromDatabase(const int select)
     result r;
     switch(select)
     {
-        case 1:
-            r = query("SELECT * FROM \"public\".\"alcoholicBeverages\"");
-            CopyIntoMap(r, ".alcB", beveragesAndCategory);
-            break;
-        case 2:
-
-            break;
-        case 3:
-            r = query("SELECT * FROM \"public\".\"beverages\"");
-            CopyIntoMap(r, ".bev", beveragesAndCategory);
-            break;
-        case 4:
-
-            break;
-        case 5:
-            r = query("SELECT * FROM \"public\".\"cheese\"");
-            CopyIntoMap(r, "cheese", foodNameAndCategory);
-            break;
-        case 6:
-
-            break;
-        case 7:
-            r = query("SELECT * FROM \"public\".\"fruit\"");
-            CopyIntoMap(r, "fruit", foodNameAndCategory);
-            break;
-        case 8:
-
-            break;
-        case 9:
-            r = query("SELECT * FROM \"public\".\"meat\"");
-            CopyIntoMap(r, "meat", foodNameAndCategory);
-        case 10:
-
-            break;
-        case 11:
-            r = query("SELECT * FROM \"public\".\"nuts\"");
-            CopyIntoMap(r, "nuts", foodNameAndCategory);
-            break;
-        case 12:
-
-            break;
-        case 13:
-            r = query("SELECT * FROM \"public\".\"sides\"");
-            CopyIntoMap(r, "side", foodNameAndCategory);
-            break;
+        //UNCOMMENT WHEN DONE TESTING
+//        case 1:
+//            r = query("SELECT * FROM \"public\".\"alcoholicBeverages\"");
+//            CopyIntoMap(r, ".alcB", beveragesAndCategory);
+//            break;
+//        case 2:
+//
+//            break;
+//        case 3:
+//            r = query("SELECT * FROM \"public\".\"beverages\"");
+//            CopyIntoMap(r, ".bev", beveragesAndCategory);
+//            break;
+//        case 4:
+//
+//            break;
+//        case 5:
+//            r = query("SELECT * FROM \"public\".\"cheese\"");
+//            CopyIntoMap(r, "cheese", foodNameAndCategory);
+//            break;
+//        case 6:
+//
+//            break;
+//        case 7:
+//            r = query("SELECT * FROM \"public\".\"fruit\"");
+//            CopyIntoMap(r, "fruit", foodNameAndCategory);
+//            break;
+//        case 8:
+//
+//            break;
+//        case 9:
+//            r = query("SELECT * FROM \"public\".\"meat\"");
+//            CopyIntoMap(r, "meat", foodNameAndCategory);
+//        case 10:
+//
+//            break;
+//        case 11:
+//            r = query("SELECT * FROM \"public\".\"nuts\"");
+//            CopyIntoMap(r, "nuts", foodNameAndCategory);
+//            break;
+//        case 12:
+//
+//            break;
+//        case 13:
+//            r = query("SELECT * FROM \"public\".\"sides\"");
+//            CopyIntoMap(r, "side", foodNameAndCategory);
+//            break;
         case 14:
             r = query("SELECT * FROM \"public\".\"recipes\" JOIN \"public\".\"recipesUsersLiked\" ON id=id_recipes;");
             CopyIntoMapRecipes(r, mapOfUsersAndRecipesTheyLiked);
             break;
-        case 15:
-            r = query("SELECT * FROM \"public\".\"spices\"");
-            CopyIntoMap(r, "spice2", foodNameAndCategory);
-            break;
-        case 16:
+//        case 15:
+//            r = query("SELECT * FROM \"public\".\"spices\"");
+//            CopyIntoMap(r, "spice2", foodNameAndCategory);
+//            break;
+//        case 16:
 
             break;
         case 17:

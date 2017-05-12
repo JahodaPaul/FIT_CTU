@@ -45,7 +45,16 @@ int ScreenIngredients::Run(const map <string, string> &mapa, vector <string> &pi
     refresh();
     AssignValueToVariableTo(to, (int) options.size(), firstWindowHeight);
     PrintMenu(menu_win, highlight, options, false, firstWindowWidth, firstWindowHeight, 0, from, to);
-    PrintMenu(menuWinPickedIngridients, -1, myPickedIngridients, false, secondWindowWidth, secondWindowHeight, 0, 0, picked);
+    if(selectedRecommendedRecipe)
+    {
+        PrintMenu(menuWinPickedIngridients, 0, myPickedIngridients, false, secondWindowWidth, secondWindowHeight, 0, 0,
+                  (int) myPickedIngridients.size());
+    }
+    else
+    {
+        PrintMenu(menuWinPickedIngridients, -1, myPickedIngridients, false, secondWindowWidth, secondWindowHeight, 0, 0, picked);
+    }
+
 
 
     while(1)

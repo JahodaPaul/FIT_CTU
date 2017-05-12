@@ -4,16 +4,6 @@
 
 #include "ScreenLoginPassword.h"
 
-ScreenLoginPassword::ScreenLoginPassword()
-{
-
-}
-
-ScreenLoginPassword::~ScreenLoginPassword()
-{
-
-}
-
 /**
  * @param login
  * @param password
@@ -117,4 +107,14 @@ void ScreenLoginPassword::OtherKey()
         }
         refresh();
     }
+}
+
+ScreenLoginPassword::ScreenLoginPassword()
+{
+
+}
+
+ScreenLoginPassword::~ScreenLoginPassword()
+{
+
 }
