@@ -15,7 +15,7 @@ yum install ncurses-*
 
 else
 sudo apt-get install libpq-dev libpqxx-dev
-cd lib/libpqxx-5.0/
+cd lib/libpqxx/
 ./configure --disable-documentation
 sudo make
 sudo make install
