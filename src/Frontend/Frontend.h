@@ -13,6 +13,13 @@
 #include <iostream>
 #include <string>
 
+#define SCREEN_LOGIN_MENU 0
+#define SCREEN_LOGIN_PASSWORD 1
+#define SCREEN_USER_MENU 2
+#define SCREEN_INGREDIENTS 3
+#define SCREEN_RECIPES 4
+#define SCREEN_SINGLE_RECIPE 5
+
 class Screen;
 
 class Frontend

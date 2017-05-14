@@ -5,9 +5,9 @@
 #ifndef RECIPE_MANAGER_SCREENSINGLERECIPE_H
 #define RECIPE_MANAGER_SCREENSINGLERECIPE_H
 
-#include "Screen.h"
+#include "ScreenLogin.h"
 
-class ScreenSingleRecipe : public Screen
+class ScreenSingleRecipe : public ScreenLogin
 {
 public:
     ScreenSingleRecipe();
@@ -22,9 +22,9 @@ public:
 
     void AssignData(Data &data);
 
-    void KeyUp() {};
+    //void KeyUp() {};
 
-    void KeyDown() {};
+    //void KeyDown() {};
 
     void KeyLeft() {};
 
@@ -34,11 +34,16 @@ public:
 
     void Enter();
 
-    void OtherKey() {};
+    //void OtherKey() {};
+
+    void PrintStuff() {};
+
+    void SetVariables() {};
 protected:
 private:
     Data *myData;
     bool finishSelection;
+
 };
 
 #endif //RECIPE_MANAGER_SCREENSINGLERECIPE_H

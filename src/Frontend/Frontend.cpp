@@ -10,14 +10,6 @@
 #include "ScreenUserMenu.h"
 #include "ScreenSingleRecipe.h"
 
-#define SCREEN_LOGIN_MENU 0
-#define SCREEN_LOGIN_PASSWORD 1
-#define SCREEN_USER_MENU 2
-#define SCREEN_INGREDIENTS 3
-#define SCREEN_RECIPES 4
-#define SCREEN_SINGLE_RECIPE 5
-
-
 /// The main Frontend functions from which all Screens are created
 void Frontend::Run(Connection &c, Data &data)
 {
@@ -25,6 +17,7 @@ void Frontend::Run(Connection &c, Data &data)
     Screen *screen = NULL;
     bool loggedIn = false;//,downloadedData=false;
     int userID = 0, showOrCreateRecipe = 0;
+    int screenChoice=0;
     string loginOrRegister = "", login = "", password = "";
     vector <string> pickedIngredients;
     vector <string> recipeVector;// first it holds recommended recipe, then after recipe selection it holds string index
@@ -60,7 +53,22 @@ void Frontend::Run(Connection &c, Data &data)
 
     ProgressBar(&data, &Data::GetDataFromDatabase, 18);
     //downloadedData=true;
-    switchScreens(SCREEN_INGREDIENTS, screen);
+    switchScreens(SCREEN_USER_MENU,screen);
+    screenChoice=screen->Run();
+    if(screenChoice == -2)
+    {
+        if(screen != NULL)
+        {
+            delete screen;
+        }
+        return;
+    }
+    else if(screenChoice!=-1)
+    {
+        switchScreens(screenChoice,screen);
+    }
+
+    //switchScreens(SCREEN_INGREDIENTS, screen);
     screen->AssignData(data);
     showOrCreateRecipe = screen->Run(data.GetMapOfIngridients(), pickedIngredients);
 

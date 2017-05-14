@@ -19,20 +19,19 @@ int ScreenLogin::Run()
     start_color();// makes it a little bit brighter
     noecho();
     cbreak();
-    Frontend::middleStartX = (COLS - loginBoxWidth) / 2;
-    Frontend::middleStartY = (LINES - loginBoxHeight) / 3;
-    WINDOW * menu_win = newwin(loginBoxHeight, loginBoxWidth, middleStartY, middleStartX);
+    SetVariables();
+    WINDOW * menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
     //------------------------------------------------------------------------------------------------------------------
 
     keypad(menu_win, TRUE);
-    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
+    PrintStuff();
     refresh();
-    PrintMenu(menu_win, highlight, choices, true, loginBoxWidth, loginBoxHeight, averageStringSizeLogin, 0, (int) choices.size());
+    PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
     while(1)
     {
         key = wgetch(menu_win);
         ReactToUserInput(key);
-        PrintMenu(menu_win, highlight, choices, true, loginBoxWidth, loginBoxHeight, averageStringSizeLogin, 0, (int) choices.size());
+        PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
         if(userPressedEnter)
         {
             break;
@@ -43,6 +42,17 @@ int ScreenLogin::Run()
     endwin();
     system("clear");
     return highlight;
+}
+
+void ScreenLogin::SetVariables()
+{
+    firstWindowStartX = (COLS - firstWindowWidth) / 2;
+    firstWindowStartY = (LINES - firstWindowHeight) / 3;
+}
+
+void ScreenLogin::PrintStuff() const
+{
+    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
 }
 
 void ScreenLogin::KeyUp()
@@ -79,20 +89,28 @@ void ScreenLogin::OtherKey()
     refresh();
 }
 
+void ScreenLogin::CountAverageStringSize(const vector <string> &vectorOfStrings, int &averageStringSize)
+{
+    averageStringSize = 0;
+    for(unsigned int i = 0; i < vectorOfStrings.size(); ++i)
+    {
+        averageStringSize += vectorOfStrings[i].length();
+    }
+    averageStringSize /= vectorOfStrings.size();
+}
+
 /// sets login screen choices (login ect) and calculates averages string size of vector choices for better looking UI
 ScreenLogin::ScreenLogin()
 {
-    loginBoxWidth = 25;
-    loginBoxHeight = 7;
+    firstWindowWidth = 25;
+    firstWindowHeight = 7;
+    firstWindowStartY=0;
+    firstWindowStartX=COLS-25;
     choices.push_back("login");
     choices.push_back("register");
     choices.push_back("exit");
-    averageStringSizeLogin = 0;
-    for(unsigned int i = 0; i < choices.size(); i++)
-    {
-        averageStringSizeLogin += choices[i].length();
-    }
-    averageStringSizeLogin /= choices.size();
+    CountAverageStringSize(choices,averageStringSize);
+    center=true;
 }
 
 ScreenLogin::~ScreenLogin()

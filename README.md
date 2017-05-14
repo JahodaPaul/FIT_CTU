@@ -1,11 +1,15 @@
-to start this project you
+to run this project
+go to project folder and type "make install" which will hopefully install all necessary libraries
+
+if make install does not do the work you
 need to download and install libpqxx, libpq(for database communication) and ncurses (for UI)
 --------------------------------------------------------------------------------
-sudo apt-get install libpq-dev
 
-git clone https://github.com/jtv/libpqxx
+sudo apt-get install libpq-dev libpqxx-dev
 
-cd libpqxx
+(go into project folder and type)
+
+cd lib/libpqxx-5.0/
 
 ./configure --disable-documentation
 
@@ -27,6 +31,8 @@ Unfortunately it is not possible to run this program on windows, yet.
 
 --------------------------------------------------------------------------------
 make count -> calculates number of lines in code
+
+make install -> installs necessary libraries
 
 make compile -> compiles project
 

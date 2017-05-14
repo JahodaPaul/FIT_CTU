@@ -38,17 +38,18 @@ public:
     void OtherKey();
 
 protected:
-private:
-    /// \property login screen choices - login, register, exit
+    void CountAverageStringSize(const vector<string> & vectorOfStrings,int & averageStringSize);
+
     vector <string> choices;
+    int averageStringSize;
+    int firstWindowHeight, firstWindowWidth, firstWindowStartX, firstWindowStartY;
+    bool center;
 
-    int averageStringSizeLogin;
-    int loginStartx;
-    int loginStarty;
-    int loginBoxWidth;
-    int loginBoxHeight;
+    virtual void PrintStuff() const;
 
+    virtual void SetVariables();
 
+private:
 };
 
 #endif //RECIPE_MANAGER_SCREENLOGIN_H

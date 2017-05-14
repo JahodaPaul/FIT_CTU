@@ -5,9 +5,9 @@
 #ifndef RECIPE_MANAGER_SCREENUSERMENU_H
 #define RECIPE_MANAGER_SCREENUSERMENU_H
 
-#include "Screen.h"
+#include "ScreenLogin.h"
 
-class ScreenUserMenu : public Screen
+class ScreenUserMenu : public ScreenLogin
 {
 public:
     ScreenUserMenu();
@@ -16,15 +16,15 @@ public:
 
     int Run(const map <string, string> &mapa, vector <string> &) { return 0; }
 
-    int Run() { return 0; }
+    //int Run() { return 0; }
 
     void Run(string &, string &) {};
 
     void AssignData(Data &data) {};
 
-    void KeyUp() {};
+    //void KeyUp() {};
 
-    void KeyDown() {};
+    //void KeyDown() {};
 
     void KeyLeft() {};
 
@@ -32,9 +32,13 @@ public:
 
     void Backspace() {};
 
-    void Enter() {};
+    void Enter();
 
-    void OtherKey() {};
+    //void OtherKey() {};
+
+    void PrintStuff() const;
+
+    void SetVariables() {};
 protected:
 private:
 
