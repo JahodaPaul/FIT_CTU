@@ -45,8 +45,21 @@ protected:
     int middleStartY;
 
 private:
-    void switchScreens(const int screenChoice, Screen *&currentScreen);
+    void SwitchScreens(const int screenChoice, Screen *&currentScreen);
+    void RunScreen(const int screenChoice, Screen * currentScreen);
 
+    bool downloadedData;
+    int userID;
+    int showOrCreateRecipe;
+    int screenChoiceMenu;
+    int loginChoice;
+    vector <string> pickedIngredients;
+    vector <string> recipeVector;
+    string loginOrRegister, login, password;
+    string recommendedRecipe;
+    bool recipesNotSelectedYet;
+
+    Data * frontendData;
 };
 
 #endif //RECIPE_MANAGER_FRONTEND_H

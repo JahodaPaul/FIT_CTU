@@ -35,6 +35,8 @@ public:
 
     void SetVariables();
 
+    bool AreYouRecipeScreen(){return true;}
+
 protected:
 private:
     void ChangeFocus();

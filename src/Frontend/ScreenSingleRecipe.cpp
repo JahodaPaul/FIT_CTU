@@ -47,11 +47,11 @@ void ScreenSingleRecipe::Enter()
     {
         case 0://LIKE
 
-            highlight=-1;
+            highlight=SCREEN_SINGLE_RECIPE;
             break;
         case 1://UNLIKE
 
-            highlight=-1;
+            highlight=SCREEN_SINGLE_RECIPE;
             break;
         case 2:
             highlight=SCREEN_RECIPES;

@@ -60,14 +60,15 @@ void ScreenRecipes::KeyRight()
 
 void ScreenRecipes::PrintTextInfoForUser() const
 {
-    mvprintw(0, 0, "Use arrow keys to go up and down. Press enter to select a recipe");
-    mvprintw(1, 0, "Use arrows left and right to move focus between screens");
+    mvprintw(0, 0, "Arrows top and down to scroll, left and right to switch focus between screens.");
+    mvprintw(1, 0, "Type to activate smart selection.");
+    mvprintw(2, 0, "To select recipe press enter.");
     string s = "";
     for(int i = 0; i < COLS; i++)
     {
         s += '-';
     }
-    mvprintw(2, 0, s.c_str());
+    mvprintw(3, 0, s.c_str());
 
     attron(A_BOLD);
     mvprintw(secondWindowStartY - 1, 1, "You might like this recipe: ");
@@ -84,10 +85,10 @@ void ScreenRecipes::SetVariables()
 
 ScreenRecipes::ScreenRecipes()
 {
-    firstWindowHeight = LINES - 9;
+    firstWindowHeight = LINES - 10;
     firstWindowWidth = COLS;
     firstWindowStartX = 0;
-    firstWindowStartY = LINES - firstWindowHeight - 6;
+    firstWindowStartY = LINES - firstWindowHeight - 5;
     secondWindowHeight = 3;
     secondWindowWidth = firstWindowWidth;
     secondWindowStartX = 0;

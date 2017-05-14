@@ -15,87 +15,69 @@ void Frontend::Run(Connection &c, Data &data)
 {
     //variables---------------------------------------------------------------------------------------------------------
     Screen *screen = NULL;
-    bool loggedIn = false;//,downloadedData=false;
-    int userID = 0, showOrCreateRecipe = 0;
-    int screenChoice=0;
-    string loginOrRegister = "", login = "", password = "";
-    vector <string> pickedIngredients;
-    vector <string> recipeVector;// first it holds recommended recipe, then after recipe selection it holds string index
+    bool loggedIn = false;
+    downloadedData=false;
+    userID = 0;
+    showOrCreateRecipe = 0;
+    screenChoiceMenu=0;
+    loginChoice=0;
+    loginOrRegister = ""; login = ""; password = "";
+    recommendedRecipe="";
+    frontendData=&data;
+    pickedIngredients.clear();
+    recipeVector.clear();// first it holds recommended recipe, then after recipe selection it holds string index
     //of selected recipe
     //------------------------------------------------------------------------------------------------------------------
 
     while(!loggedIn)
     {
-        login = "";
-        password = "";
-        switchScreens(SCREEN_LOGIN_MENU, screen);
-        int choice = screen->Run();
-        if(choice == 0)
+        SwitchScreens(SCREEN_LOGIN_MENU, screen);
+        if(loginChoice == 0)
         {
-            switchScreens(SCREEN_LOGIN_PASSWORD, screen);
-            screen->Run(login, password);
+            SwitchScreens(SCREEN_LOGIN_PASSWORD, screen);
             loggedIn = c.Connect(login, password, userID);
         }
-        else if(choice == 1)
+        else if(loginChoice == 1)
         {
-            switchScreens(SCREEN_LOGIN_PASSWORD, screen);
-            screen->Run(login, password);
+            SwitchScreens(SCREEN_LOGIN_PASSWORD, screen);
             loggedIn = c.Register(login, password, userID);
         }
         else
         {
+            if(screen != NULL)
+            {
+                delete screen;
+            }
             return;
         }
     }
 
-    data.UpdateScreenWidth(COLS);
-    data.CreateNewUser(new User(userID, login));
+    SwitchScreens(SCREEN_USER_MENU, screen);
+    //SCREEN_INGREDIENTS is selected afterwards (currently no other option)
 
-    ProgressBar(&data, &Data::GetDataFromDatabase, 18);
-    //downloadedData=true;
-    switchScreens(SCREEN_USER_MENU,screen);
-    screenChoice=screen->Run();
-    if(screenChoice == -2)
+    // in this while Screens are changing until exit is selected
+    while(1)
     {
-        if(screen != NULL)
+        if(screenChoiceMenu == -2)
         {
-            delete screen;
+            if(screen != NULL)
+            {
+                delete screen;
+            }
+            return;
         }
-        return;
-    }
-    else if(screenChoice!=-1)
-    {
-        switchScreens(screenChoice,screen);
-    }
-
-    //switchScreens(SCREEN_INGREDIENTS, screen);
-    screen->AssignData(data);
-    showOrCreateRecipe = screen->Run(data.GetMapOfIngridients(), pickedIngredients);
-
-    if(showOrCreateRecipe)
-    {
-        data.CreateRecipeBasedOnIngredientsSelected(pickedIngredients);
-        string recommendedRecipe = data.GetRecommendedRecipe((*data.GetRecipe()), data.GetUser()->GetUserId());
-        data.DeleteRecipeBasedOnIngredients();
-        recipeVector.push_back(recommendedRecipe);
-        switchScreens(SCREEN_RECIPES, screen);
-        //TODO MAYBE?
-        screen->Run(data.GetMapOfRecipes(), recipeVector);
-
-        switchScreens(SCREEN_SINGLE_RECIPE, screen);
-        screen->AssignData(data);
-        screen->Run(map<string, string>(), recipeVector);
-
-    }
-
-    /// at the end of program delete Screen instances
-    if(screen != NULL)
-    {
-        delete screen;
+        else if(screenChoiceMenu != -1)
+        {
+            SwitchScreens(screenChoiceMenu, screen);
+        }
+        else
+        {//just for testing purposes
+            SwitchScreens(SCREEN_USER_MENU, screen);
+        }
     }
 }
 
-void Frontend::switchScreens(const int screenChoice, Screen *&currentScreen)
+void Frontend::SwitchScreens(const int screenChoice, Screen *&currentScreen)
 {
     Screen *tmpScreen = currentScreen;
     switch(screenChoice)
@@ -125,7 +107,56 @@ void Frontend::switchScreens(const int screenChoice, Screen *&currentScreen)
     {
         delete tmpScreen;
     }
+    RunScreen(screenChoice,currentScreen);
 }
+
+void Frontend::RunScreen(const int screenChoice, Screen * currentScreen)
+{
+    switch(screenChoice)
+    {
+        case SCREEN_LOGIN_MENU:
+            loginChoice=currentScreen->Run();
+            break;
+        case SCREEN_USER_MENU:
+            frontendData->UpdateScreenWidth(COLS);
+            if(!downloadedData)
+            {
+                frontendData->CreateNewUser(new User(userID, login));
+                ProgressBar(frontendData, &Data::GetDataFromDatabase, 18);
+                downloadedData = true;
+            }
+            screenChoiceMenu = currentScreen->Run();
+            break;
+        case SCREEN_INGREDIENTS:
+            currentScreen->AssignData(*frontendData);
+            screenChoiceMenu = currentScreen->Run(frontendData->GetMapOfIngridients(), pickedIngredients);
+            break;
+        case SCREEN_RECIPES:
+            frontendData->DeleteRecipeBasedOnIngredients();
+            frontendData->CreateRecipeBasedOnIngredientsSelected(pickedIngredients);
+            recommendedRecipe = frontendData->GetRecommendedRecipe((*frontendData->GetRecipe()), frontendData->GetUser()->GetUserId());
+            frontendData->DeleteRecipeBasedOnIngredients();
+            recipeVector.push_back(recommendedRecipe);
+            screenChoiceMenu = currentScreen->Run(frontendData->GetMapOfRecipes(), recipeVector);
+            break;
+        case SCREEN_LOGIN_PASSWORD:
+            currentScreen->Run(login, password);
+            break;
+        case SCREEN_SINGLE_RECIPE:
+            currentScreen->AssignData(*frontendData);
+            screenChoiceMenu = currentScreen->Run(map<string, string>(), recipeVector);
+            if(screenChoice!=SCREEN_SINGLE_RECIPE)
+            recipeVector.clear();
+            if(screenChoice!=SCREEN_INGREDIENTS && screenChoice!=SCREEN_SINGLE_RECIPE)
+            {
+                pickedIngredients.clear();
+            }
+            break;
+        default:
+            return;
+    }
+}
+
 
 /**
  * \return true if string exists in vector of string
@@ -212,9 +243,9 @@ void Frontend::ProgressBar(TRIDA *d, void (TRIDA::*function)(int), const int max
 
 Frontend::Frontend()
 {
+    frontendData=NULL;
 }
 
 Frontend::~Frontend()
 {
-
 }

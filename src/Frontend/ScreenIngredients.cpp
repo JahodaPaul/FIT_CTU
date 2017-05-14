@@ -75,12 +75,15 @@ int ScreenIngredients::Run(const map <string, string> &mapa, vector <string> &pi
     refresh();
     endwin();
     system("clear");
+    if(AreYouRecipeScreen())
+    {
+        return SCREEN_SINGLE_RECIPE;
+    }
     if(userPressedDoubleEnter)
     {
-        //TODO
-        return 1;
+        return SCREEN_RECIPES;
     }
-    return 0;
+    return SCREEN_USER_MENU;
 
 }
 
@@ -206,9 +209,9 @@ void ScreenIngredients::RefreshWholeWindow(WINDOW *menu_win)
 
 void ScreenIngredients::PrintTextInfoForUser() const
 {
-    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
-    mvprintw(1, 0, "Press double enter to Search for recipes containing chosen ingredients.");
-    mvprintw(2, 0, "Press enter and backspace to exit the application.");
+    mvprintw(0, 0, "To change selection use arrows or typing. Press enter to select a choice");
+    mvprintw(1, 0, "Press enter and backspace to go back to menu.");
+    mvprintw(2, 0, "Press double enter to search for recipes.");
     string s = "";
     for(int i = 0; i < COLS; i++)
     {

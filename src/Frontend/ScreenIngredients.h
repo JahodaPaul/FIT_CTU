@@ -36,6 +36,8 @@ public:
 
     void OtherKey();
 
+    virtual bool AreYouRecipeScreen(){return false;}
+
 protected:
     int firstWindowHeight, firstWindowWidth, firstWindowStartX, firstWindowStartY;
     int secondWindowHeight, secondWindowWidth, secondWindowStartX, secondWindowStartY;
