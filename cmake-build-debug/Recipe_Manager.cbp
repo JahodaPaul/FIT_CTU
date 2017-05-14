@@ -17,16 +17,6 @@
 					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="rebuild_cache">
 				<Option working_dir="/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug"/>
 				<Option type="4"/>
@@ -37,11 +27,21 @@
 					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="output">
+			<Target title="edit_cache">
 				<Option working_dir="/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 output"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jahodpa1">
+				<Option working_dir="/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 jahodpa1"/>
 					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>

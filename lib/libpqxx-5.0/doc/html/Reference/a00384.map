@@ -1,8 +1,0 @@
-<map id="pqxx::internal::transactionfocus" name="pqxx::internal::transactionfocus">
-<area shape="rect" id="node3" href="$a00065.html" title="Processes several queries in FIFO manner, optimized for high throughput. " alt="" coords="5,155,107,181"/>
-<area shape="rect" id="node4" href="$a00094.html" title="&quot;Transaction&quot; nested within another transaction " alt="" coords="131,155,273,181"/>
-<area shape="rect" id="node5" href="$a00097.html" title="pqxx::tablestream" alt="" coords="298,155,424,181"/>
-<area shape="rect" id="node2" href="$a00059.html" title="pqxx::internal::namedclass" alt="" coords="113,5,292,32"/>
-<area shape="rect" id="node6" href="$a00096.html" title="pqxx::tablereader" alt="" coords="228,229,351,256"/>
-<area shape="rect" id="node7" href="$a00098.html" title="pqxx::tablewriter" alt="" coords="375,229,493,256"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="pqxx::basic_robusttransaction" name="pqxx::basic_robusttransaction">
-<area shape="rect" id="node5" href="$a00080.html" title="Slightly slower, better&#45;fortified version of transaction. " alt="" coords="23,305,181,346"/>
-<area shape="rect" id="node2" href="$a00032.html" title="pqxx::dbtransaction" alt="" coords="35,155,169,181"/>
-<area shape="rect" id="node3" href="$a00102.html" title="pqxx::transaction_base" alt="" coords="24,80,181,107"/>
-<area shape="rect" id="node4" href="$a00059.html" title="pqxx::internal::namedclass" alt="" coords="13,5,192,32"/>
-</map>

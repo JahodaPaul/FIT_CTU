@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/pjahoda/Documents/CLion-2017.1/clion-2017.1/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -77,6 +66,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/home/pjahoda/Documents/CLion-2017.1/clion-2017.1/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named output
+# Target rules for targets named jahodpa1
 
 # Build rule for target.
-output: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 output
-.PHONY : output
+jahodpa1: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 jahodpa1
+.PHONY : jahodpa1
 
 # fast build rule for target.
-output/fast:
-	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/build
-.PHONY : output/fast
+jahodpa1/fast:
+	$(MAKE) -f CMakeFiles/jahodpa1.dir/build.make CMakeFiles/jahodpa1.dir/build
+.PHONY : jahodpa1/fast
 
 # Help Target
 help:
@@ -129,9 +129,9 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... output"
+	@echo "... edit_cache"
+	@echo "... jahodpa1"
 .PHONY : help
 
 
