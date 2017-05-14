@@ -119,6 +119,7 @@ void Frontend::RunScreen(const int screenChoice, Screen * currentScreen)
             break;
         case SCREEN_USER_MENU:
             frontendData->UpdateScreenWidth(COLS);
+            currentScreen->AssignData(*frontendData);
             if(!downloadedData)
             {
                 frontendData->CreateNewUser(new User(userID, login));

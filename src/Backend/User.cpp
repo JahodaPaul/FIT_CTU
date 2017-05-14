@@ -17,6 +17,12 @@ User::User(const int &id, const string &name)
     this->name = name;
 }
 
+string User::GetUserName() const
+{
+    return this->name;
+}
+
+
 User::~User()
 {
 

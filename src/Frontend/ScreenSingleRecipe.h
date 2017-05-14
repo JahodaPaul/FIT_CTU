@@ -36,13 +36,15 @@ public:
 
     //void OtherKey() {};
 
-    void PrintStuff() {};
+    void PrintStuff() const;
 
-    void SetVariables() {};
+    void SetVariables();
 protected:
 private:
     Data *myData;
     bool finishSelection;
+
+    Recipe * singleRecipe;
 
 };
 

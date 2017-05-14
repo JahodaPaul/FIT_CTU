@@ -20,7 +20,7 @@ public:
 
     void Run(string &, string &) {};
 
-    void AssignData(Data &data) {};
+    void AssignData(Data &data);
 
     //void KeyUp() {};
 
@@ -38,10 +38,10 @@ public:
 
     void PrintStuff() const;
 
-    void SetVariables() {};
+    void SetVariables();
 protected:
 private:
-
+    Data *myData;
 };
 
 #endif //RECIPE_MANAGER_SCREENUSERMENU_H

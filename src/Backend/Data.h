@@ -43,6 +43,10 @@ public:
 
     Recipe *GetRecipeByIndex(const string &index) const;
 
+    void LikeRecipe(const int &userID,const Recipe * recipeID);
+
+    void UnlikeRecipe(const int &userID,const Recipe * recipeID);
+
 protected:
 private:
     void CopyIntoMap(const pqxx::result &, const string, map <string, string> &);

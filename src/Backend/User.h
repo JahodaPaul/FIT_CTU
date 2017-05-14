@@ -16,6 +16,8 @@ public:
 
     int GetUserId() const;
 
+    string GetUserName() const;
+
     ~User();
 
 protected:

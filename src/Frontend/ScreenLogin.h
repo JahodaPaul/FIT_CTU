@@ -38,11 +38,13 @@ public:
     void OtherKey();
 
 protected:
-    void CountAverageStringSize(const vector<string> & vectorOfStrings,int & averageStringSize);
+    void CountAverageStringSize(const vector<string> & vectorOfStrings,int & averageSize);
 
     vector <string> choices;
-    int averageStringSize;
+    vector <string> pictureVector;
+    int averageStringSize,averageStringPicture;
     int firstWindowHeight, firstWindowWidth, firstWindowStartX, firstWindowStartY;
+    int secondWindowHeight, secondWindowWidth, secondWindowStartX, secondWindowStartY;
     bool center;
 
     virtual void PrintStuff() const;

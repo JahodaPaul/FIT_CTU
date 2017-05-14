@@ -81,6 +81,16 @@ string Recipe::ToString(const int &screenWidth)
     return result;
 }
 
+vector<string>& Recipe::GetIngredients()
+{
+    return this->ingredients;
+}
+
+vector<int>& Recipe::GetIngredientWeights()
+{
+    return this->ingredientWeight;
+}
+
 Recipe::Recipe(vector <string> ingredients, vector<int> ingredientWeight, int idRecipe)
 {
     this->ingredients = ingredients;

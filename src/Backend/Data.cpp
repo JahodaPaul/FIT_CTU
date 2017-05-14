@@ -395,3 +395,13 @@ Data::~Data()
 {
     delete user;
 }
+
+void Data::LikeRecipe(const int &userID, const Recipe *recipeID)
+{
+
+}
+
+void Data::UnlikeRecipe(const int &userID, const Recipe *recipeID)
+{
+
+}

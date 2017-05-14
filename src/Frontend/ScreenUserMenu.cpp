@@ -25,9 +25,24 @@ void ScreenUserMenu::Enter()
     }
 }
 
+void ScreenUserMenu::AssignData(Data &data)
+{
+    myData = &data;
+}
+
 void ScreenUserMenu::PrintStuff() const
 {
+    string printedString = "Username: ";
+    printedString+=myData->GetUser()->GetUserName();
+    mvprintw(secondWindowHeight, 1, printedString.c_str());
+}
 
+void ScreenUserMenu::SetVariables()
+{
+    secondWindowHeight=9;
+    secondWindowWidth=22;
+    secondWindowStartX=0;
+    secondWindowStartY=0;
 }
 
 ScreenUserMenu::ScreenUserMenu()
@@ -37,7 +52,10 @@ ScreenUserMenu::ScreenUserMenu()
     choices.push_back("FIND RECIPES");
     choices.push_back("SOMETHING");
     choices.push_back("EXIT");
+    pictureVector.push_back("PROFILE");
+    pictureVector.push_back("PICTURE");
     CountAverageStringSize(choices,averageStringSize);
+    CountAverageStringSize(pictureVector,averageStringPicture);
     center=false;
 }
 

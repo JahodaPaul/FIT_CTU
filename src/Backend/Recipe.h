@@ -16,9 +16,15 @@ class Recipe
 public:
     Recipe(vector <string> ingredients, vector<int> ingredientWeight, int idRecipe);
 
+    ~Recipe();
+
     int HowMuchAreRecipesSame(const Recipe &);
 
     string ToString(const int &screenWidth);
+
+    vector<string> & GetIngredients();
+
+    vector<int> & GetIngredientWeights();
 
     bool operator==(Recipe &r)
     {
@@ -36,7 +42,7 @@ public:
         return true;
     }
 
-    ~Recipe();
+
 
 protected:
 private:
