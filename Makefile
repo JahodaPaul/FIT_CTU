@@ -1,4 +1,4 @@
-CXXFLAGS = -std=c++1y -Ilib/libpqxx-5.0/include -lpqxx -lpq -lncurses
+CXXFLAGS = -std=c++1y -Ilib/libpqxx/include -lpqxx -lpq -lncurses `pkg-config --cflags libpqxx` `pkg-config --libs libpqxx`
 STRICTFLAGS = -std=c++1y -Wall -pedantic -Wno-long-long -O0 -ggdb -c
 
 all: build/Connection.o build/Recipe.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o build/User.o build/main.o compile doc
