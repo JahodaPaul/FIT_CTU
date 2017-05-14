@@ -58,4 +58,5 @@ doc:
 	mkdir -p doc
 	doxygen Doxyfile
 install:
+	cd lib && git clone https://github.com/jtv/libpqxx
 	./.install.sh

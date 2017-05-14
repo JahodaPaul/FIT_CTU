@@ -7,7 +7,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include "../../lib/libpqxx-5.0/include/pqxx/pqxx"
+#include "../../lib/libpqxx/include/pqxx/pqxx"
 
 using namespace std;
 using namespace pqxx;

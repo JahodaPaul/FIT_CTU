@@ -7,7 +7,7 @@ centos=$(grep "entos$" /etc/*-release | wc -l)
 if (($fedora>0 || $centos>0))
 then
 yum install postgresql-devel
-cd lib/libpqxx-5.0/
+cd lib/libpqxx/
 ./configure --disable-documentation
 su make
 su make install
