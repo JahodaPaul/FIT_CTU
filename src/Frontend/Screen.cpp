@@ -30,6 +30,12 @@ void Screen::ReactToUserInput(const int &key)
         case KEY_BACKSPACE:
             Backspace();
             break;
+        case 8:
+            Backspace();
+            break;
+        case 127:
+            Backspace();
+            break;
         default:
             OtherKey();
             break;
