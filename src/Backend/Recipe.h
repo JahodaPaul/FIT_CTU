@@ -26,6 +26,8 @@ public:
 
     vector<int> & GetIngredientWeights();
 
+    int GetRecipeId() const;
+
     bool operator==(Recipe &r)
     {
         for(unsigned int i = 0; i < this->ingredients.size(); i++)
@@ -45,6 +47,7 @@ public:
 
 
 protected:
+
 private:
     vector <string> ingredients;
     vector<int> ingredientWeight;

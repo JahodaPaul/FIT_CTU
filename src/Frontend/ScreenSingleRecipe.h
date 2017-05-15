@@ -39,6 +39,9 @@ public:
     void PrintStuff() const;
 
     void SetVariables();
+
+    void RefreshLikedRecipes();
+
 protected:
 private:
     Data *myData;

@@ -23,9 +23,6 @@ int ScreenSingleRecipe::Run(const map <string, string> &mapa, vector <string> &p
     noecho();
     cbreak();
 
-    //mvprintw(0, 0, singleRecipe->ToString(COLS).c_str());
-    //mvprintw(1, 1, pickedIngridients[0].c_str());
-
     keypad(menu_win, TRUE);
     PrintStuff();
     refresh();
@@ -56,25 +53,44 @@ void ScreenSingleRecipe::Enter()
     switch(highlight)
     {
         case 0://LIKE
-
+            if(myData!=NULL)
+            {
+                myData->LikeRecipe(myData->GetUser()->GetUserId(),singleRecipe);
+                RefreshLikedRecipes();
+            }
             highlight=SCREEN_SINGLE_RECIPE;
             break;
         case 1://UNLIKE
-
+            if(myData!=NULL)
+            {
+                myData->UnlikeRecipe(myData->GetUser()->GetUserId(),singleRecipe);
+                RefreshLikedRecipes();
+            }
             highlight=SCREEN_SINGLE_RECIPE;
             break;
         case 2:
             highlight=SCREEN_RECIPES;
+            Data::idOfRecommendedRecipe=0;
             break;
         case 3:
             highlight=SCREEN_INGREDIENTS;
+            Data::idOfRecommendedRecipe=0;
             break;
         case 4:
             highlight=SCREEN_USER_MENU;
+            Data::idOfRecommendedRecipe=0;
             break;
         default:
             return;
     }
+}
+
+void ScreenSingleRecipe::RefreshLikedRecipes()
+{
+    Data::idOfRecommendedRecipe=singleRecipe->GetRecipeId();
+    myData->DeleteMapOfUsersAndRecipesTheyLiked();
+    myData->GetDataFromDatabase(14);
+    myData->SetRecommendedRecipe();
 }
 
 void ScreenSingleRecipe::AssignData(Data &data)
@@ -84,8 +100,12 @@ void ScreenSingleRecipe::AssignData(Data &data)
 
 void ScreenSingleRecipe::PrintStuff() const
 {
+    int posY=0;
+    string nOfPeopleThatLikeThisRecipe="";
     vector<string> ingredients = singleRecipe->GetIngredients();
     vector<int> ingredientWeights = singleRecipe->GetIngredientWeights();
+
+
     int numberOfIngredientsNotPrinted = 0;
     for(unsigned int i = 0; i< ingredients.size(); ++i)
     {
@@ -93,7 +113,7 @@ void ScreenSingleRecipe::PrintStuff() const
         {
             string weight = to_string(ingredientWeights[i]);
             weight += " g";
-            int posY = secondWindowHeight + i + 1 - numberOfIngredientsNotPrinted;
+            posY = secondWindowHeight + i + 1 - numberOfIngredientsNotPrinted;
             mvprintw(posY, 1, weight.c_str());
             mvprintw(posY, 7, "|");
             mvprintw(posY, 8, ingredients[i].c_str());
@@ -102,6 +122,23 @@ void ScreenSingleRecipe::PrintStuff() const
         {
             numberOfIngredientsNotPrinted++;
         }
+    }
+    vector<int> usersID = myData->GetUsersThatLikedRecipe(singleRecipe->GetRecipeId());
+    int tmp = (int)usersID.size();
+    nOfPeopleThatLikeThisRecipe=to_string(tmp);
+    if(tmp==1)
+    {
+        nOfPeopleThatLikeThisRecipe+=" person likes this recipe.";
+    }
+    else
+    {
+        nOfPeopleThatLikeThisRecipe+=" people like this recipe.";
+    }
+    mvprintw(posY+1, 1, "--------------------------");
+    mvprintw(posY+2, 1, nOfPeopleThatLikeThisRecipe.c_str());
+    if(Contain(usersID,myData->GetUser()->GetUserId()))
+    {
+        mvprintw(posY+3, 1, "You like this recipe");
     }
 }
 

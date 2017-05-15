@@ -91,6 +91,11 @@ vector<int>& Recipe::GetIngredientWeights()
     return this->ingredientWeight;
 }
 
+int Recipe::GetRecipeId() const
+{
+    return this->idRecipe;
+}
+
 Recipe::Recipe(vector <string> ingredients, vector<int> ingredientWeight, int idRecipe)
 {
     this->ingredients = ingredients;

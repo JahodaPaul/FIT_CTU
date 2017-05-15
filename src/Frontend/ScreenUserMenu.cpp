@@ -9,7 +9,7 @@ void ScreenUserMenu::Enter()
     userPressedEnter=true;
     switch(highlight)
     {
-        case 0://LIKE
+        case 0://SELECT SCREEN INGREDIENTS
 
             highlight=SCREEN_INGREDIENTS;
             break;

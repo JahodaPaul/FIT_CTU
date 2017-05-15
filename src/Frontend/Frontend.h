@@ -34,7 +34,8 @@ public:
     void RunIngridientSelection(const map <string, string> &);
 
 protected:
-    bool Contain(const vector <string> &arr, const string &lookingFor) const;
+    template <class T>
+    bool Contain(const vector <T> &arr, const T &lookingFor) const;
 
     void AssignValueToVariableTo(int &to, const int &sizeOfVector, const int &boxSize);
 
@@ -61,5 +62,21 @@ private:
 
     Data * frontendData;
 };
+
+/**
+ * \return true if string exists in vector of string
+ */
+template <class T>
+bool Frontend::Contain(const vector <T> &arr, const T &lookingFor) const
+{
+    for(auto const &item : arr)
+    {
+        if(item == lookingFor)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 #endif //RECIPE_MANAGER_FRONTEND_H

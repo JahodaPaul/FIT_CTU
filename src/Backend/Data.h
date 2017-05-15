@@ -29,6 +29,8 @@ public:
 
     User *GetUser() const;
 
+    vector<int> GetUsersThatLikedRecipe(const int & recipeID) const;
+
     void CreateNewUser(User *user1);
 
     void CreateRecipeBasedOnIngredientsSelected(const vector <string> &selectedIngredients);
@@ -43,10 +45,15 @@ public:
 
     Recipe *GetRecipeByIndex(const string &index) const;
 
-    void LikeRecipe(const int &userID,const Recipe * recipeID);
+    void LikeRecipe(const int &userID,const Recipe * currentRecipe);
 
-    void UnlikeRecipe(const int &userID,const Recipe * recipeID);
+    void UnlikeRecipe(const int &userID,const Recipe * currentRecipe);
 
+    void DeleteMapOfUsersAndRecipesTheyLiked();
+
+    void SetRecommendedRecipe();
+
+    static int idOfRecommendedRecipe;
 protected:
 private:
     void CopyIntoMap(const pqxx::result &, const string, map <string, string> &);
@@ -68,6 +75,8 @@ private:
     Recipe *recommendedRecipe;
 
     int screenWidth;
+
+
 };
 
 #endif //RECIPE_MANAGER_DATA_H

@@ -5,12 +5,13 @@
 #include "Data.h"
 #include <iostream>
 
-
+int Data::idOfRecommendedRecipe=0;
 /**
    copy food ingredients into map, key is its name and values is its category - name of a category is a name of column in recipes table
    careful, vegetables has two columns vegetable and vegetable2, so does spices - spice and spice2
    integer parameter is used to show progressBar progress
  * @param select
+ * DO NOT CHANGE CASE 14
  */
 void Data::GetDataFromDatabase(const int select)
 {
@@ -159,10 +160,12 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
     int max = 0;
     typedef map<int, vector < Recipe * > >::iterator it_type;
     it_type it;
+    it_type userIt=mapOfUsersAndRecipesTheyLiked.end();
     for(it_type iterator = mapOfUsersAndRecipesTheyLiked.begin(); iterator != mapOfUsersAndRecipesTheyLiked.end(); ++iterator)
     {
         if((*iterator).first == userID)
         {
+            userIt=iterator;
             continue;
         }
         int sum = 0, average = 0;
@@ -171,7 +174,6 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
             sum += (*iterator).second[j]->HowMuchAreRecipesSame(recipe);
         }
         average = sum / (int) (*iterator).second.size();
-        cout << average << endl;
         if(average > max)
         {
             max = average;
@@ -180,13 +182,43 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
     };
 
     max = 0;
-    Recipe *p;
+    Recipe *p=NULL;
+    bool didNotFoundRecipeThatYouDoNotAlreadyLike=false;
+
     for(unsigned int j = 0; j < (*it).second.size(); j++)
     {
         if((*it).second[j]->HowMuchAreRecipesSame(recipe) > max)
         {
-            max = (*it).second[j]->HowMuchAreRecipesSame(recipe);
-            p = (*it).second[j];
+            if(userIt==mapOfUsersAndRecipesTheyLiked.end())
+            {
+                max = (*it).second[j]->HowMuchAreRecipesSame(recipe);
+                p = (*it).second[j];
+            }
+            else
+            {
+                bool tmp = false;
+                for(unsigned int k = 0; k < (*userIt).second.size(); k++)
+                {
+                    if((*it).second[j]->GetRecipeId() == (*userIt).second[k]->GetRecipeId())
+                    {
+                        tmp=true;
+                        break;
+                    }
+                }
+                if(!tmp || didNotFoundRecipeThatYouDoNotAlreadyLike)
+                {
+                    max = (*it).second[j]->HowMuchAreRecipesSame(recipe);
+                    p = (*it).second[j];
+                }
+            }
+        }
+        if(j+1==(*it).second.size())
+        {
+            if(p==NULL)
+            {
+                didNotFoundRecipeThatYouDoNotAlreadyLike=true;
+                j=-1;
+            }
         }
     }
     this->recommendedRecipe = p;
@@ -382,6 +414,77 @@ void Data::UpdateScreenWidth(const int width)
     screenWidth = width;
 }
 
+/// checks if recipe is already liked by this user, if not insert like into database
+void Data::LikeRecipe(const int &userID, const Recipe *currentRecipe)
+{
+    int recipeID = currentRecipe->GetRecipeId();
+    int tmp = userID;
+    string UserIDString = to_string(tmp);
+    string recipeIDString = to_string(recipeID);
+    pqxx::result R = query(
+            "SELECT * FROM \"public\".\"recipesUsersLiked\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
+    if(R.size() == 0)
+    {
+        query("INSERT INTO \"public\".\"recipesUsersLiked\" (id_recipeslike,id_recipes,id_user) VALUES(nextval('id_recipeslikeserial'),'" +
+              recipeIDString + "','" + UserIDString + "')");
+    }
+}
+
+/// deletes row in database that based on userID and recipeID
+void Data::UnlikeRecipe(const int &userID, const Recipe *currentRecipe)
+{
+    int recipeID = currentRecipe->GetRecipeId();
+    int tmp = userID;
+    string UserIDString = to_string(tmp);
+    string recipeIDString = to_string(recipeID);
+    query("DELETE FROM \"public\".\"recipesUsersLiked\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
+}
+
+vector<int> Data::GetUsersThatLikedRecipe(const int &recipeID) const
+{
+    vector<int> usersID;
+    for(auto const &ent1 : mapOfUsersAndRecipesTheyLiked)
+    {
+        for(auto const &ent2 : ent1.second)
+        {
+            if(ent2->GetRecipeId() == recipeID)
+            {
+                usersID.push_back(ent1.first);
+            }
+        }
+    }
+    return usersID;
+}
+
+///frees Recipe * and clears map
+void Data::DeleteMapOfUsersAndRecipesTheyLiked()
+{
+    for(auto &ent1 : mapOfUsersAndRecipesTheyLiked)
+    {
+        for(auto &ent2 : ent1.second)
+        {
+            delete ent2;
+        }
+        ent1.second.clear();
+    }
+    mapOfUsersAndRecipesTheyLiked.clear();
+}
+
+void Data::SetRecommendedRecipe()
+{
+    for(auto const &ent1 : mapOfUsersAndRecipesTheyLiked)
+    {
+        for(auto const &ent2 : ent1.second)
+        {
+            if(ent2->GetRecipeId() == idOfRecommendedRecipe)
+            {
+                this->recommendedRecipe=ent2;
+            }
+        }
+    }
+}
+
+
 ///DO NOT delete recommended recipe as it points to recipe in vector of recipes which will deleted separately
 Data::Data()
 {
@@ -394,14 +497,5 @@ Data::Data()
 Data::~Data()
 {
     delete user;
-}
-
-void Data::LikeRecipe(const int &userID, const Recipe *recipeID)
-{
-
-}
-
-void Data::UnlikeRecipe(const int &userID, const Recipe *recipeID)
-{
-
+    DeleteMapOfUsersAndRecipesTheyLiked();
 }

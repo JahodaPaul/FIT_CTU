@@ -49,7 +49,7 @@ build/main.o: src/main.cpp
 
 clean:	
 	rm -rf build/*.o jahodpa1 doc
-run:
+run: jahodpa1
 	./jahodpa1
 count:
 	./src/.countNumberOfLines.sh

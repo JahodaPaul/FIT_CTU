@@ -77,6 +77,7 @@ void Frontend::Run(Connection &c, Data &data)
     }
 }
 
+///makes new instance of a class that inherits from Screen class and deletes the old one. Also calls RunScreen method
 void Frontend::SwitchScreens(const int screenChoice, Screen *&currentScreen)
 {
     Screen *tmpScreen = currentScreen;
@@ -146,9 +147,11 @@ void Frontend::RunScreen(const int screenChoice, Screen * currentScreen)
         case SCREEN_SINGLE_RECIPE:
             currentScreen->AssignData(*frontendData);
             screenChoiceMenu = currentScreen->Run(map<string, string>(), recipeVector);
-            if(screenChoice!=SCREEN_SINGLE_RECIPE)
-            recipeVector.clear();
-            if(screenChoice!=SCREEN_INGREDIENTS && screenChoice!=SCREEN_SINGLE_RECIPE)
+            if(screenChoiceMenu!=SCREEN_SINGLE_RECIPE)
+            {
+                recipeVector.clear();
+            }
+            if(screenChoiceMenu!=SCREEN_RECIPES && screenChoiceMenu!=SCREEN_SINGLE_RECIPE)
             {
                 pickedIngredients.clear();
             }
@@ -159,20 +162,7 @@ void Frontend::RunScreen(const int screenChoice, Screen * currentScreen)
 }
 
 
-/**
- * \return true if string exists in vector of string
- */
-bool Frontend::Contain(const vector <string> &arr, const string &lookingFor) const
-{
-    for(auto const &item : arr)
-    {
-        if(item == lookingFor)
-        {
-            return true;
-        }
-    }
-    return false;
-}
+
 
 /// Variable to is used to determinate how many strings to show in WINDOW Box
 void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector, const int &boxSize)
