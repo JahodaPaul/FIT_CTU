@@ -5,7 +5,9 @@
 #include "Data.h"
 #include <iostream>
 
-int Data::idOfRecommendedRecipe=0;
+///same purpose as SetRecommendedRecipe function, when user presses LIKE/UNLIKE its value is nonzero, else it is zero
+int Data::idOfRecommendedRecipe = 0;
+
 /**
    copy food ingredients into map, key is its name and values is its category - name of a category is a name of column in recipes table
    careful, vegetables has two columns vegetable and vegetable2, so does spices - spice and spice2
@@ -20,10 +22,10 @@ void Data::GetDataFromDatabase(const int select)
     switch(select)
     {
         //UNCOMMENT WHEN DONE TESTING
-//        case 1:
-//            r = query("SELECT * FROM \"public\".\"alcoholicBeverages\"");
-//            CopyIntoMap(r, ".alcB", beveragesAndCategory);
-//            break;
+        case 1:
+            r = query("SELECT * FROM \"public\".\"alcoholicBeverages\"");
+            CopyIntoMap(r, ".alcB", beveragesAndCategory);
+            break;
 //        case 2:
 //
 //            break;
@@ -106,6 +108,12 @@ map <string, string> &Data::GetMapOfIngridients()
     return foodNameAndCategory;
 }
 
+/// \return map beveragesAndCategory
+map <string, string>& Data::GetMapOfBeverages()
+{
+    return beveragesAndCategory;
+}
+
 /**
  * \return map recipesString
  */
@@ -160,12 +168,12 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
     int max = 0;
     typedef map<int, vector < Recipe * > >::iterator it_type;
     it_type it;
-    it_type userIt=mapOfUsersAndRecipesTheyLiked.end();
+    it_type userIt = mapOfUsersAndRecipesTheyLiked.end();
     for(it_type iterator = mapOfUsersAndRecipesTheyLiked.begin(); iterator != mapOfUsersAndRecipesTheyLiked.end(); ++iterator)
     {
         if((*iterator).first == userID)
         {
-            userIt=iterator;
+            userIt = iterator;
             continue;
         }
         int sum = 0, average = 0;
@@ -182,14 +190,14 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
     };
 
     max = 0;
-    Recipe *p=NULL;
-    bool didNotFoundRecipeThatYouDoNotAlreadyLike=false;
+    Recipe *p = NULL;
+    bool didNotFoundRecipeThatYouDoNotAlreadyLike = false;
 
     for(unsigned int j = 0; j < (*it).second.size(); j++)
     {
         if((*it).second[j]->HowMuchAreRecipesSame(recipe) > max)
         {
-            if(userIt==mapOfUsersAndRecipesTheyLiked.end())
+            if(userIt == mapOfUsersAndRecipesTheyLiked.end())
             {
                 max = (*it).second[j]->HowMuchAreRecipesSame(recipe);
                 p = (*it).second[j];
@@ -201,7 +209,7 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
                 {
                     if((*it).second[j]->GetRecipeId() == (*userIt).second[k]->GetRecipeId())
                     {
-                        tmp=true;
+                        tmp = true;
                         break;
                     }
                 }
@@ -212,12 +220,12 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
                 }
             }
         }
-        if(j+1==(*it).second.size())
+        if(j + 1 == (*it).second.size())
         {
-            if(p==NULL)
+            if(p == NULL)
             {
-                didNotFoundRecipeThatYouDoNotAlreadyLike=true;
-                j=-1;
+                didNotFoundRecipeThatYouDoNotAlreadyLike = true;
+                j = -1;
             }
         }
     }
@@ -440,6 +448,7 @@ void Data::UnlikeRecipe(const int &userID, const Recipe *currentRecipe)
     query("DELETE FROM \"public\".\"recipesUsersLiked\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
 }
 
+///serches map mapOfUsersAndRecipesTheyLiked for users that liked the same recipe(with same id) as recipeID in the parameter
 vector<int> Data::GetUsersThatLikedRecipe(const int &recipeID) const
 {
     vector<int> usersID;
@@ -470,6 +479,8 @@ void Data::DeleteMapOfUsersAndRecipesTheyLiked()
     mapOfUsersAndRecipesTheyLiked.clear();
 }
 
+/// this function has only one purpose, when a user is a in a screen ScreenSingleRecipe  and presses LIKE/UNLIKE, new recommended recipe
+/// might be selected and we do not want that while user is looking at the recommended recipe
 void Data::SetRecommendedRecipe()
 {
     for(auto const &ent1 : mapOfUsersAndRecipesTheyLiked)
@@ -478,7 +489,7 @@ void Data::SetRecommendedRecipe()
         {
             if(ent2->GetRecipeId() == idOfRecommendedRecipe)
             {
-                this->recommendedRecipe=ent2;
+                this->recommendedRecipe = ent2;
             }
         }
     }

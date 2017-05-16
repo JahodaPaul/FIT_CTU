@@ -1,10 +1,10 @@
 CXXFLAGS = -std=c++1y -Ilib/libpqxx/include -lpqxx -lpq -lncurses `pkg-config --cflags libpqxx` `pkg-config --libs libpqxx`
 STRICTFLAGS = -std=c++1y -Wall -pedantic -Wno-long-long -O0 -ggdb -c
 
-all: build/Connection.o build/Recipe.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o build/User.o build/main.o compile doc
+all: build/Connection.o build/Recipe.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenBeverages.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o build/User.o build/main.o compile doc
 
-compile: build/main.o build/Connection.o build/User.o build/Recipe.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o
-	cd build;$(CXX) main.o Connection.o Recipe.o User.o Data.o Frontend.o Screen.o ScreenLogin.o ScreenLoginPassword.o ScreenIngredients.o ScreenRecipes.o ScreenSingleRecipe.o ScreenUserMenu.o -o jahodpa1 $(CXXFLAGS)
+compile: build/main.o build/Connection.o build/User.o build/Recipe.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenBeverages.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o
+	cd build;$(CXX) main.o Connection.o Recipe.o User.o Data.o Frontend.o Screen.o ScreenLogin.o ScreenLoginPassword.o ScreenIngredients.o ScreenBeverages.o ScreenRecipes.o ScreenSingleRecipe.o ScreenUserMenu.o -o jahodpa1 $(CXXFLAGS)
 	mv build/jahodpa1 jahodpa1
 
 
@@ -31,6 +31,9 @@ build/ScreenLoginPassword.o: src/Frontend/ScreenLoginPassword.cpp src/Frontend/S
 
 build/ScreenIngredients.o: src/Frontend/ScreenIngredients.cpp src/Frontend/ScreenIngredients.h
 	$(CXX) $(STRICTFLAGS) src/Frontend/ScreenIngredients.cpp -o build/ScreenIngredients.o
+
+build/ScreenBeverages.o: src/Frontend/ScreenBeverages.cpp src/Frontend/ScreenBeverages.h
+	$(CXX) $(STRICTFLAGS) src/Frontend/ScreenBeverages.cpp -o build/ScreenBeverages.o
 
 build/ScreenRecipes.o: src/Frontend/ScreenRecipes.cpp src/Frontend/ScreenRecipes.h
 	$(CXX) $(STRICTFLAGS) src/Frontend/ScreenRecipes.cpp -o build/ScreenRecipes.o

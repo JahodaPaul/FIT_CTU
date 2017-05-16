@@ -21,6 +21,8 @@ public:
 
     map <string, string> &GetMapOfIngridients();
 
+    map <string, string> &GetMapOfBeverages();
+
     map <string, string> &GetMapOfRecipes();
 
     string GetRecommendedRecipe(const Recipe &recipe, const int userID);
@@ -29,7 +31,7 @@ public:
 
     User *GetUser() const;
 
-    vector<int> GetUsersThatLikedRecipe(const int & recipeID) const;
+    vector<int> GetUsersThatLikedRecipe(const int &recipeID) const;
 
     void CreateNewUser(User *user1);
 
@@ -45,9 +47,9 @@ public:
 
     Recipe *GetRecipeByIndex(const string &index) const;
 
-    void LikeRecipe(const int &userID,const Recipe * currentRecipe);
+    void LikeRecipe(const int &userID, const Recipe *currentRecipe);
 
-    void UnlikeRecipe(const int &userID,const Recipe * currentRecipe);
+    void UnlikeRecipe(const int &userID, const Recipe *currentRecipe);
 
     void DeleteMapOfUsersAndRecipesTheyLiked();
 

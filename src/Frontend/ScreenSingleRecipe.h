@@ -47,7 +47,7 @@ private:
     Data *myData;
     bool finishSelection;
 
-    Recipe * singleRecipe;
+    Recipe *singleRecipe;
 
 };
 

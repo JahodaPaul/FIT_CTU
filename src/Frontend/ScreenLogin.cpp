@@ -95,6 +95,7 @@ void ScreenLogin::OtherKey()
     refresh();
 }
 
+/// counts average length of a string in vector
 void ScreenLogin::CountAverageStringSize(const vector <string> &vectorOfStrings, int &averageSize)
 {
     averageSize = 0;

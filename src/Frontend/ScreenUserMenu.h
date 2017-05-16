@@ -39,6 +39,7 @@ public:
     void PrintStuff() const;
 
     void SetVariables();
+
 protected:
 private:
     Data *myData;

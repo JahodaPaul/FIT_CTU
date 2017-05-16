@@ -9,6 +9,7 @@
 #include "ScreenRecipes.h"
 #include "ScreenUserMenu.h"
 #include "ScreenSingleRecipe.h"
+#include "ScreenBeverages.h"
 
 /// The main Frontend functions from which all Screens are created
 void Frontend::Run(Connection &c, Data &data)
@@ -16,15 +17,18 @@ void Frontend::Run(Connection &c, Data &data)
     //variables---------------------------------------------------------------------------------------------------------
     Screen *screen = NULL;
     bool loggedIn = false;
-    downloadedData=false;
+    downloadedData = false;
     userID = 0;
     showOrCreateRecipe = 0;
-    screenChoiceMenu=0;
-    loginChoice=0;
-    loginOrRegister = ""; login = ""; password = "";
-    recommendedRecipe="";
-    frontendData=&data;
+    screenChoiceMenu = 0;
+    loginChoice = 0;
+    loginOrRegister = "";
+    login = "";
+    password = "";
+    recommendedRecipe = "";
+    frontendData = &data;
     pickedIngredients.clear();
+    beverages.clear(); //TODO download beverages from user menu into beverages
     recipeVector.clear();// first it holds recommended recipe, then after recipe selection it holds string index
     //of selected recipe
     //------------------------------------------------------------------------------------------------------------------
@@ -101,6 +105,9 @@ void Frontend::SwitchScreens(const int screenChoice, Screen *&currentScreen)
         case SCREEN_SINGLE_RECIPE:
             currentScreen = new ScreenSingleRecipe();
             break;
+        case SCREEN_BEVERAGES:
+            currentScreen = new ScreenBeverages();
+            break;
         default:
             return;
     }
@@ -108,15 +115,20 @@ void Frontend::SwitchScreens(const int screenChoice, Screen *&currentScreen)
     {
         delete tmpScreen;
     }
-    RunScreen(screenChoice,currentScreen);
+    RunScreen(screenChoice, currentScreen);
 }
 
-void Frontend::RunScreen(const int screenChoice, Screen * currentScreen)
+/**
+ * this function is called only from SwitchScreens function. It downloads/preprocesses data and then calls Run function
+ * \param screenChoice  which screen is will be running
+ * \param currentScreen current instance of a class which inherits from Screen class
+ */
+void Frontend::RunScreen(const int screenChoice, Screen *currentScreen)
 {
     switch(screenChoice)
     {
         case SCREEN_LOGIN_MENU:
-            loginChoice=currentScreen->Run();
+            loginChoice = currentScreen->Run();
             break;
         case SCREEN_USER_MENU:
             frontendData->UpdateScreenWidth(COLS);
@@ -147,21 +159,22 @@ void Frontend::RunScreen(const int screenChoice, Screen * currentScreen)
         case SCREEN_SINGLE_RECIPE:
             currentScreen->AssignData(*frontendData);
             screenChoiceMenu = currentScreen->Run(map<string, string>(), recipeVector);
-            if(screenChoiceMenu!=SCREEN_SINGLE_RECIPE)
+            if(screenChoiceMenu != SCREEN_SINGLE_RECIPE)
             {
                 recipeVector.clear();
             }
-            if(screenChoiceMenu!=SCREEN_RECIPES && screenChoiceMenu!=SCREEN_SINGLE_RECIPE)
+            if(screenChoiceMenu != SCREEN_RECIPES && screenChoiceMenu != SCREEN_SINGLE_RECIPE)
             {
                 pickedIngredients.clear();
             }
             break;
+        case SCREEN_BEVERAGES:
+            currentScreen->AssignData(*frontendData);
+            screenChoiceMenu = currentScreen->Run(frontendData->GetMapOfBeverages(),beverages);
         default:
             return;
     }
 }
-
-
 
 
 /// Variable to is used to determinate how many strings to show in WINDOW Box
@@ -234,7 +247,7 @@ void Frontend::ProgressBar(TRIDA *d, void (TRIDA::*function)(int), const int max
 
 Frontend::Frontend()
 {
-    frontendData=NULL;
+    frontendData = NULL;
 }
 
 Frontend::~Frontend()

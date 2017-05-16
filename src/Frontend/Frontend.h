@@ -19,6 +19,7 @@
 #define SCREEN_INGREDIENTS 3
 #define SCREEN_RECIPES 4
 #define SCREEN_SINGLE_RECIPE 5
+#define SCREEN_BEVERAGES 6
 
 class Screen;
 
@@ -34,7 +35,7 @@ public:
     void RunIngridientSelection(const map <string, string> &);
 
 protected:
-    template <class T>
+    template<class T>
     bool Contain(const vector <T> &arr, const T &lookingFor) const;
 
     void AssignValueToVariableTo(int &to, const int &sizeOfVector, const int &boxSize);
@@ -47,7 +48,8 @@ protected:
 
 private:
     void SwitchScreens(const int screenChoice, Screen *&currentScreen);
-    void RunScreen(const int screenChoice, Screen * currentScreen);
+
+    void RunScreen(const int screenChoice, Screen *currentScreen);
 
     bool downloadedData;
     int userID;
@@ -56,17 +58,18 @@ private:
     int loginChoice;
     vector <string> pickedIngredients;
     vector <string> recipeVector;
+    vector <string> beverages;
     string loginOrRegister, login, password;
     string recommendedRecipe;
     bool recipesNotSelectedYet;
 
-    Data * frontendData;
+    Data *frontendData;
 };
 
 /**
  * \return true if string exists in vector of string
  */
-template <class T>
+template<class T>
 bool Frontend::Contain(const vector <T> &arr, const T &lookingFor) const
 {
     for(auto const &item : arr)

@@ -35,7 +35,7 @@ public:
 
     void SetVariables();
 
-    bool AreYouRecipeScreen(){return true;}
+    bool AreYouRecipeScreen() { return true; }
 
 protected:
 private:
