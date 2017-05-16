@@ -35,6 +35,11 @@ void ScreenUserMenu::PrintStuff() const
     string printedString = "Username: ";
     printedString += myData->GetUser()->GetUserName();
     mvprintw(secondWindowHeight, 1, printedString.c_str());
+    printedString = "Number of liked recipes: ";
+    int tmp = myData->HowManyRecipesUserLikes(myData->GetUser()->GetUserId());
+    printedString += to_string(tmp);
+    mvprintw(secondWindowHeight+1, 1, printedString.c_str());
+    mvprintw(secondWindowHeight+2, 1, "My menu: ");
 }
 
 void ScreenUserMenu::SetVariables()
@@ -43,6 +48,10 @@ void ScreenUserMenu::SetVariables()
     secondWindowWidth = 22;
     secondWindowStartX = 0;
     secondWindowStartY = 0;
+    thirdWindowStartY=secondWindowHeight+3;
+    thirdWindowStartX=0;
+    thirdWindowWidth=COLS-24;
+    thirdWindowHeight=LINES-thirdWindowStartY;
 }
 
 ScreenUserMenu::ScreenUserMenu()

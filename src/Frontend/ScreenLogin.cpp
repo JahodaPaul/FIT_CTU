@@ -22,12 +22,14 @@ int ScreenLogin::Run()
     SetVariables();
     WINDOW * menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
     WINDOW * secondWindow = newwin(secondWindowHeight,secondWindowWidth,secondWindowStartY,secondWindowStartX);
+    WINDOW * thirdWindow = newwin(thirdWindowHeight, thirdWindowWidth, thirdWindowStartY, thirdWindowStartX);
     //------------------------------------------------------------------------------------------------------------------
 
     keypad(menu_win, TRUE);
     PrintStuff();
     refresh();
     PrintMenu(secondWindow,-1,pictureVector,true,secondWindowWidth,secondWindowHeight,averageStringPicture,0,(int)pictureVector.size());
+    PrintMenu(thirdWindow,-1,vectorForThirdWindow,false,thirdWindowWidth,thirdWindowHeight,0,0,(int)vectorForThirdWindow.size());
     PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
     while(1)
     {
@@ -113,6 +115,10 @@ ScreenLogin::ScreenLogin()
     firstWindowHeight = 7;
     firstWindowStartY=0;
     firstWindowStartX=COLS-25;
+    thirdWindowStartY=-1;
+    thirdWindowStartX=-1;
+    thirdWindowWidth=1;
+    thirdWindowHeight=1;
     averageStringPicture=0;
     choices.push_back("login");
     choices.push_back("register");

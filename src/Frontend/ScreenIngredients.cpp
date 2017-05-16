@@ -19,7 +19,7 @@ int ScreenIngredients::Run(const map <string, string> &mapa, vector <string> &pi
     finishSelection = false;
     from = 0;
     to = 0;
-    picked = 0;
+    picked = pickedIngridients.size();
     selected = 0;
     ingredientSelectionString = "";
     menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);

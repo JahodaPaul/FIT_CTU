@@ -51,6 +51,18 @@ public:
 
     void UnlikeRecipe(const int &userID, const Recipe *currentRecipe);
 
+    void AddBeverageToMenuTable(const int &userId, const string &name);
+
+    void DeleteBeverageFromMenuTable(const int &userId, const string &name);
+
+    void AddRecipeToMenuTable(const int &userID, const int &toBeAddedRecipeID);
+
+    void DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID);
+
+    void GetDataFromMenuTable(const int &userID,vector<string> & menu);
+
+    int HowManyRecipesUserLikes(const int &userID) const;
+
     void DeleteMapOfUsersAndRecipesTheyLiked();
 
     void SetRecommendedRecipe();

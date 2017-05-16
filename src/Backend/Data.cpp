@@ -465,6 +465,20 @@ vector<int> Data::GetUsersThatLikedRecipe(const int &recipeID) const
     return usersID;
 }
 
+int Data::HowManyRecipesUserLikes(const int &userID) const
+{
+    int result=0;
+    for(auto const &ent1 : mapOfUsersAndRecipesTheyLiked)
+    {
+        if(ent1.first==userID)
+        {
+            result=(int)ent1.second.size();
+            return result;
+        }
+    }
+    return result;
+}
+
 ///frees Recipe * and clears map
 void Data::DeleteMapOfUsersAndRecipesTheyLiked()
 {
@@ -495,6 +509,31 @@ void Data::SetRecommendedRecipe()
     }
 }
 
+///TODO METHODS
+void Data::AddBeverageToMenuTable(const int &userId, const string &name)
+{
+
+}
+
+void Data::DeleteBeverageFromMenuTable(const int &userId, const string &name)
+{
+
+}
+
+void Data::AddRecipeToMenuTable(const int &userID, const int &toBeAddedRecipeID)
+{
+
+}
+
+void Data::DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID)
+{
+
+}
+
+void Data::GetDataFromMenuTable(const int &userID, vector <string> &menu)
+{
+
+}
 
 ///DO NOT delete recommended recipe as it points to recipe in vector of recipes which will deleted separately
 Data::Data()

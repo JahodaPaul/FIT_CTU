@@ -42,9 +42,11 @@ protected:
 
     vector <string> choices;
     vector <string> pictureVector;
+    vector <string> vectorForThirdWindow;
     int averageStringSize,averageStringPicture;
     int firstWindowHeight, firstWindowWidth, firstWindowStartX, firstWindowStartY;
     int secondWindowHeight, secondWindowWidth, secondWindowStartX, secondWindowStartY;
+    int thirdWindowHeight, thirdWindowWidth, thirdWindowStartX, thirdWindowStartY;
     bool center;
 
     virtual void PrintStuff() const;
