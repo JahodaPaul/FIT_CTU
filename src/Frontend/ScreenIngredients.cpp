@@ -170,16 +170,19 @@ void ScreenIngredients::Enter()
 
 void ScreenIngredients::Backspace()
 {
-    string temporaryString = "";
-    for(int i = 0; i < (int) (ingredientSelectionString.length()) - 1; i++)
+    if(ingredientSelectionString!="")
     {
-        temporaryString += ingredientSelectionString[i];
+        string temporaryString = "";
+        for (int i = 0; i < (int) (ingredientSelectionString.length()) - 1; i++)
+        {
+            temporaryString += ingredientSelectionString[i];
+        }
+        ingredientSelectionString = temporaryString;
+        PrintUserTypedIngredient(ingredientSelectionString, options, false, *myMap, from, to, highlight, selected, firstWindowHeight);
+        menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
+        RefreshWholeWindow(menu_win);
     }
-    ingredientSelectionString = temporaryString;
-    PrintUserTypedIngredient(ingredientSelectionString, options, false, *myMap, from, to, highlight, selected, firstWindowHeight);
-    menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
-    RefreshWholeWindow(menu_win);
-    if(userPressedEnter)
+    if (userPressedEnter)
     {
         finishSelection = true;
     }
