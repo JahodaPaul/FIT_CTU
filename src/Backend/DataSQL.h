@@ -36,11 +36,6 @@ public:
     void GetDataFromMenuTable(const int &userID,vector<string> & menu);
 
 protected:
-private:
-    void CopyIntoMap(const pqxx::result &, const string, map <string, string> &);
-
-    void CopyIntoMapRecipes(const pqxx::result &, map<int, vector<Recipe *> > &);
-
     map <string, string> beveragesAndCategory;
     map <string, string> foodNameAndCategory;
     map<int, vector<Recipe *> > mapOfUsersAndRecipesTheyLiked;
@@ -54,6 +49,10 @@ private:
     Recipe *recommendedRecipe;
 
     int screenWidth;
+private:
+    void CopyIntoMap(const pqxx::result &, const string, map <string, string> &);
+
+    void CopyIntoMapRecipes(const pqxx::result &, map<int, vector<Recipe *> > &);
 };
 
 #endif //RECIPE_MANAGER_DATASQL_H
