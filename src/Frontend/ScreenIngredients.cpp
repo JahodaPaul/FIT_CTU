@@ -176,7 +176,7 @@ void ScreenIngredients::Backspace()
         temporaryString += ingredientSelectionString[i];
     }
     ingredientSelectionString = temporaryString;
-    if(myMap.size() != 0)
+    if(myMap->size() != 0)
     {
         PrintUserTypedIngredient(ingredientSelectionString, options, false, *myMap, from, to, highlight, selected, firstWindowHeight);
     }
@@ -195,7 +195,7 @@ void ScreenIngredients::OtherKey()
     {
         ingredientSelectionString += (char) key;
     }
-    if(myMap.size() != 0)
+    if(myMap->size() != 0)
     {
         PrintUserTypedIngredient(ingredientSelectionString, options, true, *myMap, from, to, highlight, selected, firstWindowHeight);
     }

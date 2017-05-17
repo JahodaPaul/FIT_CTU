@@ -57,7 +57,7 @@ string Data::GetRecommendedRecipe(const Recipe &recipe, const int userID)
         {
             sum += (*iterator).second[j]->HowMuchAreRecipesSame(recipe);
         }
-        average = sum / (int) (*iterator).second.size();
+        average = sum / ((int) (*iterator).second.size() + 1);
         if(average > max)
         {
             max = average;
