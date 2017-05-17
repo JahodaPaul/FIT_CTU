@@ -170,18 +170,18 @@ void ScreenIngredients::Enter()
 
 void ScreenIngredients::Backspace()
 {
-    if(ingredientSelectionString!="")
+    string temporaryString = "";
+    for (int i = 0; i < (int) (ingredientSelectionString.length()) - 1; i++)
     {
-        string temporaryString = "";
-        for (int i = 0; i < (int) (ingredientSelectionString.length()) - 1; i++)
-        {
-            temporaryString += ingredientSelectionString[i];
-        }
-        ingredientSelectionString = temporaryString;
-        PrintUserTypedIngredient(ingredientSelectionString, options, false, *myMap, from, to, highlight, selected, firstWindowHeight);
-        menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
-        RefreshWholeWindow(menu_win);
+        temporaryString += ingredientSelectionString[i];
     }
+    ingredientSelectionString = temporaryString;
+    if(myMap.size() != 0)
+    {
+        PrintUserTypedIngredient(ingredientSelectionString, options, false, *myMap, from, to, highlight, selected, firstWindowHeight);
+    }
+    menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
+    RefreshWholeWindow(menu_win);
     if (userPressedEnter)
     {
         finishSelection = true;
@@ -195,7 +195,10 @@ void ScreenIngredients::OtherKey()
     {
         ingredientSelectionString += (char) key;
     }
-    PrintUserTypedIngredient(ingredientSelectionString, options, true, *myMap, from, to, highlight, selected, firstWindowHeight);
+    if(myMap.size() != 0)
+    {
+        PrintUserTypedIngredient(ingredientSelectionString, options, true, *myMap, from, to, highlight, selected, firstWindowHeight);
+    }
     menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
     RefreshWholeWindow(menu_win);
     userPressedEnter = false;
