@@ -1,10 +1,10 @@
 CXXFLAGS = -std=c++1y -Ilib/libpqxx/include -lpqxx -lpq -lncurses `pkg-config --cflags libpqxx` `pkg-config --libs libpqxx`
 STRICTFLAGS = -std=c++1y -Wall -pedantic -Wno-long-long -O0 -ggdb -c
 
-all: build/Connection.o build/Recipe.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenBeverages.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o build/User.o build/main.o compile doc
+all: build/Connection.o build/Recipe.o build/DataSQL.o  build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenBeverages.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o build/User.o build/main.o compile doc
 
-compile: build/main.o build/Connection.o build/User.o build/Recipe.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenBeverages.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o
-	cd build;$(CXX) main.o Connection.o Recipe.o User.o Data.o Frontend.o Screen.o ScreenLogin.o ScreenLoginPassword.o ScreenIngredients.o ScreenBeverages.o ScreenRecipes.o ScreenSingleRecipe.o ScreenUserMenu.o -o jahodpa1 $(CXXFLAGS)
+compile: build/main.o build/Connection.o build/User.o build/Recipe.o build/DataSQL.o build/Data.o build/Frontend.o build/Screen.o build/ScreenLogin.o build/ScreenLoginPassword.o build/ScreenIngredients.o build/ScreenBeverages.o build/ScreenRecipes.o build/ScreenSingleRecipe.o build/ScreenUserMenu.o
+	cd build;$(CXX) main.o Connection.o Recipe.o User.o DataSQL.o Data.o Frontend.o Screen.o ScreenLogin.o ScreenLoginPassword.o ScreenIngredients.o ScreenBeverages.o ScreenRecipes.o ScreenSingleRecipe.o ScreenUserMenu.o -o jahodpa1 $(CXXFLAGS)
 	mv build/jahodpa1 jahodpa1
 
 
@@ -13,6 +13,9 @@ build/Connection.o: src/Backend/Connection.cpp src/Backend/Connection.h
 
 build/Recipe.o: src/Backend/Recipe.cpp src/Backend/Recipe.h
 	$(CXX) $(STRICTFLAGS) src/Backend/Recipe.cpp -o build/Recipe.o
+
+build/DataSQL.o: src/Backend/DataSQL.cpp src/Backend/DataSQL.h
+	$(CXX) $(STRICTFLAGS) src/Backend/DataSQL.cpp -o build/DataSQL.o
 
 build/Data.o: src/Backend/Data.cpp src/Backend/Data.h
 	$(CXX) $(STRICTFLAGS) src/Backend/Data.cpp -o build/Data.o

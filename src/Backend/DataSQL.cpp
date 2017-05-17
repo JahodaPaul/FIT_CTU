@@ -11,7 +11,7 @@
  * @param select
  * DO NOT CHANGE CASE 14
  */
-void Data::GetDataFromDatabase(const int select)
+void DataSQL::GetDataFromDatabase(const int select)
 {
 
     result r;
@@ -88,7 +88,7 @@ void Data::GetDataFromDatabase(const int select)
 }
 
 ///copies ingredient name from pqxx::result as a key and ingredient category as value into the map
-void Data::CopyIntoMap(const result &R, const string category, map <string, string> &myMap)
+void DataSQL::CopyIntoMap(const result &R, const string category, map <string, string> &myMap)
 {
     for(result::const_iterator c = R.begin(); c != R.end(); ++c)
     {
@@ -97,7 +97,7 @@ void Data::CopyIntoMap(const result &R, const string category, map <string, stri
 }
 
 ///copies recipes into map where key is user id and value is vector of recipes
-void Data::CopyIntoMapRecipes(const pqxx::result &R, map<int, vector<Recipe *> > &myMap)
+void DataSQL::CopyIntoMapRecipes(const pqxx::result &R, map<int, vector<Recipe *> > &myMap)
 {
     for(result::const_iterator c = R.begin(); c != R.end(); ++c)
     {
@@ -134,7 +134,7 @@ void Data::CopyIntoMapRecipes(const pqxx::result &R, map<int, vector<Recipe *> >
  * it into vector of strings which is later used into WINDOW box
  * @param selectedIngredients
  */
-void Data::GetRecipesBySelectedIngredients(const vector <string> &selectedIngredients)
+void DataSQL::GetRecipesBySelectedIngredients(const vector <string> &selectedIngredients)
 {
     int index = 0;
     string indexString = "";
@@ -209,7 +209,7 @@ void Data::GetRecipesBySelectedIngredients(const vector <string> &selectedIngred
 }
 
 /// checks if recipe is already liked by this user, if not insert like into database
-void Data::LikeRecipe(const int &userID, const Recipe *currentRecipe)
+void DataSQL::LikeRecipe(const int &userID, const Recipe *currentRecipe)
 {
     int recipeID = currentRecipe->GetRecipeId();
     int tmp = userID;
@@ -225,7 +225,7 @@ void Data::LikeRecipe(const int &userID, const Recipe *currentRecipe)
 }
 
 /// deletes row in database that based on userID and recipeID
-void Data::UnlikeRecipe(const int &userID, const Recipe *currentRecipe)
+void DataSQL::UnlikeRecipe(const int &userID, const Recipe *currentRecipe)
 {
     int recipeID = currentRecipe->GetRecipeId();
     int tmp = userID;
@@ -235,27 +235,27 @@ void Data::UnlikeRecipe(const int &userID, const Recipe *currentRecipe)
 }
 
 ///TODO METHODS
-void Data::AddBeverageToMenuTable(const int &userId, const string &name)
+void DataSQL::AddBeverageToMenuTable(const int &userId, const string &name)
 {
 
 }
 
-void Data::DeleteBeverageFromMenuTable(const int &userId, const string &name)
+void DataSQL::DeleteBeverageFromMenuTable(const int &userId, const string &name)
 {
 
 }
 
-void Data::AddRecipeToMenuTable(const int &userID, const int &toBeAddedRecipeID)
+void DataSQL::AddRecipeToMenuTable(const int &userID, const int &toBeAddedRecipeID)
 {
 
 }
 
-void Data::DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID)
+void DataSQL::DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID)
 {
 
 }
 
-void Data::GetDataFromMenuTable(const int &userID, vector <string> &menu)
+void DataSQL::GetDataFromMenuTable(const int &userID, vector <string> &menu)
 {
 
 }

@@ -40,8 +40,8 @@ protected:
 
     void AssignValueToVariableTo(int &to, const int &sizeOfVector, const int &boxSize);
 
-    template<class TRIDA>
-    void ProgressBar(TRIDA *d, void (TRIDA::*function)(int), const int max);
+    template<class TRIDA, class TRIDA2>
+    void ProgressBar(TRIDA *d, void (TRIDA2::*function)(int), const int max);
 
     int middleStartX;
     int middleStartY;

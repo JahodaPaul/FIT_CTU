@@ -136,7 +136,7 @@ void Frontend::RunScreen(const int screenChoice, Screen *currentScreen)
             if(!downloadedData)
             {
                 frontendData->CreateNewUser(new User(userID, login));
-                ProgressBar(frontendData, &Data::GetDataFromDatabase, 18);
+                ProgressBar(frontendData, &DataSQL::GetDataFromDatabase, 18);
                 downloadedData = true;
             }
             screenChoiceMenu = currentScreen->Run();
@@ -191,8 +191,8 @@ void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector, const i
 }
 
 ///shows progress given given task with n (parameter max) tasks to be done
-template<class TRIDA>
-void Frontend::ProgressBar(TRIDA *d, void (TRIDA::*function)(int), const int max)
+template<class TRIDA, class TRIDA2>
+void Frontend::ProgressBar(TRIDA *d, void (TRIDA2::*function)(int), const int max)
 {
     int outOf = 25, before = 0, percentage = 0, y = 1, x = 1;
     string s = "", percentageString = "";
