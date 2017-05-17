@@ -28,7 +28,10 @@ void Frontend::Run(Connection &c, Data &data)
     recommendedRecipe = "";
     frontendData = &data;
     pickedIngredients.clear();
-    beverages.clear(); //TODO download beverages from user menu into beverages
+    //TODO
+    //beveragesMenu=frontendData->beveragesMenu;
+    menu=frontendData->menu;
+    //recipesMenu=frontendData->recipesMenu;
     recipeVector.clear();// first it holds recommended recipe, then after recipe selection it holds string index
     //of selected recipe
     //------------------------------------------------------------------------------------------------------------------
@@ -170,7 +173,7 @@ void Frontend::RunScreen(const int screenChoice, Screen *currentScreen)
             break;
         case SCREEN_BEVERAGES:
             currentScreen->AssignData(*frontendData);
-            screenChoiceMenu = currentScreen->Run(frontendData->GetMapOfBeverages(),beverages);
+            screenChoiceMenu = currentScreen->Run(frontendData->GetMapOfBeverages(),frontendData->beveragesMenu);
         default:
             return;
     }

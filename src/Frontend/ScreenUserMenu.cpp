@@ -52,6 +52,7 @@ void ScreenUserMenu::SetVariables()
     thirdWindowStartX=0;
     thirdWindowWidth=COLS-24;
     thirdWindowHeight=LINES-thirdWindowStartY;
+    vectorForThirdWindow=myData->menu;
 }
 
 ScreenUserMenu::ScreenUserMenu()

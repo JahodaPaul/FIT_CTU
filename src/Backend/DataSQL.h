@@ -33,17 +33,25 @@ public:
 
     void DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID);
 
-    void GetDataFromMenuTable(const int &userID,vector<string> & menu);
+    void GetDataFromMenuTable(const result &R,vector<string> & menu, vector<string> &recipesMenu, vector<string> &beveragesMenu);
+
+    //TODO make it protected and create methods for them
+    vector <string> beveragesMenu;
+    vector <string> recipesMenu;
+    vector <string> menu;
 
 protected:
     map <string, string> beveragesAndCategory;
     map <string, string> foodNameAndCategory;
     map<int, vector<Recipe *> > mapOfUsersAndRecipesTheyLiked;
+    map<int ,vector<Recipe *> > mapOfRecipesInMenu;
 
     User *user;
 
     vector<Recipe *> recipesSelectByIngredients;
     map <string, string> recipesString;
+
+
 
     Recipe *recipe;
     Recipe *recommendedRecipe;

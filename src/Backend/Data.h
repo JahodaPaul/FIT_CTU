@@ -40,6 +40,8 @@ public:
 
     void UpdateScreenWidth(const int width);
 
+    void UpdateMenu(const vector<string> & recipes, const vector<string> &beverages);
+
     Recipe *GetRecipeByIndex(const string &index) const;
 
     int HowManyRecipesUserLikes(const int &userID) const;

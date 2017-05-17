@@ -43,8 +43,11 @@ public:
 
     //void SetVariables();
 
+    void AssignData(Data &data);
+
 protected:
 private:
+    Data *myData;
 };
 
 #endif //RECIPE_MANAGER_SCREENBEVERAGES_H

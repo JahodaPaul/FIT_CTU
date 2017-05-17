@@ -280,6 +280,19 @@ void Data::SetRecommendedRecipe()
     }
 }
 
+void Data::UpdateMenu(const vector <string> &recipes, const vector <string> &beverages)
+{
+    this->menu.clear();
+    for(unsigned int i = 0;i<recipes.size();++i)
+    {
+        this->menu.push_back(recipes[i]);
+    }
+    for(unsigned int i = 0;i<beverages.size();++i)
+    {
+        this->menu.push_back(beverages[i]);
+    }
+}
+
 ///DO NOT delete recommended recipe as it points to recipe in vector of recipes which will deleted separately
 Data::Data()
 {

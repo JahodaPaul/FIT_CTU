@@ -13,7 +13,8 @@
  */
 void DataSQL::GetDataFromDatabase(const int select)
 {
-
+    string idString="";
+    int tmp=0;
     result r;
     switch(select)
     {
@@ -71,15 +72,19 @@ void DataSQL::GetDataFromDatabase(const int select)
 //            r = query("SELECT * FROM \"public\".\"spices\"");
 //            CopyIntoMap(r, "spice2", foodNameAndCategory);
 //            break;
-//        case 16:
-
+        case 16:
+            r = query("SELECT * FROM \"public\".\"recipes\" JOIN \"public\".\"recipesMenu\" ON id=id_recipes;");
+            CopyIntoMapRecipes(r, mapOfRecipesInMenu);
             break;
         case 17:
             r = query("SELECT * FROM \"public\".\"vegetables\"");
             CopyIntoMap(r, "vegetable", foodNameAndCategory);
             break;
         case 18:
-
+            tmp = this->user->GetUserId();
+            idString = to_string(tmp);
+            r = query("SELECT * FROM \"public\".\"beverages_menu\" WHERE id_user="+idString+";");
+            GetDataFromMenuTable(r,menu,recipesMenu,beveragesMenu);
             break;
         default:
             /* Blok default */
@@ -237,27 +242,62 @@ void DataSQL::UnlikeRecipe(const int &userID, const Recipe *currentRecipe)
 ///TODO METHODS
 void DataSQL::AddBeverageToMenuTable(const int &userId, const string &name)
 {
-
+    int tmp = userId;
+    string UserIDString = to_string(tmp);
+    query("INSERT INTO \"public\".\"beverages_menu\" (id,id_user,name_beverage) VALUES(nextval('id_beveragesmenu'),'" +
+          UserIDString + "','" + name + "')");
 }
 
 void DataSQL::DeleteBeverageFromMenuTable(const int &userId, const string &name)
 {
-
+    int tmp = userId;
+    string UserIDString = to_string(tmp);
+    query("DELETE FROM \"public\".\"beverages_menu\" WHERE name_beverage='" + name + "' AND id_user=" + UserIDString + ";");
 }
 
 void DataSQL::AddRecipeToMenuTable(const int &userID, const int &toBeAddedRecipeID)
 {
-
+    int tmp = userID;
+    string UserIDString = to_string(tmp);
+    tmp = toBeAddedRecipeID;
+    string recipeIDString = to_string(tmp);
+    pqxx::result R = query(
+            "SELECT * FROM \"public\".\"recipesMenu\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
+    if(R.size() == 0)
+    {
+        query("INSERT INTO \"public\".\"recipesMenu\" (id_recipesmenu,id_recipes,id_user) VALUES(nextval('id_recipesmenu'),'" +
+              recipeIDString + "','" + UserIDString + "')");
+    }
 }
 
 void DataSQL::DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID)
 {
-
+    int tmp = userID;
+    string UserIDString = to_string(tmp);
+    tmp = toBeDeletedRecipeID;
+    string recipeIDString = to_string(tmp);
+    query("DELETE FROM \"public\".\"recipesMenu\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
 }
 
-void DataSQL::GetDataFromMenuTable(const int &userID, vector <string> &menu)
+void DataSQL::GetDataFromMenuTable(const result &R, vector <string> &menu, vector<string> &recipesMenu, vector<string> &beveragesMenu)
 {
-
+    int userID = this->user->GetUserId();
+    for(auto const &ent1 : mapOfRecipesInMenu)
+    {
+        if(ent1.first==userID)
+        {
+            for(auto const &ent2 : ent1.second)
+            {
+                this->recipesMenu.push_back(ent2->ToString(screenWidth));
+                this->menu.push_back(this->recipesMenu.back());
+            }
+        }
+    }
+    for(result::const_iterator c = R.begin(); c != R.end(); ++c)
+    {
+        this->beveragesMenu.push_back(c[1].as<string>());
+        this->menu.push_back(this->beveragesMenu.back());
+    }
 }
 
 DataSQL::DataSQL()

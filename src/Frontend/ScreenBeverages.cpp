@@ -18,15 +18,19 @@ void ScreenBeverages::Enter()
     {
         if(!Contain(myPickedIngridients, options[selected]))
         {
-            ///TODO WRITE IT INTO DATABASE
-            //myData->DeleteRecipesRetrievedFromDatabase();
             picked++;
             myPickedIngridients.push_back(options[selected]);
-            //myData->GetRecipesBySelectedIngredients(myPickedIngridients);
+            myData->UpdateMenu(myData->recipesMenu,myPickedIngridients);
+            myData->AddBeverageToMenuTable(myData->GetUser()->GetUserId(),options[selected]);
         }
         PrintMenu(menuWinPickedIngridients, -1, myPickedIngridients, false, secondWindowWidth, secondWindowHeight, 0, 0, picked);
     }
     userPressedEnter = !userPressedEnter;
+}
+
+void ScreenBeverages::AssignData(Data &data)
+{
+    myData = &data;
 }
 
 ScreenBeverages::ScreenBeverages()

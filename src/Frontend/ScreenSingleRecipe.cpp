@@ -70,14 +70,25 @@ void ScreenSingleRecipe::Enter()
             highlight = SCREEN_SINGLE_RECIPE;
             break;
         case 2:
+            if(!Contain(myData->recipesMenu,singleRecipe->ToString(COLS)))
+            {
+                myData->AddRecipeToMenuTable(myData->GetUser()->GetUserId(), singleRecipe->GetRecipeId());
+                myData->recipesMenu.push_back(singleRecipe->ToString(COLS));
+                myData->UpdateMenu(myData->recipesMenu, myData->beveragesMenu);
+                Data::idOfRecommendedRecipe = singleRecipe->GetRecipeId();
+                myData->SetRecommendedRecipe();
+            }
+            highlight = SCREEN_SINGLE_RECIPE;
+            break;
+        case 3:
             highlight = SCREEN_RECIPES;
             Data::idOfRecommendedRecipe = 0;
             break;
-        case 3:
+        case 4:
             highlight = SCREEN_INGREDIENTS;
             Data::idOfRecommendedRecipe = 0;
             break;
-        case 4:
+        case 5:
             highlight = SCREEN_USER_MENU;
             Data::idOfRecommendedRecipe = 0;
             break;
@@ -146,6 +157,7 @@ void ScreenSingleRecipe::PrintStuff() const
 
 void ScreenSingleRecipe::SetVariables()
 {
+    firstWindowHeight=9;
     secondWindowHeight = 9;
     secondWindowWidth = 22;
     secondWindowStartX = 0;
@@ -159,6 +171,7 @@ ScreenSingleRecipe::ScreenSingleRecipe()
     choices.clear();
     choices.push_back("LIKE");
     choices.push_back("UNLIKE");
+    choices.push_back("Add to Menu");
     choices.push_back("Recipe selection");
     choices.push_back("Ingredients selection");
     choices.push_back("Main menu");

@@ -58,7 +58,9 @@ private:
     int loginChoice;
     vector <string> pickedIngredients;
     vector <string> recipeVector;
-    vector <string> beverages;
+    vector <string> beveragesMenu;
+    vector <string> recipesMenu;
+    vector <string> menu;
     string loginOrRegister, login, password;
     string recommendedRecipe;
     bool recipesNotSelectedYet;
