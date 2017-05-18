@@ -28,7 +28,20 @@ void ScreenUserMenu::Enter()
     }
     else
     {
-        // TODO delete beverage/recipe from menu table in database
+        if(highlightThirdWindow>=myData->recipesMenu.size())
+        {
+            myData->DeleteBeverageFromMenuTable(myData->GetUser()->GetUserId(),vectorForThirdWindow[highlightThirdWindow]);
+            myData->beveragesMenu.erase(vectorForThirdWindow[highlightThirdWindow]);
+            myData->UpdateMenu(myData->recipesMenu,myData->beveragesMenu);
+            highlightThirdWindow=0;
+        }
+        else
+        {
+            myData->DeleteRecipeFromMenuTable(myData->GetUser()->GetUserId(),myData->GetRecipeIDBasedOnPositionInMenu(highlightThirdWindow));
+            myData->recipesMenu.erase(vectorForThirdWindow[highlightThirdWindow]);
+            myData->UpdateMenu(myData->recipesMenu,myData->beveragesMenu);
+            highlightThirdWindow=0;
+        }
     }
 }
 

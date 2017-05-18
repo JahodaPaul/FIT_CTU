@@ -239,7 +239,6 @@ void DataSQL::UnlikeRecipe(const int &userID, const Recipe *currentRecipe)
     query("DELETE FROM \"public\".\"recipesUsersLiked\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
 }
 
-///TODO METHODS
 void DataSQL::AddBeverageToMenuTable(const int &userId, const string &name)
 {
     int tmp = userId;

@@ -50,6 +50,8 @@ public:
 
     void SetRecommendedRecipe();
 
+    int GetRecipeIDBasedOnPositionInMenu(const int & index);
+
     static int idOfRecommendedRecipe;
 protected:
 private:

@@ -293,6 +293,14 @@ void Data::UpdateMenu(const vector <string> &recipes, const vector <string> &bev
     }
 }
 
+int Data::GetRecipeIDBasedOnPositionInMenu(const int &index)
+{
+    auto it = this->mapOfRecipesInMenu.find(this->user->GetUserId());
+    int id = it->second[index]->GetRecipeId();
+    delete it->second[index];//maybe??
+    return id;
+}
+
 ///DO NOT delete recommended recipe as it points to recipe in vector of recipes which will deleted separately
 Data::Data()
 {
