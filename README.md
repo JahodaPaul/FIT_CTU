@@ -9,7 +9,7 @@ sudo apt-get install libpq-dev libpqxx-dev
 
 (go into project folder and type)
 
-cd lib/libpqxx-5.0/
+cd lib/libpqxx/
 
 ./configure --disable-documentation
 
