@@ -78,7 +78,7 @@ void Frontend::Run(Connection &c, Data &data)
             SwitchScreens(screenChoiceMenu, screen);
         }
         else
-        {//just for testing purposes
+        {
             SwitchScreens(SCREEN_USER_MENU, screen);
         }
     }

@@ -72,12 +72,12 @@ void ScreenSingleRecipe::Enter()
         case 2:
             if(!Contain(myData->recipesMenu,singleRecipe->ToString(COLS)))
             {
-                myData->AddRecipeToMenuTable(myData->GetUser()->GetUserId(), singleRecipe->GetRecipeId());
+                myData->AddRecipeToMenuTable(myData->GetUser()->GetUserId(), singleRecipe);
                 myData->recipesMenu.push_back(singleRecipe->ToString(COLS));
                 myData->UpdateMenu(myData->recipesMenu, myData->beveragesMenu);
-                Data::idOfRecommendedRecipe = singleRecipe->GetRecipeId();
-                myData->SetRecommendedRecipe();
             }
+            Data::idOfRecommendedRecipe = singleRecipe->GetRecipeId();
+            myData->SetRecommendedRecipe();
             highlight = SCREEN_SINGLE_RECIPE;
             break;
         case 3:

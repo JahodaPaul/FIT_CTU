@@ -18,60 +18,59 @@ void DataSQL::GetDataFromDatabase(const int select)
     result r;
     switch(select)
     {
-        //UNCOMMENT WHEN DONE TESTING
         case 1:
             r = query("SELECT * FROM \"public\".\"alcoholicBeverages\"");
             CopyIntoMap(r, ".alcB", beveragesAndCategory);
             break;
-//        case 2:
-//
-//            break;
-//        case 3:
-//            r = query("SELECT * FROM \"public\".\"beverages\"");
-//            CopyIntoMap(r, ".bev", beveragesAndCategory);
-//            break;
-//        case 4:
-//
-//            break;
-//        case 5:
-//            r = query("SELECT * FROM \"public\".\"cheese\"");
-//            CopyIntoMap(r, "cheese", foodNameAndCategory);
-//            break;
-//        case 6:
-//
-//            break;
-//        case 7:
-//            r = query("SELECT * FROM \"public\".\"fruit\"");
-//            CopyIntoMap(r, "fruit", foodNameAndCategory);
-//            break;
-//        case 8:
-//
-//            break;
-//        case 9:
-//            r = query("SELECT * FROM \"public\".\"meat\"");
-//            CopyIntoMap(r, "meat", foodNameAndCategory);
-//        case 10:
-//
-//            break;
-//        case 11:
-//            r = query("SELECT * FROM \"public\".\"nuts\"");
-//            CopyIntoMap(r, "nuts", foodNameAndCategory);
-//            break;
-//        case 12:
-//
-//            break;
-//        case 13:
-//            r = query("SELECT * FROM \"public\".\"sides\"");
-//            CopyIntoMap(r, "side", foodNameAndCategory);
-//            break;
+        case 2:
+
+            break;
+        case 3:
+            r = query("SELECT * FROM \"public\".\"beverages\"");
+            CopyIntoMap(r, ".bev", beveragesAndCategory);
+            break;
+        case 4:
+
+            break;
+        case 5:
+            r = query("SELECT * FROM \"public\".\"cheese\"");
+            CopyIntoMap(r, "cheese", foodNameAndCategory);
+            break;
+        case 6:
+
+            break;
+        case 7:
+            r = query("SELECT * FROM \"public\".\"fruit\"");
+            CopyIntoMap(r, "fruit", foodNameAndCategory);
+            break;
+        case 8:
+
+            break;
+        case 9:
+            r = query("SELECT * FROM \"public\".\"meat\"");
+            CopyIntoMap(r, "meat", foodNameAndCategory);
+        case 10:
+
+            break;
+        case 11:
+            r = query("SELECT * FROM \"public\".\"nuts\"");
+            CopyIntoMap(r, "nuts", foodNameAndCategory);
+            break;
+        case 12:
+
+            break;
+        case 13:
+            r = query("SELECT * FROM \"public\".\"sides\"");
+            CopyIntoMap(r, "side", foodNameAndCategory);
+            break;
         case 14:
             r = query("SELECT * FROM \"public\".\"recipes\" JOIN \"public\".\"recipesUsersLiked\" ON id=id_recipes;");
             CopyIntoMapRecipes(r, mapOfUsersAndRecipesTheyLiked);
             break;
-//        case 15:
-//            r = query("SELECT * FROM \"public\".\"spices\"");
-//            CopyIntoMap(r, "spice2", foodNameAndCategory);
-//            break;
+        case 15:
+            r = query("SELECT * FROM \"public\".\"spices\"");
+            CopyIntoMap(r, "spice2", foodNameAndCategory);
+            break;
         case 16:
             r = query("SELECT * FROM \"public\".\"recipes\" JOIN \"public\".\"recipesMenu\" ON id=id_recipes;");
             CopyIntoMapRecipes(r, mapOfRecipesInMenu);
@@ -254,11 +253,19 @@ void DataSQL::DeleteBeverageFromMenuTable(const int &userId, const string &name)
     query("DELETE FROM \"public\".\"beverages_menu\" WHERE name_beverage='" + name + "' AND id_user=" + UserIDString + ";");
 }
 
-void DataSQL::AddRecipeToMenuTable(const int &userID, const int &toBeAddedRecipeID)
+void DataSQL::AddRecipeToMenuTable(const int &userID, Recipe * toBeAddedRecipe)
 {
+    //first add to map mapOfRecipesInMenu---------------------------------------------------------------------------------------------------
+    auto it = mapOfRecipesInMenu.find(userID);
+    vector<string> ingredients = toBeAddedRecipe->GetIngredients();
+    vector<int> weights = toBeAddedRecipe->GetIngredientWeights();
+    int recipeId = toBeAddedRecipe->GetRecipeId();
+    it->second.push_back(new Recipe(ingredients,weights,recipeId));
+    //--------------------------------------------------------------------------------------------------------------------------------------
+
     int tmp = userID;
     string UserIDString = to_string(tmp);
-    tmp = toBeAddedRecipeID;
+    tmp = toBeAddedRecipe->GetRecipeId();
     string recipeIDString = to_string(tmp);
     pqxx::result R = query(
             "SELECT * FROM \"public\".\"recipesMenu\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");

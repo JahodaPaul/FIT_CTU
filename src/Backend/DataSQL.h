@@ -29,7 +29,7 @@ public:
 
     void DeleteBeverageFromMenuTable(const int &userId, const string &name);
 
-    void AddRecipeToMenuTable(const int &userID, const int &toBeAddedRecipeID);
+    void AddRecipeToMenuTable(const int &userID, Recipe * toBeAddedRecipe);
 
     void DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID);
 

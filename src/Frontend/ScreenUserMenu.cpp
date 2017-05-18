@@ -6,17 +6,15 @@
 
 void ScreenUserMenu::Enter()
 {
+    userPressedEnter=true;
     if(!thirdWindowSelected)
     {
-        userPressedEnter = true;
         switch(highlight)
         {
             case 0://SELECT SCREEN INGREDIENTS
-
                 highlight = SCREEN_INGREDIENTS;
                 break;
             case 1://SELECT SCREEN BEVERAGES
-
                 highlight = SCREEN_BEVERAGES;
                 break;
             case 2://EXIT
@@ -28,21 +26,22 @@ void ScreenUserMenu::Enter()
     }
     else
     {
-        if(highlightThirdWindow>=myData->recipesMenu.size())
+        if(highlightThirdWindow>=(int)myData->recipesMenu.size())
         {
             myData->DeleteBeverageFromMenuTable(myData->GetUser()->GetUserId(),vectorForThirdWindow[highlightThirdWindow]);
-            myData->beveragesMenu.erase(vectorForThirdWindow[highlightThirdWindow]);
-            myData->UpdateMenu(myData->recipesMenu,myData->beveragesMenu);
-            highlightThirdWindow=0;
+            myData->beveragesMenu.erase(myData->beveragesMenu.begin()+highlightThirdWindow-myData->recipesMenu.size());
         }
         else
         {
             myData->DeleteRecipeFromMenuTable(myData->GetUser()->GetUserId(),myData->GetRecipeIDBasedOnPositionInMenu(highlightThirdWindow));
-            myData->recipesMenu.erase(vectorForThirdWindow[highlightThirdWindow]);
-            myData->UpdateMenu(myData->recipesMenu,myData->beveragesMenu);
-            highlightThirdWindow=0;
+            myData->recipesMenu.erase(myData->recipesMenu.begin()+highlightThirdWindow);
         }
+        myData->UpdateMenu(myData->recipesMenu,myData->beveragesMenu);
+        highlightThirdWindow=0;
+        vectorForThirdWindow.erase(vectorForThirdWindow.begin()+highlightThirdWindow);
+        highlight=SCREEN_USER_MENU;
     }
+
 }
 
 void ScreenUserMenu::KeyLeft()
@@ -68,8 +67,14 @@ void ScreenUserMenu::PrintStuff() const
     printedString = "Number of liked recipes: ";
     int tmp = myData->HowManyRecipesUserLikes(myData->GetUser()->GetUserId());
     printedString += to_string(tmp);
+    attron(A_BOLD);
     mvprintw(secondWindowHeight+1, 1, printedString.c_str());
-    mvprintw(secondWindowHeight+2, 1, "My menu: ");
+    attroff(A_BOLD);
+    mvprintw(secondWindowHeight+2, 1, "To remove selected recipe/beverage from menu, press enter.");
+    mvprintw(secondWindowHeight+3, 1, "User arrows and enter.");
+    attron(A_BOLD);
+    mvprintw(secondWindowHeight+4, 1, "My menu: ");
+    attroff(A_BOLD);
 }
 
 void ScreenUserMenu::SetVariables()
@@ -78,7 +83,7 @@ void ScreenUserMenu::SetVariables()
     secondWindowWidth = 22;
     secondWindowStartX = 0;
     secondWindowStartY = 0;
-    thirdWindowStartY=secondWindowHeight+3;
+    thirdWindowStartY=secondWindowHeight+5;
     thirdWindowStartX=0;
     thirdWindowWidth=COLS-24;
     thirdWindowHeight=LINES-thirdWindowStartY;

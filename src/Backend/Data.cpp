@@ -251,9 +251,9 @@ int Data::HowManyRecipesUserLikes(const int &userID) const
 }
 
 ///frees Recipe * and clears map
-void Data::DeleteMapOfUsersAndRecipesTheyLiked()
+void Data::DeleteMap(map<int, vector<Recipe *> > &myMap)
 {
-    for(auto &ent1 : mapOfUsersAndRecipesTheyLiked)
+    for(auto &ent1 : myMap)
     {
         for(auto &ent2 : ent1.second)
         {
@@ -262,6 +262,12 @@ void Data::DeleteMapOfUsersAndRecipesTheyLiked()
         ent1.second.clear();
     }
     mapOfUsersAndRecipesTheyLiked.clear();
+}
+
+/// calls DeleteMap function with mapOfUsersAndRecipesTheyLiked parameter
+void Data::DeleteMapOfUsersAndRecipesTheyLiked()
+{
+    DeleteMap(mapOfUsersAndRecipesTheyLiked);
 }
 
 /// this function has only one purpose, when a user is a in a screen ScreenSingleRecipe  and presses LIKE/UNLIKE, new recommended recipe
@@ -298,6 +304,7 @@ int Data::GetRecipeIDBasedOnPositionInMenu(const int &index)
     auto it = this->mapOfRecipesInMenu.find(this->user->GetUserId());
     int id = it->second[index]->GetRecipeId();
     delete it->second[index];//maybe??
+    it->second.erase(it->second.begin()+index);
     return id;
 }
 
@@ -313,5 +320,6 @@ Data::Data()
 Data::~Data()
 {
     delete user;
-    DeleteMapOfUsersAndRecipesTheyLiked();
+    DeleteMap(mapOfUsersAndRecipesTheyLiked);
+    DeleteMap(mapOfRecipesInMenu);
 }

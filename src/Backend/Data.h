@@ -48,6 +48,8 @@ public:
 
     void DeleteMapOfUsersAndRecipesTheyLiked();
 
+    void DeleteMap(map<int, vector<Recipe *> > &myMap);
+
     void SetRecommendedRecipe();
 
     int GetRecipeIDBasedOnPositionInMenu(const int & index);
