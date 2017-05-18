@@ -38,7 +38,6 @@ public:
 
     void OtherKey() {};
 
-    ///TODO
     //void PrintStuff() const;
 
     //void SetVariables();

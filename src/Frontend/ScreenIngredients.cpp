@@ -194,15 +194,16 @@ void ScreenIngredients::OtherKey()
     if((key > 96 && key < 123) || (key > 64 && key < 91) || (key > 47 && key < 58))
     {
         ingredientSelectionString += (char) key;
+
+        if(myMap->size() != 0)
+        {
+            PrintUserTypedIngredient(ingredientSelectionString, options, true, *myMap, from, to, highlight, selected, firstWindowHeight);
+        }
+        menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
+        RefreshWholeWindow(menu_win);
+        userPressedEnter = false;
+        refresh();
     }
-    if(myMap->size() != 0)
-    {
-        PrintUserTypedIngredient(ingredientSelectionString, options, true, *myMap, from, to, highlight, selected, firstWindowHeight);
-    }
-    menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
-    RefreshWholeWindow(menu_win);
-    userPressedEnter = false;
-    refresh();
 }
 
 ///refreshed curses WINDOW so it does not show visual bugs
