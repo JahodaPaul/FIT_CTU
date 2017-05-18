@@ -5,9 +5,21 @@
 #ifndef RECIPE_MANAGER_SCREEN_H
 #define RECIPE_MANAGER_SCREEN_H
 
-#include "Frontend.h"
+#include "../Backend/Connection.h"
+#include "../Backend/Data.h"
+#include "../../lib/curses/ncurses.h"
+#include <iostream>
+#include <string>
 
-class Screen : public Frontend
+#define SCREEN_LOGIN_MENU 0
+#define SCREEN_LOGIN_PASSWORD 1
+#define SCREEN_USER_MENU 2
+#define SCREEN_INGREDIENTS 3
+#define SCREEN_RECIPES 4
+#define SCREEN_SINGLE_RECIPE 5
+#define SCREEN_BEVERAGES 6
+
+class Screen
 {
 public:
     Screen();
@@ -42,6 +54,13 @@ protected:
     int key;
     bool userPressedEnter;
     int highlight;
+    int middleStartX;
+    int middleStartY;
+
+    template<class T>
+    bool Contain(const vector <T> &arr, const T &lookingFor) const;
+
+    void AssignValueToVariableTo(int &to, const int &sizeOfVector, const int &boxSize);
 
     void PrintMenu(WINDOW *menu_win, const int highlight, const vector <string> &choices, const bool center, const int &boxWidth,
                    const int &boxHeight, const int &averageStringSize, const int &from, const int &to);
@@ -60,5 +79,21 @@ protected:
 
 private:
 };
+
+/**
+ * \return true if string exists in vector of string
+ */
+template<class T>
+bool Screen::Contain(const vector <T> &arr, const T &lookingFor) const
+{
+    for(auto const &item : arr)
+    {
+        if(item == lookingFor)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 #endif //RECIPE_MANAGER_SCREEN_H

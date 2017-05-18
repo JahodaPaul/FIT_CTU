@@ -70,7 +70,7 @@ void ScreenSingleRecipe::Enter()
             highlight = SCREEN_SINGLE_RECIPE;
             break;
         case 2:
-            if(!Contain(myData->recipesMenu,singleRecipe->ToString(COLS)))
+            if(!Contain(myData->recipesMenu, singleRecipe->ToString(COLS)))
             {
                 myData->AddRecipeToMenuTable(myData->GetUser()->GetUserId(), singleRecipe);
                 myData->recipesMenu.push_back(singleRecipe->ToString(COLS));
@@ -157,7 +157,7 @@ void ScreenSingleRecipe::PrintStuff() const
 
 void ScreenSingleRecipe::SetVariables()
 {
-    firstWindowHeight=9;
+    firstWindowHeight = 9;
     secondWindowHeight = 9;
     secondWindowWidth = 22;
     secondWindowStartX = 0;

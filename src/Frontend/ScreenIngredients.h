@@ -36,7 +36,7 @@ public:
 
     void OtherKey();
 
-    virtual bool AreYouRecipeScreen(){return false;}
+    virtual bool AreYouRecipeScreen() { return false; }
 
 protected:
     int firstWindowHeight, firstWindowWidth, firstWindowStartX, firstWindowStartY;
@@ -46,7 +46,7 @@ protected:
 
     virtual void PrintTextInfoForUser() const;
 
-    virtual void SetVariables(){};
+    virtual void SetVariables() {};
 
     string ingredientSelectionString;
     int from, to, picked, selected;

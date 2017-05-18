@@ -37,8 +37,8 @@ void ScreenLoginPassword::GetUserInputOneLine(string toBeShown, string &get, con
     cbreak();
     width = 25;
     height = 3;
-    Frontend::middleStartX = (COLS - width) / 2;
-    Frontend::middleStartY = (LINES - height) / 3;
+    middleStartX = (COLS - width) / 2;
+    middleStartY = (LINES - height) / 3;
     menu_win = newwin(height, width, middleStartY, middleStartX);
     //------------------------------------------------------------------------------------------------------------------
 

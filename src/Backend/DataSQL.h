@@ -35,7 +35,6 @@ public:
 
     void GetDataFromMenuTable(const result &R,vector<string> & menu, vector<string> &recipesMenu, vector<string> &beveragesMenu);
 
-    //TODO make it protected and create methods for them
     vector <string> beveragesMenu;
     vector <string> recipesMenu;
     vector <string> menu;

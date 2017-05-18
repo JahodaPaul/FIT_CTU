@@ -44,15 +44,15 @@ void Screen::ReactToUserInput(const int &key)
 
 /**
  *
- * @param menu_win
- * @param highlight
- * @param choices
- * @param center
- * @param boxWidth
- * @param boxHeight
- * @param averageStringSize
- * @param from
- * @param to
+ * \param menu_win
+ * \param highlight
+ * \param choices
+ * \param center
+ * \param boxWidth
+ * \param boxHeight
+ * \param averageStringSize
+ * \param from
+ * \param to
  * It prints given a vector of strings in the middle or at the top left corner.
  * Can also highlight one of the strings given integer parameter highlight
  */
@@ -300,6 +300,19 @@ void Screen::OnlySelectedRangeOfStringsRemain(const T lowerbound, int &from, int
     highlight = 0;
     AssignValueToVariableTo(to, (int) vectorOfStrings.size(), boxSize);
     changed = true;
+}
+
+/// Variable to is used to determinate how many strings to show in WINDOW Box
+void Screen::AssignValueToVariableTo(int &to, const int &sizeOfVector, const int &boxSize)
+{
+    if(sizeOfVector > (boxSize) - 3)///TODO do not hardcode it
+    {
+        to = (boxSize) - 3;
+    }
+    else
+    {
+        to = sizeOfVector;
+    }
 }
 
 Screen::Screen()

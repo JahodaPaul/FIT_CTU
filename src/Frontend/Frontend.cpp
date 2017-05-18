@@ -28,10 +28,6 @@ void Frontend::Run(Connection &c, Data &data)
     recommendedRecipe = "";
     frontendData = &data;
     pickedIngredients.clear();
-    //TODO
-    //beveragesMenu=frontendData->beveragesMenu;
-    menu=frontendData->menu;
-    //recipesMenu=frontendData->recipesMenu;
     recipeVector.clear();// first it holds recommended recipe, then after recipe selection it holds string index
     //of selected recipe
     //------------------------------------------------------------------------------------------------------------------
@@ -173,23 +169,9 @@ void Frontend::RunScreen(const int screenChoice, Screen *currentScreen)
             break;
         case SCREEN_BEVERAGES:
             currentScreen->AssignData(*frontendData);
-            screenChoiceMenu = currentScreen->Run(frontendData->GetMapOfBeverages(),frontendData->beveragesMenu);
+            screenChoiceMenu = currentScreen->Run(frontendData->GetMapOfBeverages(), frontendData->beveragesMenu);
         default:
             return;
-    }
-}
-
-
-/// Variable to is used to determinate how many strings to show in WINDOW Box
-void Frontend::AssignValueToVariableTo(int &to, const int &sizeOfVector, const int &boxSize)
-{
-    if(sizeOfVector > (boxSize) - 3)///TODO do not hardcode it
-    {
-        to = (boxSize) - 3;
-    }
-    else
-    {
-        to = sizeOfVector;
     }
 }
 

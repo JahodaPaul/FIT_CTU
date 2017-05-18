@@ -21,15 +21,16 @@ int ScreenLogin::Run()
     cbreak();
     SetVariables();
     menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
-    WINDOW * secondWindow = newwin(secondWindowHeight,secondWindowWidth,secondWindowStartY,secondWindowStartX);
+    WINDOW * secondWindow = newwin(secondWindowHeight, secondWindowWidth, secondWindowStartY, secondWindowStartX);
     thirdWindow = newwin(thirdWindowHeight, thirdWindowWidth, thirdWindowStartY, thirdWindowStartX);
     //------------------------------------------------------------------------------------------------------------------
 
     keypad(menu_win, TRUE);
     PrintStuff();
     refresh();
-    PrintMenu(secondWindow,-1,pictureVector,true,secondWindowWidth,secondWindowHeight,averageStringPicture,0,(int)pictureVector.size());
-    PrintMenu(thirdWindow,-1,vectorForThirdWindow,false,thirdWindowWidth,thirdWindowHeight,0,0,(int)vectorForThirdWindow.size());
+    PrintMenu(secondWindow, -1, pictureVector, true, secondWindowWidth, secondWindowHeight, averageStringPicture, 0,
+              (int) pictureVector.size());
+    PrintMenu(thirdWindow, -1, vectorForThirdWindow, false, thirdWindowWidth, thirdWindowHeight, 0, 0, (int) vectorForThirdWindow.size());
     PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
     while(1)
     {
@@ -37,11 +38,13 @@ int ScreenLogin::Run()
         ReactToUserInput(key);
         if(!thirdWindowSelected)
         {
-            PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
+            PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0,
+                      (int) choices.size());
         }
         else
         {
-            PrintMenu(thirdWindow, highlightThirdWindow, vectorForThirdWindow, center, thirdWindowWidth, thirdWindowHeight, averageStringSize, 0, (int) vectorForThirdWindow.size());
+            PrintMenu(thirdWindow, highlightThirdWindow, vectorForThirdWindow, center, thirdWindowWidth, thirdWindowHeight,
+                      averageStringSize, 0, (int) vectorForThirdWindow.size());
         }
         if(userPressedEnter)
         {
@@ -59,10 +62,10 @@ void ScreenLogin::SetVariables()
 {
     firstWindowStartX = (COLS - firstWindowWidth) / 2;
     firstWindowStartY = (LINES - firstWindowHeight) / 3;
-    secondWindowStartY=-1;
-    secondWindowStartX=-1;
-    secondWindowWidth=1;
-    secondWindowHeight=1;
+    secondWindowStartY = -1;
+    secondWindowStartX = -1;
+    secondWindowWidth = 1;
+    secondWindowHeight = 1;
 }
 
 void ScreenLogin::PrintStuff() const
@@ -132,6 +135,7 @@ void ScreenLogin::OtherKey()
     refresh();
 }
 
+/// when user pressed key left or right, it changes focus between windows, first item is highlighted
 void ScreenLogin::ChangeFocus()
 {
     if(vectorForThirdWindow.size() != 0)
@@ -140,15 +144,16 @@ void ScreenLogin::ChangeFocus()
     }
     if(thirdWindowSelected)
     {
-        highlight=-1;
-        highlightThirdWindow=0;
+        highlight = -1;
+        highlightThirdWindow = 0;
         PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
     }
     else
     {
-        highlightThirdWindow=-1;
-        highlight=0;
-        PrintMenu(thirdWindow, highlightThirdWindow, vectorForThirdWindow, center, thirdWindowWidth, thirdWindowHeight, averageStringSize, 0, (int) vectorForThirdWindow.size());
+        highlightThirdWindow = -1;
+        highlight = 0;
+        PrintMenu(thirdWindow, highlightThirdWindow, vectorForThirdWindow, center, thirdWindowWidth, thirdWindowHeight, averageStringSize,
+                  0, (int) vectorForThirdWindow.size());
     }
 }
 
@@ -168,20 +173,20 @@ ScreenLogin::ScreenLogin()
 {
     firstWindowWidth = 25;
     firstWindowHeight = 7;
-    firstWindowStartY=0;
-    firstWindowStartX=COLS-25;
-    thirdWindowStartY=-1;
-    thirdWindowStartX=-1;
-    thirdWindowWidth=1;
-    thirdWindowHeight=1;
-    averageStringPicture=0;
+    firstWindowStartY = 0;
+    firstWindowStartX = COLS - 25;
+    thirdWindowStartY = -1;
+    thirdWindowStartX = -1;
+    thirdWindowWidth = 1;
+    thirdWindowHeight = 1;
+    averageStringPicture = 0;
     choices.push_back("login");
     choices.push_back("register");
     choices.push_back("exit");
-    CountAverageStringSize(choices,averageStringSize);
-    center=true;
-    thirdWindowSelected=false;
-    highlightThirdWindow=-1;
+    CountAverageStringSize(choices, averageStringSize);
+    center = true;
+    thirdWindowSelected = false;
+    highlightThirdWindow = -1;
 }
 
 ScreenLogin::~ScreenLogin()

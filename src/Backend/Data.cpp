@@ -17,7 +17,7 @@ map <string, string> &Data::GetMapOfIngridients()
 }
 
 /// \return map beveragesAndCategory
-map <string, string>& Data::GetMapOfBeverages()
+map <string, string> &Data::GetMapOfBeverages()
 {
     return beveragesAndCategory;
 }
@@ -238,12 +238,12 @@ vector<int> Data::GetUsersThatLikedRecipe(const int &recipeID) const
 
 int Data::HowManyRecipesUserLikes(const int &userID) const
 {
-    int result=0;
+    int result = 0;
     for(auto const &ent1 : mapOfUsersAndRecipesTheyLiked)
     {
-        if(ent1.first==userID)
+        if(ent1.first == userID)
         {
-            result=(int)ent1.second.size();
+            result = (int) ent1.second.size();
             return result;
         }
     }
@@ -286,14 +286,15 @@ void Data::SetRecommendedRecipe()
     }
 }
 
+/// menu vector is cleared and recipes are added first and beverages second
 void Data::UpdateMenu(const vector <string> &recipes, const vector <string> &beverages)
 {
     this->menu.clear();
-    for(unsigned int i = 0;i<recipes.size();++i)
+    for(unsigned int i = 0; i < recipes.size(); ++i)
     {
         this->menu.push_back(recipes[i]);
     }
-    for(unsigned int i = 0;i<beverages.size();++i)
+    for(unsigned int i = 0; i < beverages.size(); ++i)
     {
         this->menu.push_back(beverages[i]);
     }
@@ -303,8 +304,8 @@ int Data::GetRecipeIDBasedOnPositionInMenu(const int &index)
 {
     auto it = this->mapOfRecipesInMenu.find(this->user->GetUserId());
     int id = it->second[index]->GetRecipeId();
-    delete it->second[index];//maybe??
-    it->second.erase(it->second.begin()+index);
+    delete it->second[index];
+    it->second.erase(it->second.begin() + index);
     return id;
 }
 

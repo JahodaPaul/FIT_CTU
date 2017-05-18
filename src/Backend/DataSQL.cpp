@@ -13,8 +13,8 @@
  */
 void DataSQL::GetDataFromDatabase(const int select)
 {
-    string idString="";
-    int tmp=0;
+    string idString = "";
+    int tmp = 0;
     result r;
     switch(select)
     {
@@ -82,8 +82,8 @@ void DataSQL::GetDataFromDatabase(const int select)
         case 18:
             tmp = this->user->GetUserId();
             idString = to_string(tmp);
-            r = query("SELECT * FROM \"public\".\"beverages_menu\" WHERE id_user="+idString+";");
-            GetDataFromMenuTable(r,menu,recipesMenu,beveragesMenu);
+            r = query("SELECT * FROM \"public\".\"beverages_menu\" WHERE id_user=" + idString + ";");
+            GetDataFromMenuTable(r, menu, recipesMenu, beveragesMenu);
             break;
         default:
             /* Blok default */
@@ -253,14 +253,14 @@ void DataSQL::DeleteBeverageFromMenuTable(const int &userId, const string &name)
     query("DELETE FROM \"public\".\"beverages_menu\" WHERE name_beverage='" + name + "' AND id_user=" + UserIDString + ";");
 }
 
-void DataSQL::AddRecipeToMenuTable(const int &userID, Recipe * toBeAddedRecipe)
+void DataSQL::AddRecipeToMenuTable(const int &userID, Recipe *toBeAddedRecipe)
 {
     //first add to map mapOfRecipesInMenu---------------------------------------------------------------------------------------------------
     auto it = mapOfRecipesInMenu.find(userID);
-    vector<string> ingredients = toBeAddedRecipe->GetIngredients();
+    vector <string> ingredients = toBeAddedRecipe->GetIngredients();
     vector<int> weights = toBeAddedRecipe->GetIngredientWeights();
     int recipeId = toBeAddedRecipe->GetRecipeId();
-    it->second.push_back(new Recipe(ingredients,weights,recipeId));
+    it->second.push_back(new Recipe(ingredients, weights, recipeId));
     //--------------------------------------------------------------------------------------------------------------------------------------
 
     int tmp = userID;
@@ -285,12 +285,12 @@ void DataSQL::DeleteRecipeFromMenuTable(const int &userID, const int &toBeDelete
     query("DELETE FROM \"public\".\"recipesMenu\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
 }
 
-void DataSQL::GetDataFromMenuTable(const result &R, vector <string> &menu, vector<string> &recipesMenu, vector<string> &beveragesMenu)
+void DataSQL::GetDataFromMenuTable(const result &R, vector <string> &menu, vector <string> &recipesMenu, vector <string> &beveragesMenu)
 {
     int userID = this->user->GetUserId();
     for(auto const &ent1 : mapOfRecipesInMenu)
     {
-        if(ent1.first==userID)
+        if(ent1.first == userID)
         {
             for(auto const &ent2 : ent1.second)
             {

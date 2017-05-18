@@ -38,12 +38,12 @@ public:
     void OtherKey();
 
 protected:
-    void CountAverageStringSize(const vector<string> & vectorOfStrings,int & averageSize);
+    void CountAverageStringSize(const vector <string> &vectorOfStrings, int &averageSize);
 
     vector <string> choices;
     vector <string> pictureVector;
     vector <string> vectorForThirdWindow;
-    int averageStringSize,averageStringPicture;
+    int averageStringSize, averageStringPicture;
     int firstWindowHeight, firstWindowWidth, firstWindowStartX, firstWindowStartY;
     int secondWindowHeight, secondWindowWidth, secondWindowStartX, secondWindowStartY;
     int thirdWindowHeight, thirdWindowWidth, thirdWindowStartX, thirdWindowStartY;
@@ -59,8 +59,8 @@ protected:
     void ChangeFocus();
 
 private:
-    WINDOW * menu_win;
-    WINDOW * thirdWindow;
+    WINDOW *menu_win;
+    WINDOW *thirdWindow;
 };
 
 #endif //RECIPE_MANAGER_SCREENLOGIN_H

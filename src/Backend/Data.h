@@ -40,7 +40,7 @@ public:
 
     void UpdateScreenWidth(const int width);
 
-    void UpdateMenu(const vector<string> & recipes, const vector<string> &beverages);
+    void UpdateMenu(const vector <string> &recipes, const vector <string> &beverages);
 
     Recipe *GetRecipeByIndex(const string &index) const;
 
@@ -52,7 +52,7 @@ public:
 
     void SetRecommendedRecipe();
 
-    int GetRecipeIDBasedOnPositionInMenu(const int & index);
+    int GetRecipeIDBasedOnPositionInMenu(const int &index);
 
     static int idOfRecommendedRecipe;
 protected:

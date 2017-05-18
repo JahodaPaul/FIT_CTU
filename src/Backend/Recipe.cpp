@@ -82,13 +82,13 @@ string Recipe::ToString(const int &screenWidth)
 }
 
 /// \return ingredients
-vector<string>& Recipe::GetIngredients()
+vector <string> &Recipe::GetIngredients()
 {
     return this->ingredients;
 }
 
 /// \return ingredientWeight
-vector<int>& Recipe::GetIngredientWeights()
+vector<int> &Recipe::GetIngredientWeights()
 {
     return this->ingredientWeight;
 }
