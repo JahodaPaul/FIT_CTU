@@ -36,7 +36,7 @@ public:
 
     bool AreYouRecipeScreen() { return false; }
 
-    //void OtherKey() {};
+    void OtherKey() {};
 
     ///TODO
     //void PrintStuff() const;
