@@ -20,9 +20,9 @@ int ScreenLogin::Run()
     noecho();
     cbreak();
     SetVariables();
-    WINDOW * menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
+    menu_win = newwin(firstWindowHeight, firstWindowWidth, firstWindowStartY, firstWindowStartX);
     WINDOW * secondWindow = newwin(secondWindowHeight,secondWindowWidth,secondWindowStartY,secondWindowStartX);
-    WINDOW * thirdWindow = newwin(thirdWindowHeight, thirdWindowWidth, thirdWindowStartY, thirdWindowStartX);
+    thirdWindow = newwin(thirdWindowHeight, thirdWindowWidth, thirdWindowStartY, thirdWindowStartX);
     //------------------------------------------------------------------------------------------------------------------
 
     keypad(menu_win, TRUE);
@@ -35,7 +35,14 @@ int ScreenLogin::Run()
     {
         key = wgetch(menu_win);
         ReactToUserInput(key);
-        PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
+        if(!thirdWindowSelected)
+        {
+            PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
+        }
+        else
+        {
+            PrintMenu(thirdWindow, highlightThirdWindow, vectorForThirdWindow, center, thirdWindowWidth, thirdWindowHeight, averageStringSize, 0, (int) vectorForThirdWindow.size());
+        }
         if(userPressedEnter)
         {
             break;
@@ -65,25 +72,53 @@ void ScreenLogin::PrintStuff() const
 
 void ScreenLogin::KeyUp()
 {
-    if(highlight == 0)
+    if(!thirdWindowSelected)
     {
-        highlight = (int) (choices.size() - 1);
+        if(highlight == 0)
+        {
+            highlight = (int) (choices.size() - 1);
+        }
+        else
+        {
+            highlight--;
+        }
     }
     else
     {
-        highlight--;
+        if(highlightThirdWindow == 0)
+        {
+            highlightThirdWindow = (int) (vectorForThirdWindow.size() - 1);
+        }
+        else
+        {
+            highlightThirdWindow--;
+        }
     }
 }
 
 void ScreenLogin::KeyDown()
 {
-    if(highlight == (int) (choices.size() - 1))
+    if(!thirdWindowSelected)
     {
-        highlight = 0;
+        if(highlight == (int) (choices.size() - 1))
+        {
+            highlight = 0;
+        }
+        else
+        {
+            highlight++;
+        }
     }
     else
     {
-        highlight++;
+        if(highlightThirdWindow == (int) (vectorForThirdWindow.size() - 1))
+        {
+            highlightThirdWindow = 0;
+        }
+        else
+        {
+            highlightThirdWindow++;
+        }
     }
 }
 
@@ -95,6 +130,26 @@ void ScreenLogin::Enter()
 void ScreenLogin::OtherKey()
 {
     refresh();
+}
+
+void ScreenLogin::ChangeFocus()
+{
+    if(vectorForThirdWindow.size() != 0)
+    {
+        thirdWindowSelected = !thirdWindowSelected;
+    }
+    if(thirdWindowSelected)
+    {
+        highlight=-1;
+        highlightThirdWindow=0;
+        PrintMenu(menu_win, highlight, choices, center, firstWindowWidth, firstWindowHeight, averageStringSize, 0, (int) choices.size());
+    }
+    else
+    {
+        highlightThirdWindow=-1;
+        highlight=0;
+        PrintMenu(thirdWindow, highlightThirdWindow, vectorForThirdWindow, center, thirdWindowWidth, thirdWindowHeight, averageStringSize, 0, (int) vectorForThirdWindow.size());
+    }
 }
 
 /// counts average length of a string in vector
@@ -125,6 +180,8 @@ ScreenLogin::ScreenLogin()
     choices.push_back("exit");
     CountAverageStringSize(choices,averageStringSize);
     center=true;
+    thirdWindowSelected=false;
+    highlightThirdWindow=-1;
 }
 
 ScreenLogin::~ScreenLogin()

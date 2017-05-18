@@ -6,23 +6,40 @@
 
 void ScreenUserMenu::Enter()
 {
-    userPressedEnter = true;
-    switch(highlight)
+    if(!thirdWindowSelected)
     {
-        case 0://SELECT SCREEN INGREDIENTS
+        userPressedEnter = true;
+        switch(highlight)
+        {
+            case 0://SELECT SCREEN INGREDIENTS
 
-            highlight = SCREEN_INGREDIENTS;
-            break;
-        case 1://SELECT SCREEN BEVERAGES
+                highlight = SCREEN_INGREDIENTS;
+                break;
+            case 1://SELECT SCREEN BEVERAGES
 
-            highlight = SCREEN_BEVERAGES;
-            break;
-        case 2://EXIT
-            highlight = -2;
-            break;
-        default:
-            return;
+                highlight = SCREEN_BEVERAGES;
+                break;
+            case 2://EXIT
+                highlight = -2;
+                break;
+            default:
+                return;
+        }
     }
+    else
+    {
+        // TODO delete beverage/recipe from menu table in database
+    }
+}
+
+void ScreenUserMenu::KeyLeft()
+{
+    ChangeFocus();
+}
+
+void ScreenUserMenu::KeyRight()
+{
+    ChangeFocus();
 }
 
 void ScreenUserMenu::AssignData(Data &data)

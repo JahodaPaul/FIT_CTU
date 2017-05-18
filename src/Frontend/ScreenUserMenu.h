@@ -26,9 +26,9 @@ public:
 
     //void KeyDown() {};
 
-    void KeyLeft() {};
+    void KeyLeft();
 
-    void KeyRight() {};
+    void KeyRight();
 
     void Backspace() {};
 

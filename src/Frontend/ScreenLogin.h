@@ -47,13 +47,20 @@ protected:
     int firstWindowHeight, firstWindowWidth, firstWindowStartX, firstWindowStartY;
     int secondWindowHeight, secondWindowWidth, secondWindowStartX, secondWindowStartY;
     int thirdWindowHeight, thirdWindowWidth, thirdWindowStartX, thirdWindowStartY;
+    int highlightThirdWindow;
+
     bool center;
+    bool thirdWindowSelected;
 
     virtual void PrintStuff() const;
 
     virtual void SetVariables();
 
+    void ChangeFocus();
+
 private:
+    WINDOW * menu_win;
+    WINDOW * thirdWindow;
 };
 
 #endif //RECIPE_MANAGER_SCREENLOGIN_H
