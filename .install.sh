@@ -10,7 +10,7 @@ yum install postgresql-devel
 yum install ncurses-*
 
 else
-sudo apt-get install libpq-dev libpqxx
+sudo apt-get install libpq-dev
 sudo apt-get install ncurses-dev
 
 fi
