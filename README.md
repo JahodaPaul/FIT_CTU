@@ -3,10 +3,6 @@ go to project folder and type "make install" which will hopefully install all ne
 
 if make install does not do the work you
 need to download and install libpq(for database communication) and ncurses (for UI)
-
-It is now possible to run it on windows. However, I do recommend using
-Bash on Ubuntu on Windows and installing libraries as if you were on ubuntu
-and running from bash using "make clean && make compile && make run"
 --------------------------------------------------------------------------------
 
 sudo apt-get install libpq-dev
@@ -35,3 +31,10 @@ make doc -> creates documentation using doxygen
 make/make all -> compiles project and documentation
 
 make clean -> deletes everything that could be created by make all.
+
+--------------------------------------------------------------------------------
+It is now possible to run it on windows. However, I do recommend using
+
+Bash on Ubuntu on Windows and installing libraries as if you were on ubuntu
+
+and running from bash using "make clean && make compile && make run"
