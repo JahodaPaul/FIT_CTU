@@ -3,6 +3,10 @@ go to project folder and type "make install" which will hopefully install all ne
 
 if make install does not do the work you
 need to download and install libpq(for database communication) and ncurses (for UI)
+
+It is now possible to run it on windows. However, I do recommend using
+Bash on Ubuntu on Windows and installing libraries as if you were on ubuntu
+and running from bash using "make clean && make compile && make run"
 --------------------------------------------------------------------------------
 
 sudo apt-get install libpq-dev
@@ -16,8 +20,6 @@ or if you have fedora:
 
 yum install ncurses-*
 
-
-Unfortunately it is not possible to run this program on windows, yet.
 
 --------------------------------------------------------------------------------
 make count -> calculates number of lines in code
