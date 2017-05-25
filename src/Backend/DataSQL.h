@@ -9,6 +9,7 @@
 #include <set>
 #include "Recipe.h"
 #include "User.h"
+#include <map>
 
 class DataSQL:public Connection
 {
@@ -33,7 +34,7 @@ public:
 
     void DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID);
 
-    void GetDataFromMenuTable(const result &R,vector<string> & menu, vector<string> &recipesMenu, vector<string> &beveragesMenu);
+    void GetDataFromMenuTable(const PGresult *R,vector<string> & menu, vector<string> &recipesMenu, vector<string> &beveragesMenu);
 
     vector <string> beveragesMenu;
     vector <string> recipesMenu;
@@ -57,9 +58,9 @@ protected:
 
     int screenWidth;
 private:
-    void CopyIntoMap(const pqxx::result &, const string, map <string, string> &);
+    void CopyIntoMap(const PGresult *, const string, map <string, string> &);
 
-    void CopyIntoMapRecipes(const pqxx::result &, map<int, vector<Recipe *> > &);
+    void CopyIntoMapRecipes(const PGresult *, map<int, vector<Recipe *> > &);
 };
 
 #endif //RECIPE_MANAGER_DATASQL_H

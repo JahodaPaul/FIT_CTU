@@ -2,20 +2,10 @@ to run this project
 go to project folder and type "make install" which will hopefully install all necessary libraries
 
 if make install does not do the work you
-need to download and install libpqxx, libpq(for database communication) and ncurses (for UI)
+need to download and install libpq(for database communication) and ncurses (for UI)
 --------------------------------------------------------------------------------
 
-sudo apt-get install libpq-dev libpqxx-dev
-
-(go into project folder and type)
-
-cd lib/libpqxx/
-
-./configure --disable-documentation
-
-make
-
-sudo make install
+sudo apt-get install libpq-dev
 
 --------------------------------------------------------------------------------
 for ncurses: 

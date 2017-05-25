@@ -14,35 +14,36 @@ bool Connection::Connect(const string &name, const string &password, int &id)
         {
             return false;
         }
-        connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
+        PGconn *conn = PQconnectdb("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
-        if(C.is_open())
-        {
-
-        }
-        else
+        if(PQstatus(conn) == CONNECTION_BAD)
         {
             cout << "Can't open database" << endl;
             return false;
         }
         string sql = "SELECT * FROM \"public\".\"users\" WHERE user_name='" + name + "' AND user_password='" + password + "';";
 
-        nontransaction N(C);
-
-        // Execute SQL query
-        result R(N.exec(sql));
-        if(R.size() == 0)
+        PGresult *res = PQexec(conn,sql.c_str());
+        int rows = 0;
+        if(PQresultStatus(res) == PGRES_TUPLES_OK)
+        {
+            rows = PQntuples(res);
+        }
+        if(rows==0)
         {
             cout << "Username and password does not match" << endl;
-            C.disconnect();
+            PQfinish(conn);
             return false;
         }
-        for(result::const_iterator c = R.begin(); c != R.end(); ++c)
+        rows = PQntuples(res);
+        for(int i=0; i<rows; i++)
         {
-            id = c[0].as<int>();
+            string tmp = PQgetvalue(res, i, 0);
+            id = atoi( tmp.c_str() );
         }
         cout << "Successful login." << endl;
-        C.disconnect();
+        PQclear(res);
+        PQfinish(conn);
     }
     catch(const std::exception &e)
     {
@@ -61,46 +62,48 @@ bool Connection::Register(const string &name, const string &password, int &id)
         {
             return false;
         }
-        connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
+        PGconn *conn = PQconnectdb("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
-        if(C.is_open())
-        {
-
-        }
-        else
+        if(PQstatus(conn) == CONNECTION_BAD)
         {
             cout << "Can't open database" << endl;
             return false;
         }
+
         string sql = "SELECT * FROM \"public\".\"users\" WHERE user_name='" + name + "';";
-        work txn(C);
-        // SQL statement
-        result R = txn.exec(sql);
-        // Execute SQL query
-        if(R.size() != 0)
+        PGresult *res = PQexec(conn,sql.c_str());
+        int rows = 0;
+        if(PQresultStatus(res) == PGRES_TUPLES_OK)
+        {
+            rows = PQntuples(res);
+        }
+        if(rows!=0)
         {
             cout << "Username taken." << endl;
-            C.disconnect();
+            PQfinish(conn);
             return false;
         }
-        C.disconnect();
-        sql = "INSERT INTO \"public\".\"users\" (id_user,user_name,user_password) VALUES (nextval('serial'), " + txn.quote(name) + ", " +
-              txn.quote(password) + ");";
-        R = this->query(sql);
+        PQfinish(conn);
+        sql = "INSERT INTO \"public\".\"users\" (id_user,user_name,user_password) VALUES (nextval('serial'), '" + name + "', '" +
+              password + "');";
+        res = this->query(sql);
+        PQclear(res);
 
         sql = "SELECT * FROM \"public\".\"users\" WHERE user_name='" + name + "' AND user_password='" + password + "';";
-        R = this->query(sql);
+        res = this->query(sql);
 
-        if(R.size() != 0)
+        if(PQresultStatus(res) == PGRES_TUPLES_OK)
         {
-            for(result::const_iterator c = R.begin(); c != R.end(); ++c)
+            rows = PQntuples(res);
+            for(int i=0; i<rows; i++)
             {
-                id = c[0].as<int>();
+                string tmp = PQgetvalue(res, i, 0);
+                id = atoi( tmp.c_str() );
             }
         }
-
         cout << "Successful registration." << endl;
-        C.disconnect();
+        PQclear(res);
+        PQfinish(conn);
     }
     catch(const std::exception &e)
     {
@@ -114,17 +117,24 @@ bool Connection::Register(const string &name, const string &password, int &id)
  * connects to database and queries database using given sql statement
  *  \return pqxx:return from sql query
  */
-result Connection::query(const string sql)
+PGresult * Connection::query(const string sql)
 {
-    result r;
+    PGresult * r;
     try
     {
-        connection C("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
+        PGconn *conn = PQconnectdb("dbname=sxaimwia user=sxaimwia password=WG4lC4zFWPTxZI6qR6Ea8PpmshxhW0s2 \
         host=horton.elephantsql.com port=5432");
-        work txn(C);
-        // SQL statement
-        r = txn.exec(sql);
-        txn.commit();
+
+        if (PQstatus(conn) == CONNECTION_BAD) {
+
+            fprintf(stderr, "Connection to database failed: %s\n",
+                    PQerrorMessage(conn));
+            PQfinish(conn);
+        }
+
+        r = PQexec(conn, sql.c_str());
+
+        PQfinish(conn);
     }
     catch(const std::exception &e)
     {

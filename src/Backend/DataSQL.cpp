@@ -15,12 +15,13 @@ void DataSQL::GetDataFromDatabase(const int select)
 {
     string idString = "";
     int tmp = 0;
-    result r;
+    PGresult * r;
     switch(select)
     {
         case 1:
             r = query("SELECT * FROM \"public\".\"alcoholicBeverages\"");
             CopyIntoMap(r, ".alcB", beveragesAndCategory);
+            PQclear(r);
             break;
         case 2:
 
@@ -28,6 +29,7 @@ void DataSQL::GetDataFromDatabase(const int select)
         case 3:
             r = query("SELECT * FROM \"public\".\"beverages\"");
             CopyIntoMap(r, ".bev", beveragesAndCategory);
+            PQclear(r);
             break;
         case 4:
 
@@ -35,6 +37,7 @@ void DataSQL::GetDataFromDatabase(const int select)
         case 5:
             r = query("SELECT * FROM \"public\".\"cheese\"");
             CopyIntoMap(r, "cheese", foodNameAndCategory);
+            PQclear(r);
             break;
         case 6:
 
@@ -42,6 +45,7 @@ void DataSQL::GetDataFromDatabase(const int select)
         case 7:
             r = query("SELECT * FROM \"public\".\"fruit\"");
             CopyIntoMap(r, "fruit", foodNameAndCategory);
+            PQclear(r);
             break;
         case 8:
 
@@ -49,12 +53,14 @@ void DataSQL::GetDataFromDatabase(const int select)
         case 9:
             r = query("SELECT * FROM \"public\".\"meat\"");
             CopyIntoMap(r, "meat", foodNameAndCategory);
+            PQclear(r);
         case 10:
 
             break;
         case 11:
             r = query("SELECT * FROM \"public\".\"nuts\"");
             CopyIntoMap(r, "nuts", foodNameAndCategory);
+            PQclear(r);
             break;
         case 12:
 
@@ -62,62 +68,76 @@ void DataSQL::GetDataFromDatabase(const int select)
         case 13:
             r = query("SELECT * FROM \"public\".\"sides\"");
             CopyIntoMap(r, "side", foodNameAndCategory);
+            PQclear(r);
             break;
         case 14:
             r = query("SELECT * FROM \"public\".\"recipes\" JOIN \"public\".\"recipesUsersLiked\" ON id=id_recipes;");
             CopyIntoMapRecipes(r, mapOfUsersAndRecipesTheyLiked);
+            PQclear(r);
             break;
         case 15:
             r = query("SELECT * FROM \"public\".\"spices\"");
             CopyIntoMap(r, "spice2", foodNameAndCategory);
+            PQclear(r);
             break;
         case 16:
             r = query("SELECT * FROM \"public\".\"recipes\" JOIN \"public\".\"recipesMenu\" ON id=id_recipes;");
             CopyIntoMapRecipes(r, mapOfRecipesInMenu);
+            PQclear(r);
             break;
         case 17:
             r = query("SELECT * FROM \"public\".\"vegetables\"");
             CopyIntoMap(r, "vegetable", foodNameAndCategory);
+            PQclear(r);
             break;
         case 18:
             tmp = this->user->GetUserId();
             idString = to_string(tmp);
             r = query("SELECT * FROM \"public\".\"beverages_menu\" WHERE id_user=" + idString + ";");
             GetDataFromMenuTable(r, menu, recipesMenu, beveragesMenu);
+            PQclear(r);
             break;
         default:
             /* Blok default */
             break;
     }
+
 }
 
 ///copies ingredient name from pqxx::result as a key and ingredient category as value into the map
-void DataSQL::CopyIntoMap(const result &R, const string category, map <string, string> &myMap)
+void DataSQL::CopyIntoMap(const PGresult * R, const string category, map <string, string> &myMap)
 {
-    for(result::const_iterator c = R.begin(); c != R.end(); ++c)
+    int rows = PQntuples(R);
+    for(int i=0; i<rows; ++i)
     {
-        myMap.insert(make_pair(c[1].as<string>(), category));
+        string tmp = PQgetvalue(R, i, 1);
+        myMap.insert(make_pair(tmp, category));
     }
 }
 
 ///copies recipes into map where key is user id and value is vector of recipes
-void DataSQL::CopyIntoMapRecipes(const pqxx::result &R, map<int, vector<Recipe *> > &myMap)
+void DataSQL::CopyIntoMapRecipes(const PGresult *R, map<int, vector<Recipe *> > &myMap)
 {
-    for(result::const_iterator c = R.begin(); c != R.end(); ++c)
+    int rows = PQntuples(R);
+    for(int i=0; i<rows; ++i)
     {
         vector <string> ingredients;
         vector<int> weights;
-
         for(int j = 1; j < 10; ++j)
         {
-            ingredients.push_back(c[j].as<string>());
+            string tmp = PQgetvalue(R, i, j);
+            ingredients.push_back(tmp);
         }
         for(int j = 10; j < 19; ++j)
         {
-            weights.push_back(c[j].as<int>());
+            string tmp = PQgetvalue(R, i, j);
+            int weight  = atoi( tmp.c_str() );
+            weights.push_back(weight);
         }
-        int idRecipe = c[20].as<int>();
-        int id = c[21].as<int>();
+        string tmp = PQgetvalue(R, i, 20);
+        int idRecipe = atoi( tmp.c_str() );
+        tmp = PQgetvalue(R, i, 21);
+        int id = atoi( tmp.c_str() );
         auto it = myMap.find(id);
 
         if(it == myMap.end())
@@ -140,7 +160,6 @@ void DataSQL::CopyIntoMapRecipes(const pqxx::result &R, map<int, vector<Recipe *
  */
 void DataSQL::GetRecipesBySelectedIngredients(const vector <string> &selectedIngredients)
 {
-    int index = 0;
     string indexString = "";
     //SQL statement-----------------------------------------------------------------------------------------------------
     string sql = "SELECT * FROM \"public\".\"recipes\" ";
@@ -187,45 +206,56 @@ void DataSQL::GetRecipesBySelectedIngredients(const vector <string> &selectedIng
         }
     }
     sql += "LIMIT 100";
-    result R = query(sql);
+    PGresult * R = query(sql);
     //------------------------------------------------------------------------------------------------------------------
     //getting recipes into vector of recipes and map of strings---------------------------------------------------------
-    for(result::const_iterator c = R.begin(); c != R.end(); ++c)
+    int rows = PQntuples(R);
+    for(int i=0; i<rows; ++i)
     {
         vector <string> ingredients;
         vector<int> weights;
-        int idRecipe = c[0].as<int>();
+        string tmp = PQgetvalue(R, i, 0);
+        int idRecipe = atoi( tmp.c_str() );
         for(int j = 1; j < 10; ++j)
         {
-            ingredients.push_back(c[j].as<string>());
+            string tmp = PQgetvalue(R, i, j);
+            ingredients.push_back(tmp);
         }
         for(int j = 10; j < 19; ++j)
         {
-            weights.push_back(c[j].as<int>());
+            string tmp = PQgetvalue(R, i, j);
+            int weight  = atoi( tmp.c_str() );
+            weights.push_back(weight);
         }
         recipesSelectByIngredients.push_back(new Recipe(ingredients, weights, idRecipe));
         string recipeString = recipesSelectByIngredients.back()->ToString(this->screenWidth);
-        indexString = to_string(index);
+        indexString = to_string(i);
         recipesString.insert(make_pair(recipeString, indexString));
-        index++;
     }
+    PQclear(R);
     //------------------------------------------------------------------------------------------------------------------
 }
 
 /// checks if recipe is already liked by this user, if not insert like into database
 void DataSQL::LikeRecipe(const int &userID, const Recipe *currentRecipe)
 {
+    int rows = 0;
     int recipeID = currentRecipe->GetRecipeId();
     int tmp = userID;
     string UserIDString = to_string(tmp);
     string recipeIDString = to_string(recipeID);
-    pqxx::result R = query(
+    PGresult * res = query(
             "SELECT * FROM \"public\".\"recipesUsersLiked\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
-    if(R.size() == 0)
+    if(PQresultStatus(res) == PGRES_TUPLES_OK)
+    {
+        rows = PQntuples(res);
+    }
+    if(rows==0)
     {
         query("INSERT INTO \"public\".\"recipesUsersLiked\" (id_recipeslike,id_recipes,id_user) VALUES(nextval('id_recipeslikeserial'),'" +
               recipeIDString + "','" + UserIDString + "')");
     }
+    PQclear(res);
 }
 
 /// deletes row in database that based on userID and recipeID
@@ -262,18 +292,23 @@ void DataSQL::AddRecipeToMenuTable(const int &userID, Recipe *toBeAddedRecipe)
     int recipeId = toBeAddedRecipe->GetRecipeId();
     it->second.push_back(new Recipe(ingredients, weights, recipeId));
     //--------------------------------------------------------------------------------------------------------------------------------------
-
+    int rows = 0;
     int tmp = userID;
     string UserIDString = to_string(tmp);
     tmp = toBeAddedRecipe->GetRecipeId();
     string recipeIDString = to_string(tmp);
-    pqxx::result R = query(
+    PGresult * res = query(
             "SELECT * FROM \"public\".\"recipesMenu\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
-    if(R.size() == 0)
+    if(PQresultStatus(res) == PGRES_TUPLES_OK)
+    {
+        rows = PQntuples(res);
+    }
+    if(rows==0)
     {
         query("INSERT INTO \"public\".\"recipesMenu\" (id_recipesmenu,id_recipes,id_user) VALUES(nextval('id_recipesmenu'),'" +
               recipeIDString + "','" + UserIDString + "')");
     }
+    PQclear(res);
 }
 
 void DataSQL::DeleteRecipeFromMenuTable(const int &userID, const int &toBeDeletedRecipeID)
@@ -285,7 +320,7 @@ void DataSQL::DeleteRecipeFromMenuTable(const int &userID, const int &toBeDelete
     query("DELETE FROM \"public\".\"recipesMenu\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
 }
 
-void DataSQL::GetDataFromMenuTable(const result &R, vector <string> &menu, vector <string> &recipesMenu, vector <string> &beveragesMenu)
+void DataSQL::GetDataFromMenuTable(const PGresult *R, vector <string> &menu, vector <string> &recipesMenu, vector <string> &beveragesMenu)
 {
     int userID = this->user->GetUserId();
     for(auto const &ent1 : mapOfRecipesInMenu)
@@ -299,9 +334,11 @@ void DataSQL::GetDataFromMenuTable(const result &R, vector <string> &menu, vecto
             }
         }
     }
-    for(result::const_iterator c = R.begin(); c != R.end(); ++c)
+    int rows = PQntuples(R);
+    for(int i=0; i<rows; ++i)
     {
-        this->beveragesMenu.push_back(c[1].as<string>());
+        string tmp = PQgetvalue(R, i, 1);
+        this->beveragesMenu.push_back(tmp);
         this->menu.push_back(this->beveragesMenu.back());
     }
 }

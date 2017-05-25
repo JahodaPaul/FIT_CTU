@@ -130,6 +130,7 @@ void Frontend::RunScreen(const int screenChoice, Screen *currentScreen)
             loginChoice = currentScreen->Run();
             break;
         case SCREEN_USER_MENU:
+            frontendData->DeleteRecipesRetrievedFromDatabase();
             frontendData->UpdateScreenWidth(COLS);
             currentScreen->AssignData(*frontendData);
             if(!downloadedData)

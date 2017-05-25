@@ -7,10 +7,9 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include "../../lib/libpqxx/include/pqxx/pqxx"
+#include <libpq-fe.h>
 
 using namespace std;
-using namespace pqxx;
 
 class Connection
 {
@@ -23,7 +22,7 @@ public:
 
     bool Register(const string &, const string &, int &id);
 
-    result query(const string sql);
+    PGresult * query(const string sql);
 
 private:
     bool CheckForSQLInjection(string, string) const;
