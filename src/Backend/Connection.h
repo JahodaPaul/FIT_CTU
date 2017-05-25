@@ -7,7 +7,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include <libpq-fe.h>
+#include "../../lib/libpq/libpq-fe.h"
 
 using namespace std;
 
