@@ -265,22 +265,25 @@ void DataSQL::UnlikeRecipe(const int &userID, const Recipe *currentRecipe)
     int tmp = userID;
     string UserIDString = to_string(tmp);
     string recipeIDString = to_string(recipeID);
-    query("DELETE FROM \"public\".\"recipesUsersLiked\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
+    PGresult * cleaning = query("DELETE FROM \"public\".\"recipesUsersLiked\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
+    PQclear(cleaning);
 }
 
 void DataSQL::AddBeverageToMenuTable(const int &userId, const string &name)
 {
     int tmp = userId;
     string UserIDString = to_string(tmp);
-    query("INSERT INTO \"public\".\"beverages_menu\" (id,id_user,name_beverage) VALUES(nextval('id_beveragesmenu'),'" +
+    PGresult * cleaning = query("INSERT INTO \"public\".\"beverages_menu\" (id,id_user,name_beverage) VALUES(nextval('id_beveragesmenu'),'" +
           UserIDString + "','" + name + "')");
+    PQclear(cleaning);
 }
 
 void DataSQL::DeleteBeverageFromMenuTable(const int &userId, const string &name)
 {
     int tmp = userId;
     string UserIDString = to_string(tmp);
-    query("DELETE FROM \"public\".\"beverages_menu\" WHERE name_beverage='" + name + "' AND id_user=" + UserIDString + ";");
+    PGresult * cleaning = query("DELETE FROM \"public\".\"beverages_menu\" WHERE name_beverage='" + name + "' AND id_user=" + UserIDString + ";");
+    PQclear(cleaning);
 }
 
 void DataSQL::AddRecipeToMenuTable(const int &userID, Recipe *toBeAddedRecipe)
@@ -317,7 +320,8 @@ void DataSQL::DeleteRecipeFromMenuTable(const int &userID, const int &toBeDelete
     string UserIDString = to_string(tmp);
     tmp = toBeDeletedRecipeID;
     string recipeIDString = to_string(tmp);
-    query("DELETE FROM \"public\".\"recipesMenu\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
+    PGresult * cleaning = query("DELETE FROM \"public\".\"recipesMenu\" WHERE id_recipes=" + recipeIDString + " AND id_user=" + UserIDString + ";");
+    PQclear(cleaning);
 }
 
 void DataSQL::GetDataFromMenuTable(const PGresult *R, vector <string> &menu, vector <string> &recipesMenu, vector <string> &beveragesMenu)
