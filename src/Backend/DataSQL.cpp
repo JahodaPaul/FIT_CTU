@@ -252,8 +252,9 @@ void DataSQL::LikeRecipe(const int &userID, const Recipe *currentRecipe)
     }
     if(rows==0)
     {
-        query("INSERT INTO \"public\".\"recipesUsersLiked\" (id_recipeslike,id_recipes,id_user) VALUES(nextval('id_recipeslikeserial'),'" +
+        PGresult * cleaning = query("INSERT INTO \"public\".\"recipesUsersLiked\" (id_recipeslike,id_recipes,id_user) VALUES(nextval('id_recipeslikeserial'),'" +
               recipeIDString + "','" + UserIDString + "')");
+        PQclear(cleaning);
     }
     PQclear(res);
 }
@@ -308,8 +309,9 @@ void DataSQL::AddRecipeToMenuTable(const int &userID, Recipe *toBeAddedRecipe)
     }
     if(rows==0)
     {
-        query("INSERT INTO \"public\".\"recipesMenu\" (id_recipesmenu,id_recipes,id_user) VALUES(nextval('id_recipesmenu'),'" +
+        PGresult * cleaning = query("INSERT INTO \"public\".\"recipesMenu\" (id_recipesmenu,id_recipes,id_user) VALUES(nextval('id_recipesmenu'),'" +
               recipeIDString + "','" + UserIDString + "')");
+        PQclear(cleaning);
     }
     PQclear(res);
 }
