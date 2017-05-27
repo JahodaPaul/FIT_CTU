@@ -1,3 +1,7 @@
+Semestral project for subject Programming and Algorithmics 2 ( BI-PA2 ) at Czech Technical University in Prague, FIT
+--------------------------------------------------------------------------------
+
+
 to run this project
 go to project folder and type "make install" which will hopefully install all necessary libraries
 
