@@ -1,6 +1,12 @@
 Semestral project for subject Programming and Algorithmics 2 ( BI-PA2 ) at Czech Technical University in Prague, FIT
 --------------------------------------------------------------------------------
+Graded maximum amount of points -> 12 out of 12.
 
+Semestrální práce na předmět Programování a algoritmizace 2 ( BI-PA2 ) na ČVUT, FIT
+--------------------------------------------------------------------------------
+Ohodnoceno maximálním počtem bodů -> 12 z 12.
+
+-------------------------------------------------------------------------------
 
 to run this project
 go to project folder and type "make install" which will hopefully install all necessary libraries
