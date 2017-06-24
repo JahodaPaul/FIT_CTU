@@ -1,4 +1,4 @@
-Homework from subject BI-PA2 2016/2017
+Homework from subject BI-PA1 2016/2017
 --------------------------------------------------------------------------------
 Gained more points from homework than 98% of students.
 --------------------------------------------------------------------------------
