@@ -1,4 +1,4 @@
-Semestral project for subject Programming and Algorithmics 2 ( BI-PA2 ) at Czech Technical University in Prague, FIT
+Semestral project for subject Programming and Algorithmics 2 ( BI-PA2 ) at Czech Technical University in Prague, FIT [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues) [![HitCount](https://hitt.herokuapp.com/{username||org}/{project-name}.svg)](https://github.com/{username||org}/{project-name})
 --------------------------------------------------------------------------------
 Graded maximum amount of points -> 12 out of 12.
 
