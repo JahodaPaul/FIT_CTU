@@ -1,0 +1,81 @@
+Úkolem je vytvořit program, který bude zpracovávat data z identifikace letadel.
+
+Moderní letadla jsou vybavena automatickým systémem, který vysílá základní informace o letu (identifikace, rychlost, ...). Tyto informace mají nějakou konečnou velikost a jsou vysílané stále dokola. Z důvodů redundance jsou tato data vysílána nezávisle na různých frekvencích.
+
+Předpokládáme, že máme přijímače, které dokáží toto vysílání zachytit. Každý přijímač zpracovává data na jedné frekvenci a přijímá identifikaci z právě jednoho letadla. Přijímač přijímá identifikační data postupně, po přijetí dostatečně velké části dat tato předá našemu programu ke zpracování. Toto se opakuje vícekrát, dokud není zpracovaná celá perioda vysílání daného letadla. Tedy pokud je identifikace letadla 5, 12, 9, 8, 64, 93, může přijímač dodat identifikaci např. ve 3 částech:
+
+5, 12
+9, 8, 64
+93
+nebo rozdělenou jakkoliv jinak. Je ale garantováno, že přijímač nakonec dodá celou jednu zprávu identifikace letadla.
+Náš program takto dostává identifikační data z jednotlivých přijímačů, získané části dat (podle čísla přijímače) sestaví a porovná s ostatními. Jeho úkolem je identifikovat duplicity, tedy identifikovat, které přijímače přijímají zprávy ze stejného letadla.
+
+Situaci komplikuje skutečnost, že přijímače nemusejí být synchronizované. Pokud dané letadlo vysílá identifikaci např: 5, 12, 9, 8, 64, 93, může ji jeden přijímač zachytit v podobě: 5, 12, 9, 8, 64, 93, přijímač pracující na jiné frekvenci ale může dostat zprávu posunutou: 9, 8, 64, 93, 5, 12. Tyto dvě zprávy ale považujeme za identické.
+
+Vstupem programu jsou části zpráv tak, jak jsou zasílané z jednotlivých přijímačů. Každá část je uvozena identifikací přijímače a v hranatých závorkách pak obsahuje data (celá čísla) obsahu identifikační zprávy. Zadávání vstupních dat končí po dosažení konce vstupu (EOF).
+
+Výstupem programu je identifikace duplicit. Na jedné řádce výstupu je seznam přijímačů, které přijímají identifikaci od stejného letadla.
+
+Pokud je vstup neplatný, program to musí detekovat a zobrazit chybové hlášení. Chybové hlášení zobrazujte na standardní výstup (ne na chybový výstup). Za chybu považujte:
+
+identifikace přijímače není celé číslo nebo je záporná,
+data zprávy nejsou celá čísla,
+chybí dvojtečka za identifikací přijímače, hranaté závorky, data identifikace nebo oddělující čárky.
+Před implementací programu si rozmyslete, jakým způsobem budete reprezentovat jednotlivé přijímané zprávy. Počet přijímačů může být velmi vysoký. Identifikace přijímačů mohou být velmi vysoká čísla. Délka identifikace letadla není omezena. Statická alokace nebude fungovat - pokud nastavíte velikosti příliš malé, budete mít problém s objemem dat. Pokud byste velikosti nastavili velkoryse, neprojdete limitem využití paměti v základním testu. Paměťové nároky Vašeho řešení musí rozumně korelovat s velikostí řešeného problému.
+
+Vyhledávání duplicit může trvat velmi dlouho. Dalším časově náročným problémem je identifikace duplicit, které jsou posunuté. Časové limity jsou nastavené tak, že rozumně implementovaný základní algoritmus projde všemi testy kromě testů bonusových. Bonusové testy vyžadují pokročilé algoritmy porovnávání a předzpracování zpráv před jejich porovnáním.
+
+Ukázka práce programu:
+Zpravy:
+0 : [ 1, 8, 56, -9 ]
+666 : [ 42, 7, 11, -96, 8 ]
+42 : [ 9, 3, 6, 8, 12, 9, 3 ]
+15 : [ 8, 12, 9 ]
+666 : [ 56, -9, 1, 8, 56, -9 ]
+0 : [ 83, 42, 7 ]
+21:[3, 6, 8, 12, 9, 3, 6, 8, 12]
+63 : [ 8, 12, 9, 3, 6, 8 ]
+15 : [3]
+666 : [83]
+42: [6, 8, 12, 9, 3, 6, 8, 12]
+0: [11, -96, 8, 56, -9 ]
+15  :   [   6   , 8, 12, 9, 3, 6, 8, 12, 9, 3, 6]
+21 : [9, 3, 6, 8, 12, 9 ]
+31 : [ 8, 11, 9, 3, 6, 8 ]
+Unikatni zpravy:
+63
+31
+0, 666
+15, 21, 42
+
+
+Zpravy:
+0 : [ 1, 2, 4 ]
+1 : [ 2, 1 ]
+2 : [ 2, 3, 1 ]
+3 : [ 1, 2 ]
+4 : [ 2, 4, 1 ]
+Unikatni zpravy:
+1, 3
+2
+0, 4
+
+
+Zpravy:
+0 : [ 1, 2, 3, 4, 5 ]
+1 : [ 2, 1, 3, 4, 5 ]
+2 : [ 5, 1, 4, 2, 3 ]
+3 : [ 3, 4, 5, 1, 2 ]
+4 : [ 5, 3, 1, 4, 2 ]
+1000000: [ 4, 5, 2, 1, 3]
+Unikatni zpravy:
+1, 1000000
+0, 3
+4
+2
+
+
+Zpravy:
+0 : [ abcd ]
+Nespravny vstup.
+
