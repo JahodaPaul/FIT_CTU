@@ -21,6 +21,6 @@ Homework 8: 3.3/3.3 (easier homework)
 
 
 -------------------------------------------------------------------------------
-Warning: Do not try to copy these, these are meant only as a guide to get as much points as possible. Copying will only hurt you.
+Warning: Do not try to copy these, these are meant only as a guide to get as much points as possible. Copying them will only hurt you.
 
 Warning: It was writen in a way to get as much points in as little time as possible. Code is not always pretty.
