@@ -1,4 +1,7 @@
 import os
+from Config import *
+import copy
+from operator import itemgetter
 
 class Data:
     def __init__(self):
@@ -97,3 +100,26 @@ class Data:
             country[-1] = str(float(country[-1])/max)
 
         return arr
+
+    def AddPointsToMainSystem(self,matrix,firstIndex,secondIndex,weight,scores,countries):
+        for dataFromFile in matrix:
+            if finalQuestionsReferences[firstIndex][secondIndex] in dataFromFile[0]:
+                for country in dataFromFile[1]:
+                    index = -1
+                    for tmpCnt, countryName in enumerate(countries):
+                        if country[0] in countryName or country[0] == countryName:
+                            index = tmpCnt
+                    if finalQuestionshigherBetter[firstIndex][secondIndex] == 1:
+                        scores[index][0] += (float(country[-1]) * weight)
+                    else:
+                        scores[index][0] -= (float(country[-1]) * weight)
+                    scores[index][1] = country[0]
+
+        return scores
+
+    def ReturnFirstCountryBasedOnPoints(self,scores):
+        temporaryResult = copy.deepcopy(scores)
+        temporaryResult.sort(key=itemgetter(0))
+        temporaryResult.reverse()
+
+        return temporaryResult[0][1]

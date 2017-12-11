@@ -20,21 +20,7 @@ class Fuzzy:
                           0.6, 0.85]
         ]
 
-    def startFuzzySystem(self):
-        tmpArr = ['Sunny - 0','Beautiful nature - 1','Great food - 2']
-        selectedArr = []
-        counter = 0
-        while counter != 2:
-            os.system('clear')
-            print('Select two of these attributes that your dream country should have:')
-            for item in tmpArr:
-                print(item)
-            answer = input()
-
-            if (answer == "0" or answer == "1" or answer == "2") and int(answer) not in selectedArr:
-                selectedArr.append(int(answer))
-                counter += 1
-
+    def startFuzzySystem(self,selectedArr):
         for i in range(len(self.countries)):
             self.scores[i] = self.fuzzyMatrix[selectedArr[0]][i] if self.fuzzyMatrix[selectedArr[0]][i] < self.fuzzyMatrix[selectedArr[1]][i] else self.fuzzyMatrix[selectedArr[1]][i]
 
