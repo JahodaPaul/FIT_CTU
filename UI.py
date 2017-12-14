@@ -14,6 +14,8 @@ class UI(QtWidgets.QMainWindow):
         self.stage1List = [] # two selected buttons
         self.fuzzy = fuzzy
         self.data = data
+        self.historyOfScores = []
+        self.historyOfWeights = []
         self.indexStage2 = 0
         self.topicStage4 = -1
         self.indexStage4 = 1
@@ -87,7 +89,25 @@ class UI(QtWidgets.QMainWindow):
     def StartStageExplaining(self):
         self.HideRestOfWidgets(5,False)
         self.listOfWidgetByEachStage[5][0].setText(CountryFullName[self.data.ReturnFirstCountryBasedOnPoints(self.data.scores)] +
-                                                   ' ended up first because it matched your answers the most')
+                                                   ' ended up first, because it got most points based on your answers. '
+                                                   'Here is comparison table between first and second country')
+
+        historyArr = self.data.ProcessHistoryData(self.historyOfWeights,self.historyOfScores)
+
+        self.listOfWidgetByEachStage[5][1].setText(CountryFullName[historyArr[-1][0]])
+        self.listOfWidgetByEachStage[5][2].setText(CountryFullName[historyArr[-1][1]])
+
+        sum1 = 0;sum2=0
+        for i in range(5):
+            sum1 += historyArr[i][0]
+            sum2 += historyArr[i][1]
+            self.listOfWidgetByEachStage[5][i * 2 + 8].setText(str("%.2f" % historyArr[i][0]))
+            self.listOfWidgetByEachStage[5][i * 2 + 9].setText(str("%.2f" %historyArr[i][1]))
+
+        self.listOfWidgetByEachStage[5][18].setText(str("%.2f" %sum1))
+        self.listOfWidgetByEachStage[5][19].setText(str("%.2f" %sum2))
+
+        self.listOfWidgetByEachStage[5][3].setText(threeChooseTwo[self.stage1List[0]] + ' and ' + threeChooseTwo[self.stage1List[1]])
 
     def CreateButton(self,text,positionX,positionY,function,parameterForFunction,anotherParam,minX,minY):
         btn = QtWidgets.QPushButton(text,self)
@@ -109,6 +129,11 @@ class UI(QtWidgets.QMainWindow):
     def DefaultFunction(self,param,param2):
         pass
 
+    def AddToHistory(self,weight,arr):
+        tmpArr = copy.deepcopy(arr)
+        self.historyOfScores.append(tmpArr)
+        self.historyOfWeights.append(weight)
+
     #selection 2 out of three items
     def Stage1Function(self,index,btn):
         self.stage1List.append(index)
@@ -117,11 +142,13 @@ class UI(QtWidgets.QMainWindow):
         if len(self.stage1List) == 2:
             self.fuzzy.startFuzzySystem(self.stage1List)
             self.fuzzy.addPointsToMainSystem(self.data.scores,self.data.countries)
+            self.AddToHistory(0,self.data.scores)
             self.MyPrint(self.data.scores,False)
             self.StartStage2()
 
     def Stage2Function(self,weight,btn):
         self.data.scores = self.data.AddPointsToMainSystem(self.data.dataMatrix,self.indexStage2,0,weight,self.data.scores,self.data.countries)
+        self.AddToHistory(weight, self.data.scores)
         self.MyPrint(self.data.scores, False)
 
         self.indexStage2 += 1
@@ -136,6 +163,7 @@ class UI(QtWidgets.QMainWindow):
 
     def Stage4Function(self,weight,btn):
         self.data.scores = self.data.AddPointsToMainSystem(self.data.dataMatrix,self.topicStage4,self.indexStage4,weight,self.data.scores,self.data.countries)
+        self.AddToHistory(weight, self.data.scores)
 
         self.MyPrint(self.data.scores, False)
 
@@ -159,9 +187,9 @@ class UI(QtWidgets.QMainWindow):
 
         stage1 = []
         stage1.append(self.CreateLabelRanking("Which two of these three items are the most important to you?",110,50,200,130))
-        stage1.append(self.CreateButton("Sunny",positionButtonX,180,self.Stage1Function,0,0,120,20))
-        stage1.append(self.CreateButton("Beautiful nature", positionButtonX, 230, self.Stage1Function, 1,0,120,20))
-        stage1.append(self.CreateButton("Great food", positionButtonX, 280, self.Stage1Function, 2,0,120,20))
+        stage1.append(self.CreateButton(threeChooseTwo[0],positionButtonX,180,self.Stage1Function,0,0,120,20))
+        stage1.append(self.CreateButton(threeChooseTwo[1], positionButtonX, 230, self.Stage1Function, 1,0,120,20))
+        stage1.append(self.CreateButton(threeChooseTwo[2], positionButtonX, 280, self.Stage1Function, 2,0,120,20))
 
         stage2 = []
         stage2.append(self.CreateLabelRanking("",110,50,200,130))
@@ -188,8 +216,29 @@ class UI(QtWidgets.QMainWindow):
         stage5.append(self.CreateButton("Quit", 10, 420, self.Quit, 1,0,80,20))
 
         stage6 = []
-        stage6.append(self.CreateLabelRanking("", 50, 50, 300, 200))
-        stage6.append(self.CreateButton("Back", 150, 350, self.GoBack, 1,0,100,20))
+        stage6.append(self.CreateLabelRanking("", 50, 20, 300, 100))
+
+        x = 50
+
+        #two countries
+        stage6.append(self.CreateLabelRanking("country1", x+120, 120, 100, 20))
+        stage6.append(self.CreateLabelRanking("country2", x+220, 120, 100, 20))
+
+        stage6.append(self.CreateLabelRanking("Sunny and Beautiful Nature", x, 150, 100, 20))
+        stage6.append(self.CreateLabelRanking("Very important", x, 200, 100, 20))
+        stage6.append(self.CreateLabelRanking("Somewhat important", x, 250, 100, 20))
+        stage6.append(self.CreateLabelRanking("Less important", x, 300, 100, 20))
+        stage6.append(self.CreateLabelRanking("Not important at all", x, 350, 100, 20))
+
+        for i in range(5):
+            stage6.append(self.CreateLabelRanking("score", x+120, 150+(i*50), 100, 20))
+            stage6.append(self.CreateLabelRanking("score", x+220, 150+(i*50), 100, 20))
+
+        #overall results of the two countries
+        stage6.append(self.CreateLabelRanking("overall", x+120, 380, 100, 20))
+        stage6.append(self.CreateLabelRanking("overall", x+220, 380, 100, 20))
+
+        stage6.append(self.CreateButton("Back", 150, 450, self.GoBack, 1,0,100,20))
 
 
         rankings = []

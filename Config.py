@@ -1,5 +1,6 @@
 questionFormat = "How important is it for you that country"
 
+threeChooseTwo = ['Sunny', 'Beautiful nature', 'Great food']
 
 finalQuestionsTopic = ["EDUCATION","INTERNET","ENERGY, RESEARCH & SPENDING","CARE OF CHILDREN","CAREER","TAXES","OTHER"]
 

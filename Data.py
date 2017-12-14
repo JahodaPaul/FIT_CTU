@@ -6,7 +6,7 @@ from operator import itemgetter
 class Data:
     def __init__(self):
         self.countries = []
-        self.scores = []
+        self.scores = [] #points, name of country
         self.directoryOFFiles = "./ZNS_DATA"
 
         self.dataMatrix = []
@@ -123,3 +123,37 @@ class Data:
         temporaryResult.reverse()
 
         return temporaryResult[0][1]
+
+    def ReturnIndex(self,number):
+        myList = { 0 : 0, 0.1 : 4, 1 : 3, 1.5 : 2, 2 : 1}
+        return myList[number]
+
+    def ProcessHistoryData(self,historyOfWeights, historyOfScores):
+        #first, find indexes of top2 countries by their scores
+        maximum = -1000
+        maximumIndex = -1
+        secondMax = -1000
+        secondMaxIndex = -1
+        for i in range(len(historyOfScores[-1])):
+            if historyOfScores[-1][i][0] > maximum:
+                maximum = historyOfScores[-1][i][0]
+                maximumIndex = i
+
+        for i in range(len(historyOfScores[-1])):
+            if i != maximumIndex and historyOfScores[-1][i][0] > secondMax:
+                secondMax = historyOfScores[-1][i][0]
+                secondMaxIndex = i
+        #list of list - [scoreOfFirstCountry,scoreOfSecondCountry]
+        returnArr = [ [0,0] for i in range(5)]
+
+        for i in range(len(historyOfScores)):
+            if i == 0:
+                returnArr[self.ReturnIndex(historyOfWeights[i])][0] += historyOfScores[i][maximumIndex][0]
+                returnArr[self.ReturnIndex(historyOfWeights[i])][1] += historyOfScores[i][secondMaxIndex][0]
+            else:
+                returnArr[self.ReturnIndex(historyOfWeights[i])][0] += historyOfScores[i][maximumIndex][0] - historyOfScores[i-1][maximumIndex][0]
+                returnArr[self.ReturnIndex(historyOfWeights[i])][1] += historyOfScores[i][secondMaxIndex][0] - historyOfScores[i-1][secondMaxIndex][0]
+
+        returnArr.append([ historyOfScores[-1][maximumIndex][1],historyOfScores[-1][secondMaxIndex][1]  ])
+
+        return returnArr
