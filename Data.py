@@ -14,6 +14,7 @@ class Data:
         self.indexOfValue = []
 
         self.OpenFiles()
+        self.dataMatrix = self.GetScoresOverTime(self.dataMatrix)
         pass
 
     def OpenFiles(self):
@@ -101,19 +102,62 @@ class Data:
 
         return arr
 
-    def AddPointsToMainSystem(self,matrix,firstIndex,secondIndex,weight,scores,countries):
+    def GetScoresOverTime(self,matrix):
+        expandedPart = []
         for dataFromFile in matrix:
-            if finalQuestionsReferences[firstIndex][secondIndex] in dataFromFile[0]:
-                for country in dataFromFile[1]:
-                    index = -1
-                    for tmpCnt, countryName in enumerate(countries):
-                        if country[0] in countryName or country[0] == countryName:
-                            index = tmpCnt
-                    if finalQuestionshigherBetter[firstIndex][secondIndex] == 1:
-                        scores[index][0] += (float(country[-1]) * weight)
+            array = []
+            array.append(dataFromFile[0]+'_OVER_THE_YEARS')
+            arr2 = []
+            for country in dataFromFile[1]:
+                countryAndScore = []
+                if len(country) > 2:
+                    countryAndScore.append(country[0])
+                    #get score that indicates how much has the value grown over last 5 years
+                    if len(country) <= 6:
+                        countryAndScore.append(float(country[-1]) - float(country[1]))
+                        arr2.append(countryAndScore)
                     else:
-                        scores[index][0] -= (float(country[-1]) * weight)
-                    scores[index][1] = country[0]
+                        countryAndScore.append(float(country[-1]) - float(country[-6]))
+                        arr2.append(countryAndScore)
+            array.append(arr2)
+
+            if len(array) > 1:
+                expandedPart.append(array)
+        matrix.extend(expandedPart)
+        return matrix
+
+    def AddPointsToMainSystem(self,matrix,firstIndex,secondIndex,weight,scores,countries):
+        if "OVER_THE_YEARS" in finalQuestionsReferences[firstIndex][secondIndex]:
+            firstPart = ''
+            cnt = 0
+            while finalQuestionsReferences[firstIndex][secondIndex][cnt] != ';':
+                firstPart += finalQuestionsReferences[firstIndex][secondIndex][cnt]
+                cnt += 1
+            for dataFromFile in matrix:
+                if firstPart in dataFromFile[0] and "OVER_THE_YEARS" in dataFromFile[0]:
+                    for country in dataFromFile[1]:
+                        index = -1
+                        for tmpCnt, countryName in enumerate(countries):
+                            if country[0] in countryName or country[0] == countryName:
+                                index = tmpCnt
+                        if finalQuestionshigherBetter[firstIndex][secondIndex] == 1:
+                            scores[index][0] += (float(country[-1]) * weight)
+                        else:
+                            scores[index][0] -= (float(country[-1]) * weight)
+                        scores[index][1] = country[0]
+        else:
+            for dataFromFile in matrix:
+                if finalQuestionsReferences[firstIndex][secondIndex] in dataFromFile[0]:
+                    for country in dataFromFile[1]:
+                        index = -1
+                        for tmpCnt, countryName in enumerate(countries):
+                            if country[0] in countryName or country[0] == countryName:
+                                index = tmpCnt
+                        if finalQuestionshigherBetter[firstIndex][secondIndex] == 1:
+                            scores[index][0] += (float(country[-1]) * weight)
+                        else:
+                            scores[index][0] -= (float(country[-1]) * weight)
+                        scores[index][1] = country[0]
 
         return scores
 

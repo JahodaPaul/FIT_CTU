@@ -9,11 +9,8 @@ from PyQt5 import QtWidgets
 data = Data()
 fuzzy = Fuzzy()
 
-for i in range(len(finalQuestions)):
-    for j in range(len(finalQuestions[i])):
-        for dataFromFile in data.dataMatrix:
-            if finalQuestionsReferences[i][j] in dataFromFile[0]:
-                dataFromFile[1] = data.Normalize(dataFromFile[1])
+for dataFromFile in data.dataMatrix:
+    dataFromFile[1] = data.Normalize(dataFromFile[1])
 
 data.scores = [[0,""] for i in range(len(data.countries))]
 

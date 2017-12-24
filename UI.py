@@ -1,5 +1,3 @@
-# from tkinter import *
-import sys
 import copy
 from operator import itemgetter
 from Config import *
@@ -202,7 +200,7 @@ class UI(QtWidgets.QMainWindow):
         stage3 = []
         stage3.append(self.CreateLabelRanking("Which of these is the most important to you?",110,50,200,130))
         for cnt,item in enumerate(finalQuestionsTopic):
-            stage3.append(self.CreateButton(item, positionButtonX - 15, 160+(40*cnt), self.Stage3Function, cnt, 0, 150, 20))
+            stage3.append(self.CreateButton(item, positionButtonX - 40, 160+(40*cnt), self.Stage3Function, cnt, 0, 200, 20))
 
         stage4 = []
         stage4.append(self.CreateLabelRanking("",110,50,200,130))
