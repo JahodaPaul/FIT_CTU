@@ -1,0 +1,5 @@
+*.html
+/airlines/
+/airports/
+/flights/
+/__pycache__/
