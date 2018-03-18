@@ -4,8 +4,18 @@
 - kapitola 1, 2, 3 a 6
 
 
-# 1\. Základní pospis hry
-TODO
+# 1\. Základní popis hry
+Hra bude určená pro PC, z toho se odvíjí i její ovládání - primárně klávesnice s občasným využitím myši ( přesun předmětů v inventáři ). Pohled na herní svět a postavu bude zeshora a grafika bude 2D.
+
+## 1.1 Herní svět
+Svět se bude skládat z jednotlivých místností, mezi kterými se dá pohybovat pomocí dveří. Všechny místnosti mají stejnou velikost a tvar, liší se však vzhledem, nepřáteli a překážkami uvnitř místnosti. Ve většině místností se boudou nacházet nepřátelé, některé mohou být prázdné a v čísti budou spřátelené postavy ( například obchodník ).
+
+Tento svět bude generovaný počítačem atudíž v každé hře jiný.
+
+## 1.2 Postava a systém boje
+Postava za kterou bude hráč hrát je trpaslík. Tento  trpaslík bude moct bojovat pouze na dálku vystřelováním projektilů, které po kolizi s nepřítel zmizí a zraní nepřítele. Možné zbraně bude magie, luky a kuše a vrhací zbraně ( vrhací nože, granáty ).
+
+## 1.3 Cíl hry
 
 # 2\. Procesy ve hře
 TODO
@@ -97,7 +107,7 @@ Hráč bude moci uložit herní postup. Tato funkcionalita bude založena na pri
 Hráč bude moci načíst herní postup. Tato funkcionalita bude založena na principu, kdy se uložená hra po načtení vymaže (z důvodu zamezení zkoumání neznámých předmětů stylem uložení/načtení).
 
 ### 5.2.2 Manipulace s herními objekty
-Kapitola obsahuje popis funkčností hry souvisejících s minipulací s herními objekty. 
+Kapitola obsahuje popis funkčností hry souvisejících s minipulací s herními objekty.
 
 #### 5.2.2.1 Pohyb
 Hráč se bude pohybovat po mapě pomocí kláves šipek (případně WASD, toto bude umožněno změnit v nastavení hry). Bude se moci pohybovat v pravoúhlém (tedy doleva, dolů, doprava, nahoru) či diagonálně (kombinace dvou pohybových kláves).
