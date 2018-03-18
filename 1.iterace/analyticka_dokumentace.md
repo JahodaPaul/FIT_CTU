@@ -35,7 +35,6 @@ Nastavení hry bude rozděleno do dvou kategorií.
 2. Globální nastavení
   - V hlavním menu bude možné kdykoli v průběhu hraní nastavit parametry hry. Například nastavit rozlišení, hlasitost, nebo zapnout/vypnout hudbu.
 
-
 ### 3.1.6 Přístup do informační sekce hry
 Hra umožní zobrazovat statistiky o postavě ( množství poražených nepřátal, celkem vyléčených životů...) Dále si hráč během hry bude moci zobrazit statickou herní nápovědu. Některé předměty také budou mít interaktivní nápovědu, která se zobrazí po najetí myši na předmět v inventáři.  
 
@@ -65,9 +64,12 @@ V táto kapitole jsou popsány případy užití v herních mechanismů hráčem
 Dále tato kapitola obsahuje popis všech účastníků.
 
 ## 4.1 Účastníci
-TODO
+Tato kapitola obsahuje popis účastníka, který bude hru hrát.
 
-## 6.2 Případy užití
+### 4.1.1 Hráč
+Osoba pohybující se v rozhraní hry a ovládající herní postavu. Hráč využívá funkcionalit poskytovaných hrou.
+
+## 4.2 Případy užití
 
 ### 4.2.1 Spuštění/ukončení hry
 Hráč bude moci zapnout a následovně i vypnout hru.
@@ -114,5 +116,5 @@ Hráči bude umožněno změnit nastavení hry. Jedná se například o změnu o
 ### 4.2.15 Zobrazení statické nápovědy
 Hráč si bude moci kdzkoliv v průběhu hry zobrazit nápovědu, ta bude obsahovat informaci vztahující se ke hře globálně. Například ovládání, nebo legendu k minimapě.
 
-### 4.2.16 Nejvyší skóre
+### 4.2.16 Nejvyšší skóre
 Hráči bude umožněno zobrazit seznam svých nejlepších dosažených výsledků.
