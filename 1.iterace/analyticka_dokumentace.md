@@ -56,20 +56,21 @@ Hra bude v anglickém jazyce ( dialogy, předměty, menu...).
 
 
 # 4\.  Model Případů užití
-V táto kapitole jsou popsány případy užití v herních mechanismů hráčem. Tyto funcionality souvisejí především s:
-- Řízením běhu samotné hry (zde lze pro příklad uvést start nebo konec hry, herní pauzu atp.).
-- Manipulací s herními objekty (například pohyb herní postavy, sbírání předmětů, užití předmětů, útok na nepřítele atp.).
-- Prací s herním rozhraním (například zobrazení inventáře, zobraní mapy, vyvolání obchodu, vyvolání nápovědy, nastavení atp.).
+V této kapitole jsou popsány případy užití hry. Jedné se o funkcionality, které bude vyvíjená hra poskytovat hráči.
 
 Dále tato kapitola obsahuje popis všech účastníků.
 
 ## 4.1 Účastníci
-Tato kapitola obsahuje popis účastníka, který bude hru hrát.
+Tato kapitola obsahuje popis účastníků běhu hry.
 
 ### 4.1.1 Hráč
 Osoba pohybující se v rozhraní hry a ovládající herní postavu. Hráč využívá funkcionalit poskytovaných hrou.
 
 ## 4.2 Případy užití
+Kapitola obsahuje popisuje případy užití hry. Jedná se o funkcionality související s:
+- Řízením běhu samotné hry (zde lze pro příklad uvést start nebo konec hry, herní pauzu atp.).
+- Manipulací s herními objekty (například pohyb herní postavy, sbírání předmětů, užití předmětů, útok na nepřítele atp.).
+- Prací s herním rozhraním (například zobrazení inventáře, zobraní mapy, vyvolání obchodu, vyvolání nápovědy, nastavení atp.).
 
 ### 4.2.1 Spuštění/ukončení hry
 Hráč bude moci zapnout a následovně i vypnout hru.
