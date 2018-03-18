@@ -2,7 +2,45 @@
 Tato kapitola obsahuje požadavky kladené na nově vznikající hru. Požadavky jsou rozděleny na funkční a nefunkční.
 
 ## 3.1 Případy užití
-Tato kapitola obsahuje 
+Tato kapitola obsahuje případy užití v herním mechanismu. Tyto funcionality souvisejí s:
+- Řízením běhu samotné hry (zde lze pro příklad uvést start nebo konec hry, herní pauzu atp.).
+- Manipulací s herními objekty (například pohyb herní postavy, sbírání předmětů, užití předmětů, útok na nepřítele atp.).
+- Prací s herním rozhraním (například zobrazení inventáře, zobraní mapy, vyvolání obchodu, vyvolání nápovědy, nastavení atp.).
+
+### 3.1.1 Spuštění/ukončení hry
+Hráč bude moci zapnout a následovně i vypnout hru
+
+### 3.1.2 pohyb
+Hráč se bude pohybovat po mapě pomocí šipek. Bude se moci pohybovat pravoúhle i diagonálně
+
+### 3.1.3 Útok
+Hráč bude moci vystřelit střelu, která bude zranovat nepřítele.
+
+### 3.1.4 Útok nepřítele (nemyslim si, ze je tohle usercase)
+
+### 3.1.5 Sbírání předmětů
+
+### 3.1.6 Otevření/zavření inventáře
+
+### 3.1.7 Použití předmětu
+
+### 3.1.8 Zahození předmětu
+
+### 3.1.9 Obchodnovat s NPC
+
+### 3.1.10 Zobrazeni mapy
+
+### 3.1.11 Pozastaveni/pokračovaní hry
+
+### 3.1.12. Uložení hry
+
+### 3.1.13 Načtění hry
+
+### 3.1.14 Nastaveni hry
+
+### 3.1.15 Zobrazeni nápovědy
+
+### 3.1.16 Nejvyší skóre
 
 ## 3.2 Funkční požadavky
 
