@@ -1,3 +1,9 @@
+#### TODO
+- Přepsat bod 3.2.2 do češtiny ( tohle se tváří jako čeština, ale nejde to pochopit )
+- Pokuste se rozvést UC 3.1.1 - 3.2.4
+
+
+
 # 3\. Model požadavků
 Tato kapitola obsahuje požadavky kladené na nově vznikající hru. Požadavky jsou rozděleny na funkční a nefunkční.
 
@@ -65,16 +71,22 @@ Hráč bude moci ovládat běh hry. Tento aspekt hry bude zpřístupněný pomoc
 ### 3.2.2 Ovladání herní postavy a interakce s herním světem
 Hráč bude moci ovládat herní postavu. Ovládání herní postavy úzce souvisí s požadavkem na interakci s herním světem, jelikož akce herní postavy můžu vyvolat interakci s tímto světem.
 Tato rozsáhlejší funkce hry bude umožněna pohybem (pro pohyb herní postavy napříč herní místností a přesun herní postavy mezi jednotlivými místnostmi).
-Dále bude umožněna útokem (pro zranění nepřítele). Další prvek interakce umožní sbírání předmětů. Mimo jiné bude umožněna interakce s NPC obchodníkem za využití obchodu. 
+Dále bude umožněna útokem (pro zranění nepřítele). Další prvek interakce umožní sbírání předmětů. Mimo jiné bude umožněna interakce s NPC obchodníkem za využití obchodu.
 
 ### 3.2.3 Správa inventáře herní postavy
 Hráč bude moci otevřít/uzavřít inventář postavy. Uvnitř inventáře mu bude umožněno inventář spravovat. Správa inventáře bude umožněna zahozením/použitím předmětu.
 
 ### 3.2.4 Vylepšení herní postavy
-Hra bude umožňovat vylepši svoji postavu. Toto bude umožněno prodejem/výměnnou herních surovin s NPC obchodníkem. Herní suroviny se budou nacházat volně na mapě, také je bude možné získat poražením nepřátel.
+Hra bude umožňovat vylepši svoji postavu. Toto bude umožněno prodejem/výměnou herních surovin s NPC obchodníkem. Herní suroviny se budou nacházat volně na mapě, také je bude možné získat poražením nepřátel.
 
-### 3.3.5 Nastavení hry (!!! CHECK !!!)
-Hra bude možné nastavit (viz. stejnojmenný use case).
+### 3.3.5 Nastavení hry
+Nastavení hry bude rozděleno do dvou kategorií.
+
+1. Nastavení při zahájení nové hry.
+  - Při startu nové hry si hráč zvolí jméno postavy, její vyhled a obtížnost hry.
+2. Globální nastavení
+  - V hlavním menu bude možné kdykoli v průběhu hraní nastavit parametry hry. Například nastavit rozlišení, hlasitost, nebo zapnout/vypnout hudbu.
+
 
 ### 3.2.6 Přístup do informační sekce hry
 Hra umožní zobrazit statistiky o postavě. Dále umožnění zobrazit si informační prvky ve hře. Toto bude umožněno pomocí zobrazení nápovědy, náhledu do nejvyššího scóre a zobrazení mapy.
@@ -82,21 +94,13 @@ Hra umožní zobrazit statistiky o postavě. Dále umožnění zobrazit si infor
 ## 3.3 Nefunkční požadavky
 
 ### 3.3.1 N1 -  Grafické uživatelské rozhraní  
-<p>
   Hra bude mít 2D grafiku s pohledem zeshora. Ovládání bude bude umožněno primárně s pomocí klávesnice.
-</p>
 
 ### 3.3.2 N2 - Žánr hry
-<p>
   Hra bude real-time RPG s důrazem na obchod a směnu zboží a předmětů s herními postavami.
-</p>
 
 ### 3.3.3 N3 - Cílová platforma
-<p>
 Hra bude plně funkční na PC pod operačním systémem linux. Instalace bude umožněna pomocí .deb instalační systému. ( debian )
-</p>
 
 ### 3.3.4 N4 - Jazyk hry
-<p>
-Hra bude v Anglickém jazyce ( dialogy, předměty, menu...).
-</p>
+Hra bude v anglickém jazyce ( dialogy, předměty, menu...).
