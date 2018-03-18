@@ -15,14 +15,17 @@ Hráč bude moci ovládat běh hry. Tento aspekt hry bude zpřístupněný pomoc
 
 ### 3.1.2 Ovladání herní postavy a interakce s herním světem
 Hráč bude moci ovládat herní postavu. Ovládání herní postavy úzce souvisí s požadavkem na interakci s herním světem, jelikož akce herní postavy můžu vyvolat interakci s tímto světem.
-Tato rozsáhlejší funkce hry bude umožněna pohybem (pro pohyb herní postavy napříč herní místností a přesun herní postavy mezi jednotlivými místnostmi).
-Dále bude umožněna útokem (pro zranění nepřítele). Další prvek interakce umožní sbírání předmětů. Mimo jiné bude umožněna interakce s NPC obchodníkem za využití obchodu.
+Tato rozsáhlejší funkce hry bude umožněna pohybem (pohyb herní postavy napříč herní místností a přesun herní postavy mezi jednotlivými místnostmi).  
+
+Dále hráč bude mít možnost útočit na nepřátele.  
+
+Herní postava bude mít možnost sbírat předmět (přepdměty se mohou oběvit po zabití nepřítele, nebo ležet v místnosti hry již od jejího vygenerování ). Tyto předměty půjdou prodat NPC obchodníkovi za využití herního obchodu.
 
 ### 3.1.3 Správa inventáře herní postavy
-Hráč bude moci otevřít/uzavřít inventář postavy. Uvnitř inventáře mu bude umožněno inventář spravovat. Správa inventáře bude umožněna zahozením/použitím předmětu.
+Hráč bude moci otevřít/uzavřít inventář postavy. Uvnitř inventáře bude mít zobrazané všechny předměty, které aktuálně vlastní. Všechny ředměty bude moct hráč z inventáře zahodit na zem. Vybrané předmětu půjdou aktivně využít (např.: lektvar léčení), nebo obléknout ( nová zbroj ).
 
 ### 3.1.4 Vylepšení herní postavy
-Hra bude umožňovat vylepši svoji postavu. Toto bude umožněno prodejem/výměnou herních surovin s NPC obchodníkem. Herní suroviny se budou nacházat volně na mapě, také je bude možné získat poražením nepřátel.
+Hra bude hráči umožňovat vylepšit jeho postavu. Toto bude umožněno prodejem/výměnou herních surovin s NPC obchodníkem a následním nakoupením lepší výbavy.  Herní suroviny se budou nacházat volně na mapě, také je bude možné získat poražením nepřátel.
 
 ### 3.1.5 Nastavení hry
 Nastavení hry bude rozděleno do dvou kategorií.
@@ -34,7 +37,9 @@ Nastavení hry bude rozděleno do dvou kategorií.
 
 
 ### 3.1.6 Přístup do informační sekce hry
-Hra umožní zobrazit statistiky o postavě. Dále umožnění zobrazit si informační prvky ve hře. Toto bude umožněno pomocí zobrazení nápovědy, náhledu do nejvyššího scóre a zobrazení mapy.
+Hra umožní zobrazovat statistiky o postavě ( množství poražených nepřátal, celkem vyléčených životů...) Dále si hráč během hry bude moci zobrazit statickou herní nápovědu. Některé předměty také budou mít interaktivní nápovědu, která se zobrazí po najetí myši na předmět v inventáři.  
+
+Další informační prvkek bude minimapa. Minimapa bude obsahovat všechy čássti herní mapy, které již hráč navšívil.
 
 ## 3.2 Nefunkční požadavky
 
@@ -52,10 +57,12 @@ Hra bude v anglickém jazyce ( dialogy, předměty, menu...).
 
 
 # 4\.  Model Případů užití
-Tato kapitola obsahuje případy užití v herním mechanismu. Tyto funcionality souvisejí s:
+V táto kapitole jsou popsány případy užití v herních mechanismů hráčem. Tyto funcionality souvisejí především s:
 - Řízením běhu samotné hry (zde lze pro příklad uvést start nebo konec hry, herní pauzu atp.).
 - Manipulací s herními objekty (například pohyb herní postavy, sbírání předmětů, užití předmětů, útok na nepřítele atp.).
 - Prací s herním rozhraním (například zobrazení inventáře, zobraní mapy, vyvolání obchodu, vyvolání nápovědy, nastavení atp.).
+
+Dále tato kapitola obsahuje popis všech účastníků.
 
 ## 4.1 Účastníci
 TODO
@@ -104,10 +111,8 @@ Hráč bude moci načíst herní postup. Tato funkcionalita bude založena na pr
 ### 4.2.14 Nastavení hry
 Hráči bude umožněno změnit nastavení hry. Jedná se například o změnu obtížnosti hry, změnu rozlišení herního okna atp..
 
-### 4.2.15 Zobrazení nápovědy
-Hráči bude umožněno vyvolat. Zde dvě možnosti: (!!! CHECK !!!)
-- 1) Statická nápověda vztahující se ke hře globálně - např. ovládání.
-- 2) Zobrazovat kontextové nápovědy vztahující se vždy ke konkrétnímu již známému objektu.
+### 4.2.15 Zobrazení statické nápovědy
+Hráč si bude moci kdzkoliv v průběhu hry zobrazit nápovědu, ta bude obsahovat informaci vztahující se ke hře globálně. Například ovládání, nebo legendu k minimapě.
 
 ### 4.2.16 Nejvyší skóre
 Hráči bude umožněno zobrazit seznam svých nejlepších dosažených výsledků.
