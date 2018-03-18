@@ -81,22 +81,22 @@ Hra umožní zobrazit statistiky o postavě. Dále umožnění zobrazit si infor
 
 ## 3.3 Nefunkční požadavky
 
-#### 3.3.1 N1 -  Grafické uživatelské rozhraní  
+### 3.3.1 N1 -  Grafické uživatelské rozhraní  
 <p>
   Hra bude mít 2D grafiku s pohledem zeshora. Ovládání bude bude umožněno primárně s pomocí klávesnice.
 </p>
 
-#### 3.3.2 N2 - Žánr hry
+### 3.3.2 N2 - Žánr hry
 <p>
   Hra bude real-time RPG s důrazem na obchod a směnu zboží a předmětů s herními postavami.
 </p>
 
-#### 3.3.3 N3 - Cílová platforma
+### 3.3.3 N3 - Cílová platforma
 <p>
 Hra bude plně funkční na PC pod operačním systémem linux. Instalace bude umožněna pomocí .deb instalační systému. ( debian )
 </p>
 
-#### 3.3.4 N4 - Jazyk hry
+### 3.3.4 N4 - Jazyk hry
 <p>
 Hra bude v Anglickém jazyce ( dialogy, předměty, menu...).
 </p>
