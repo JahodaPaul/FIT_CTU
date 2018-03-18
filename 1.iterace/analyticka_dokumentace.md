@@ -59,11 +59,25 @@ Hráči bude umožněno zobrazit seznam svých nejlepších dosažených výsled
 
 ## 3.2 Funkční požadavky
 
-#### 3.2.1 Vylepšení postavy
+### 3.2.1 Ovládání běhu hry
+Hráč bude moci ovládat běh hry. Tento aspekt hry bude zpřístupněný pomocí funkcionalit, které umožní začít novou hru, ukončit hru, uložit a načíst hru a hru pozastavit.
+
+### 3.2.2 Ovladání herní postavy a interakce s herním světem
+Hráč bude moci ovládat herní postavu. Ovládání herní postavy úzce souvisí s požadavkem na interakci s herním světem, jelikož akce herní postavy můžu vyvolat interakci s tímto světem.
+Tato rozsáhlejší funkce hry bude umožněna pohybem (pro pohyb herní postavy napříč herní místností a přesun herní postavy mezi jednotlivými místnostmi).
+Dále bude umožněna útokem (pro zranění nepřítele). Další prvek interakce umožní sbírání předmětů. Mimo jiné bude umožněna interakce s NPC obchodníkem za využití obchodu. 
+
+### 3.2.3 Správa inventáře herní postavy
+Hráč bude moci otevřít/uzavřít inventář postavy. Uvnitř inventáře mu bude umožněno inventář spravovat. Správa inventáře bude umožněna zahozením/použitím předmětu.
+
+### 3.2.4 Vylepšení herní postavy
 Hra bude umožňovat vylepši svoji postavu. Toto bude umožněno prodejem/výměnnou herních surovin s NPC obchodníkem. Herní suroviny se budou nacházat volně na mapě, také je bude možné získat poražením nepřátel.
 
-#### 3.2.2
+### 3.3.5 Nastavení hry (!!! CHECK !!!)
+Hra bude možné nastavit (viz. stejnojmenný use case).
 
+### 3.2.6 Přístup do informační sekce hry
+Hra umožní zobrazit statistiky o postavě. Dále umožnění zobrazit si informační prvky ve hře. Toto bude umožněno pomocí zobrazení nápovědy, náhledu do nejvyššího scóre a zobrazení mapy.
 
 ## 3.3 Nefunkční požadavky
 
