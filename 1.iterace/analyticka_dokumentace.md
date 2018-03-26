@@ -21,10 +21,137 @@ Postava za kterou bude hráč hrát je trpaslík. Tento  trpaslík bude moct boj
 TODO
 
 # 3\. Doménový model ve hře
-TODO
+Kapitola popisuje třídy (entity), které souvisejí s analyzovanou doménou. Jednotlivé třídy jsou zde detailně popsány tak, aby bylo zřejmé, jaké všechny objekty a informace budou ve hře používány.
+
+## 3.1 Postavy a předměty
+Tato kapitala obsahuje popis entit souvisejících s postavami a předměty ve hře.
+
+### 3.1.1 Entita
+Jedná se o živou bytost. V aplikaci je reprezentována předěvším NPC, hráčem či nepřátelem.
+- HP
+	* Životy entity.
+- Jméno
+	* Jméno entity.
+- Level
+	* Level entity.
+- Obrana
+	* Obrana entity. Čím vyšší má entita obranu, tím méně ji zraňují nepřátelské útoky.
+- Pozice
+	* Pozice entity v místnosti.
+- Rychlost
+	* Rychlost pohybu entity.
+- Útok
+	* Útok entity. Udává, kolik entita ubírá životů ostatním entitám.
+
+### 3.1.2 Nepřítel
+Agresivní stvoření, které bude útočit na hráče.
+- Předmět drop
+	* Určuje, jaká je šance, že po zabití nepřítele z něho vypadne předmět.
+- XP drop
+	* Udává, kolik zkušeností dostane hráč za zabití nepřítele.
+
+### 3.1.3 Hráč
+Hlavní hrdina celé hry. Postavička trpaslíka, kterou bude ovládat hráč.
+- Peníze
+	* Udává, kolik peněz má hráč u sebe. Za peníze si hráč může kopovat u obchodníku předměty.
+- XP
+	* Udává, kolik zkušeností má hráč. Podle toho se určuje jeho level.
+
+### 3.1.4 NPC
+Postava, která bude ve hře, aby nasměrovala nebo zadala úkol hráči.
+- Dialog
+	* Text, který se vypíše při rozhovoru s hráčem. Při této interakci může dojít k nápovědě hráče nebo zadání ukolu.
+
+### 3.1.5 Obchodník 
+Specializace NPC. Hráč od něj bude moci kupovat předměty za peníze, nebo naopak prodávat předměty.
+
+### 3.1.6 Úkol
+Nějaká obtížná výzva, která bude zadaná některou z NPC postav.
+- Stav
+	* Udává, v jakém stavu se nachází úkol.
+
+### 3.1.7 Efekt
+Entitě, na kterou bude působit, změní vlastnosti a schopnosti.
+- Síla
+	* Udává, jak velký vliv má efekt na entitu.
+- Trvání
+	* Udává, jak dlouho daný efekt trvá.
+- Učinek
+	* Udává, jaký učinek má efekt. Může jít napříkad o slepotu, otravu, zesílení, zrychlení atd...
+
+### 3.1.8 Předmět
+Věc, kterou bude hráč moci použít ke zlepšení svých schopností nebo zničení nepřátel.
+- Síla
+	* Udává, jak velký vliv má efekt na hráčovy schopnosti či na nepřítele.
+- Trvání
+	* Udává, jak dlouho daný efekt trvá.
+- Učinek
+	* Udává, jaký učinek má efekt. Napříkad slepotu, otravu, zesílení, zrychlení atd...
+
+### 3.1.8 Spotřebitelný
+Specializace předmětu, který bude mít omezený počet použití, než bude vyplýtván a zmizí hráči z inventáře.
+- Počet použití
+	* Udává, kolikrát se dá daný předmět používat, než zmizí z inventáře.
+- Učinek
+	* Udává, jaký učinek má předmět. Napříkad léčení, zranění, rozšíření statistik atp.
+
+### 3.1.8 Vybavení
+Specializace předmětu, kterou si bude moci hráč na sebe nasadit a která mu bude zvyšovat schopnosti do té doby, dokud jí bude mít vybavenou.
+- Statistiky
+	* Udává, které staty se o kolik změní při nasazení tohoto předmětu.
+
+## 3.2 Herní svět
+Tato kapitala obsahuje popis entit herního světa.
+
+### 3.2.1 Herní svět
+Herní svět se skládá z několika podlaží.
+- Název
+	* Název herního světa.
+
+### 3.2.2 Podlaží
+Každé podlaží se skládá z rozsáhlého labyrintu místností. 
+- Název
+	* Název podlaží.
+
+### 3.2.3 Místnost
+V každé místnosti bude hráč čelit růzdným výzvám, od nepřátel až po překážky.
+- Název
+	* Název místnosti
+- Entity
+	* Místnosti obsahuje entity.
+- Pozadí
+	* Místnost má určité pozadí místnosti.
+
+### 3.2.4 Objekt
+Objekt bude umístěný v místnosti.
+- Pozice
+	* Obsahuje pozici objektu v místnosti.
+
+### 3.2.5 Dveře
+Specializace objektu. Díky dveřím se bude moci hráč pohybovat mezi jednotlými místnostmi a podlažími.
+- Cílová místnost
+	* Obsahuje místnost, do které se dá dveřmi dostat.
+
+### 3.2.6 Past
+Specializace objektu, která způsobí hráči zranění, když se dostane na stejnou pozici jako má past.
+- Zranění
+	* Udává, jaké zranění způsobí past hráči, jestliže na ní vkročí.
+
+### 3.2.7 Stavba
+Specializace objektu, jedná o stavby, se kterými se hráč může dostat do interakce. To může způsobit získání nějakého pozitivní nebo negativního efektu, nebo objevení se nepřítele. Jedná se nápříklad o kapličku, u které se může hráč pomodlit. 
+- Dialog
+	* Text, který se vypíše hráči při interakci se stavbou.
+
+### 3.2.7 Kontejner
+Specializace předmětu, ve které se mohou nacházet různé předměty. 
+- Předmět
+	* Předmět, který z kontejneru vypadne, jestliže ho hráč otevře.
 
 # 4\. Model požadavků
 Tato kapitola obsahuje požadavky kladené na nově vznikající hru. Požadavky jsou rozděleny na funkční a nefunkční.
+
+### 4.1.1 Entita
+
 
 
 ## 4.1 Funkční požadavky
