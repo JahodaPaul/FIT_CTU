@@ -88,14 +88,14 @@ Věc, kterou bude hráč moci použít ke zlepšení svých schopností nebo zni
 - Učinek
 	* Udává, jaký učinek má efekt. Napříkad slepotu, otravu, zesílení, zrychlení atd...
 
-### 3.1.8 Spotřebitelný
+### 3.1.9 Spotřebitelný
 Specializace předmětu, který bude mít omezený počet použití, než bude vyplýtván a zmizí hráči z inventáře.
 - Počet použití
 	* Udává, kolikrát se dá daný předmět používat, než zmizí z inventáře.
 - Učinek
 	* Udává, jaký učinek má předmět. Napříkad léčení, zranění, rozšíření statistik atp.
 
-### 3.1.8 Vybavení
+### 3.1.10 Vybavení
 Specializace předmětu, kterou si bude moci hráč na sebe nasadit a která mu bude zvyšovat schopnosti do té doby, dokud jí bude mít vybavenou.
 - Statistiky
 	* Udává, které staty se o kolik změní při nasazení tohoto předmětu.
@@ -142,7 +142,7 @@ Specializace objektu, jedná o stavby, se kterými se hráč může dostat do in
 - Dialog
 	* Text, který se vypíše hráči při interakci se stavbou.
 
-### 3.2.7 Kontejner
+### 3.2.8 Kontejner
 Specializace předmětu, ve které se mohou nacházet různé předměty. 
 - Předmět
 	* Předmět, který z kontejneru vypadne, jestliže ho hráč otevře.
