@@ -1,27 +1,38 @@
+#### TODO
+- Přepsat bod 3.1.2 do češtiny ( tohle se tváří jako čeština, ale nejde to pochopit )
+- Pokuste se rozvést UC 4.2.1 - 4.2.4
+- kapitola 1, 2, 3 a 6
+
+
 # 1\. Základní popis hry
 Hra bude určená pro PC, z toho se odvíjí i její ovládání - primárně klávesnice s občasným využitím myši ( přesun předmětů v inventáři ). Pohled na herní svět a postavu bude zeshora a grafika bude 2D.
 
 ## 1.1 Herní svět
-Herní svět se bude zkládat z jednotlivých podlaží. Podlaží jsou tvořena místnotmi které se vygenerují když hráč poprvé vstoupí na dané podlaží. Při této příležitosti se také vygenerují NPC a monstra. Obtížnost monster bude určana na základě úrovně podlaží s úrovně hráče, když poprvé vstoupí na podlaží. Přechod na nižší podlaží bude umožněn pomocí schodů.
-
-Mezi místnostmi mezi v jednom podlaží se dá pohybovat pomocí dveří. Všechny místnosti mají stejnou velikost a tvar, liší se však vzhledem, nepřáteli a překážkami uvnitř místnosti. Ve většině místností se boudou nacházet nepřátelé, některé mohou být prázdné a v části budou zpřátelené postavy ( například obchodník ), se kterými bude moci hráč obchodovat, nebo dostat quest.
+Svět se bude skládat z jednotlivých místností, mezi kterými se dá pohybovat pomocí dveří. Všechny místnosti mají stejnou velikost a tvar, liší se však vzhledem, nepřáteli a překážkami uvnitř místnosti. Ve většině místností se boudou nacházet nepřátelé, některé mohou být prázdné a v čísti budou spřátelené postavy ( například obchodník ).
 
 Tento svět bude generovaný počítačem atudíž v každé hře jiný.
 
 ## 1.2 Postava a systém boje
-Postava za kterou bude hráč hrát je trpaslík. Tento  trpaslík bude moct bojovat pouze na dálku vystřelováním projektilů, které po kolizi s nepřítel zmizí a zraní nepřítele. Možné zbraně budou magie, luky a kuše a vrhací zbraně ( vrhací nože, granáty ).
+Postava za kterou bude hráč hrát je trpaslík. Tento  trpaslík bude moct bojovat pouze na dálku vystřelováním projektilů, které po kolizi s nepřítel zmizí a zraní nepřítele. Možné zbraně bude magie, luky a kuše a vrhací zbraně ( vrhací nože, granáty ).
 
 ## 1.3 Cíl hry
-TODO
 
 # 2\. Procesy ve hře
-Kapitola popisuje procesy ve hře.
+Kapitola popisuje procesy ve hře. 
+    - Část 2.1 nazvaná "Obchodování" se týka procesů, které se stávají při prodeji a nákupu produktů. 
+    - Část 2.2 nazvaná "Questy" popisuje procesy, které nastávají od inicializace questu, až po jeho dokončení.
 
 ## 2.1 Obchodování
-Hra bude obsahovat obchodní svět, který umožní hráči nakupovat a prodávat produkty popřípadě služby.  Na rozdíl od ostatních her, které v naprosté většině případů obsahují NPC, které s radostí odkoupí jakýkoliv předmět vlastněný hráčem se naše hra pokusí o více realistický model, který umožní NPC odmítnutí nabízeného zboží. Materiály, které má NPC u sebe budou ovlivňovat i to, jaké předměty bude obchodník výrábět a tudíž prodávat.
+    Hra bude obsahovat obchodní svět, který umožní hráči nakupovat a prodávat produkty popřípadě služby. 
+    Na rozdíl od ostatních her, které v naprosté většině případů obsahují NPC, které s radostí odkoupí 
+    jakýkoliv předmět vlastněný hráčem se naše hra pokusí o více realistický model, který umožní NPC 
+    odmítnutí nabízeného zboží. Materiály, které má NPC u sebe budou ovlivňovat i to, jaké předměty bude obchodník výrábět a tudíž prodávat.
     
 ## 2.2 Questy
-Quest je hráči přidělen tak, že hráč přijde k NPC postavě a potvrdí zadání questu.  Dále hráče plní úkony potřebné k vyhotovení qeustu. Tyto úkony mají několik typů, například zabíjení monster nebo sběr předmětu. Po vyhotovení všech potřebných úkonů pro splnění questu může uživatel zajít za NPC, u kterého quest přijal, pro odměnu.
+    Quest je hráči přidělen tak, že hráč přijde k NPC postavě a potvrdí zadání questu. 
+    Dále hráče plní úkony potřebné k vyhotovení qeustu. Tyto úkony mají několik typů, 
+    například zabíjení monster nebo sběr předmětu. Po vyhotovení všech potřebných úkonů pro
+    splnění questu může uživatel zajít za NPC, u kterého quest přijal, pro odměnu.
 
 # 3\. Doménový model ve hře
 Kapitola popisuje třídy (entity), které souvisejí s analyzovanou doménou. Jednotlivé třídy jsou zde detailně popsány tak, aby bylo zřejmé, jaké všechny objekty a informace budou ve hře používány.
@@ -152,6 +163,10 @@ Specializace předmětu, ve které se mohou nacházet různé předměty.
 
 # 4\. Model požadavků
 Tato kapitola obsahuje požadavky kladené na nově vznikající hru. Požadavky jsou rozděleny na funkční a nefunkční.
+
+### 4.1.1 Entita
+
+
 
 ## 4.1 Funkční požadavky
 
