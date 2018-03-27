@@ -19,8 +19,8 @@ Postava za kterou bude hráč hrát je trpaslík. Tento  trpaslík bude moct boj
 
 # 2\. Procesy ve hře
 Kapitola popisuje procesy ve hře. 
-    - Část 2.1 nazvaná "Obchodování" se týka procesů, které se stávají při prodeji a nákupu produktů. 
-    - Část 2.2 nazvaná "Questy" popisuje procesy, které nastávají od inicializace questu, až po jeho dokončení.
+- Část 2.1 nazvaná "Obchodování" se týka procesů, které se stávají při prodeji a nákupu produktů. 
+- Část 2.2 nazvaná "Questy" popisuje procesy, které nastávají od inicializace questu, až po jeho dokončení.
 
 ## 2.1 Obchodování
     Hra bude obsahovat obchodní svět, který umožní hráči nakupovat a prodávat produkty popřípadě služby. 
