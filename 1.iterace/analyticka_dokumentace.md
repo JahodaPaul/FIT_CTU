@@ -1,7 +1,7 @@
 #### TODO
 - Přepsat bod 3.1.2 do češtiny ( tohle se tváří jako čeština, ale nejde to pochopit )
 - Pokuste se rozvést UC 4.2.1 - 4.2.4
-- kapitola 1, 2, 3 a 6
+- kapitola 1, 2, 3
 
 
 # 1\. Základní popis hry
@@ -18,19 +18,19 @@ Postava za kterou bude hráč hrát je trpaslík. Tento  trpaslík bude moct boj
 ## 1.3 Cíl hry
 
 # 2\. Procesy ve hře
-Kapitola popisuje procesy ve hře. 
-- Část 2.1 nazvaná "Obchodování" se týka procesů, které se stávají při prodeji a nákupu produktů. 
+Kapitola popisuje procesy ve hře.
+- Část 2.1 nazvaná "Obchodování" se týka procesů, které se stávají při prodeji a nákupu produktů.
 - Část 2.2 nazvaná "Questy" popisuje procesy, které nastávají od inicializace questu, až po jeho dokončení.
 
 ## 2.1 Obchodování
-    Hra bude obsahovat obchodní svět, který umožní hráči nakupovat a prodávat produkty popřípadě služby. 
-    Na rozdíl od ostatních her, které v naprosté většině případů obsahují NPC, které s radostí odkoupí 
-    jakýkoliv předmět vlastněný hráčem se naše hra pokusí o více realistický model, který umožní NPC 
+    Hra bude obsahovat obchodní svět, který umožní hráči nakupovat a prodávat produkty popřípadě služby.
+    Na rozdíl od ostatních her, které v naprosté většině případů obsahují NPC, které s radostí odkoupí
+    jakýkoliv předmět vlastněný hráčem se naše hra pokusí o více realistický model, který umožní NPC
     odmítnutí nabízeného zboží. Materiály, které má NPC u sebe budou ovlivňovat i to, jaké předměty bude obchodník výrábět a tudíž prodávat.
-    
+
 ## 2.2 Questy
-    Quest je hráči přidělen tak, že hráč přijde k NPC postavě a potvrdí zadání questu. 
-    Dále hráče plní úkony potřebné k vyhotovení qeustu. Tyto úkony mají několik typů, 
+    Quest je hráči přidělen tak, že hráč přijde k NPC postavě a potvrdí zadání questu.
+    Dále hráče plní úkony potřebné k vyhotovení qeustu. Tyto úkony mají několik typů,
     například zabíjení monster nebo sběr předmětu. Po vyhotovení všech potřebných úkonů pro
     splnění questu může uživatel zajít za NPC, u kterého quest přijal, pro odměnu.
 
@@ -76,7 +76,7 @@ Postava, která bude ve hře, aby nasměrovala nebo zadala úkol hráči.
 - Dialog
 	* Text, který se vypíše při rozhovoru s hráčem. Při této interakci může dojít k nápovědě hráče nebo zadání ukolu.
 
-### 3.1.5 Obchodník 
+### 3.1.5 Obchodník
 Specializace NPC. Hráč od něj bude moci kupovat předměty za peníze, nebo naopak prodávat předměty.
 
 ### 3.1.6 Úkol
@@ -123,7 +123,7 @@ Herní svět se skládá z několika podlaží.
 	* Název herního světa.
 
 ### 3.2.2 Podlaží
-Každé podlaží se skládá z rozsáhlého labyrintu místností. 
+Každé podlaží se skládá z rozsáhlého labyrintu místností.
 - Název
 	* Název podlaží.
 
@@ -152,12 +152,12 @@ Specializace objektu, která způsobí hráči zranění, když se dostane na st
 	* Udává, jaké zranění způsobí past hráči, jestliže na ní vkročí.
 
 ### 3.2.7 Stavba
-Specializace objektu, jedná o stavby, se kterými se hráč může dostat do interakce. To může způsobit získání nějakého pozitivní nebo negativního efektu, nebo objevení se nepřítele. Jedná se nápříklad o kapličku, u které se může hráč pomodlit. 
+Specializace objektu, jedná o stavby, se kterými se hráč může dostat do interakce. To může způsobit získání nějakého pozitivní nebo negativního efektu, nebo objevení se nepřítele. Jedná se nápříklad o kapličku, u které se může hráč pomodlit.
 - Dialog
 	* Text, který se vypíše hráči při interakci se stavbou.
 
 ### 3.2.8 Kontejner
-Specializace předmětu, ve které se mohou nacházet různé předměty. 
+Specializace předmětu, ve které se mohou nacházet různé předměty.
 - Předmět
 	* Předmět, který z kontejneru vypadne, jestliže ho hráč otevře.
 
@@ -291,4 +291,7 @@ Hráči bude umožněno zobrazit seznam svých nejlepších dosažených výsled
 
 
 # 6\. Návrhy herních obrazovek
-TODO
+ - Úvodní obrazovka - obrazovka s jednoduchou grafikou, která se zobrazí po spuštění hry. Obsahuje hlavní menu hry.
+ - Nová hra         - na této obrazovce si hráč zvolí své jméno a obtížnost hry; následně také spustí hru
+ - Nastavení        - globální nastavení hry (hlasitost, ovládání,...)
+ - Inventář         - zobrazení inventáře v průběhu hry. Hráč zde vidí všechny předměty, které ve hře nasbíral (může je aktivovat/deaktivovat)
