@@ -18,7 +18,19 @@ Postava za kterou bude hráč hrát je trpaslík. Tento  trpaslík bude moct boj
 ## 1.3 Cíl hry
 
 # 2\. Procesy ve hře
-TODO
+Kapitola popisuje procesy ve hře.
+
+## 2.1 Obchodování
+    Hra bude obsahovat obchodní svět, který umožní hráči nakupovat a prodávat produkty popřípadě služby. 
+    Na rozdíl od ostatních her, které v naprosté většině případů obsahují NPC, které s radostí odkoupí 
+    jakýkoliv předmět vlastněný hráčem se naše hra pokusí o více realistický model, který umožní NPC 
+    odmítnutí nabízeného zboží. Materiály, které má NPC u sebe budou ovlivňovat i to, jaké předměty bude obchodník výrábět a tudíž prodávat.
+    
+## 2.2 Questy
+    Quest je hráči přidělen tak, že hráč přijde k NPC postavě a potvrdí zadání questu. 
+    Dále hráče plní úkony potřebné k vyhotovení qeustu. Tyto úkony mají několik typů, 
+    například zabíjení monster nebo sběr předmětu. Po vyhotovení všech potřebných úkonů pro
+    splnění questu může uživatel zajít za NPC, u kterého quest přijal, pro odměnu.
 
 # 3\. Doménový model ve hře
 Kapitola popisuje třídy (entity), které souvisejí s analyzovanou doménou. Jednotlivé třídy jsou zde detailně popsány tak, aby bylo zřejmé, jaké všechny objekty a informace budou ve hře používány.
