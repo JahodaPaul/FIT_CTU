@@ -1,6 +1,9 @@
 %% ZAKLADNI VLASTNOSTI STRANKY -- VELIKOST PISMA, STRANKY, OKRAJU
 \documentclass[12pt,a4paper]{article}
-\usepackage[marginparsep=8pt,left=2.5cm,right=2.5cm,top=3cm,bottom=4cm]{geometry}
+\usepackage[marginparsep=14pt,left=2.5cm,right=2.5cm,top=3.2cm,bottom=4.5cm]{geometry}
+
+\setlength{\parskip}{8pt}
+\setlength{\parindent}{30pt}
 
 %% CESTINA
 \usepackage[czech]{babel}
@@ -144,22 +147,22 @@ kolize s~nepřítelem mohou nepřítele zranit. Možné zbraně budou magie, luk
 kuše a vrhací zbraně (vrhací nože, granáty).
 
 \subsection{Cíl hry}
-Hra začíná v trpasličím městě v horních částech podzemí hory ( podlaží 0 ).
-Celá tato oblast je bez nepřátel a hráč se zde poprvé seznámí s herními
+Hra začíná v~trpasličím městě v~horních částech podzemí hory (podlaží 0).
+Celá tato oblast je bez nepřátel a hráč se zde poprvé seznámí s~herními
 mechanismy.  Mimo  jiné ovšem také bude sloužit jako herní menu.
-Zde se hráč poprvé seznámí s příběhem. Pomocí dialogu s NPC se dozví,
-že hluboko v hoře pod městem se usídlil drak, který vesnici ohrožuje.
+Zde se hráč poprvé seznámí s~příběhem. Pomocí dialogu s~NPC se dozví,
+že hluboko v~hoře pod městem se usídlil drak, který vesnici ohrožuje.
 
-Také zde bude možnost změnit některá nastavení ( reprezentováno jako dialogy
-s NPC ). Jedním z nich bude i cíl hry, který v našem případě reprezentuje
+Také zde bude možnost změnit některá nastavení (reprezentováno jako dialogy
+s~NPC). Jedním z~nich bude i cíl hry, který v~našem případě reprezentuje
 herní obtížnost. Ve všech případech bude potřeba odstranit nebezpečí,
 které vesnici ohrožuje, tedy draka.  Možností jak na to ale bude víc:
 
 \begin{itemize}
-\item Například drakovi podat silný lektvar spánku ( lehká ) a tím ho uspat na
+\item Například drakovi podat silný lektvar spánku (lehká) a tím ho uspat na
 příštích deset let.
-\item Draka draka vyhnat pryč z hory ( střední ).
-\item Draka zabít a tím odstranit nebezpečí jednou provždy ( těžká ).
+\item Draka draka vyhnat pryč z~hory (střední).
+\item Draka zabít a tím odstranit nebezpečí jednou provždy (těžká).
 \end{itemize}
 
 Toto bude skutečně nastavení obtížnosti, tudíž ovlivní například zisk zlata,
@@ -181,8 +184,10 @@ Hra bude obsahovat obchodní svět, který umožní hráči nakupovat a prodáva
 produkty popřípadě služby. Na rozdíl od ostatních her, které v~naprosté většině
 případů obsahují NPC, které s~radostí odkoupí jakýkoliv předmět vlastněný hráčem
 se naše hra pokusí o~více realistický model, který umožní NPC odmítnutí
-nabízeného zboží. Materiály, které má NPC u~sebe budou ovlivňovat i to, jaké
-předměty bude obchodník vyrábět a tudíž prodávat.
+nabízeného zboží.
+
+Materiály, které má NPC u~sebe budou ovlivňovat i to, jaké předměty bude
+obchodník vyrábět a tudíž prodávat.
 
 \begin{figure}
 \begin{center}
