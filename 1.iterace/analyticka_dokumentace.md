@@ -28,8 +28,16 @@ Quest je hráči přidělen tak, že hráč přijde k NPC postavě a potvrdí za
 # 3\. Doménový model ve hře
 Kapitola popisuje třídy (entity), které souvisejí s analyzovanou doménou. Jednotlivé třídy jsou zde detailně popsány tak, aby bylo zřejmé, jaké všechny objekty a informace budou ve hře používány.
 
+Entity jsou rozděleny do dvou částí na základě své role v herním světě. V části Postavy a předměty je obsažen popis entit souvisejících s postavami a předměty ve hře.
+V části Herní svět je pak obsažen popis entit herního světa.
+
+Propojení těchto dvou částí je realizováno přes předměty obsažené v entitě RG:Kontejner a Entity (jakožto živé herní objekty - RG:Entita) obsažené v RG:Místnost.
+
+Omezení na doménový model:
+- Doménový model bez dodaného omezení umožňuje, aby existovala instance objektu, který není přítomný v kontejneru, u hráče ani u obchodníka. Zároveň umožňuje, aby tento předmět byl přítomen u více z těchto prvků najednou. Proto je dodáno omezení, že předmět se může nacházet právě u jednoho z těchto prvků.
+
 ## 3.1 Postavy a předměty
-Tato kapitala obsahuje popis entit souvisejících s postavami a předměty ve hře.
+Tato kapitola obsahuje popis entit reprezentujících prvky herního světa, které budou přímo tvořit nestatický a hratelný obsah herního světa (tedy vždy budou disponovat vlastnostmi, které mohou ovlivnit ostatní entity či s nimi bude možné provést interakci, která bude mít vliv na hráče - např. NPC a úkoly, obchod).
 
 ### 3.1.1 Entita
 Jedná se o živou bytost. V aplikaci je reprezentována předěvším NPC, hráčem či nepřátelem.
@@ -75,6 +83,13 @@ Nějaká obtížná výzva, která bude zadaná některou z NPC postav.
 - Stav
 	* Udává, v jakém stavu se nachází úkol.
 
+Stavy, ve kterých se úkol může nacházet, jsou zachyceny na obrázku níže.
+- Nepřijatý: Hráč vede dialog s NPC, který zobrazí možnost dialogu samotného úkolu. Tedy hráč nyní ví o existence úkolu, ale úkol nepřijal.
+- Přijatý: Hráč v dialogu přijal úkol. Úkol může být přerušen a tím se vrátit zpět do stavu nepřijatý.
+- Splněný: Hráč úspěšně dokončil úkol (např. splnil požadavky pro jeho dokončení a pomocí dialogu to oznámil NPC)
+- Nesplněný: Hráč neúspěšně dokončil úkol (např. vypršel čas). Tato možnost nebude přítomna u všech úkolů.
+- Odmítnutý: Hráč v dialogu výslovně odmítne vykonávat úkol. Tím už úkol není možné přijmout. Toto může mít dopad např. na hráčovu reputaci v podlaží.
+
 ### 3.1.7 Efekt
 Entitě, na kterou bude působit, změní vlastnosti a schopnosti.
 - Síla
@@ -105,8 +120,13 @@ Specializace předmětu, kterou si bude moci hráč na sebe nasadit a která mu 
 - Statistiky
 	* Udává, které staty se o kolik změní při nasazení tohoto předmětu.
 
+Každé vybavení přítomné ve hře se může nacházet v různých stavech, které jsou zachyceny na obrázku níže.
+- Použitelné: Hráč získal vybavení a toto vybavení nebylo poškozeno do té míry, kdy není použitelné.
+- Poškozené: Vybavení bylo poškozeno za hranici použitelnosti. Lze znovu opravit a získat tak použitelné vybavení.
+- Zahozené: Vybavení bylo zahozeno z inventáře. Tím zmizí z herního světa.
+
 ## 3.2 Herní svět
-Tato kapitala obsahuje popis entit herního světa.
+Tato kapitola obsahuje popis entit herního světa. Jedná se o entity, které budou tvořit strukturu a výplň samotného herního světa. Některé z těchto objektů budou umožňovat interakci.
 
 ### 3.2.1 Herní svět
 Herní svět se skládá z několika podlaží.
