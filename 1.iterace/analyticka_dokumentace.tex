@@ -118,7 +118,7 @@
 \section{Základní popis hry}
 Hra bude určená pro PC, od toho se odvíjí i její ovládání -- primárně klávesnice
 s~občasným využitím myši (přesun předmětů v~inventáři). Pohled na herní svět a
-postavu bude zeshora a grafika bude 2D.
+postavu bude shora a grafika bude 2D.
 
 \subsection{Herní svět}
 Herní svět se bude skládat z~jednotlivých podlaží. Podlaží jsou tvořena
@@ -130,7 +130,7 @@ na podlaží. Přechod mezi podlažími bude umožněn pomocí schodů.
 Mezi místnostmi ve stejném podlaží se dá pohybovat pomocí dveří. Všechny
 místnosti mají stejnou velikost a tvar, liší se však vzhledem, nepřáteli a
 překážkami uvnitř místnosti. Ve většině místností se budou nacházet nepřátelé.
-Některé místnosti mohou být prázdné a v~části budou zpřátelené postavy (například
+Některé místnosti mohou být prázdné a v~části budou spřátelené postavy (například
 obchodník), se kterými bude moci hráč obchodovat nebo od nich dostat zadání
 questu (úkolu).
 
@@ -149,10 +149,11 @@ kuše a vrhací zbraně (vrhací nože, granáty).
 
 
 
+\newpage
 \section{Procesy ve hře}
 Kapitola popisuje procesy ve hře.
 \begin{itemize}
-  \item{Část \ref{procesy:obchod} nazvaná \uv{Obchodování} se týka procesů,
+  \item{Část \ref{procesy:obchod} nazvaná \uv{Obchodování} se týká procesů,
     které se stávají při prodeji a nákupu produktů.}
   \item{Část \ref{procesy:questy} nazvaná \uv{Questy} popisuje procesy, které
     nastávají od inicializace questu, až po jeho dokončení.}
@@ -164,7 +165,7 @@ produkty popřípadě služby. Na rozdíl od ostatních her, které v~naprosté 
 případů obsahují NPC, které s~radostí odkoupí jakýkoliv předmět vlastněný hráčem
 se naše hra pokusí o~více realistický model, který umožní NPC odmítnutí
 nabízeného zboží. Materiály, které má NPC u~sebe budou ovlivňovat i to, jaké
-předměty bude obchodník výrábět a tudíž prodávat.
+předměty bude obchodník vyrábět a tudíž prodávat.
 
 \begin{figure}
 \begin{center}
@@ -176,7 +177,7 @@ předměty bude obchodník výrábět a tudíž prodávat.
 
 \subsection{Questy} \label{procesy:questy}
 Quest je hráči přidělen tak, že hráč přijde k~NPC postavě a potvrdí zadání
-questu. Dále hráč plní úkony potřebné k~vyhotovení qeustu. Tyto úkony mají
+questu. Dále hráč plní úkony potřebné k~vyhotovení questu. Tyto úkony mají
 několik typů, například zabíjení monster nebo sběr předmětu. Po vyhotovení všech
 úkonů potřebných pro splnění questu si může hráč vyzvednout odměnu od NPC,
 u~kterého quest přijal.
@@ -189,6 +190,7 @@ u~kterého quest přijal.
 \end{center}
 \end{figure}
 
+\newpage
 
 
 \section{Doménový model ve hře}
@@ -224,7 +226,7 @@ Diagram zobrazující doménový model postav a předmětů se nachází na obr�
 \ref{domenovy:postavy}.
 
 \subsubsection{Entita}
-Jedná se o~živou bytost. V~aplikaci je reprezentována předěvším NPC, hráčem či
+Jedná se o~živou bytost. V~aplikaci je reprezentována především NPC, hráčem či
 nepřítelem. \\[5pt]
 
 \begin{tabular*}{0.87\textwidth}{ll}
@@ -316,7 +318,7 @@ Entitě, na kterou bude působit, změní vlastnosti a schopnosti. \\[5pt]
 \begin{tabular*}{0.87\textwidth}{ll}
 \bf Síla & Udává, jak velký vliv má efekt na entitu.\\[7pt]
 \bf Trvání & Udává, jak dlouho daný efekt trvá.\\[7pt]
-\bf Učinek & Udává, jaký učinek má efekt. Může jít napříkad o~slepotu, otravu,\\
+\bf Účinek & Udává, jaký účinek má efekt. Může jít například o~slepotu, otravu,\\
            & zesílení, zrychlení,$\ldots$\\[7pt]
 \end{tabular*}
 
@@ -328,7 +330,7 @@ nepřátel.\\[5pt]
   \bf Síla & Udává, jak velký vliv má efekt na hráčovy schopnosti či na
   nepřítele. \\[7pt]
   \bf Trvání & Udává, jak dlouho daný efekt trvá. \\[7pt]
-  \bf Učinek & Udává, jaký učinek má efekt. Napříkad slepotu, otravu, zesílení,\\
+  \bf Účinek & Udává, jaký účinek má efekt. Například slepotu, otravu, zesílení,\\
              & zrychlení atd$\ldots$ \\[7pt]
 \end{tabular*}
 
@@ -339,7 +341,7 @@ a zmizí hráči z~inventáře. \\[5pt]
 \begin{tabular*}{0.87\textwidth}{ll}
   \bf Počet použití & Udává, kolikrát se dá daný předmět používat, než zmizí\\
                     & z~inventáře.\\[7pt]
-  \bf Učinek & Udává, jaký učinek má předmět. Napříkad léčení, zranění,\\
+  \bf Účinek & Udává, jaký účinek má předmět. Například léčení, zranění,\\
              & rozšíření statistik atp. \\[7pt]
 \end{tabular*}
 
@@ -401,7 +403,7 @@ Každé podlaží se skládá z~rozsáhlého labyrintu místností. \\[5pt]
 \end{tabular*}
 
 \subsubsection{Místnost}
-V~každé místnosti bude hráč čelit růzdným výzvám, od nepřátel až po
+V~každé místnosti bude hráč čelit různým výzvám, od nepřátel až po
 překážky.\\[5pt]
 
 \begin{tabular*}{0.55\textwidth}{ll}
@@ -417,7 +419,7 @@ Objekt bude umístěný v~místnosti.\\[5pt]
 \end{tabular*}
 
 \subsubsection{Dveře}
-Specializace objektu. Díky dveřím se bude moci hráč pohybovat mezi jednotlými
+Specializace objektu. Díky dveřím se bude moci hráč pohybovat mezi jednotlivými
 místnostmi a podlažími.\\[5pt]
 \begin{tabular*}{0.87\textwidth}{ll}
   \bf Cílová místnost & Obsahuje místnost, do které se dá dveřmi dostat.
@@ -435,7 +437,7 @@ pozici jako má past.\\[5pt]
 \subsubsection{Stavba}
 Specializace objektu, jedná o~stavby, se kterými se hráč může dostat do
 interakce. To může způsobit získání nějakého pozitivní nebo negativního efektu,
-nebo objevení se nepřítele. Jedná se nápříklad o~kapličku, u~které se může hráč
+nebo objevení se nepřítele. Jedná se například o~kapličku, u~které se může hráč
 pomodlit.\\[5pt]
 
 \begin{tabular*}{0.87\textwidth}{ll}
@@ -450,6 +452,8 @@ Specializace předmětu, ve které se mohou nacházet různé předměty.\\[5pt]
   otevře.\\[7pt]
 \end{tabular*}
 
+\newpage
+
 \section{Model požadavků}
 Tato kapitola obsahuje požadavky kladené na nově vznikající hru. Požadavky jsou
 rozděleny na funkční a nefunkční.
@@ -461,7 +465,7 @@ Hráč bude moci ovládat běh hry. Tento aspekt hry bude zpřístupněný pomoc
 funkcionalit, které umožní začít novou hru, ukončit hru, uložit a načíst hru a
 hru pozastavit.
 
-\subsubsection{Ovladání herní postavy a interakce s~herním světem}
+\subsubsection{Ovládání herní postavy a interakce s~herním světem}
 Hráč bude moci ovládat herní postavu. Ovládání herní postavy úzce souvisí
 s~požadavkem na interakci s~herním světem, jelikož akce herní postavy mohou vyvolat
 interakci s~tímto světem. Tato rozsáhlejší funkce hry bude umožněna pohybem
@@ -476,14 +480,14 @@ předměty půjdou prodat NPC obchodníkovi za využití herního obchodu.
 
 \subsubsection{Správa inventáře herní postavy}
 Hráč bude moci otevřít/uzavřít inventář postavy. Uvnitř inventáře bude mít
-zobrazané všechny předměty, které aktuálně vlastní. Všechny ředměty bude moct
+zobrazené všechny předměty, které aktuálně vlastní. Všechny předměty bude moct
 hráč z~inventáře zahodit na zem. Vybrané předmětu půjdou aktivně využít (např.:
 lektvar léčení), nebo obléknout (nová zbroj).
 
 \subsubsection{Vylepšení herní postavy}
 Hra bude hráči umožňovat vylepšit jeho postavu. Toto bude umožněno
-prodejem/výměnou herních surovin s~NPC obchodníkem a následním nakoupením lepší
-výbavy.  Herní suroviny se budou nacházat volně na mapě, také je bude možné
+prodejem/výměnou herních surovin s~NPC obchodníkem a následným nakoupením lepší
+výbavy.  Herní suroviny se budou nacházet volně na mapě, také je bude možné
 získat poražením nepřátel.
 
 \subsubsection{Nastavení hry}
@@ -498,13 +502,13 @@ v~průběhu hraní nastavit parametry hry. Například nastavit rozlišení,
 \end{enumerate}
 
 \subsubsection{Přístup do informační sekce hry}
-Hra umožní zobrazovat statistiky o~postavě (množství poražených nepřátal,
+Hra umožní zobrazovat statistiky o~postavě (množství poražených nepřátel,
 celkem vyléčených životů$\dots$) Dále si hráč během hry bude moci zobrazit statickou
 herní nápovědu. Některé předměty také budou mít interaktivní nápovědu, která se
 zobrazí po najetí myši na předmět v~inventáři.  
 
 Další informační prvek bude minimapa. Minimapa bude obsahovat všechy části herní
-mapy, které již hráč navšívil.
+mapy, které již hráč navštívil.
 
 \begin{figure}
 \begin{center}
@@ -517,7 +521,7 @@ mapy, které již hráč navšívil.
 \subsection{Nefunkční požadavky}
 
 \subsubsection{N1 --  Grafické uživatelské rozhraní  }
-  Hra bude mít 2D grafiku s~pohledem zeshora. Ovládání bude bude umožněno
+  Hra bude mít 2D grafiku s~pohledem shora. Ovládání bude bude umožněno
   primárně s~pomocí klávesnice.
 
 \subsubsection{N2 -- Žánr hry}
@@ -530,6 +534,8 @@ umožněna pomocí .deb instalační systému. (debian)
 
 \subsubsection{N4 -- Jazyk hry}
 Hra bude v~anglickém jazyce (dialogy, předměty, menu$\dots$).
+
+\newpage
 
 \section{Model případů užití}
 V~této kapitole jsou popsány případy užití hry. Jedné se o~funkcionality, které
@@ -552,8 +558,8 @@ Kapitola obsahuje popisuje případy užití hry. Jedná se o~funkcionality souv
     pauzu atp.}
   \item{\textbf{Manipulací s~herními objekty} -- například pohyb herní postavy, sbírání
     předmětů, užití předmětů, útok na nepřítele atp.}
-  \item{\textbf{Prací s~herním rozhraním} -- například zobrazení inventáře, zobraní mapy,
-    vyvolání nápovědy, nastavení atp.}
+  \item{\textbf{Prací s~herním rozhraním} -- například zobrazení inventáře,
+    zobrazení mapy, vyvolání nápovědy, nastavení atp.}
 \end{itemize}
 
 \subsubsection{Řízení běhu hry}
@@ -563,16 +569,16 @@ Na obrázku \ref{uc:rizenibehu} najdete diagram.
 
 \begin {itemize}
 \item{\textbf{Spuštění/ukončení hry} --  V~hlavní nabídce hry bude hráči
-  umožněno spustitnovou hru, případně aplikaci vypnout. Novou hru bude možné
+  umožněno spustit novou hru, případně aplikaci vypnout. Novou hru bude možné
   zahájit také také přechodem do hlavní nabídky z~právě probíhající hry, stejně
   tak bude v~tomto případě umožněno vypnout aplikaci.}
 \item{\textbf{Pozastavení/pokračovaní hry} --  Hráč bude moci hru pozastavit a
   následně se dohry navrátit.}
 \item{\textbf{Uložení hry} --  Hráč bude moci uložit herní postup. Tato
-  funkcionalita budezaložena na principu jediné uložitelné pozice, která bude
+  funkcionalita bude založena na principu jediné uložitelné pozice, která bude
 v~případě smrti herní postavy vymazána.}
-\item{\textbf{Načtění hry} --  Hráč bude moci načíst herní postup. Tato
-  funkcionalita budezaložena na principu, kdy se uložená hra po načtení vymaže
+\item{\textbf{Načtení hry} --  Hráč bude moci načíst herní postup. Tato
+  funkcionalita bude založena na principu, kdy se uložená hra po načtení vymaže
   (z~důvodu zamezení zkoumání neznámých předmětů stylem uložení/načtení).}
 \end {itemize}
 
@@ -586,7 +592,7 @@ v~případě smrti herní postavy vymazána.}
 
 \subsubsection{Manipulace s~herními objekty}
 
-Kapitola obsahuje popis funkčností hry souvisejících s~minipulací s~herními
+Kapitola obsahuje popis funkčností hry souvisejících s~manipulací s~herními
 objekty. Na obrázku \ref{uc:manipulace} najdete diagram.
 
 \begin {itemize}
@@ -595,18 +601,18 @@ objekty. Na obrázku \ref{uc:manipulace} najdete diagram.
   pohybovat v~pravoúhlém (tedy doleva, dolů, doprava, nahoru) či diagonálně
   (kombinace dvou pohybových kláves).}
 \item{\textbf{Útok} --  Hráč bude moci provést útok ve formě výstřelu, který
-v~případě zásahuneživého objektu zanikne a v~případě zásahu nepřítele tohoto
+v~případě zásahu neživého objektu zanikne a v~případě zásahu nepřítele tohoto
   nepřítele zraní (v~závislosti na použité zbrani, vlastnostech postavy a
   vlastnostech nepřítele).}
 \item{\textbf{Sbírání předmětů} --  Hráč bude mít možnost sebrat předmět
-  nacházející se vmístnosti. Tento předmět se hráči objeví v~inventáři. Předmět
+  nacházející se v~místnosti. Tento předmět se hráči objeví v~inventáři. Předmět
   se bude nacházet buď volně v~místnosti, či se objeví po zabití nepřítele.}
 \item{\textbf{Použití předmětu} --  Hráči bude umožněno použít některé
 z~předmětů přítomných v~inventáři.}
 \item{\textbf{Zahození předmětu} --  Hráči bude umožněno zahodit předmět
 z~inventáře.}
-\item{\textbf{Obchodnovat s~NPC} --  Hráč bude moci vstoupit do dialogu obchodu
-  s~NPC postavounacházející se v~herní místnosti.}
+\item{\textbf{Obchodovat s~NPC} --  Hráč bude moci vstoupit do dialogu obchodu
+  s~NPC postavou nacházející se v~herní místnosti.}
 \end {itemize}
 
 \begin{figure}
@@ -629,14 +635,14 @@ Na obrázku \ref{uc:rozhrani} najdete diagram.
 \item{\textbf{Zobrazení statistik postavy} --  Hráči bude umožněno zobrazit si
   statistiky herní postavy.}
 \item{\textbf{Zobrazení mapy} --  Hráči bude umožněno zobrazit mapu herních
-  místností svyznačením jeho aktuální polohy.}
+  místností s~vyznačením jeho aktuální polohy.}
 \item{\textbf{Nastavení hry} --  Hráči bude umožněno změnit nastavení hry. Jedná
-  se napříklado změnu obtížnosti hry, změnu rozlišení herního okna atp.}
-\item{\textbf{Zobrazení statické nápovědy} --  Hráč si bude moci kdzkoliv
-v~průběhu hryzobrazit nápovědu, ta bude obsahovat informaci vztahující se ke hře
+  se například o~změnu obtížnosti hry, změnu rozlišení herního okna atp.}
+\item{\textbf{Zobrazení statické nápovědy} --  Hráč si bude moci kdykoliv
+v~průběhu hry zobrazit nápovědu, ta bude obsahovat informaci vztahující se ke hře
   globálně.  Například ovládání, nebo legendu k~minimapě.}
 \item{\textbf{Nejvyšší skóre} --  Hráči bude umožněno zobrazit seznam svých
-  nejlepšíchdosažených výsledků.}
+  nejlepších dosažených výsledků.}
 \end {itemize}
 
 \begin{figure}
@@ -646,6 +652,8 @@ v~průběhu hryzobrazit nápovědu, ta bude obsahovat informaci vztahující se 
   \label{uc:rozhrani}
 \end{center}
 \end{figure}
+
+\newpage
 
 \section{Návrhy herních obrazovek}
 \begin{itemize}
