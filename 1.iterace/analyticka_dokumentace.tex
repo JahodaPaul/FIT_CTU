@@ -31,6 +31,9 @@
 
 \def\picturesfolder{obrazky}
 
+% podbarveni radku tabulek
+\usepackage[table]{xcolor}
+
 %% KRESLENI DIAGRAMU
 \usepackage{tikz}
 
@@ -51,6 +54,9 @@
 
 \begin{document}
 %%%%% TITLEPAGE
+
+% alternuj bilou a svetle sedou pro radky vsech tabulek
+\rowcolors{1}{gray!25}{white}
 
 % bez cislovani stranek
 \pagenumbering{gobble}
