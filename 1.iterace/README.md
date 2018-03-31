@@ -1,6 +1,6 @@
 # 1. Iterace
 
-## Rozdeleni bodu
+## Rozdělení bodu
 
 | jméno              | přerozdělené body |
 | ----------------   |:-------------:    |
@@ -13,15 +13,15 @@
 
 ## Soubory
 - Dodatečné soubory jsou k dispozici na [google disku](https://drive.google.com/drive/u/1/folders/1qCQDIhJG-wts_MB1C-xEC4TojV-LuYBh)
-Zde se také nachází již vztvořené pdf s dokumentací ( složka Dokumentace ).
+Zde se také nachází již vytvořené pdf s dokumentací (složka dokumentace).
 
-- Tvorba dokumnetace probíhala v markdawnu ( tudíž obsahuje i veškerou historii ), LaTex je pouze finální formátování.
+- Tvorba dokumentace probíhala v markdownu (tudíž obsahuje i veškerou historii), LaTeX je pouze finální formátování.
 
 ### Vytvoření pdf
 Pro ruční vytvoření pdf jsou třeba tyto kroky:
 
-1. Stahnout odresář [obrazky](https://drive.google.com/drive/u/1/folders/1qCQDIhJG-wts_MB1C-xEC4TojV-LuYBh) z google drivu.
+1. Stáhnout adresář [obrazky](https://drive.google.com/drive/u/1/folders/1qCQDIhJG-wts_MB1C-xEC4TojV-LuYBh) z google drivu.
 2. Rozbalit tento .zip jako 1.iterace/obrazky
-3. zkompilovat LaTex do pdf ( příkaz pravděpodobně bude potřeba zavolat dvakrát kvůli vygenerovaní obsahu )
+3. Zkompilovat LaTeX do pdf (příkaz pravděpodobně bude potřeba zavolat dvakrát kvůli vygenerovaní obsahu)
 
- - ```pdflatex analyticka_dokumentace.pdf```
+ - ```pdflatex analyticka_dokumentace.tex```
