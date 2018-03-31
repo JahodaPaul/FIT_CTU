@@ -1,6 +1,6 @@
 # 1. Iterace
 
-## Rozdělení bodu
+## Rozdělení bodů
 
 | jméno              | přerozdělené body |
 | ----------------   |:-------------:    |
