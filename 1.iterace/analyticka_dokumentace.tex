@@ -3,7 +3,7 @@
 \usepackage[marginparsep=14pt,left=2.5cm,right=2.5cm,top=3.2cm,bottom=4.5cm]{geometry}
 
 \setlength{\parskip}{8pt}
-\setlength{\parindent}{30pt}
+\setlength{\parindent}{25pt}
 
 %% CESTINA
 \usepackage[czech]{babel}
@@ -30,6 +30,9 @@
 \rhead{\includegraphics[width=5cm]{logo}}
 
 \def\picturesfolder{obrazky}
+
+%% TABULKY
+\usepackage{tabularx}
 
 % podbarveni radku tabulek
 \usepackage[table]{xcolor}
@@ -68,7 +71,7 @@
 \begin{titlepage}
   % pro zobrazeni loga v zahlavi
   \thispagestyle{fancy}
-  
+
   % vertikalni zarovnani
 	\vspace*{\fill}
 	\begin{center}
@@ -77,13 +80,13 @@
     {\fontsize{10}{10} \selectfont Dokument vytvořen pro potřeby předmětů
     BI-SI1 a BI-SP1}\\
 	\end{center}
-  
+
   % vertikalni zarovnani
 	\vspace*{\fill}
-  
+
   % seznam clenu tymu razeny abecedne podle krestniho jmena
   {\fontsize{10}{10} \selectfont \noindent
-  \bf Autoři:\rm\\
+\textbf{Autoři:}\\
   Jakub Drbohlav\\
   Jiří Kasl\\
   Pavel Jahoda\\
@@ -236,9 +239,7 @@ v~RG:Místnost.
 
 \bigskip
 \noindent
-\bf
-Omezení na doménový model:
-\rm
+\subsection*{Omezení na doménový model:}
 
 Doménový model bez dodaného omezení umožňuje, aby existovala instance objektu,
 který není přítomný v~kontejneru, u~hráče ani u~obchodníka. Zároveň umožňuje,
@@ -255,18 +256,29 @@ Diagram zobrazující doménový model postav a předmětů se nachází na obr�
 
 \subsubsection{Entita}
 Jedná se o~živou bytost. V~aplikaci je reprezentována především NPC, hráčem či
-nepřítelem. \\[5pt]
+nepřítelem.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf HP & Životy entity. \\ [7pt]
-  \bf Jméno & Jméno entity. \\ [7pt]
-  \bf Level & Level entity. \\ [7pt]
-  \bf Obrana & Obrana entity. Čím vyšší má entita obranu,\\
-  \bf        & tím méně ji zraňují nepřátelské útoky. \\ [7pt]
-  \bf Pozice & Pozice entity v~místnosti. \\ [7pt]
-  \bf Rychlost & Rychlost pohybu entity. \\ [7pt]
-  \bf Útok & Útok entity. Udává, kolik entita ubírá životů ostatním entitám. \\ [7pt]
-\end{tabular*}
+\def\arraystretch{1.75}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ HP & Životy entity. \tabularnewline
+\hline
+ Jméno & Jméno entity. \tabularnewline
+\hline
+ Level & Level entity. \tabularnewline
+\hline
+ Obrana & Obrana entity. Čím vyšší má entita obranu,
+                tím méně ji zraňují nepřátelské útoky. \tabularnewline
+\hline
+ Pozice & Pozice entity v~místnosti. \tabularnewline
+\hline
+ Rychlost & Rychlost pohybu entity. \tabularnewline
+\hline
+ Útok & Útok entity. Udává, kolik entita ubírá životů ostatním entitám.
+\tabularnewline\hline
+\end{tabularx}
 
 \begin{figure}
 \begin{center}
@@ -277,41 +289,61 @@ nepřítelem. \\[5pt]
 \end{figure}
 
 \subsubsection{Nepřítel}
-Agresivní stvoření, které bude útočit na hráče.\\[5pt]
+Agresivní stvoření, které bude útočit na hráče.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Předmět drop & Určuje, jaká je šance, že po zabití nepřítele z~něho\\
-                   & vypadne předmět. \\[7pt]
-  \bf XP drop & Udává, kolik zkušeností dostane hráč za zabití nepřítele.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Předmět drop & Určuje, jaká je šance, že po zabití nepřítele
+  z~něho  vypadne předmět. \tabularnewline
+\hline
+ XP drop & Udává, kolik zkušeností dostane hráč za zabití
+  nepřítele.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Hráč}
-Hlavní hrdina celé hry. Postavička trpaslíka, kterou bude ovládat hráč.\\[5pt]
+Hlavní hrdina celé hry. Postavička trpaslíka, kterou bude ovládat hráč.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Peníze & Udává, kolik peněz má hráč u~sebe. Za peníze si hráč může\\
-             & kupovat u~obchodníku předměty. \\[7pt]
-  \bf XP & Udává, kolik zkušeností má hráč. Podle toho se určuje jeho level.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Peníze & Udává, kolik peněz má hráč u~sebe. Za peníze si hráč může
+             kupovat u~obchodníku předměty. \tabularnewline
+\hline
+ XP & Udává, kolik zkušeností má hráč. Podle toho se určuje jeho
+  level.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{NPC}
-Postava, která bude ve hře, aby nasměrovala nebo zadala úkol hráči. \\[5pt]
+Postava, která bude ve hře, aby nasměrovala nebo zadala úkol hráči.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Dialog & Text, který se vypíše při rozhovoru s~hráčem. Při této interakci \\
-             & může dojít k~nápovědě hráče nebo zadání ukolu. \\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Dialog & Text, který se vypíše při rozhovoru s~hráčem. Při této interakci
+může dojít k~nápovědě hráče nebo zadání ukolu.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Obchodník}
 Specializace NPC. Hráč od něj bude moci kupovat nebo mu prodávat předměty.
 Obchodník zprostředkovává kontakt hráče s~obchodním systémem.
 
 \subsubsection{Úkol/Quest}
-Výzva, která bude zadaná některou z~NPC postav.\\[5pt]
+Výzva, která bude zadaná některou z~NPC postav.
 
-\begin{tabular*}{0.55\textwidth}{ll}
-  \bf Stav & Udává, v~jakém stavu se nachází úkol.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Stav & Udává, v~jakém stavu se nachází úkol.
+\tabularnewline\hline
+\end{tabularx}
 
 \bigskip
 \noindent
@@ -334,53 +366,74 @@ v~podlaží.}
 
 \begin{figure}
 \begin{center}
-  \includegraphics[width=0.7\textwidth]{\picturesfolder/State_diagram_ukol}
+  \includegraphics[width=\textwidth]{\picturesfolder/State_diagram_ukol}
   \caption{Diagram stavů -- úkol}
   \label{stavy:ukol}
 \end{center}
 \end{figure}
 
 \subsubsection{Efekt}
-Entitě, na kterou bude působit, změní vlastnosti a schopnosti. \\[5pt]
+Entitě, na kterou bude působit, změní vlastnosti a schopnosti.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-\bf Síla & Udává, jak velký vliv má efekt na entitu.\\[7pt]
-\bf Trvání & Udává, jak dlouho daný efekt trvá.\\[7pt]
-\bf Účinek & Udává, jaký účinek má efekt. Může jít například o~slepotu, otravu,\\
-           & zesílení, zrychlení,$\ldots$\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Síla & Udává, jak velký vliv má efekt na entitu.\tabularnewline
+\hline
+ Trvání & Udává, jak dlouho daný efekt trvá.\tabularnewline
+\hline
+ Účinek & Udává, jaký účinek má efekt. Může jít například o~slepotu, otravu,
+           zesílení, zrychlení,$\ldots$
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Předmět}
 Věc, kterou bude hráč moci použít ke zlepšení svých schopností nebo zničení
-nepřátel.\\[5pt]
+nepřátel.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Síla & Udává, jak velký vliv má efekt na hráčovy schopnosti či na
-  nepřítele. \\[7pt]
-  \bf Trvání & Udává, jak dlouho daný efekt trvá. \\[7pt]
-  \bf Účinek & Udává, jaký účinek má efekt. Například slepotu, otravu, zesílení,\\
-             & zrychlení atd$\ldots$ \\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Síla & Udává, jak velký vliv má efekt na hráčovy schopnosti či na
+  nepřítele. \tabularnewline
+\hline
+ Trvání & Udává, jak dlouho daný efekt trvá. \tabularnewline
+\hline
+ Účinek & Udává, jaký účinek má efekt. Například slepotu, otravu, zesílení,
+             zrychlení atd$\ldots$
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Spotřebitelný}
 Specializace předmětu, který bude mít omezený počet použití, než bude vyplýtván
-a zmizí hráči z~inventáře. \\[5pt]
+a zmizí hráči z~inventáře.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Počet použití & Udává, kolikrát se dá daný předmět používat, než zmizí\\
-                    & z~inventáře.\\[7pt]
-  \bf Účinek & Udává, jaký účinek má předmět. Například léčení, zranění,\\
-             & rozšíření statistik atp. \\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Počet použití & Udává, kolikrát se dá daný předmět používat, než zmizí
+                   z~inventáře.\tabularnewline
+\hline
+ Účinek & Udává, jaký účinek má předmět. Například léčení, zranění,
+             rozšíření statistik atp.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Vybavení}
 Specializace předmětu, kterou si bude moci hráč na sebe nasadit a která mu bude
-zvyšovat schopnosti do té doby, dokud jí bude mít vybavenou.\\[5pt]
+zvyšovat schopnosti do té doby, dokud jí bude mít vybavenou.
 
-\begin{tabular*}{0.78\textwidth}{ll}
-  \bf Statistiky & Udává, které staty se o~kolik změní při nasazení tohoto\\
-  & předmětu.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Statistiky & Udává, které staty se o~kolik změní při nasazení tohoto
+  předmětu.
+\tabularnewline\hline
+\end{tabularx}
 
 Každé vybavení přítomné ve hře se může nacházet v~různých stavech, které jsou
 zachyceny na obrázku \ref{stavy:vybaveni}.
@@ -396,7 +449,7 @@ zachyceny na obrázku \ref{stavy:vybaveni}.
 
 \begin{figure}
 \begin{center}
-  \includegraphics[width=0.7\textwidth]{\picturesfolder/State_diagram_vybaveni}
+  \includegraphics[width=\textwidth]{\picturesfolder/State_diagram_vybaveni}
   \caption{Diagram stavů -- vybavení}
   \label{stavy:vybaveni}
 \end{center}
@@ -417,68 +470,104 @@ nachází na obrázku \ref{domenovy:hra}.
 \end{figure}
 
 \subsubsection{Herní svět}
-Herní svět se skládá z~několika podlaží.\\[5pt]
+Herní svět se skládá z~několika podlaží.
 
-\begin{tabular*}{0.4\textwidth}{ll}
-  \bf Název & Název herního světa.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Název & Název herního světa.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Podlaží}
-Každé podlaží se skládá z~rozsáhlého labyrintu místností. \\[5pt]
+Každé podlaží se skládá z~rozsáhlého labyrintu místností.
 
-\begin{tabular*}{0.4\textwidth}{ll}
-  \bf Název & Název podlaží.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Název & Název podlaží.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Místnost}
 V~každé místnosti bude hráč čelit různým výzvám, od nepřátel až po
-překážky.\\[5pt]
+překážky.
 
-\begin{tabular*}{0.55\textwidth}{ll}
-  \bf Název & Název místnosti \\[7pt]
-  \bf Entity & Místnosti obsahuje entity. \\[7pt]
-  \bf Pozadí & Místnost má určité pozadí místnosti.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Název & Název místnosti \tabularnewline
+\hline
+ Entity & Místnosti obsahuje entity. \tabularnewline
+\hline
+ Pozadí & Místnost má určité pozadí místnosti.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Objekt}
-Objekt bude umístěný v~místnosti.\\[5pt]
-\begin{tabular*}{0.55\textwidth}{ll}
-  \bf Pozice & Obsahuje pozici objektu v~místnosti.\\[7pt]
-\end{tabular*}
+Objekt bude umístěný v~místnosti.
+
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Pozice & Obsahuje pozici objektu v~místnosti.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Dveře}
 Specializace objektu. Díky dveřím se bude moci hráč pohybovat mezi jednotlivými
-místnostmi a podlažími.\\[5pt]
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Cílová místnost & Obsahuje místnost, do které se dá dveřmi dostat.
-\end{tabular*}
+místnostmi a podlažími.
+
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Cílová místnost & Obsahuje místnost, do které se dá dveřmi dostat.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Past}
 Specializace objektu, která způsobí hráči zranění, když se dostane na stejnou
-pozici jako má past.\\[5pt]
+pozici jako má past.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Zranění & Udává, jaké zranění způsobí past hráči, jestliže na ní
-  vkročí.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Zranění & Udává, jaké zranění způsobí past hráči, jestliže na ní
+  vkročí.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Stavba}
 Specializace objektu, jedná o~stavby, se kterými se hráč může dostat do
 interakce. To může způsobit získání nějakého pozitivní nebo negativního efektu,
 nebo objevení se nepřítele. Jedná se například o~kapličku, u~které se může hráč
-pomodlit.\\[5pt]
+pomodlit.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Dialog & Text, který se vypíše hráči při interakci se stavbou.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Dialog & Text, který se vypíše hráči při interakci se stavbou.
+\tabularnewline\hline
+\end{tabularx}
 
 \subsubsection{Kontejner}
-Specializace předmětu, ve které se mohou nacházet různé předměty.\\[5pt]
+Specializace předmětu, ve které se mohou nacházet různé předměty.
 
-\begin{tabular*}{0.87\textwidth}{ll}
-  \bf Předmět & Předmět, který z~kontejneru vypadne, jestliže ho hráč
-  otevře.\\[7pt]
-\end{tabular*}
+\noindent
+\begin{tabularx}{\textwidth}{|l|>{\raggedright}X|}
+\hline
+\cellcolor{black!80}\textcolor{gray!25}{\textbf{Atribut}} & \cellcolor{black!80}\textcolor{gray!20}{\textbf{Popis}}\tabularnewline \hline
+ Předmět & Předmět, který z~kontejneru vypadne, jestliže ho hráč
+  otevře.
+\tabularnewline\hline
+\end{tabularx}
 
 \newpage
 
@@ -498,9 +587,9 @@ Hráč bude moci ovládat herní postavu. Ovládání herní postavy úzce souvi
 s~požadavkem na interakci s~herním světem, jelikož akce herní postavy mohou vyvolat
 interakci s~tímto světem. Tato rozsáhlejší funkce hry bude umožněna pohybem
 (pohyb herní postavy napříč herní místností a přesun herní postavy mezi
-jednotlivými místnostmi).  
+jednotlivými místnostmi).
 
-Dále bude hráč mít možnost útočit na nepřátele.  
+Dále bude hráč mít možnost útočit na nepřátele.
 
 Herní postava bude mít možnost sbírat předmět (předměty se mohou objevit po
 zabití nepřítele, nebo ležet v~místnosti hry již od jejího vygenerování). Tyto
@@ -533,7 +622,7 @@ v~průběhu hraní nastavit parametry hry. Například nastavit rozlišení,
 Hra umožní zobrazovat statistiky o~postavě (množství poražených nepřátel,
 celkem vyléčených životů$\dots$) Dále si hráč během hry bude moci zobrazit statickou
 herní nápovědu. Některé předměty také budou mít interaktivní nápovědu, která se
-zobrazí po najetí myši na předmět v~inventáři.  
+zobrazí po najetí myši na předmět v~inventáři.
 
 Další informační prvek bude minimapa. Minimapa bude obsahovat všechy části herní
 mapy, které již hráč navštívil.
