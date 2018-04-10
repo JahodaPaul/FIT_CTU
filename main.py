@@ -76,16 +76,16 @@ Update(airports,'airports')
 airlines = fr.get_airlines()
 Update(airlines,'airlines')
 
-#UpdateCurrentFlights()
+# UpdateCurrentFlights()
 
 
 
-with open('flights/1520002314.082513','r') as f:
+with open('flights/1522746327.846951','r') as f:
     f = [ast.literal_eval(line.rstrip()) for line in f.readlines()]
 
 fromPrague = []
 for item in f:
-    if 'EZY' in item[-2]:
+    if 'EZY' in item[-3]:
         fromPrague.append(item)
 
 
@@ -109,7 +109,7 @@ for airplane in fromPrague:
 
 
 world = ShowWorld(lats=lats,lons=lons)
-# world.Show()
+world.Show()
 
 world3D = Show3D()
-world3D.TestShow(sequence_containing_x_vals,sequence_containing_y_vals,sequence_containing_z_vals)
+# world3D.TestShow(sequence_containing_x_vals,sequence_containing_y_vals,sequence_containing_z_vals)
