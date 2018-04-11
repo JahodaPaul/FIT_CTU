@@ -3,6 +3,16 @@ from RTreeTestClass import Test
 
 test = Test()
 
+myTree6 = RTree(2,2,'random')
+myTree6.root.children[0] = Node(2,myTree6.root)
+myTree6.root.children[0].children[0] = Node(2,myTree6.root.children[0])
+myTree6.root.children[0].children[0].children[0] = Node(2,myTree6.root.children[0].children[0])
+myTree6.root.children[1] = Node(2,myTree6.root)
+if not test.IsBalanced(myTree6.root,myTree6.numberOfChildrenInNode):
+    print('NOT BALANCED, WHICH IS OK - THIS IS FOR TESTING TESTING SYSTEM')
+else:
+    print('TESTING SYSTEM NOT WORKING PROPERLY')
+
 myTree = RTree(4,2,'random')
 
 myTree.Insert(Value([1,1],0))
@@ -39,3 +49,4 @@ for i in range(100):
     myTree5.Insert(Value([100-i,100-i],i))
 
 test.TestingSection(myTree5.root,myTree5.numberOfChildrenInNode)
+
