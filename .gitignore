@@ -9,3 +9,6 @@
 
 *.zip
 *.tar
+
+cmake-build-debug/
+.idea/
