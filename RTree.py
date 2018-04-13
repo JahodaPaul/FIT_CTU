@@ -1,65 +1,11 @@
 import random
+import math
 from copy import deepcopy
-
-class Value:
-    def __init__(self, coordinates,index):
-        self.coordinates = coordinates #TODO hardcopy these
-        self.index = index
-    def PrintForTesting(self):
-        print(self.coordinates,self.index)
-
-    def IsItBoundingBox(self):
-        return False
-
-class BoundingBox:
-    def __init__(self, numberOfDimensions):
-        self.MinValues = [None for i in range(numberOfDimensions)]
-        self.MaxValues = [None for i in range(numberOfDimensions)]
-
-    def PrintForTesting(self):
-        print(self.MinValues, self.MaxValues)
-
-    def IsItBoundingBox(self):
-        return True
-
-    def ChangeValue(self,index,value,min):
-        if min:
-            self.MinValues[index] = value
-        else:
-            self.MaxValues[index] = value
-
-    def CalculateBoundingBox(self,node,dealingWithBoundingBoxes):
-        if dealingWithBoundingBoxes:
-            for item in node.children:
-                if item != None:
-                    for counter, dimension in enumerate(item.value.MinValues):
-                        if self.MinValues[counter] == None or self.MinValues[counter] > dimension:
-                            self.MinValues[counter] = dimension
-                    for counter, dimension in enumerate(item.value.MaxValues):
-                        if self.MaxValues[counter] == None or self.MaxValues[counter] < dimension:
-                            self.MaxValues[counter] = dimension
-        else:
-            for item in node.children:
-                if item != None:
-                    for counter, dimension in enumerate(item.value.coordinates):
-                        if self.MinValues[counter] == None or self.MinValues[counter] > dimension:
-                            self.MinValues[counter] = dimension
-                    for counter, dimension in enumerate(item.value.coordinates):
-                        if self.MaxValues[counter] == None or self.MaxValues[counter] < dimension:
-                            self.MaxValues[counter] = dimension
-        pass
-
-
-
-class Node:
-    def __init__(self,numberOfChildren, parent):
-        self.value = None
-        self.children = [None for i in range(numberOfChildren)]
-        self.parent = parent
-        self.nOfChildren = 0
+from RTreeComponents import *
 
 class RTree:
     def __init__(self,numberOfChildrenInNode,numberOfDimensions, splittingType):
+        self.returnList = []
         self.numberOfChildrenInNode = numberOfChildrenInNode
         self.numberOfDimensions = numberOfDimensions
         self.root = Node(self.numberOfChildrenInNode, None)
@@ -95,8 +41,32 @@ class RTree:
     def SearchKClosest(self):
         pass
 
-    def SearchCloseKDist(self):
-        pass
+    def EuclidianDistTwoPoints(self,p1,p2):
+        sum = 0
+        for i in range(len(p1.coordinates)):
+            sum += ( (p1.coordinates[i] - p2.coordinates[i]) * (p1.coordinates[1] - p2.coordinates[i]) )
+        return math.sqrt(sum)
+
+    def PreorderKDist(self,node,value, distance):
+        if node == None:
+            return
+
+        if not node.value.IsItBoundingBox():
+            if self.EuclidianDistTwoPoints(node.value,value) <= distance:
+                self.returnList.append(deepcopy(node.value))
+            return
+
+        for child in node.children:
+            if child != None and (not child.value.IsItBoundingBox() or
+                                      (child.value.IsItBoundingBox and
+                                           distance >= self.EuclidianDistTwoPoints(child.value.ClosestPointFromToBoundingBoxToPoint(value,child.value) ) )):
+                self.PreorderKDist(child,value,distance)
+
+    # takes as a parameters RTreeComponent Value
+    def SearchCloseKDist(self,value,distance):
+        self.returnList = []
+        self.PreorderKDist(self.root, value,distance)
+        return self.returnList
 
     def FindOutToWhichBoundingBoxPointBelongs(self,point,fatherNode):
         # Does he belong to any of the bounding box?

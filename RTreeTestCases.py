@@ -18,14 +18,14 @@ myTree = RTree(4,2,'random')
 myTree.Insert(Value([1,1],0))
 myTree.Insert(Value([2,2],1))
 
-test.TestingSection(myTree.root, myTree.numberOfChildrenInNode)
+test.TestingSection(myTree, myTree.numberOfChildrenInNode,[ [ Value([0,0],-1),2,1 ], [Value([0,0],-1),10,2 ], [Value([0,1],-1),1,1 ]  ])
 
 myTree4 = RTree(4,2,'random')
 
 for i in range(13):
     myTree4.Insert(Value([i, i], i))
 
-test.TestingSection(myTree4.root,myTree4.numberOfChildrenInNode)
+test.TestingSection(myTree4,myTree4.numberOfChildrenInNode)
 
 myTree2 = RTree(4,2,'random')
 
@@ -35,18 +35,18 @@ for i in range(14):
     else:
         myTree2.Insert(Value([i, i], i))
 
-test.TestingSection(myTree2.root,myTree2.numberOfChildrenInNode)
+test.TestingSection(myTree2,myTree2.numberOfChildrenInNode)
 
 myTree3 = RTree(2,3,'random')
 for i in range(10000):
     myTree3.Insert(Value([i,i,i],i))
 
-test.TestingSection(myTree3.root,myTree3.numberOfChildrenInNode)
+test.TestingSection(myTree3,myTree3.numberOfChildrenInNode)
 
 myTree5 = RTree(4,2,'random')
 
 for i in range(100):
     myTree5.Insert(Value([100-i,100-i],i))
 
-test.TestingSection(myTree5.root,myTree5.numberOfChildrenInNode)
+test.TestingSection(myTree5,myTree5.numberOfChildrenInNode)
 

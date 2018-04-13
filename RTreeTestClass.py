@@ -41,6 +41,7 @@ class Test:
             self.passed = False
         for i in range(nOfChildren):
             self.PreorderCheckBoundingBox(node.children[i], nOfChildren,node)
+
     def Height(self,node):
         if node == None:
             return 0
@@ -74,18 +75,36 @@ class Test:
                 return balanced
         return balanced
 
-    def TestingSection(self,treeRoot, nOfChildren):
+    def TestingCloseKDistance(self,myTree,testCases): #At the moment, testing only number of points
+        passed = True
+
+        #testCases contains list of testcases, each testcase is a list of three items - point, distance, nOfPointsCloseCorrect
+        for i in range(len(testCases)):
+            temporaryList = myTree.SearchCloseKDist(testCases[i][0],testCases[i][1])
+            if len(temporaryList) != testCases[i][2]:
+                passed = False
+                print('TEST',i,'NUMBER OF POINTS CLOSE TO POINT TEST FAILED')
+
+        return passed
+
+    def TestingSection(self,RTree, nOfChildren, testCasesKDistClose = []):
         finalPassed = True
         self.passed = True
-        self.PreorderCheckBoundingBox(treeRoot,nOfChildren,treeRoot)
+        self.PreorderCheckBoundingBox(RTree.root,nOfChildren,RTree.root)
         if not self.passed:
             print('TEST BOUNDING BOX FAILED')
             finalPassed = False
 
         self.passed = True
-        self.passed = self.IsBalanced(treeRoot,nOfChildren)
+        self.passed = self.IsBalanced(RTree.root,nOfChildren)
         if not self.passed:
             print('TEST BALANCED FAILED')
+            finalPassed = False
+
+        self.passed = True
+        self.passed = self.TestingCloseKDistance(RTree,testCasesKDistClose)
+        if not self.passed:
+            print('TEST POINTS K DISTANCE CLOSE FAILED')
             finalPassed = False
 
         if finalPassed:
