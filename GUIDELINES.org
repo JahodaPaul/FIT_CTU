@@ -1,0 +1,17 @@
+* GIT
+** Commit
+*** Commit message je anglicky.
+*** Ka¾dá commit message je jedineèná, ideálnì krátká a vısti¾ná.
+*** Jeden commit se vztahuje k jedné funkcionalitì programu.
+** Vìtve
+*** Pokud dìláte vet¹í funkcionalitu vytvoøte si pro ní vlastní vìtev.
+*** Ve¹keré commity v masteru by mìly bıt sestavitelné.
+* Komentáøe
+*** Komentáøe v kódu jsou anglicky.
+*** Ka¾dá tøída bude má komentáø ve formátu zpracovatelné doxygenem.
+* Kód
+*** Header fily mají kkoncovku .hpp
+* Struktura projektu
+*** .cpp soubory jsou v adresáøi /src/
+*** Header fily jsou v adresáøi /include/
+*** Grafiky, popøíadì zvuky atd, jsou v adresáøi /assets/ a neverzují se
