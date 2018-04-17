@@ -15,9 +15,9 @@ class RTree:
     def Insert(self,value):
         tmp = self.root
         while True:
-            if tmp.nOfChildren == 0:
-                if tmp.parent != None:
-                    self.PropagateUpwards(tmp.parent, value)
+            if tmp.nOfChildren == 0 or (tmp.nOfChildren != 0 and not tmp.children[0].value.IsItBoundingBox()):
+                if tmp.nOfChildren != 0:
+                    self.PropagateUpwards(tmp, value)
                 else:
                     #root - create first item
                     temporaryNode = Node(self.numberOfChildrenInNode,None)
@@ -44,8 +44,8 @@ class RTree:
     def EuclidianDistTwoPoints(self,p1,p2):
         sum = 0
         for i in range(len(p1.coordinates)):
-            sum += ( (p1.coordinates[i] - p2.coordinates[i]) * (p1.coordinates[1] - p2.coordinates[i]) )
-        return math.sqrt(sum)
+            sum += ( (p1.coordinates[i] - p2.coordinates[i]) * (p1.coordinates[i] - p2.coordinates[i]) )
+        return round(math.sqrt(sum),10)
 
     def PreorderKDist(self,node,value, distance):
         if node == None:
@@ -58,8 +58,8 @@ class RTree:
 
         for child in node.children:
             if child != None and (not child.value.IsItBoundingBox() or
-                                      (child.value.IsItBoundingBox and
-                                           distance >= self.EuclidianDistTwoPoints(child.value.ClosestPointFromToBoundingBoxToPoint(value,child.value) ) )):
+                                      (child.value.IsItBoundingBox() and
+                                           distance >= self.EuclidianDistTwoPoints(child.value.ClosestPointFromToBoundingBoxToPoint(value,child.value), value) )):
                 self.PreorderKDist(child,value,distance)
 
     # takes as a parameters RTreeComponent Value
@@ -70,15 +70,43 @@ class RTree:
 
     def FindOutToWhichBoundingBoxPointBelongs(self,point,fatherNode):
         # Does he belong to any of the bounding box?
-        #TODO # If so, which of them has smallest distance from center of bounding box
+        # If so, which of them has smallest distance from center of bounding box
+        # If not, which bounding box would be expanded least
+        listOfBoundingBoxVolumeExpansions = []
 
-        #TODO # If not, which bounding box would be expanded least
+        for i in range(fatherNode.nOfChildren):
+            temporaryBoundingBox = deepcopy(fatherNode.children[i].value)
+            temporaryBoundingBox.AddPointOrBBToBoundingBox(point.IsItBoundingBox(),point)
+            listOfBoundingBoxVolumeExpansions.append(temporaryBoundingBox.CalculateVolumeOfBoundingBox() - fatherNode.children[i].value.CalculateVolumeOfBoundingBox() )
+        index = 0
+        temporaryMin = 0
+        howManyZeros = 0
+        for counter, value in enumerate(listOfBoundingBoxVolumeExpansions):
+            if counter == 0:
+                temporaryMin = value
+            elif value <= temporaryMin:
+                temporaryMin = value
+                index = counter
+            if value == 0:
+                howManyZeros += 1
 
-        #TODO, FOR NOW I AM JUST RETURNING alway 0
-        return 0
+        if howManyZeros <= 1:
+            return index
+        else:
+            index = 0
+            temporaryMin = -1
+            # finding closest to center of boundingBox
+            for counter, value in enumerate(listOfBoundingBoxVolumeExpansions):
+                if value == 0:
+                    center = deepcopy(point) #just to inicialize
+                    for i in range(len(fatherNode.children[i].value.MaxValues)):
+                        center.coordinates[i] = (fatherNode.children[counter].value.MaxValues[i] + fatherNode.children[counter].value.MinValues[i])/float(2)
+                    val = self.EuclidianDistTwoPoints(center,point)
+                    if temporaryMin == -1 or val < temporaryMin:
+                        temporaryMin = val
+                        index = counter
 
-        # return index
-        pass
+            return index
 
     def SplitOverflowingNodes(self, oldArray, newValue, boundingBoxesOrNot, type):
         # Take old array of points/bounding boxes and new point/bounding box and find out which combination
@@ -144,12 +172,13 @@ class RTree:
             if node.nOfChildren < self.numberOfChildrenInNode:
                 node.children[node.nOfChildren] = value
                 node.children[node.nOfChildren].parent = node
-                node.value.CalculateBoundingBox(node, node.children[node.nOfChildren].value.IsItBoundingBox())
+                node.value.AddPointOrBBToBoundingBox(node.children[node.nOfChildren].value.IsItBoundingBox(), node.children[node.nOfChildren].value)
                 node.nOfChildren += 1
 
 
                 while node.parent != None:
-                    node.parent.value.CalculateBoundingBox(node.parent,True)
+                    value = node
+                    node.parent.value.AddPointOrBBToBoundingBox(value.value.IsItBoundingBox(),value.value)
                     node = node.parent
                 return
             else:
@@ -162,6 +191,8 @@ class RTree:
                         if temporaryID == id(child):
                             node.parent.children[counter] = existingNode
                     node = node.parent
+                    node.value.CalculateBoundingBox(node,True)
+
                 else:
                     #what to do when you need to split root - create new root
                     self.root = Node(self.numberOfChildrenInNode, None)

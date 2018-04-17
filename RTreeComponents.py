@@ -20,24 +20,41 @@ class BoundingBox:
         return True
 
     def CalculateBoundingBox(self,node,dealingWithBoundingBoxes):
+        temporaryValue = len(self.MaxValues)
+        node.value = BoundingBox(temporaryValue)
         if dealingWithBoundingBoxes:
             for item in node.children:
                 if item != None:
-                    for counter, dimension in enumerate(item.value.MinValues):
-                        if self.MinValues[counter] == None or self.MinValues[counter] > dimension:
-                            self.MinValues[counter] = dimension
-                    for counter, dimension in enumerate(item.value.MaxValues):
-                        if self.MaxValues[counter] == None or self.MaxValues[counter] < dimension:
-                            self.MaxValues[counter] = dimension
+                    node.value.AddPointOrBBToBoundingBox(item.value.IsItBoundingBox(), item.value)
         else:
             for item in node.children:
                 if item != None:
-                    for counter, dimension in enumerate(item.value.coordinates):
-                        if self.MinValues[counter] == None or self.MinValues[counter] > dimension:
-                            self.MinValues[counter] = dimension
-                    for counter, dimension in enumerate(item.value.coordinates):
-                        if self.MaxValues[counter] == None or self.MaxValues[counter] < dimension:
-                            self.MaxValues[counter] = dimension
+                    node.value.AddPointOrBBToBoundingBox(item.value.IsItBoundingBox(), item.value)
+
+    def AddPointOrBBToBoundingBox(self,dealingWithBoundingBoxes, pointOrBB):
+        if dealingWithBoundingBoxes:
+            for counter, dimension in enumerate(pointOrBB.MinValues):
+                if self.MinValues[counter] == None or self.MinValues[counter] > dimension:
+                    self.MinValues[counter] = dimension
+            for counter, dimension in enumerate(pointOrBB.MaxValues):
+                if self.MaxValues[counter] == None or self.MaxValues[counter] < dimension:
+                    self.MaxValues[counter] = dimension
+        else:
+            for counter, dimension in enumerate(pointOrBB.coordinates):
+                if self.MinValues[counter] == None or self.MinValues[counter] > dimension:
+                    self.MinValues[counter] = dimension
+            for counter, dimension in enumerate(pointOrBB.coordinates):
+                if self.MaxValues[counter] == None or self.MaxValues[counter] < dimension:
+                    self.MaxValues[counter] = dimension
+
+    def CalculateVolumeOfBoundingBox(self):
+        volume = 0
+        for i in range(len(self.MaxValues)):
+            if i == 0:
+                volume = self.MaxValues[i] - self.MinValues[i]
+            else:
+                volume *= (self.MaxValues[i] - self.MinValues[i])
+        return volume
 
     def PointInsideOfBoundingBox(self,point,boundingBox):
         for counter, maxValue in enumerate(boundingBox.MaxValues):
@@ -66,12 +83,12 @@ class BoundingBox:
 
         return list,counter
 
-    # Find closest point in the boundingBox to the point, and returns both points
+    # Find closest point in the boundingBox to the point
     def ClosestPointFromToBoundingBoxToPoint(self,point,boundingBox):
         list, howManyDimensionsOutsideOfBB = self.PointDimOutside(point,boundingBox)
 
         if howManyDimensionsOutsideOfBB == 0: #if point is inside of boundingBox, return the point itself
-            return point, point
+            return point
 
         myPoint = Value([0 for i in range(len(point.coordinates))],0)
 
@@ -89,7 +106,7 @@ class BoundingBox:
             else:
                 myPoint.coordinates[cnt] = boundingBox.MaxValues[cnt]
 
-        return point,myPoint
+        return myPoint
 
 
 
