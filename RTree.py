@@ -99,7 +99,7 @@ class RTree:
             for counter, value in enumerate(listOfBoundingBoxVolumeExpansions):
                 if value == 0:
                     center = deepcopy(point) #just to inicialize
-                    for i in range(len(fatherNode.children[i].value.MaxValues)):
+                    for i in range(len(fatherNode.children[counter].value.MaxValues)):
                         center.coordinates[i] = (fatherNode.children[counter].value.MaxValues[i] + fatherNode.children[counter].value.MinValues[i])/float(2)
                     val = self.EuclidianDistTwoPoints(center,point)
                     if temporaryMin == -1 or val < temporaryMin:

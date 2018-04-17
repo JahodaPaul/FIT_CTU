@@ -1,5 +1,6 @@
 from RTree import *
 from RTreeTestClass import Test
+import random
 
 test = Test()
 
@@ -18,7 +19,7 @@ myTree = RTree(4,2,'random')
 myTree.Insert(Value([1,1],0))
 myTree.Insert(Value([2,2],1))
 
-test.TestingSection(myTree, myTree.numberOfChildrenInNode,[ #point, distance, nOfPointsCloseCorrect
+test.TestingSection(myTree, myTree.numberOfChildrenInNode,False,[ #point, distance, nOfPointsCloseCorrect
     [Value([0,0],-1),2,1 ],
     [Value([0,0],-1),10,2 ],
     [Value([0,1],-1),1,1 ]
@@ -42,7 +43,7 @@ for i in range(14):
 test.TestingSection(myTree2,myTree2.numberOfChildrenInNode)
 
 myTree3 = RTree(2,3,'random')
-for i in range(10000):
+for i in range(1500):
     myTree3.Insert(Value([i,i,i],i))
 
 test.TestingSection(myTree3,myTree3.numberOfChildrenInNode)
@@ -63,7 +64,8 @@ myTree7.Insert(Value([1, 7], 0))
 myTree7.Insert(Value([3, 8], 0))
 myTree7.Insert(Value([4, 4], 0))
 
-test.TestingSection(myTree7,myTree7.numberOfChildrenInNode,[#point, distance, nOfPointsCloseCorrect
+
+test.TestingSection(myTree7,myTree7.numberOfChildrenInNode,False,[#point, distance, nOfPointsCloseCorrect
     [Value([0,0],-1),0,1],
     [Value([5,5],-1),2,1],
     [Value([5,5],-1),100,7],
@@ -93,7 +95,8 @@ myTree8.Insert(Value([100, 100], 0))
 myTree8.Insert(Value([99, 100], 0))
 myTree8.Insert(Value([98, 100], 0))
 
-test.TestingSection(myTree8,myTree8.numberOfChildrenInNode,[#point, distance, nOfPointsCloseCorrect
+
+test.TestingSection(myTree8,myTree8.numberOfChildrenInNode,False,[#point, distance, nOfPointsCloseCorrect
     [Value([0,0],-1),10000,16],
     [Value([7,7],-1),2,6],
     [Value([100,100],-1),2,3],
@@ -104,7 +107,28 @@ test.TestingSection(myTree8,myTree8.numberOfChildrenInNode,[#point, distance, nO
     [Value([7,7],-1),0.2,2]
 ])
 
+myTree9 = RTree(4,2,'random')
+for i in range(500):
+    temporaryVal = Value([random.randint(-500,500) for j in range(2)],0)
+    myTree9.Insert(temporaryVal)
+    test.Insert(temporaryVal)
+
+myList = []
+for i in range(1000):
+    myList.append([Value([random.randint(-1000,1000) for j in range(2)],0),random.randint(0,10000),0])
+
+test.TestingSection(myTree9,myTree9.numberOfChildrenInNode,True,myList)
 
 
 
+myTree10 = RTree(8,4,'random')
+for i in range(500):
+    temporaryVal = Value([random.randint(-500,500) for j in range(4)],0)
+    myTree10.Insert(temporaryVal)
+    test.Insert(temporaryVal)
 
+myList2 = []
+for i in range(1000):
+    myList2.append([Value([random.randint(-1000,1000) for j in range(4)],0),random.randint(0,10000),0])
+
+test.TestingSection(myTree10,myTree10.numberOfChildrenInNode,True,myList2)

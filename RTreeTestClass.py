@@ -1,8 +1,10 @@
 from RTree import *
+from RTreeComponents import *
 
 class Test:
     def __init__(self):
         self.passed = True
+        self.listOfValues = []
 
     def Preorder(node, nOfChildren):
         if node == None:
@@ -75,19 +77,34 @@ class Test:
                 return balanced
         return balanced
 
-    def TestingCloseKDistance(self,myTree,testCases): #At the moment, testing only number of points
+    def Insert(self,value):
+        self.listOfValues.append(value)
+
+    def bruteForceTestKDistFromPoint(self,value, myTree,distance):
+        nOfPoints = 0
+        for item in self.listOfValues:
+            tmp = myTree.EuclidianDistTwoPoints(item,value)
+            if tmp <= distance:
+                nOfPoints += 1
+        return nOfPoints
+
+    def TestingCloseKDistance(self,myTree,testCases, machineTesting): #At the moment, testing only number of points
         passed = True
 
         #testCases contains list of testcases, each testcase is a list of three items - point, distance, nOfPointsCloseCorrect
         for i in range(len(testCases)):
             temporaryList = myTree.SearchCloseKDist(testCases[i][0],testCases[i][1])
-            if len(temporaryList) != testCases[i][2]:
+            if machineTesting:
+                if len(temporaryList) != self.bruteForceTestKDistFromPoint(testCases[i][0],myTree,testCases[i][1]):
+                    passed = False
+                    print('TEST', i, 'NUMBER OF POINTS CLOSE TO POINT TEST FAILED')
+            elif len(temporaryList) != testCases[i][2]:
                 passed = False
                 print('TEST',i,'NUMBER OF POINTS CLOSE TO POINT TEST FAILED')
-
+        self.listOfValues = []
         return passed
 
-    def TestingSection(self,RTree, nOfChildren, testCasesKDistClose = []):
+    def TestingSection(self,RTree, nOfChildren, machineTesting=False, testCasesKDistClose = []):
         finalPassed = True
         self.passed = True
         self.PreorderCheckBoundingBox(RTree.root,nOfChildren,RTree.root)
@@ -102,7 +119,7 @@ class Test:
             finalPassed = False
 
         self.passed = True
-        self.passed = self.TestingCloseKDistance(RTree,testCasesKDistClose)
+        self.passed = self.TestingCloseKDistance(RTree,testCasesKDistClose,machineTesting)
         if not self.passed:
             print('TEST POINTS K DISTANCE CLOSE FAILED')
             finalPassed = False
