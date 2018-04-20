@@ -9,7 +9,7 @@ class RTree:
         self.numberOfChildrenInNode = numberOfChildrenInNode
         self.numberOfDimensions = numberOfDimensions
         self.root = Node(self.numberOfChildrenInNode, None)
-        self.minimumNumberOfChildrenInNode = 1 if numberOfChildrenInNode == 3 else int(numberOfChildrenInNode/2)
+        self.minimumNumberOfChildrenInNode = int(numberOfChildrenInNode/2)
         self.splittingType = splittingType
 
     def Insert(self,value):
@@ -108,6 +108,25 @@ class RTree:
 
             return index
 
+    def nextPermutation(self,previousPermutation, nOfNumbers, maxIndex):
+        if previousPermutation == 0:
+            return [i for i in range(nOfNumbers)]
+
+        counter = nOfNumbers - 1
+        while True:
+            if previousPermutation[counter] < (maxIndex - (nOfNumbers - 1 - counter)):
+                previousPermutation[counter] += 1
+                for i in range(counter + 1, nOfNumbers):
+                    previousPermutation[i] = previousPermutation[i - 1] + 1
+                    # counter = nOfNumbers - 1
+                # print(previousPermutation) // uncoment these two lines to print every permutation
+                return previousPermutation
+            else:
+                if counter != 0:
+                    counter -= 1
+                else:
+                    return 0
+
     def SplitOverflowingNodes(self, oldArray, newValue, boundingBoxesOrNot, type):
         # Take old array of points/bounding boxes and new point/bounding box and find out which combination
         # that satisfies requirements has least amount of overlap
@@ -143,10 +162,94 @@ class RTree:
         elif type == "heuristic": #QuadraticSplit which minimizes overlap
             pass
         elif type == "bruteforce": #find a split that creates areas with smallest sum of volume
-            pass
+            minNOfChildren = self.minimumNumberOfChildrenInNode
+            maxNOfChildren = (oldArray.nOfChildren + 1) - minNOfChildren
+
+            minVolume = -1
+            minPermutation = None
+            nOfChildrenInFirstFinal = 0
+            nOfChildrenInSecondFinal = 0
+
+            for i in range(minNOfChildren,maxNOfChildren+1):
+                nOfChildrenInFirst = i
+                nOfChildrenInSecond = (oldArray.nOfChildren+1) - nOfChildrenInFirst
+                #TODO
+                #every permutation of i children in N children
+
+                previousPermutation = 0;
+                permutation = 0
+                nOfNumbers = nOfChildrenInFirst
+                maxNumber = self.numberOfChildrenInNode+1
+
+                while True:
+                    previousPermutation = deepcopy(permutation)
+                    permutation = self.nextPermutation(previousPermutation, nOfNumbers, maxNumber - 1)
+                    if permutation == 0:  # zero means end
+                        break
+                    binaryPermutation = [0 for i in range(maxNumber)]
+                    for index in permutation:
+                        binaryPermutation[index] = 1
+
+                    volume1 = 0
+                    volume2 = 0
+                    first = Node(self.numberOfChildrenInNode, None)
+                    second = Node(self.numberOfChildrenInNode, None)
+
+                    indexFirst = 0
+                    indexSecond = 0
+                    for counter, item in enumerate(binaryPermutation):  # TODO
+                        if item == 1:
+                            if counter == nOfChildrenInFirst + nOfChildrenInSecond - 1:
+                                first.children[indexFirst] = newValue
+                            else:
+                                first.children[indexFirst] = oldArray.children[counter]
+                            indexFirst += 1
+                        elif item == 0:
+                            if counter == nOfChildrenInFirst + nOfChildrenInSecond - 1:
+                                second.children[indexSecond] = newValue
+                            else:
+                                second.children[indexSecond] = oldArray.children[counter]
+                            indexSecond += 1
+
+                    # calculate volume of both bounding boxes
+                    first.value = BoundingBox(self.numberOfDimensions)
+                    first.value.CalculateBoundingBox(first, boundingBoxesOrNot)
+                    second.value = BoundingBox(self.numberOfDimensions)
+                    second.value.CalculateBoundingBox(second, boundingBoxesOrNot)
+                    volume1 = first.value.CalculateVolumeOfBoundingBox()
+                    volume2 = second.value.CalculateVolumeOfBoundingBox()
+                    if volume1 + volume2 < minVolume or minVolume == -1:
+                        minVolume = volume1 + volume2
+                        minPermutation = deepcopy(binaryPermutation)
+                        nOfChildrenInFirstFinal = nOfChildrenInFirst
+                        nOfChildrenInSecondFinal = nOfChildrenInSecond
+
+
+            #create final first and second node
+            first = Node(self.numberOfChildrenInNode, oldArray.parent)
+            nOfChildrenInFirst = nOfChildrenInFirstFinal
+            first.nOfChildren = nOfChildrenInFirst
+            second = Node(self.numberOfChildrenInNode, None)
+            nOfChildrenInSecond = nOfChildrenInSecondFinal
+            second.nOfChildren = nOfChildrenInSecond
+
+            indexFirst = 0;indexSecond = 0
+            for counter, item in enumerate(minPermutation): #TODO
+                if item == 1:
+                    if counter == nOfChildrenInFirst+nOfChildrenInSecond-1:
+                        first.children[indexFirst] = newValue
+                    else:
+                        first.children[indexFirst] = oldArray.children[counter]
+                    indexFirst += 1
+                elif item == 0:
+                    if counter == nOfChildrenInFirst+nOfChildrenInSecond-1:
+                        second.children[indexSecond] = newValue
+                    else:
+                        second.children[indexSecond] = oldArray.children[counter]
+                    indexSecond += 1
 
         for child in first.children:
-            if child != None:
+            if child != None: #TODO OPTIMIZE - JUST TO NOfCHILDREN
                 child.parent = first
 
         for child in second.children:
