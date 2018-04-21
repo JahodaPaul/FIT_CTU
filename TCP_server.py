@@ -1,4 +1,3 @@
-#from Config import *
 from HelperFunctions import *
 from Robot import Robot
 import socket
@@ -7,11 +6,6 @@ from threading import Thread
 
 class TCP_Server:
     def __init__(self):
-        # stage = 0
-        # myHash = 0
-        # robot = Robot()
-        # multipleMessages = False
-        # recharge = False
         self.listOfThreads = []
 
     def Communicate(self,mySocket):
@@ -59,10 +53,6 @@ class TCP_Server:
                 if data == SERVER_SYNTAX_ERROR or not CheckLengthAndSyntax(data, stage,
                                                                            robot.previouslyPickedUpTreasure):
                     connection.sendall(SERVER_SYNTAX_ERROR)
-                    counter = 0
-                    multipleMessages = False
-                    cnt = 0
-                    stage = 0
                     break
 
                 if data == 'RECHARGING':
@@ -76,11 +66,6 @@ class TCP_Server:
 
                 if recharge:
                     connection.sendall(SERVER_LOGIC_ERROR)
-                    counter = 0
-                    multipleMessages = False
-                    cnt = 0
-                    stage = 0
-                    recharge = False
                     break
 
                 if stage == 0:
@@ -94,7 +79,6 @@ class TCP_Server:
                         stage += 1
                     else:
                         connection.sendall(SERVER_LOGIN_FAILED)
-                        stage = 0
                         break
                 elif stage == 2:
                     if data != '' and data[0] == 'O' and data[1] == 'K' and data[2] == ' ':
@@ -106,22 +90,9 @@ class TCP_Server:
                                 robot.Move(robot.previousCoordinates[0], robot.previousCoordinates[1]))
                         else:
                             connection.sendall(SERVER_LOGOUT)
-                            stage = 0
                             break
-                else:
-                    if data:
-                        print('sending data back to the client')
-                        connection.sendall(data)
-                    else:
-                        print('no data from', client_address)
-                        break
         except socket.timeout:
             print('Caught timeout')
-            counter = 0
-            multipleMessages = False
-            cnt = 0
-            stage = 0
-            recharge = False
         finally:
             # Clean up the connection
             connection.close()

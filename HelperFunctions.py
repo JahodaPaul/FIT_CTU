@@ -2,7 +2,6 @@ from Config import *
 
 def ExtractData(DataWithAdditionalStuff,connection,stage,treasureMessage):
     DataWithAdditionalStuff = DataWithAdditionalStuff.decode('utf-8')
-    print(DataWithAdditionalStuff)
     data = ''
     if DataWithAdditionalStuff == '':
         return data,0
@@ -16,10 +15,8 @@ def ExtractData(DataWithAdditionalStuff,connection,stage,treasureMessage):
         tmp = connection.recv(1000)
         tmp = tmp.decode('utf-8')
         DataWithAdditionalStuff += tmp
-    if DataWithAdditionalStuff[len(DataWithAdditionalStuff) - 2] != '\a' or DataWithAdditionalStuff[len(DataWithAdditionalStuff) - 1] != '\b': #HARDCODED TESTCASE 10
-        return ['2','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'], 2
-
-    # print('WHAT IS GOING ON', DataWithAdditionalStuff)
+    if DataWithAdditionalStuff[len(DataWithAdditionalStuff) - 2] != '\a' or DataWithAdditionalStuff[len(DataWithAdditionalStuff) - 1] != '\b':
+        return ['2','youreallydontwannaknowwhatthisdoestrustme'], 2
 
     while True:
         if DataWithAdditionalStuff[counter] == '\a' and DataWithAdditionalStuff[counter+1] == '\b':
