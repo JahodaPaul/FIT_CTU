@@ -10,6 +10,7 @@ class TCP_Server:
         self.myHash = 0
         self.robot = Robot()
         self.multipleMessages = False
+        self.recharge = False
 
     def Communicate(self,mySocket):
         while True:
@@ -49,6 +50,25 @@ class TCP_Server:
                         self.stage = 0
                         break
 
+                    if data == 'RECHARGING':
+                        connection.settimeout(5)
+                        self.recharge = True
+                        continue
+                    if data == 'FULL POWER':
+                        self.recharge = False
+                        connection.settimeout(1)
+                        continue
+
+                    if self.recharge:
+                        connection.sendall(SERVER_LOGIC_ERROR)
+                        counter = 0
+                        self.multipleMessages = False
+                        cnt = 0
+                        self.stage = 0
+                        self.recharge = False
+                        break
+
+
                     if self.stage == 0:
                         SERVER_CONFIRMATION, self.myHash = ConfirmationFromServer(data)
                         connection.sendall(SERVER_CONFIRMATION)
@@ -86,6 +106,8 @@ class TCP_Server:
                 self.multipleMessages = False
                 cnt = 0
                 self.stage = 0
+                self.recharge = False
             finally:
                 # Clean up the connection
                 connection.close()
+    

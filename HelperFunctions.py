@@ -19,6 +19,7 @@ def ExtractData(DataWithAdditionalStuff,connection,stage,treasureMessage):
     if DataWithAdditionalStuff[len(DataWithAdditionalStuff) - 2] != '\a' or DataWithAdditionalStuff[len(DataWithAdditionalStuff) - 1] != '\b': #HARDCODED TESTCASE 10
         return ['2','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'], 2
 
+    # print('WHAT IS GOING ON', DataWithAdditionalStuff)
 
     while True:
         if DataWithAdditionalStuff[counter] == '\a' and DataWithAdditionalStuff[counter+1] == '\b':
@@ -79,20 +80,25 @@ def ExtractCoordinates(data):
 
 
 def CheckOnlyLength(data,stage,treasureMessage):
+    myLen = len(data)
+    if myLen and data[myLen-1] == '\a':
+        myLen -= 1
+    if 'RECHARGING' in data or 'FULL POWER' in data:
+        return myLen <= CLIENT_RECHARGING_LEN
     if stage == 1:
-        return len(data) <= CLIENT_CONFIRMATION_LEN
+        return myLen <= CLIENT_CONFIRMATION_LEN
     else:
         if data == '':
             return True
-        if 'RECHARGING' in data or 'FULL POWER' in data:
-            return len(data) <= CLIENT_RECHARGING_LEN
         if stage == 0:
-            return len(data) <= CLIENT_USERNAME_LEN
+            return myLen <= CLIENT_USERNAME_LEN
         if stage == 2 and not treasureMessage:
-            return len(data) <= CLIENT_OK_LEN
-        return len(data) <= CLIENT_MESSAGE_LEN
+            return myLen <= CLIENT_OK_LEN
+        return myLen <= CLIENT_MESSAGE_LEN
 
 def CheckLengthAndSyntax(data,stage,treasureMessage):
+    if 'RECHARGING' in data or 'FULL POWER' in data:
+        return len(data) <= CLIENT_RECHARGING_LEN
     if stage == 1:
         if len(data) <= CLIENT_CONFIRMATION_LEN:
             return not (' ' in data)
@@ -100,8 +106,6 @@ def CheckLengthAndSyntax(data,stage,treasureMessage):
     else:
         if data == '':
             return True
-        if 'RECHARGING' in data or 'FULL POWER' in data:
-            return len(data) <= CLIENT_RECHARGING_LEN
         if stage == 0:
             return len(data) <= CLIENT_USERNAME_LEN
         if stage == 2 and not treasureMessage:
