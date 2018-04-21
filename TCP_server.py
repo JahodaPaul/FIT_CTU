@@ -1,6 +1,8 @@
 #from Config import *
 from HelperFunctions import *
 from Robot import Robot
+import socket
+
 
 class TCP_Server:
     def __init__(self):
@@ -14,18 +16,20 @@ class TCP_Server:
             self.robot = Robot()
             data = ''
             counter = 0
+            cnt = 0
             # Wait for a connection
             print('waiting for a connection')
             connection, client_address = mySocket.accept()
+            connection.settimeout(1)
             try:
                 print('connection from', client_address)
 
                 # Receive the data
                 while True:
                     if not self.multipleMessages:
-                        data = connection.recv(100)
+                        data = connection.recv(1000)
                         print('Received {!r}'.format(data))
-                        temporaryData, cnt = ExtractData(data,connection)
+                        temporaryData, cnt = ExtractData(data,connection,self.stage,self.robot.previouslyPickedUpTreasure)
                     if cnt:
                         self.multipleMessages = True
                         data = temporaryData[counter]
@@ -36,6 +40,14 @@ class TCP_Server:
                             self.multipleMessages = False
                     else:
                         data = temporaryData
+
+                    if data == SERVER_SYNTAX_ERROR or not CheckLengthAndSyntax(data,self.stage,self.robot.previouslyPickedUpTreasure):
+                        connection.sendall(SERVER_SYNTAX_ERROR)
+                        counter = 0
+                        self.multipleMessages = False
+                        cnt = 0
+                        self.stage = 0
+                        break
 
                     if self.stage == 0:
                         SERVER_CONFIRMATION, self.myHash = ConfirmationFromServer(data)
@@ -68,7 +80,12 @@ class TCP_Server:
                         else:
                             print('no data from', client_address)
                             break
-
+            except socket.timeout:
+                print('Caught timeout')
+                counter = 0
+                self.multipleMessages = False
+                cnt = 0
+                self.stage = 0
             finally:
                 # Clean up the connection
                 connection.close()

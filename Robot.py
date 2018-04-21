@@ -34,7 +34,8 @@ class Robot:
             return SERVER_TURN_RIGHT
 
     def VisitCorner(self,x,y):
-        correctDirection = self.RightDirection(x,y,-2,2)
+        correctDirection = self.RightDirection(x,y,-2,-2)
+        self.previousCoordinates = (x, y)
         if correctDirection == self.direction:
             return SERVER_MOVE
         else:
@@ -53,7 +54,7 @@ class Robot:
             return x, -2
         if y == -2 and not self.goUp and x == self.moveRightX:
             return x+1,y
-        if y == 2 and not self.goUp and x > self.moveRightX:
+        if y == -2 and not self.goUp and x > self.moveRightX:
             self.moveRightX = x
             self.goUp = True
             return x, 2
@@ -61,14 +62,17 @@ class Robot:
     def LookForTreasure(self,x,y):
         if not self.previouslyPickedUpTreasure:
             self.previouslyPickedUpTreasure = True
+            self.previousCoordinates = (x, y)
             return SERVER_PICK_UP
         else:
             goalX,goalY = self.SetAnotherGoalCoordinatesInBox(x,y)
             correctDirection = self.RightDirection(x, y, goalX, goalY)
             if correctDirection == self.direction:
                 self.previouslyPickedUpTreasure = False
+                self.previousCoordinates = (x, y)
                 return SERVER_MOVE
             else:
+                self.previousCoordinates = (x, y)
                 return self.TurnLeftOrRight(correctDirection)
 
 
@@ -78,6 +82,10 @@ class Robot:
         if self.previousCoordinates == None:
             self.previousCoordinates = (x,y)
             return SERVER_MOVE
+        if self.direction == UNINICIALIZED and self.previousCoordinates == (x,y):
+            self.previousCoordinates = (x,y)
+            return SERVER_MOVE
+
         if self.direction == UNINICIALIZED:
             if x > self.previousCoordinates[0]:
                 self.direction = RIGHT
@@ -88,7 +96,7 @@ class Robot:
             elif y > self.previousCoordinates[1]:
                 self.direction = UP
 
-        if not self.visitedBoxCorner and (x,y) == (-2,2):
+        if not self.visitedBoxCorner and (x,y) == (-2,-2):
             self.visitedBoxCorner = True
 
         if self.visitedBoxCorner:

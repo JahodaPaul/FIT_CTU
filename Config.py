@@ -12,6 +12,13 @@ SERVER_LOGIC_ERROR=	'302 LOGIC ERROR\a\b'.encode('utf-8')
 CLIENT_RECHARGING =	'RECHARGING\a\b'	#Robot se začal dobíjet a přestal reagovat na zprávy.		12
 CLIENT_FULL_POWER =	'FULL POWER\a\b'	#Robot doplnil energii a opět příjímá příkazy.
 
+CLIENT_USERNAME_LEN = 10
+CLIENT_CONFIRMATION_LEN = 5
+CLIENT_OK_LEN = 10
+CLIENT_RECHARGING_LEN = 10
+CLIENT_FULL_POWER_LEN = 10
+CLIENT_MESSAGE_LEN = 98
+
 KLIENT_KEY = 45328
 SERVER_KEY = 54621
 
@@ -20,4 +27,6 @@ UP = 0
 RIGHT = 1
 DOWN = 2
 LEFT = 3
+
+
 

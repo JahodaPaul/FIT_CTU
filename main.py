@@ -12,6 +12,7 @@ def main():
 
     # Listen for incoming connections
     mySocket.listen(1)
+    # mySocket.setblocking(0)
 
     myServer.Communicate(mySocket)
 
