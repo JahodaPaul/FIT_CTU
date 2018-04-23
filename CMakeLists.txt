@@ -27,17 +27,19 @@ LIST(APPEND CMAKE_MODULE_PATH "/usr/share/SFML/cmake/Modules/")
 LIST(APPEND CMAKE_MODULE_PATH "/usr/local/share/SFML/cmake/Modules/")
 
 FIND_PACKAGE(SFML 2.4 REQUIRED system window graphics network audio)
+find_package(OpenGL REQUIRED)
 
-INCLUDE_DIRECTORIES( ./include )
+include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
+INCLUDE_DIRECTORIES( ./include ./imgui ./imgui-sfml )
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
 
-ADD_EXECUTABLE(game src/main.cpp src/Controller/GameController.cpp src/Controller/MenuStateHandler.cpp src/Controller/GameStateHandler.cpp src/View/View.cpp src/View/MenuScene.cpp src/View/Scene.cpp )
+ADD_EXECUTABLE(game src/main.cpp src/Controller/GameController.cpp src/Controller/MenuStateHandler.cpp src/Controller/GameStateHandler.cpp src/View/View.cpp src/View/MenuScene.cpp src/View/Scene.cpp imgui/imgui.cpp imgui/imgui_draw.cpp imgui-sfml/imgui-SFML.cpp imgui/imgui_demo.cpp )
 
 LINK_DIRECTORIES(/usr/local/lib)
 INCLUDE_DIRECTORIES( ./include )
 
-TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window)
+TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window ${OPENGL_LIBRARIES} )

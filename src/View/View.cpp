@@ -20,6 +20,9 @@ namespace RG {
         
         m_activeScene = SCENE::MENU_SCENE;
         m_mapOfGameScenes[m_activeScene] = std::shared_ptr<Scene>( new MenuScene() );
+
+        //initialize imgui
+        ImGui::SFML::Init(*m_window);
     }
     View::~View() {}
     void View::ManageInput() {
@@ -37,5 +40,8 @@ namespace RG {
     }
     GameController * View::getGameController() {
         return m_gameControllet;
+    }
+    sf::Clock & View::getClock() {
+        return m_clock;
     }
 };
