@@ -8,6 +8,12 @@ class Value:
     def IsItBoundingBox(self):
         return False
 
+    def CalculateSumOfCoordinates(self, calcMin = True):
+        sum = 0
+        for item in self.coordinates:
+            sum += item
+        return sum
+
 class BoundingBox:
     def __init__(self, numberOfDimensions):
         self.MinValues = [None for i in range(numberOfDimensions)]
@@ -30,6 +36,16 @@ class BoundingBox:
             for item in node.children:
                 if item != None:
                     node.value.AddPointOrBBToBoundingBox(item.value.IsItBoundingBox(), item.value)
+
+    def CalculateSumOfCoordinates(self, calcMin = True):
+        sum = 0
+        if calcMin:
+            for item in self.MinValues:
+                sum += item
+        else:
+            for item in self.MinValues:
+                sum += item
+        return sum
 
     def AddPointOrBBToBoundingBox(self,dealingWithBoundingBoxes, pointOrBB):
         if dealingWithBoundingBoxes:

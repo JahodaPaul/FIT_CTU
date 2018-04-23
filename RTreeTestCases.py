@@ -4,7 +4,7 @@ import random
 
 test = Test()
 
-myTree6 = RTree(2,2,'random')
+myTree6 = RTree(2,2,'heuristic')
 myTree6.root.children[0] = Node(2,myTree6.root)
 myTree6.root.children[0].children[0] = Node(2,myTree6.root.children[0])
 myTree6.root.children[0].children[0].children[0] = Node(2,myTree6.root.children[0].children[0])
@@ -14,7 +14,7 @@ if not test.IsBalanced(myTree6.root,myTree6.numberOfChildrenInNode):
 else:
     print('TESTING SYSTEM NOT WORKING PROPERLY')
 
-myTree = RTree(4,2,'random')
+myTree = RTree(4,2,'heuristic')
 
 myTree.Insert(Value([1,1],0))
 myTree.Insert(Value([2,2],1))
@@ -25,14 +25,14 @@ test.TestingSection(myTree, myTree.numberOfChildrenInNode,False,[ #point, distan
     [Value([0,1],-1),1,1 ]
 ])
 
-myTree4 = RTree(4,2,'random')
+myTree4 = RTree(4,2,'heuristic')
 
 for i in range(13):
     myTree4.Insert(Value([i, i], i))
 
 test.TestingSection(myTree4,myTree4.numberOfChildrenInNode)
 
-myTree2 = RTree(4,2,'random')
+myTree2 = RTree(4,2,'heuristic')
 
 for i in range(14):
     if i == 5:
@@ -42,20 +42,20 @@ for i in range(14):
 
 test.TestingSection(myTree2,myTree2.numberOfChildrenInNode)
 
-myTree3 = RTree(2,3,'random')
+myTree3 = RTree(2,3,'heuristic')
 for i in range(1500):
     myTree3.Insert(Value([i,i,i],i))
 
 test.TestingSection(myTree3,myTree3.numberOfChildrenInNode)
 
-myTree5 = RTree(4,2,'random')
+myTree5 = RTree(4,2,'heuristic')
 
 for i in range(100):
     myTree5.Insert(Value([100-i,100-i],i))
 
 test.TestingSection(myTree5,myTree5.numberOfChildrenInNode)
 
-myTree7 = RTree(4,2,'random')
+myTree7 = RTree(4,2,'heuristic')
 myTree7.Insert(Value([0, 0], 0))
 myTree7.Insert(Value([10, 10], 0))
 myTree7.Insert(Value([3, 2], 0))
@@ -74,7 +74,7 @@ test.TestingSection(myTree7,myTree7.numberOfChildrenInNode,False,[#point, distan
 ])
 
 
-myTree8 = RTree(4,2,'random')
+myTree8 = RTree(4,2,'heuristic')
 myTree8.Insert(Value([1000.3, 0.7], 0))
 myTree8.Insert(Value([22, 22.1], 0))
 myTree8.Insert(Value([21.8, 22.3], 0))
@@ -107,7 +107,7 @@ test.TestingSection(myTree8,myTree8.numberOfChildrenInNode,False,[#point, distan
     [Value([7,7],-1),0.2,2]
 ])
 
-myTree9 = RTree(4,2,'random')
+myTree9 = RTree(4,2,'heuristic')
 for i in range(500):
     temporaryVal = Value([random.randint(-500,500) for j in range(2)],0)
     myTree9.Insert(temporaryVal)
@@ -121,7 +121,7 @@ test.TestingSection(myTree9,myTree9.numberOfChildrenInNode,True,myList)
 
 
 
-myTree10 = RTree(8,4,'random')
+myTree10 = RTree(8,4,'heuristic')
 for i in range(500):
     temporaryVal = Value([random.randint(-500,500) for j in range(4)],0)
     myTree10.Insert(temporaryVal)

@@ -1,6 +1,7 @@
 import random
 import math
 from copy import deepcopy
+from operator import itemgetter
 from RTreeComponents import *
 
 class RTree:
@@ -45,6 +46,19 @@ class RTree:
         sum = 0
         for i in range(len(p1.coordinates)):
             sum += ( (p1.coordinates[i] - p2.coordinates[i]) * (p1.coordinates[i] - p2.coordinates[i]) )
+        return round(math.sqrt(sum),10)
+
+    def EuclidianDistTwoBoundingBoxes(self,p1,p2): # dist from center of one boundingBox to center of the other boundingBox
+        tmpCoordinates1 = [0 for i in range(self.numberOfDimensions)]
+        tmpCoordinates2 = [0 for i in range(self.numberOfDimensions)]
+        for i in range(self.numberOfDimensions):
+            tmpCoordinates1[i] = (p1.MaxValues[i]+p1.MinValues[i])/float(2)
+            tmpCoordinates2[i] = (p2.MaxValues[i]+p2.MinValues[i])/float(2)
+        tmpP1 = Value(tmpCoordinates1,0)
+        tmpP2 = Value(tmpCoordinates2,0)
+        sum = 0
+        for i in range(len(tmpP1.coordinates)):
+            sum += ( (tmpP1.coordinates[i] - tmpP2.coordinates[i]) * (tmpP1.coordinates[i] - tmpP2.coordinates[i]) )
         return round(math.sqrt(sum),10)
 
     def PreorderKDist(self,node,value, distance):
@@ -159,8 +173,131 @@ class RTree:
                 for i in range(nOfChildrenInSecond):
                     second.children[i] = oldArray.children[i]
 
-        elif type == "heuristic": #QuadraticSplit which minimizes overlap
-            pass
+        elif type == "heuristic": #variation of quadratic split
+            # ---PHASE 1---: linear pick seeds
+            minSum = 0
+            minIndex = 0
+            maxSum = 0
+            maxIndex = 0
+
+            for i in range(len(oldArray.children)+1):
+                if i != len(oldArray.children):
+                    tmpMin = oldArray.children[i].value.CalculateSumOfCoordinates()
+                    tmpMax = oldArray.children[i].value.CalculateSumOfCoordinates(False)
+                else:
+                    tmpMin = newValue.value.CalculateSumOfCoordinates()
+                    tmpMax = newValue.value.CalculateSumOfCoordinates(False)
+
+                if i ==0:
+                    minSum = tmpMin
+                    maxSum = tmpMax
+                else:
+                    if tmpMin < minSum:
+                        minSum = tmpMin
+                        minIndex = i
+                    if tmpMax > maxSum:
+                        maxSum = tmpMax
+                        maxIndex = i
+            first = Node(self.numberOfChildrenInNode, oldArray.parent)
+            second = Node(self.numberOfChildrenInNode, None)
+            #assign smallest to first and biggest to second
+
+            if minIndex == len(oldArray.children):
+                first.children[0] = newValue
+            else:
+                first.children[0] = oldArray.children[minIndex]
+
+            if maxIndex == len(oldArray.children):
+                second.children[0] = newValue
+            else:
+                second.children[0] = oldArray.children[maxIndex]
+            first.nOfChildren = 1
+            second.nOfChildren = 1
+
+            # ---PHASE 2---: new distribute
+
+            taken = [0 for i in range(len(oldArray.children)+1)]
+            taken[minIndex] = 1
+            taken[maxIndex] = 1
+
+            # sort rest of (len(oldArray.children)+1) items by how close they are to first
+            HowFarFromFirstList = []
+            for i in range(len(oldArray.children)+1):
+                if not taken[i]:
+                    if i != len(oldArray.children):
+                        if first.children[0].value.IsItBoundingBox():
+                            HowFarFromFirstList.append((i, self.EuclidianDistTwoBoundingBoxes(first.children[0].value, oldArray.children[i].value)))
+                        else:
+                            HowFarFromFirstList.append((i,self.EuclidianDistTwoPoints(first.children[0].value,oldArray.children[i].value)))
+                    else:
+                        if first.children[0].value.IsItBoundingBox():
+                            HowFarFromFirstList.append((i, self.EuclidianDistTwoBoundingBoxes(first.children[0].value, newValue.value)))
+                        else:
+                            HowFarFromFirstList.append((i, self.EuclidianDistTwoPoints(first.children[0].value,newValue.value)))
+
+            HowFarFromFirstList = sorted(HowFarFromFirstList,key=itemgetter(1))
+
+            for i in range(self.minimumNumberOfChildrenInNode-1):
+                taken[HowFarFromFirstList[i][0]] = 1
+                if HowFarFromFirstList[i][0] == len(oldArray.children):
+                    first.children[first.nOfChildren] = newValue
+                    first.nOfChildren += 1
+                else:
+                    first.children[first.nOfChildren] = oldArray.children[HowFarFromFirstList[i][0]]
+                    first.nOfChildren += 1
+
+            # sort rest of (len(oldArray.children)+1) items by how close they are to second
+            HowFarFromSecondList = []
+            for i in range(len(oldArray.children)+1):
+                if not taken[i]:
+                    if i != len(oldArray.children):
+                        if second.children[0].value.IsItBoundingBox():
+                            HowFarFromSecondList.append((i, self.EuclidianDistTwoBoundingBoxes(second.children[0].value, oldArray.children[i].value)))
+                        else:
+                            HowFarFromSecondList.append((i,self.EuclidianDistTwoPoints(second.children[0].value,oldArray.children[i].value)))
+                    else:
+                        if second.children[0].value.IsItBoundingBox():
+                            HowFarFromSecondList.append((i, self.EuclidianDistTwoBoundingBoxes(second.children[0].value, newValue.value)))
+                        else:
+                            HowFarFromSecondList.append((i, self.EuclidianDistTwoPoints(second.children[0].value,newValue.value)))
+
+            HowFarFromSecondList = sorted(HowFarFromSecondList,key=itemgetter(1))
+
+            for i in range(self.minimumNumberOfChildrenInNode-1):
+                taken[HowFarFromSecondList[i][0]] = 1
+                if HowFarFromSecondList[i][0] == len(oldArray.children):
+                    second.children[second.nOfChildren] = newValue
+                    second.nOfChildren += 1
+                else:
+                    second.children[second.nOfChildren] = oldArray.children[HowFarFromSecondList[i][0]]
+                    second.nOfChildren += 1
+
+            #rest of the not taken nodes assign to whoever is closer - first or second
+            for i in range(len(oldArray.children) + 1):
+                if not taken[i]:
+                    firstDist = 0
+                    secondDist = 0
+                    for item in HowFarFromFirstList:
+                        if item[0] == i:
+                            firstDist = item[1]
+                    for item in HowFarFromSecondList:
+                        if item[0] == i:
+                            secondDist = item[1]
+                    if firstDist < secondDist:
+                        if i == len(oldArray.children):
+                            first.children[first.nOfChildren] = newValue
+                            first.nOfChildren += 1
+                        else:
+                            first.children[first.nOfChildren] = oldArray.children[i]
+                            first.nOfChildren += 1
+                    else:
+                        if i == len(oldArray.children):
+                            second.children[second.nOfChildren] = newValue
+                            second.nOfChildren += 1
+                        else:
+                            second.children[second.nOfChildren] = oldArray.children[i]
+                            second.nOfChildren += 1
+
         elif type == "bruteforce": #find a split that creates areas with smallest sum of volume
             minNOfChildren = self.minimumNumberOfChildrenInNode
             maxNOfChildren = (oldArray.nOfChildren + 1) - minNOfChildren
@@ -262,7 +399,6 @@ class RTree:
         second.value.CalculateBoundingBox(second, boundingBoxesOrNot)
 
         return first, second
-        pass
 
 
     def PropagateUpwards(self, node, value):
