@@ -22,7 +22,7 @@ int main(void){
     cacheManager.deleteTexture("bg.png");
     cacheManager.deleteTexture("bg.png");
 
-    txtr5 = cacheManager.getTexture("bg.png");
+    txtr5 = cacheManager.getTexture("background.png");
 
     sf::RenderWindow window(sf::VideoMode(800,600), "Test Window", sf::Style::Default, sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false });
 

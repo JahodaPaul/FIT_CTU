@@ -1,8 +1,14 @@
 #include "Util/CacheManager.hpp"
 
 namespace RG {
+
     CacheManager::CacheManager(std::string folder) {
-        SetStorageFolder(folder);
+        try {
+            SetStorageFolder(folder);
+        }
+        catch (StorageException e){
+            std::cout << e.what() << std::endl;
+        }
         CreateErrTexture();
     }
 
@@ -15,9 +21,10 @@ namespace RG {
             res = make_pair(m_Textures.find(textureName)->first, m_Textures.find(textureName)->second.first);
             m_Textures[textureName].second++;
         } else {
+            if (!FileExists(m_StorageFolder + "/" + textureName))
+                return make_pair("ErrorTexture", m_Textures["ErrorTexture"].first);
             m_Textures.insert(make_pair(textureName, make_pair(std::make_shared<sf::Texture>(sf::Texture()), 1)));
-            if (!m_Textures[textureName].first->loadFromFile(m_StorageFolder + "/" + textureName))
-                m_Textures[textureName].first = m_ErrorTexture;
+            m_Textures[textureName].first->loadFromFile(m_StorageFolder + "/" + textureName);
             res = make_pair(textureName, m_Textures[textureName].first);
         }
 
@@ -31,9 +38,10 @@ namespace RG {
             res = make_pair(m_Fonts.find(fontName)->first, m_Fonts.find(fontName)->second.first);
             m_Fonts[fontName].second++;
         } else {
+            if (!FileExists(m_StorageFolder + "/" + fontName))
+                std::cout << "Font file missing!" << std::endl;
             m_Fonts.insert(make_pair(fontName, make_pair(std::make_shared<sf::Font>(sf::Font()), 1)));
-            if (!m_Fonts[fontName].first->loadFromFile(m_StorageFolder + "/" + fontName))
-                std::cout << "Font missing!" << std::endl;
+            m_Fonts[fontName].first->loadFromFile(m_StorageFolder + "/" + fontName);
             res = make_pair(fontName, m_Fonts[fontName].first);
         }
 
@@ -65,17 +73,22 @@ namespace RG {
     }
 
     void CacheManager::SetStorageFolder(std::string folder) {
-        struct stat info;
-        if (stat(folder.c_str(), &info) < 0)
-            mkdir(folder.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH);
+        if(!FileExists(folder))
+            throw StorageException(folder);
         m_StorageFolder = folder;
     }
 
-    void CacheManager::CreateErrTexture(){
+    bool CacheManager::FileExists(std::string fileName) {
+        std::ifstream f(fileName);
+        return f.good();
+    }
+
+    void CacheManager::CreateErrTexture() {
         sf::RenderTexture render;
         render.create(800,600);
-        render.clear(sf::Color::Cyan);
+        render.clear(sf::Color::Magenta);
         std::string textureName = "ErrorTexture";
-        m_ErrorTexture = std::make_shared<sf::Texture>(render.getTexture());
+        m_Textures.insert( std::make_pair( textureName, std::make_pair(std::make_shared<sf::Texture>(render.getTexture()), 1)) );
     }
+
 }
