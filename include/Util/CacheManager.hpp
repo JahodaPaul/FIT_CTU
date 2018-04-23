@@ -42,14 +42,20 @@ namespace RG {
 
         private:
 
+            /** Method for creating error texture */
+            void CreateErrTexture();
+
             ///Member variable representing the cache data folder
-            std::string storageFolder;
+            std::string m_StorageFolder;
+
+            ///Member variable representing error texture
+            std::shared_ptr<sf::Texture> m_ErrorTexture;
 
             ///Member variable representing the storage for holding textures.
-            std::map<std::string, std::pair<std::shared_ptr < sf::Texture>, int>> textures;
+            std::map<std::string, std::pair<std::shared_ptr<sf::Texture>, int>> m_Textures;
 
             ///Member variable respresenting the storage for holding fonts
-            std::map<std::string, std::pair<std::shared_ptr < sf::Font>, int>> fonts;
+            std::map<std::string, std::pair<std::shared_ptr<sf::Font>, int>> m_Fonts;
 
     };
 }
