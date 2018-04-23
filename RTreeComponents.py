@@ -43,7 +43,7 @@ class BoundingBox:
             for item in self.MinValues:
                 sum += item
         else:
-            for item in self.MinValues:
+            for item in self.MaxValues:
                 sum += item
         return sum
 

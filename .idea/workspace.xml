@@ -6,6 +6,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RTree.py" afterPath="$PROJECT_DIR$/RTree.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RTreeComponents.py" afterPath="$PROJECT_DIR$/RTreeComponents.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RTreeTestCases.py" afterPath="$PROJECT_DIR$/RTreeTestCases.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RTreeTestClass.py" afterPath="$PROJECT_DIR$/RTreeTestClass.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -35,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RTreeTestClass.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RTreeTestClass.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RTreeTestClass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="774">
-              <caret line="108" column="0" lean-forward="false" selection-start-line="108" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+            <state relative-caret-position="291">
+              <caret line="84" column="37" lean-forward="false" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="37" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -47,14 +48,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RTreeTestCases.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RTreeTestCases.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RTreeTestCases.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="93" column="36" lean-forward="true" selection-start-line="93" selection-start-column="36" selection-end-line="93" selection-end-column="36" />
+            <state relative-caret-position="767">
+              <caret line="185" column="13" lean-forward="false" selection-start-line="185" selection-start-column="13" selection-end-line="185" selection-end-column="13" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#1891#2076#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -85,7 +85,7 @@
       <file leaf-file-name="Show3D.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Show3D.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="897">
+            <state relative-caret-position="1394">
               <caret line="83" column="25" lean-forward="false" selection-start-line="83" selection-start-column="25" selection-end-line="83" selection-end-column="25" />
               <folding>
                 <element signature="e#108#185#0" expanded="true" />
@@ -97,12 +97,11 @@
       <file leaf-file-name="RTree.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RTree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="569">
-              <caret line="261" column="112" lean-forward="false" selection-start-line="261" selection-start-column="112" selection-end-line="261" selection-end-column="112" />
+            <state relative-caret-position="528">
+              <caret line="288" column="98" lean-forward="false" selection-start-line="288" selection-start-column="98" selection-end-line="288" selection-end-column="98" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#6599#7960#0" expanded="false" />
-                <element signature="e#14394#18639#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -121,8 +120,8 @@
       <file leaf-file-name="RTreeComponents.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RTreeComponents.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="110" column="78" lean-forward="false" selection-start-line="110" selection-start-column="78" selection-end-line="110" selection-end-column="78" />
+            <state relative-caret-position="-395">
+              <caret line="41" column="19" lean-forward="true" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -139,8 +138,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>matplotlib</find>
-      <find>E</find>
       <find>EZY</find>
       <find>Bounding</find>
       <find>BoundingBox(</find>
@@ -155,16 +152,22 @@
       <find>IsIt</find>
       <find>CalculateBoundingBox</find>
       <find>test bounding32</find>
-      <find>nOfChildren</find>
       <find>deepcopy</find>
-      <find>print</find>
       <find>ClosestPoint</find>
       <find>nex</find>
       <find>max</find>
       <find>permutation</find>
       <find>maxValues</find>
       <find>second</find>
+      <find>nOfChildren</find>
       <find>center</find>
+      <find>print</find>
+      <find>testingClose</find>
+      <find>SearchClose</find>
+      <find>nofchildrenInSecond</find>
+      <find>heuristic</find>
+      <find>listOfValues</find>
+      <find>Calcula</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -181,9 +184,9 @@
         <option value="$PROJECT_DIR$/TestRtree.py" />
         <option value="$USER_HOME$/test.py" />
         <option value="$PROJECT_DIR$/RTreeComponents.py" />
-        <option value="$PROJECT_DIR$/RTreeTestCases.py" />
-        <option value="$PROJECT_DIR$/RTree.py" />
         <option value="$PROJECT_DIR$/RTreeTestClass.py" />
+        <option value="$PROJECT_DIR$/RTree.py" />
+        <option value="$PROJECT_DIR$/RTreeTestCases.py" />
       </list>
     </option>
   </component>
@@ -214,6 +217,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -228,8 +233,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -527,13 +530,13 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960325" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39979655" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -560,14 +563,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/RTree.py</url>
-          <line>351</line>
+          <line>353</line>
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/RTree.py</url>
+          <line>175</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="20" />
+      <option name="time" value="21" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -632,7 +640,6 @@
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#6599#7960#0" expanded="false" />
-            <element signature="e#14394#18639#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -682,7 +689,6 @@
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#6599#7960#0" expanded="false" />
-            <element signature="e#14394#18639#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -740,7 +746,6 @@
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#6599#7960#0" expanded="false" />
-            <element signature="e#14394#18639#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -783,7 +788,6 @@
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#6599#7960#0" expanded="false" />
-            <element signature="e#14394#18639#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -825,7 +829,6 @@
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#6599#7960#0" expanded="false" />
-            <element signature="e#14394#18639#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -867,7 +870,6 @@
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#6599#7960#0" expanded="false" />
-            <element signature="e#14394#18639#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -986,7 +988,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Show3D.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="897">
+        <state relative-caret-position="1394">
           <caret line="83" column="25" lean-forward="false" selection-start-line="83" selection-start-column="25" selection-end-line="83" selection-end-column="25" />
           <folding>
             <element signature="e#108#185#0" expanded="true" />
@@ -994,43 +996,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RTreeComponents.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="110" column="78" lean-forward="false" selection-start-line="110" selection-start-column="78" selection-end-line="110" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RTree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
-          <caret line="261" column="112" lean-forward="false" selection-start-line="261" selection-start-column="112" selection-end-line="261" selection-end-column="112" />
+        <state relative-caret-position="528">
+          <caret line="288" column="98" lean-forward="false" selection-start-line="288" selection-start-column="98" selection-end-line="288" selection-end-column="98" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#6599#7960#0" expanded="false" />
-            <element signature="e#14394#18639#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RTreeTestClass.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="108" column="0" lean-forward="false" selection-start-line="108" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/RTreeTestCases.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="93" column="36" lean-forward="true" selection-start-line="93" selection-start-column="36" selection-end-line="93" selection-end-column="36" />
+        <state relative-caret-position="767">
+          <caret line="185" column="13" lean-forward="false" selection-start-line="185" selection-start-column="13" selection-end-line="185" selection-end-column="13" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#1891#2076#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RTreeComponents.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-395">
+          <caret line="41" column="19" lean-forward="true" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RTreeTestClass.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="84" column="37" lean-forward="false" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -236,6 +236,7 @@ class RTree:
                             HowFarFromFirstList.append((i, self.EuclidianDistTwoPoints(first.children[0].value,newValue.value)))
 
             HowFarFromFirstList = sorted(HowFarFromFirstList,key=itemgetter(1))
+            # print(HowFarFromFirstList)
 
             for i in range(self.minimumNumberOfChildrenInNode-1):
                 taken[HowFarFromFirstList[i][0]] = 1
@@ -262,6 +263,7 @@ class RTree:
                             HowFarFromSecondList.append((i, self.EuclidianDistTwoPoints(second.children[0].value,newValue.value)))
 
             HowFarFromSecondList = sorted(HowFarFromSecondList,key=itemgetter(1))
+            # print(HowFarFromSecondList)
 
             for i in range(self.minimumNumberOfChildrenInNode-1):
                 taken[HowFarFromSecondList[i][0]] = 1
@@ -283,7 +285,8 @@ class RTree:
                     for item in HowFarFromSecondList:
                         if item[0] == i:
                             secondDist = item[1]
-                    if firstDist < secondDist:
+                    # print(firstDist,secondDist)
+                    if firstDist < secondDist or second.nOfChildren == self.numberOfChildrenInNode:
                         if i == len(oldArray.children):
                             first.children[first.nOfChildren] = newValue
                             first.nOfChildren += 1
@@ -310,7 +313,6 @@ class RTree:
             for i in range(minNOfChildren,maxNOfChildren+1):
                 nOfChildrenInFirst = i
                 nOfChildrenInSecond = (oldArray.nOfChildren+1) - nOfChildrenInFirst
-                #TODO
                 #every permutation of i children in N children
 
                 previousPermutation = 0;
@@ -385,13 +387,11 @@ class RTree:
                         second.children[indexSecond] = oldArray.children[counter]
                     indexSecond += 1
 
-        for child in first.children:
-            if child != None: #TODO OPTIMIZE - JUST TO NOfCHILDREN
-                child.parent = first
+        for i in range(first.nOfChildren):
+            first.children[i].parent = first
 
-        for child in second.children:
-            if child != None:
-                child.parent = second
+        for i in range(second.nOfChildren):
+            second.children[i].parent = second
 
         first.value = BoundingBox(self.numberOfDimensions)
         first.value.CalculateBoundingBox(first, boundingBoxesOrNot)
