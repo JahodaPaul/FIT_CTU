@@ -168,23 +168,30 @@ def TestAllThreeAndPrintTime(nOfChildren,nOfDimensions,valuesFrom,valuesTo,nOfVa
 
 randInL, brutInL, heuInL, randQL, brutQL, heuQL  = [],[],[],[],[],[]
 xAxis = []
-for i in range(1,6):
-    randIn, brutIn, heuIn, randQ, brutQ, heuQ = TestAllThreeAndPrintTime(8,3,0,100,2000,10000,10*i)
+for i in range(3,11):
+    randIn, brutIn, heuIn, randQ, brutQ, heuQ = TestAllThreeAndPrintTime(i,3,0,100,1000,1,10)
     randInL.append(randIn)
     brutInL.append(brutIn)
     heuInL.append(heuIn)
     randQL.append(randQ)
     brutQL.append(brutQ)
     heuQL.append(heuQ)
-    xAxis.append(i*10)
+    xAxis.append(i)
 
-randomLine = plt.plot(xAxis,randQL,label = 'random',color='purple')
-bruteforceLine = plt.plot(xAxis,brutQL,label = 'brute force',color='red')
-heuristicLine = plt.plot(xAxis,heuQL,label = 'heuristic',color='green')
+randomLine = plt.plot(xAxis,randInL,label = 'random',color='purple')
+bruteforceLine = plt.plot(xAxis,brutInL,label = 'brute force',color='red')
+heuristicLine = plt.plot(xAxis,heuInL,label = 'heuristic',color='green')
 
-plt.xlabel('Distance')
-plt.ylabel('Seconds')
-plt.title('What role does distance play')
+# plt.rcParams.update({'font.size': 20})
+font = {'family' : 'normal',
+        'weight' : 'normal',
+        'size'   : 18}
+
+plt.rc('font', **font)
+
+plt.xlabel('Number of children in a node',fontsize=16)
+plt.ylabel('Seconds',fontsize=16)
+plt.title('How long does it take to insert 1000 values')
 plt.legend(loc='best')
 # plt.legend([randomLine, bruteforceLine,heuristicLine], ['Random', 'brute force','heuristic'])
 plt.show()

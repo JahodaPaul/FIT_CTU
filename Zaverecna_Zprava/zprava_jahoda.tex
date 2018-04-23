@@ -49,6 +49,35 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 \subsection*{Příklad výstupu}
 
 \subsection*{Experimentální Sekce}
+R-strom nabízí hned několik věcí na testování. Z hlediska rychlost vkládání prvků a následných dotazů můžeme porovnávat vliv různých metod dělení ůzlů, počet potomků uzlu, počet dimenzí nebo vzdálenost u rozsahového dotazu.\\[0.5cm]
+Tabulka níže (Table 1) ukazuje vliv volby metody dělení ůzlů (když uzel dosáhl maximálního množství potomků) na rychlost vkládání prvků a rychlost rozsahových dotazů. Data v tabulce jsou zprůměrováná z pěti různých testování na stromu s maximálním množstvím 8 potomků na uzel, na trojdimenzionálních datech na 2 000 datech a 20 000 dotazech. Data jsou v sekundách.
+ 
+\begin{table}[ht]
+\begin{center}
+\caption{Rychlost vkládání a dotazů}
+\label{tbl:bins} % spaces are big no-no withing labels
+\begin{tabular}{|c|cc|} 
+\hline
+\multicolumn{1}{|c}{} & \multicolumn{1}{c}{Insert} & \multicolumn{1}{c|}{Query} \\
+\hline
+Random & 1.0669 &   19.45292 \\
+\hline
+Brute force & 4.73896 &   5.33882 \\
+\hline
+Heuristic & 0.91115 &   7.51662 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Výsledek je očekávaný. Metoda hrubou silou (brute force) je jasně nejpomalější pří vkládání, zatímco na dotazech vyhrává. Metoda dělení heuristikou nejenže nejrychleji vkládá prvky, ale vede si obstojně i v rozsahových dotazech, což je důvodem proč jsou heuristiky na R-stromech používané. Na druhou stranu metoda náhodného rozdělení uzlů je suveréně nejhorší na rozsahové dotazy.\\[0.5cm]
+Na grafu níže můžeme pozorovat vliv počtu potomků uzlu na dobu vkládání prvků. Zatímco vkládání s dělením ůzlu heuristikou nebo náhodným dělením je s vzrůstajícím počtem potomků dokonce neptrně rychlejší tak u dělení hrubou silou můžeme pozorovat velký pokles rychlost přidávání. Tento fakt je způsoben tím, ze řešení hrubou silou skouší všechny možné permutace rozdělení uzlu, což je asymptoticky exponenciální.
+
+\begin{center}
+\includegraphics[width=15cm, height=8cm]{nOfChildren}
+\end{center}
+
+Na závěr experimentální sekce bych zde uvedl, že počet dimenzí hraje naprosto minimální vliv na rychlost vkládání nebo na rychlost rozsahových dotazů. Toto zjistění potvrzuji silné stránky R-stromu.
 
 \subsection*{Diskuze}
 
