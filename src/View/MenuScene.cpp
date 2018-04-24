@@ -9,19 +9,19 @@ namespace RG {
     void MenuScene::Render( View * view ) {
         ImGui::SFML::Update(*view->getWindow(), view->getClock().restart());
 
+        ImGui::ShowDemoWindow();
+
         ImGui::SetNextWindowBgAlpha(0);
         ImGui::GetStyle().WindowBorderSize = 0;
         ImGui::Begin("", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize );
-        //ImGui::PushItemHeight( 300 );
         if (ImGui::Button("New Game", ImVec2(100,50))) {
         }
         if (ImGui::Button("Higscores", ImVec2(100,50))) {
         }
         if (ImGui::Button("Exit", ImVec2(100,50)))
             view->getGameController()->Quit();
+        ImGui::SetWindowPos(ImVec2((view->getWindow()->getSize().x) / 2  - ImGui::GetWindowWidth() / 2, view->getWindow()->getSize().y / 2 - ImGui::GetWindowHeight() / 2), true);
         ImGui::End();
-
-        ImGui::ShowDemoWindow();
 
         view->getWindow()->clear({255,0,0,255});
 

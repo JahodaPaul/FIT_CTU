@@ -23,6 +23,9 @@ namespace RG {
 
         //initialize imgui
         ImGui::SFML::Init(*m_window);
+        ImGuiIO& io = ImGui::GetIO();
+        io.KeyMap[ImGuiKey_Space] = sf::Keyboard::Return;
+        io.ConfigFlags = ImGuiConfigFlags_NavEnableKeyboard;
     }
     View::~View() {}
     void View::ManageInput() {
