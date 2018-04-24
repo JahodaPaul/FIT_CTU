@@ -39,8 +39,28 @@ class RTree:
     def SearchForPoint(self):
         pass
 
-    def SearchKClosest(self):
-        pass
+    def PreOrderClosest(self,node,value):
+        if node == None:
+            return
+        if node.value.IsItBoundingBox() and node.nOfChildren and not node.children[0].value.IsItBoundingBox():
+            # if true, search for closest value
+            minDist = 0
+            minIndex = 0
+            for i in range(node.nOfChildren):
+                temporaryDistance = self.EuclidianDistTwoPoints(node.children[i].value,value)
+                if i == 0:
+                    minDist = temporaryDistance
+                elif temporaryDistance < minDist:
+                    minDist = temporaryDistance
+                    minIndex = i
+            return node.children[minIndex].value, minDist
+        #if you are not close to leaf, call FindOutToWhichBoundingBoxPointBelongs method which is used when inserting values
+        index = self.FindOutToWhichBoundingBoxPointBelongs(value,node)
+        return self.PreOrderClosest(node.children[index],value)
+
+
+    def SearchKClosest(self,value): # right now its searching just for the closest
+        return self.PreOrderClosest(self.root,value)
 
     def EuclidianDistTwoPoints(self,p1,p2):
         sum = 0
@@ -198,6 +218,24 @@ class RTree:
                     if tmpMax > maxSum:
                         maxSum = tmpMax
                         maxIndex = i
+
+            if maxIndex == minIndex:
+                assigned = False
+                for i in range(len(oldArray.children) + 1):
+                    if i != len(oldArray.children):
+                        tmpMax = oldArray.children[i].value.CalculateSumOfCoordinates(False)
+                    else:
+                        tmpMax = newValue.value.CalculateSumOfCoordinates(False)
+
+                    if not assigned and i != minIndex:
+                        maxSum = tmpMax
+                        maxIndex = i
+                        assigned = True
+                    elif i != minIndex:
+                        if tmpMax > maxSum:
+                            maxSum = tmpMax
+                            maxIndex = i
+
             first = Node(self.numberOfChildrenInNode, oldArray.parent)
             second = Node(self.numberOfChildrenInNode, None)
             #assign smallest to first and biggest to second
@@ -279,13 +317,15 @@ class RTree:
                 if not taken[i]:
                     firstDist = 0
                     secondDist = 0
+
                     for item in HowFarFromFirstList:
                         if item[0] == i:
                             firstDist = item[1]
+
                     for item in HowFarFromSecondList:
                         if item[0] == i:
                             secondDist = item[1]
-                    # print(firstDist,secondDist)
+
                     if firstDist < secondDist or second.nOfChildren == self.numberOfChildrenInNode:
                         if i == len(oldArray.children):
                             first.children[first.nOfChildren] = newValue
@@ -418,6 +458,7 @@ class RTree:
                 while node.parent != None:
                     value = node
                     node.parent.value.AddPointOrBBToBoundingBox(value.value.IsItBoundingBox(),value.value)
+                    # node.parent.value.CalculateBoundingBox(node.parent,True)
                     node = node.parent
                 return
             else:
