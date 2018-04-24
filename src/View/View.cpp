@@ -2,9 +2,10 @@
 
 namespace RG {
     View::View( GameController * controller, Vect2f windowSize, const char * windowTitle ) 
-        : m_gameControllet( controller )
-    {
-        m_window = std::make_shared<sf::RenderWindow>( sf::VideoMode( windowSize.x, windowSize.y ),
+        : m_gameControllet( controller ),
+        m_ImguiDemo( false ),
+        m_first( true )
+    { m_window = std::make_shared<sf::RenderWindow>( sf::VideoMode( windowSize.x, windowSize.y ),
                 windowTitle, sf::Style::Default,
                 sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false } );
         //synchromize refresh rate with monitor refresh rate
@@ -26,6 +27,9 @@ namespace RG {
         ImGuiIO& io = ImGui::GetIO();
         io.KeyMap[ImGuiKey_Space] = sf::Keyboard::Return;
         io.ConfigFlags = ImGuiConfigFlags_NavEnableKeyboard;
+
+        m_api["exit"] = std::function<void(void)>( [this](){ m_gameControllet->Quit(); } );
+        m_api["Toggle ImGui demo"] = std::function<void(void)>( [this](){ m_ImguiDemo = !m_ImguiDemo; } );
     }
     View::~View() {}
     void View::ManageInput() {
@@ -35,9 +39,12 @@ namespace RG {
         m_mapOfGameScenes[m_activeScene]->Update( this );
     }
     void View::Render() {
+        ImGui::SFML::Update(*m_window, m_clock.restart());
+        if ( m_ImguiDemo )
+            ImGui::ShowDemoWindow();
+        ShowDebugWindow();
         m_mapOfGameScenes[m_activeScene]->Render( this );
     }
-
     std::shared_ptr<sf::RenderWindow> View::getWindow() {
         return m_window;
     }
@@ -46,5 +53,17 @@ namespace RG {
     }
     sf::Clock & View::getClock() {
         return m_clock;
+    }
+    void View::ShowDebugWindow() {
+        if ( m_first ) {
+            ImGui::SetNextWindowPos({0,0},true);
+            m_first = false;
+        }
+        ImGui::Begin("Debug window", NULL);
+        for ( auto & it : m_api ) {
+            if ( ImGui::Button(it.first.c_str()) )
+                it.second();
+        }
+        ImGui::End();
     }
 };
