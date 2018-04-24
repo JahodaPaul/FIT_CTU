@@ -4,7 +4,7 @@ namespace RG {
     View::View( GameController * controller, Vect2f windowSize, const char * windowTitle ) 
         : m_gameControllet( controller ),
         m_ImguiDemo( false ),
-        m_first( true )
+        m_console( &m_api )
     { m_window = std::make_shared<sf::RenderWindow>( sf::VideoMode( windowSize.x, windowSize.y ),
                 windowTitle, sf::Style::Default,
                 sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false } );
@@ -28,8 +28,8 @@ namespace RG {
         io.KeyMap[ImGuiKey_Space] = sf::Keyboard::Return;
         io.ConfigFlags = ImGuiConfigFlags_NavEnableKeyboard;
 
-        m_api["exit"] = std::function<void(void)>( [this](){ m_gameControllet->Quit(); } );
-        m_api["Toggle ImGui demo"] = std::function<void(void)>( [this](){ m_ImguiDemo = !m_ImguiDemo; } );
+        m_api["quit"] = std::function<void(void)>( [this](){ m_gameControllet->Quit(); } );
+        m_api["imgui_demo"] = std::function<void(void)>( [this](){ m_ImguiDemo = !m_ImguiDemo; } );
     }
     View::~View() {}
     void View::ManageInput() {
@@ -42,7 +42,8 @@ namespace RG {
         ImGui::SFML::Update(*m_window, m_clock.restart());
         if ( m_ImguiDemo )
             ImGui::ShowDemoWindow();
-        ShowDebugWindow();
+        //ShowDebugWindow();
+        m_console.Draw();
         m_mapOfGameScenes[m_activeScene]->Render( this );
     }
     std::shared_ptr<sf::RenderWindow> View::getWindow() {
@@ -55,10 +56,7 @@ namespace RG {
         return m_clock;
     }
     void View::ShowDebugWindow() {
-        if ( m_first ) {
-            ImGui::SetNextWindowPos({0,0},true);
-            m_first = false;
-        }
+        ImGui::SetNextWindowPos({0,0}, ImGuiCond_FirstUseEver);
         ImGui::Begin("Debug window", NULL);
         for ( auto & it : m_api ) {
             if ( ImGui::Button(it.first.c_str()) )

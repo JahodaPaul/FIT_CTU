@@ -12,6 +12,7 @@
 
 #include "Util/Vect2.hpp"
 #include "View/MenuScene.hpp"
+#include "View/Console.hpp"
 #include "Controller/GameController.hpp"
 
 namespace RG {
@@ -41,6 +42,6 @@ namespace RG {
             //TODO(vojta)
             std::map<std::string, std::function<void(void)>> m_api;
             bool m_ImguiDemo;
-            bool m_first;
+            Console m_console;
     };
 }
