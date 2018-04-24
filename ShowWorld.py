@@ -2,14 +2,16 @@ from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 from plotly.graph_objs import Scatter, Figure, Layout, Scatter3d
 
 class ShowWorld:
-    def __init__(self,lons,lats):
+    def __init__(self,lons,lats,text=''):
         self.lons = lons
         self.lats = lats
+        self.text = text if text != '' else ['test' for i in range(len(self.lons))]
         self.trace1 =  dict(
                 name = 'Easyjet',
                 type = 'scattergeo',
                 lon = self.lons,
                 lat = self.lats,
+                text = self.text,
                 mode = 'markers',
                 marker = dict(
                     color='rgb(204, 0, 0)',

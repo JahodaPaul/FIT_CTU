@@ -111,6 +111,7 @@ test = Test()
 
 
 def TestAllThreeAndPrintTime(nOfChildren,nOfDimensions,valuesFrom,valuesTo,nOfValues,nOfQueries,queryDist):
+    myTest = Test()
     print('Children:',nOfChildren,'Number of dimensions:',nOfDimensions,'Number of values:',nOfValues,'Number of queries:',nOfQueries)
     myTreeRandom = RTree(nOfChildren,nOfDimensions,'random')
     myTreeBruteForce = RTree(nOfChildren, nOfDimensions, 'bruteforce')
@@ -120,7 +121,7 @@ def TestAllThreeAndPrintTime(nOfChildren,nOfDimensions,valuesFrom,valuesTo,nOfVa
     for i in range(nOfValues):
         temporaryVal = Value([random.randint(valuesFrom, valuesTo) for j in range(nOfDimensions)], 0)
         listOfValues.append(temporaryVal)
-        test.Insert(temporaryVal)
+        myTest.Insert(temporaryVal)
     queries = []
     for i in range(nOfQueries):
         queries.append([Value([random.randint(valuesFrom-10, valuesTo+10) for j in range(nOfDimensions)], 0), random.randint(0, queryDist), 0])
@@ -147,19 +148,19 @@ def TestAllThreeAndPrintTime(nOfChildren,nOfDimensions,valuesFrom,valuesTo,nOfVa
     heuIn = after-before
 
     before = time.time()
-    test.TestingSection(myTreeRandom,myTreeRandom.numberOfChildrenInNode,True,queries)
+    myTest.TestingSection(myTreeRandom,myTreeRandom.numberOfChildrenInNode,True,queries)
     after = time.time()
     print('Queries random:', after - before)
     randQ = after - before
 
     before = time.time()
-    test.TestingSection(myTreeBruteForce,myTreeBruteForce.numberOfChildrenInNode,True,queries)
+    myTest.TestingSection(myTreeBruteForce,myTreeBruteForce.numberOfChildrenInNode,True,queries)
     after = time.time()
     print('Queries bruteforce:', after - before)
     brutQ = after - before
 
     before = time.time()
-    test.TestingSection(myTreeHeuristic,myTreeHeuristic.numberOfChildrenInNode,True,queries)
+    myTest.TestingSection(myTreeHeuristic,myTreeHeuristic.numberOfChildrenInNode,True,queries)
     after = time.time()
     heuQ = after-before
     print('Queries heuristic:', after - before)
@@ -168,8 +169,8 @@ def TestAllThreeAndPrintTime(nOfChildren,nOfDimensions,valuesFrom,valuesTo,nOfVa
 
 randInL, brutInL, heuInL, randQL, brutQL, heuQL  = [],[],[],[],[],[]
 xAxis = []
-for i in range(3,11):
-    randIn, brutIn, heuIn, randQ, brutQ, heuQ = TestAllThreeAndPrintTime(i,3,0,100,1000,1,10)
+for i in range(5):
+    randIn, brutIn, heuIn, randQ, brutQ, heuQ = TestAllThreeAndPrintTime(8,3,0,100,2000,20000,5)
     randInL.append(randIn)
     brutInL.append(brutIn)
     heuInL.append(heuIn)
@@ -178,9 +179,9 @@ for i in range(3,11):
     heuQL.append(heuQ)
     xAxis.append(i)
 
-randomLine = plt.plot(xAxis,randInL,label = 'random',color='purple')
-bruteforceLine = plt.plot(xAxis,brutInL,label = 'brute force',color='red')
-heuristicLine = plt.plot(xAxis,heuInL,label = 'heuristic',color='green')
+randomLine = plt.plot(xAxis,randQL,label = 'random',color='purple')
+bruteforceLine = plt.plot(xAxis,brutQL,label = 'brute force',color='red')
+heuristicLine = plt.plot(xAxis,heuQL,label = 'heuristic',color='green')
 
 # plt.rcParams.update({'font.size': 20})
 font = {'family' : 'normal',
@@ -193,5 +194,5 @@ plt.xlabel('Number of children in a node',fontsize=16)
 plt.ylabel('Seconds',fontsize=16)
 plt.title('How long does it take to insert 1000 values')
 plt.legend(loc='best')
-# plt.legend([randomLine, bruteforceLine,heuristicLine], ['Random', 'brute force','heuristic'])
-plt.show()
+
+# plt.show()

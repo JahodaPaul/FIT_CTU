@@ -6,13 +6,13 @@ class Test:
         self.passed = True
         self.listOfValues = []
 
-    def Preorder(node, nOfChildren):
+    def Preorder(self,node, nOfChildren):
         if node == None:
             return
         print('----------------------,', node.nOfChildren)
         node.value.PrintForTesting()
         for i in range(nOfChildren):
-            Preorder(node.children[i], nOfChildren)
+            self.Preorder(node.children[i], nOfChildren)
 
     def CheckBB(self,bb1,bb2,twoBoundingBoxes):
         passed = True
@@ -80,6 +80,33 @@ class Test:
     def Insert(self,value):
         self.listOfValues.append(value)
 
+    def bruteForceClosestValue(self,value,myTree):
+        minDist = 0
+        minIndex = 0
+        for i in range(len(self.listOfValues)):
+            temporaryDistance = myTree.EuclidianDistTwoPoints(self.listOfValues[i], value)
+            if i == 0:
+                minDist = temporaryDistance
+            elif temporaryDistance < minDist:
+                minDist = temporaryDistance
+                minIndex = i
+
+        return self.listOfValues[minIndex], minDist
+
+    def TestingClosestValue(self,myTree,testCases, machineTesting):
+        passed = True
+
+        if machineTesting:
+            for i in range(len(testCases)):
+                temporaryValue, temporaryDistance = myTree.SearchKClosest(testCases[i][0])
+                correctValue, correctDistance = self.bruteForceClosestValue(testCases[i][0],myTree)
+                if temporaryDistance != correctDistance:
+                    passed = False
+                    print('TEST', i, 'FINDING OF CLOSEST POINT FAILED')
+                    print(temporaryDistance,correctDistance)
+        return passed
+
+
     def bruteForceTestKDistFromPoint(self,value, myTree,distance):
         nOfPoints = 0
         for item in self.listOfValues:
@@ -101,7 +128,6 @@ class Test:
             elif len(temporaryList) != testCases[i][2]:
                 passed = False
                 print('TEST',i,'NUMBER OF POINTS CLOSE TO POINT TEST FAILED')
-        self.listOfValues = []
         return passed
 
     def TestingSection(self,RTree, nOfChildren, machineTesting=False, testCasesKDistClose = []):
@@ -123,6 +149,14 @@ class Test:
         if not self.passed:
             print('TEST POINTS K DISTANCE CLOSE FAILED')
             finalPassed = False
+
+        # right now just use coordinates from range query for testing of finding closest value
+        # self.passed = True
+        # self.passed = self.TestingClosestValue(RTree,testCasesKDistClose,True)
+        # if not self.passed:
+        #     print('TEST FINDING CLOSEST POINT FAILED')
+        #     finalPassed = False
+
 
         if finalPassed:
             print('SUCCESS. TESTS PASSED')
