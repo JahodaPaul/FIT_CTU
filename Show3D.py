@@ -1,6 +1,3 @@
-# from matplotlib import pyplot
-# from mpl_toolkits.mplot3d import Axes3D
-# from plotly.graph_objs import *
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 from plotly.graph_objs import Scatter, Figure, Layout, Scatter3d
 
@@ -39,27 +36,9 @@ class Show3D:
         return returnX, returnY, returnZ
 
     def TestShow(self,sequence_containing_x_vals,sequence_containing_y_vals,sequence_containing_z_vals):
-        # fig = pyplot.figure()
-        # ax = Axes3D(fig)
-
-        # ax.set_xlim3d(-1,1)
-        # ax.set_ylim3d(-1,1)
-        # ax.set_zlim3d(-1,1)
-
         x = [min(sequence_containing_x_vals),max(sequence_containing_x_vals)]
         y = [min(sequence_containing_y_vals),max(sequence_containing_y_vals)]
         z = [min(sequence_containing_z_vals),max(sequence_containing_z_vals)]
-
-        # for i in range(2):
-        #     for j in range(2):
-        #         ax.plot3D([x[i], x[i]], [y[0],y[1]],[z[j],z[j]], color="r")
-        #         ax.plot3D([x[0], x[1]], [y[i],y[i]],[z[j],z[j]], color="r")
-        #         ax.plot3D([x[j], x[j]], [y[i],y[i]],[z[0],z[1]], color="r")
-
-
-        # ax.scatter(sequence_containing_x_vals, sequence_containing_y_vals, sequence_containing_z_vals)
-        # pyplot.show()
-
 
 
         trace1 = Scatter3d(
