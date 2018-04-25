@@ -12,6 +12,8 @@ class RTree:
         self.root = Node(self.numberOfChildrenInNode, None)
         self.minimumNumberOfChildrenInNode = int(numberOfChildrenInNode/2)
         self.splittingType = splittingType
+        self.minDistance = -1
+        self.minValue = None
 
     def Insert(self,value):
         tmp = self.root
@@ -36,31 +38,38 @@ class RTree:
     def Delete(self):
         pass
 
-    def SearchForPoint(self):
-        pass
-
     def PreOrderClosest(self,node,value):
         if node == None:
             return
         if node.value.IsItBoundingBox() and node.nOfChildren and not node.children[0].value.IsItBoundingBox():
             # if true, search for closest value
-            minDist = 0
-            minIndex = 0
             for i in range(node.nOfChildren):
                 temporaryDistance = self.EuclidianDistTwoPoints(node.children[i].value,value)
-                if i == 0:
-                    minDist = temporaryDistance
-                elif temporaryDistance < minDist:
-                    minDist = temporaryDistance
-                    minIndex = i
-            return node.children[minIndex].value, minDist
-        #if you are not close to leaf, call FindOutToWhichBoundingBoxPointBelongs method which is used when inserting values
-        index = self.FindOutToWhichBoundingBoxPointBelongs(value,node)
-        return self.PreOrderClosest(node.children[index],value)
+                if temporaryDistance < self.minDistance or self.minDistance == -1:
+                    self.minDistance = temporaryDistance
+                    self.minValue = node.children[i].value
+            return
+        # if you are not close to leaf, sort children bounding boxes by how close they are to the value being searched
+        # and then visit only the ones that have closer minimal bounding box than the current minimal distance
+        tmpListOfDistancesAndIndexes = []
+        for i in range(node.nOfChildren):
+            temporaryPoint = node.children[i].value.ClosestPointFromToBoundingBoxToPoint(value,node.children[i].value)
+            tmpListOfDistancesAndIndexes.append([self.EuclidianDistTwoPoints(value,temporaryPoint),i])
+        tmpListOfDistancesAndIndexes.sort()
+
+        for item in tmpListOfDistancesAndIndexes:
+            if item[0] < self.minDistance or self.minDistance == -1:
+                self.PreOrderClosest(node.children[item[1]],value)
+            else: # since its sorted there is no point in checking if the if statement holds for every item
+                return
 
 
-    def SearchKClosest(self,value): # right now its searching just for the closest
-        return self.PreOrderClosest(self.root,value)
+
+    def SearchClosest(self,value):
+        self.minDistance = -1
+        self.minValue = None
+        self.PreOrderClosest(self.root,value)
+        return self.minValue, self.minDistance
 
     def EuclidianDistTwoPoints(self,p1,p2):
         sum = 0
@@ -81,15 +90,18 @@ class RTree:
             sum += ( (tmpP1.coordinates[i] - tmpP2.coordinates[i]) * (tmpP1.coordinates[i] - tmpP2.coordinates[i]) )
         return round(math.sqrt(sum),10)
 
+    #finds values that are close at most 'distance' to the value
     def PreorderKDist(self,node,value, distance):
         if node == None:
             return
 
+        # if leaf, check if the distance between value and leaf is equal or less to parameter distance
         if not node.value.IsItBoundingBox():
             if self.EuclidianDistTwoPoints(node.value,value) <= distance:
                 self.returnList.append(deepcopy(node.value))
             return
 
+        # if not leaf call recursively PreorderKDist on Nodes whose bounding boxes are close at most 'distance' to the value
         for child in node.children:
             if child != None and (not child.value.IsItBoundingBox() or
                                       (child.value.IsItBoundingBox() and
@@ -301,7 +313,6 @@ class RTree:
                             HowFarFromSecondList.append((i, self.EuclidianDistTwoPoints(second.children[0].value,newValue.value)))
 
             HowFarFromSecondList = sorted(HowFarFromSecondList,key=itemgetter(1))
-            # print(HowFarFromSecondList)
 
             for i in range(self.minimumNumberOfChildrenInNode-1):
                 taken[HowFarFromSecondList[i][0]] = 1
@@ -458,13 +469,12 @@ class RTree:
                 while node.parent != None:
                     value = node
                     node.parent.value.AddPointOrBBToBoundingBox(value.value.IsItBoundingBox(),value.value)
-                    # node.parent.value.CalculateBoundingBox(node.parent,True)
                     node = node.parent
                 return
             else:
                 existingNode, newNode = self.SplitOverflowingNodes(node, value, dealingWithBoundingBoxes, self.splittingType)
                 temporaryID = id(node)
-                node = existingNode #prepise se ten odkaz
+                node = existingNode
                 value = newNode
                 if node.parent != None:
                     for counter,child in enumerate(node.parent.children):

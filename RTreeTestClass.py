@@ -98,9 +98,9 @@ class Test:
 
         if machineTesting:
             for i in range(len(testCases)):
-                temporaryValue, temporaryDistance = myTree.SearchKClosest(testCases[i][0])
-                correctValue, correctDistance = self.bruteForceClosestValue(testCases[i][0],myTree)
-                if temporaryDistance != correctDistance:
+                temporaryValue, temporaryDistance = myTree.SearchClosest(testCases[i][0])
+                correctValue, correctDistance = self.bruteForceClosestValue(testCases[i][0],myTree) # you need to comment this line for experiemnt
+                if temporaryDistance != correctDistance: # for experiments write if False:
                     passed = False
                     print('TEST', i, 'FINDING OF CLOSEST POINT FAILED')
                     print(temporaryDistance,correctDistance)
@@ -122,7 +122,7 @@ class Test:
         for i in range(len(testCases)):
             temporaryList = myTree.SearchCloseKDist(testCases[i][0],testCases[i][1])
             if machineTesting:
-                if len(temporaryList) != self.bruteForceTestKDistFromPoint(testCases[i][0],myTree,testCases[i][1]):
+                if len(temporaryList) != self.bruteForceTestKDistFromPoint(testCases[i][0],myTree,testCases[i][1]): # for experiments write if False
                     passed = False
                     print('TEST', i, 'NUMBER OF POINTS CLOSE TO POINT TEST FAILED')
             elif len(temporaryList) != testCases[i][2]:
@@ -151,11 +151,12 @@ class Test:
             finalPassed = False
 
         # right now just use coordinates from range query for testing of finding closest value
-        # self.passed = True
-        # self.passed = self.TestingClosestValue(RTree,testCasesKDistClose,True)
-        # if not self.passed:
-        #     print('TEST FINDING CLOSEST POINT FAILED')
-        #     finalPassed = False
+        if machineTesting == True:
+            self.passed = True
+            self.passed = self.TestingClosestValue(RTree,testCasesKDistClose,True)
+            if not self.passed:
+                print('TEST FINDING CLOSEST POINT FAILED')
+                finalPassed = False
 
 
         if finalPassed:

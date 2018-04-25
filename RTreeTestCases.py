@@ -48,15 +48,19 @@ def TestCases():
     myTree3 = RTree(2, 3, 'heuristic')
     for i in range(1500):
         myTree3.Insert(Value([i, i, i], i))
+        test.Insert(Value([i, i, i], i))
 
-    test.TestingSection(myTree3, myTree3.numberOfChildrenInNode)
+    test.TestingSection(myTree3, myTree3.numberOfChildrenInNode,True)
+    test.listOfValues = []
 
     myTree5 = RTree(4, 2, 'heuristic')
 
     for i in range(100):
         myTree5.Insert(Value([100 - i, 100 - i], i))
+        test.Insert(Value([100 - i, 100 - i], i))
 
-    test.TestingSection(myTree5, myTree5.numberOfChildrenInNode)
+    test.TestingSection(myTree5, myTree5.numberOfChildrenInNode,True)
+    test.listOfValues = []
 
     myTree7 = RTree(4, 2, 'heuristic')
     myTree7.Insert(Value([0, 0], 0))
@@ -169,8 +173,8 @@ def TestAllThreeAndPrintTime(nOfChildren,nOfDimensions,valuesFrom,valuesTo,nOfVa
 def MethodForExperiments():
     randInL, brutInL, heuInL, randQL, brutQL, heuQL  = [],[],[],[],[],[]
     xAxis = []
-    for i in range(1):
-        randIn, brutIn, heuIn, randQ, brutQ, heuQ = TestAllThreeAndPrintTime(8,3,0,100,2000,20000,5)
+    for i in range(2):
+        randIn, brutIn, heuIn, randQ, brutQ, heuQ = TestAllThreeAndPrintTime(8,3,0,100,2000,2000,5)
         randInL.append(randIn)
         brutInL.append(brutIn)
         heuInL.append(heuIn)
