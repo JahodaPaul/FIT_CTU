@@ -3,8 +3,7 @@
 namespace RG {
     View::View( GameController * controller, Vect2f windowSize, const char * windowTitle ) 
         : m_gameControllet( controller ),
-        m_ImguiDemo( false ),
-        m_console( &m_api )
+        m_ImguiDemo( false )
     { m_window = std::make_shared<sf::RenderWindow>( sf::VideoMode( windowSize.x, windowSize.y ),
                 windowTitle, sf::Style::Default,
                 sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false } );
@@ -28,8 +27,8 @@ namespace RG {
         io.KeyMap[ImGuiKey_Space] = sf::Keyboard::Return;
         io.ConfigFlags = ImGuiConfigFlags_NavEnableKeyboard;
 
-        m_api["quit"] = std::function<void(void)>( [this](){ m_gameControllet->Quit(); } );
-        m_api["imgui_demo"] = std::function<void(void)>( [this](){ m_ImguiDemo = !m_ImguiDemo; } );
+        m_console.RegisterFunction( "quit",        std::function<int(void)>( [this](){ return m_gameControllet->Quit();})     );
+        m_console.RegisterFunction( "imgui_demo",  std::function<int(void)>( [this](){ m_ImguiDemo = !m_ImguiDemo; return 0;}));
     }
     View::~View() {}
     void View::ManageInput() {
@@ -39,29 +38,36 @@ namespace RG {
         m_mapOfGameScenes[m_activeScene]->Update( this );
     }
     void View::Render() {
+        //ImGui
         ImGui::SFML::Update(*m_window, m_clock.restart());
+        m_window->clear({0,0,0,255});
+
+        //FPS counter
+        ImGui::SetNextWindowPos({m_window->getSize().x -90.f,0});
+        ImGui::SetNextWindowSize({90,20});
+        ImGui::Begin("FPS", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove );
+        ImGui::Text("(%.1f FPS)", ImGui::GetIO().Framerate);
+        ImGui::End();
+
+        //DEBUG
         if ( m_ImguiDemo )
             ImGui::ShowDemoWindow();
-        //ShowDebugWindow();
         m_console.Draw();
+
         m_mapOfGameScenes[m_activeScene]->Render( this );
+
+        //ImGui
+        ImGui::SFML::Render(*m_window);
+        //display window content
+        m_window->display();
     }
-    std::shared_ptr<sf::RenderWindow> View::getWindow() {
+    const std::shared_ptr<sf::RenderWindow> View::getWindow() const {
         return m_window;
     }
-    GameController * View::getGameController() {
+    GameController * View::getGameController() const {
         return m_gameControllet;
     }
-    sf::Clock & View::getClock() {
+    const sf::Clock & View::getClock() const {
         return m_clock;
-    }
-    void View::ShowDebugWindow() {
-        ImGui::SetNextWindowPos({0,0}, ImGuiCond_FirstUseEver);
-        ImGui::Begin("Debug window", NULL);
-        for ( auto & it : m_api ) {
-            if ( ImGui::Button(it.first.c_str()) )
-                it.second();
-        }
-        ImGui::End();
     }
 };

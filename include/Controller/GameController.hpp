@@ -29,7 +29,7 @@ namespace RG {
             void Update( float timeStep );
             void Run();
             bool Running() { return m_running; }
-            void Quit();
+            int Quit();
             void setState( STATES state );
             bool m_running;
         private:

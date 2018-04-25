@@ -26,12 +26,11 @@ namespace RG {
             void Update();
             void Render();
             void ManageInput();
-            std::shared_ptr<sf::RenderWindow> getWindow();
-            GameController * getGameController();
-            sf::Clock & getClock();
+            const std::shared_ptr<sf::RenderWindow> getWindow() const;
+            GameController * getGameController() const;
+            const sf::Clock & getClock() const;
 
         private:
-            void ShowDebugWindow();
             std::shared_ptr<sf::RenderWindow> m_window;
             sf::View m_view;
             SCENE m_activeScene;
@@ -39,8 +38,6 @@ namespace RG {
             std::map<SCENE, std::shared_ptr<Scene> > m_mapOfGameScenes;
             sf::Clock m_clock;
 
-            //TODO(vojta)
-            std::map<std::string, std::function<void(void)>> m_api;
             bool m_ImguiDemo;
             Console m_console;
     };

@@ -18,9 +18,10 @@ namespace RG {
             m_view->Render();
         }
     }
-    void GameController::Quit() {
+    int GameController::Quit() {
         std::cout <<"quit" << std::endl;
         m_running = false;
+        return 0;
     }
     void GameController::setState( STATES s ) {
         m_GameState = s;
