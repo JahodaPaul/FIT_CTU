@@ -2,7 +2,7 @@ from RTree import *
 from RTreeTestClass import Test
 import random
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt  #uncomment for experiments 
 
 def TestCases():
     test = Test()

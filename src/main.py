@@ -41,8 +41,6 @@ def Update(arr,what):
                         myFile.write("{}\n".format(item))
 
 def UpdateCurrentFlights():
-    if not os.path.exists('flights'):
-        os.makedirs('flights')
     with open('airlines/'+os.listdir('airlines')[0]) as airlinesFile:
         airlinesList = [ast.literal_eval(line.rstrip()) for line in airlinesFile]
 
@@ -68,6 +66,15 @@ def ConvertToRadians(latorLon):
 
 # default is Prague, distance 2 is whole world
 def main(update, showWorld, show3D, latitude = 50.0755381, longitude = 14.4378005, distance = 0.01):
+    if not os.path.exists('flights'):
+        os.makedirs('flights')
+
+    if not os.path.exists('airports'):
+        os.makedirs('airports')
+
+    if not os.path.exists('airlines'):
+        os.makedirs('airlines')
+
     flightDir = os.listdir('flights')
     if update or len(flightDir) == 0:
         airports = fr.get_airports()
