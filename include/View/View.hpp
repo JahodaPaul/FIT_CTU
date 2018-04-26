@@ -12,13 +12,14 @@
 
 #include "Util/Vect2.hpp"
 #include "View/MenuScene.hpp"
+#include "View/GameScene.hpp"
 #include "View/Console.hpp"
 #include "Controller/GameController.hpp"
 
 namespace RG {
     class GameController;
     class Scene;
-    enum SCENE { MENU_SCENE };
+    enum SCENE { MENU_SCENE, GAME_SCENE };
     class View {
         public:
             View( GameController * controller, Vect2f windowSize = { 900,600 }, const char * windowTitle = "game" );
@@ -29,6 +30,7 @@ namespace RG {
             const std::shared_ptr<sf::RenderWindow> getWindow() const;
             GameController * getGameController() const;
             const sf::Clock & getClock() const;
+            void setActiveView( SCENE scene );
 
         private:
             std::shared_ptr<sf::RenderWindow> m_window;

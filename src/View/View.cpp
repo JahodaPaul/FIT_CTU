@@ -19,7 +19,8 @@ namespace RG {
         //m_window.setView(m_view);
         
         m_activeScene = SCENE::MENU_SCENE;
-        m_mapOfGameScenes[m_activeScene] = std::shared_ptr<Scene>( new MenuScene() );
+        m_mapOfGameScenes[SCENE::MENU_SCENE] = std::shared_ptr<Scene>( new MenuScene() );
+        m_mapOfGameScenes[SCENE::GAME_SCENE] = std::shared_ptr<Scene>( new GameScene() );
 
         //initialize imgui
         ImGui::SFML::Init(*m_window);
@@ -29,6 +30,8 @@ namespace RG {
 
         m_console.RegisterFunction( "quit",        std::function<int(void)>( [this](){ return m_gameControllet->Quit();})     );
         m_console.RegisterFunction( "imgui_demo",  std::function<int(void)>( [this](){ m_ImguiDemo = !m_ImguiDemo; return 0;}));
+        m_console.RegisterFunction( "go_to_game_scene",  std::function<int(void)>( [this](){ m_gameControllet->GoToGame(); return 0;}));
+        m_console.RegisterFunction( "go_to_menu_scene",  std::function<int(void)>( [this](){ m_gameControllet->GoToMainMenu(); return 0;}));
     }
     View::~View() {}
     void View::ManageInput() {
@@ -69,5 +72,8 @@ namespace RG {
     }
     const sf::Clock & View::getClock() const {
         return m_clock;
+    }
+    void View::setActiveView( SCENE scene ) {
+        m_activeScene = scene;
     }
 };
