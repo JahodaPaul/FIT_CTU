@@ -18,6 +18,8 @@ cmake-build-debug/
 
 # ignore build directory
 /build
+# ignore assets
+/assets
 
 # ignore imgui library ( it is managed by itself )
 /imgui
