@@ -168,7 +168,7 @@ namespace RG {
                     else if (data->EventKey == ImGuiKey_DownArrow)
                     {
                         if (HistoryPos != -1)
-                            if (++HistoryPos >= m_history.size())
+                            if (++HistoryPos >= (int)m_history.size())
                                 HistoryPos = -1;
                     }
 

@@ -76,4 +76,4 @@ namespace RG {
     void View::setActiveView( SCENE scene ) {
         m_activeScene = scene;
     }
-};
+}
