@@ -1,3 +1,4 @@
+# ignore pdflatex tmp files
 *.aux
 *.fdb_latexmk
 *.fls
@@ -8,13 +9,16 @@
 *.toc
 *.png
 
+# ignore archives
 *.zip
 *.tar
 
 cmake-build-debug/
 .idea/
 
+# ignore build directory
 /build
 
+# ignore imgui library ( it is managed by itself )
 /imgui
 /imgui-sfml
