@@ -14,6 +14,8 @@
 #include "View/MenuScene.hpp"
 #include "View/GameScene.hpp"
 #include "View/Console.hpp"
+#include <View/Player.hpp>
+
 #include "Controller/GameController.hpp"
 
 namespace RG {
@@ -32,6 +34,9 @@ namespace RG {
             const sf::Clock & getClock() const;
             void setActiveView( SCENE scene );
 
+            std::shared_ptr<Player> GetPlayer();
+            void SetPlayer();
+
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
             sf::View m_view;
@@ -40,7 +45,10 @@ namespace RG {
             std::map<SCENE, std::shared_ptr<Scene> > m_mapOfGameScenes;
             sf::Clock m_clock;
 
+
             bool m_ImguiDemo;
             Console m_console;
+
+            std::shared_ptr<Player> player;
     };
 }

@@ -1,4 +1,5 @@
 #include "View/GameScene.hpp"
+#include <View/Animation.hpp>
 
 namespace RG {
     GameScene::GameScene() {
@@ -6,30 +7,10 @@ namespace RG {
     GameScene::~GameScene() {
     }
     void GameScene::Update( View * view ) {
-        bool moved = false;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)){
-            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.1f,0.0f);
-            moved = true;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)){
-            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(-0.1f,0.0f);
-            moved = true;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)){
-            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.0f,-0.1f);
-            moved = true;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)){
-            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.0f,0.1f);
-            moved = true;
-        }
-        if(!moved){
-            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.0f,0.0f);
-        }
 
     }
     void GameScene::Render( View * view ) {
-        std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.0f,0.0f);
+        std::shared_ptr<Animation> animation = view->GetPlayer()->UpdateAndGetPlayer(0.0f,0.0f);
         animation->draw(*view->getWindow(),sf::RenderStates());
     }
     void GameScene::ManageInput( View * view ) {
@@ -43,6 +24,35 @@ namespace RG {
                 window->close();
                 view->getGameController()->Quit();
                 return;
+            }
+
+            bool moved = false;
+            if(event.key.code == sf::Keyboard::Right){
+                if (event.type == sf::Event::KeyPressed) {
+                    std::shared_ptr<Animation> animation = view->GetPlayer()->UpdateAndGetPlayer(3.0f, 0.0f);
+                    moved = true;
+                }
+            }
+            if(event.key.code == sf::Keyboard::Left){
+                if (event.type == sf::Event::KeyPressed) {
+                    std::shared_ptr<Animation> animation = view->GetPlayer()->UpdateAndGetPlayer(-3.0f, 0.0f);
+                    moved = true;
+                }
+            }
+            if(event.key.code == sf::Keyboard::Up){
+                if (event.type == sf::Event::KeyPressed) {
+                    std::shared_ptr<Animation> animation = view->GetPlayer()->UpdateAndGetPlayer(0.0f, -3.0f);
+                    moved = true;
+                }
+            }
+            if(event.key.code == sf::Keyboard::Down){
+                if (event.type == sf::Event::KeyPressed) {
+                    std::shared_ptr<Animation> animation = view->GetPlayer()->UpdateAndGetPlayer(0.0f, 3.0f);
+                    moved = true;
+                }
+            }
+            if(!moved){
+                std::shared_ptr<Animation> animation = view->GetPlayer()->UpdateAndGetPlayer(0.0f,0.0f);
             }
         }
     }

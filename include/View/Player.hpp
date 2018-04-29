@@ -19,6 +19,8 @@ namespace RG{
         sf::RectangleShape GetPlayerRectangleShape();
         std::shared_ptr<Animation> GetAnimation();
         void Update(float);
+
+        std::shared_ptr<Animation> UpdateAndGetPlayer(float x,float y);
     protected:
     private:
         sf::RectangleShape player;

@@ -77,4 +77,12 @@ namespace RG {
     void View::setActiveView( SCENE scene ) {
         m_activeScene = scene;
     }
+
+    void View::SetPlayer() {
+        player = std::make_shared<Player>();
+    }
+
+    std::shared_ptr<Player> View::GetPlayer() {
+        return player;
+    }
 }

@@ -37,7 +37,7 @@ INCLUDE_DIRECTORIES( ./include ./imgui ./imgui-sfml )
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -fsanitize=address")
 
-ADD_EXECUTABLE(game src/main.cpp src/Controller/GameController.cpp src/Controller/MenuStateHandler.cpp src/Controller/GameStateHandler.cpp src/View/View.cpp src/View/MenuScene.cpp src/View/Scene.cpp imgui/imgui.cpp imgui/imgui_draw.cpp imgui-sfml/imgui-SFML.cpp imgui/imgui_demo.cpp src/View/Console.cpp src/Controller/GameController.cpp src/View/GameScene.cpp src/View/Animation.cpp include/Model/Player.h src/Model/Player.cpp include/Model/Game.h src/Model/Game.cpp)
+ADD_EXECUTABLE(game src/main.cpp src/Controller/GameController.cpp src/Controller/MenuStateHandler.cpp src/Controller/GameStateHandler.cpp src/View/View.cpp src/View/MenuScene.cpp src/View/Scene.cpp imgui/imgui.cpp imgui/imgui_draw.cpp imgui-sfml/imgui-SFML.cpp imgui/imgui_demo.cpp src/View/Console.cpp src/Controller/GameController.cpp src/View/GameScene.cpp src/View/Animation.cpp include/Model/Player.hpp src/Model/Player.cpp)
 
 LINK_DIRECTORIES(/usr/local/lib)
 INCLUDE_DIRECTORIES( ./include )

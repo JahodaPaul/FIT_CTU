@@ -7,7 +7,6 @@ namespace RG {
         m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<GameStateHandler>( new GameStateHandler() );
         m_GameState = STATES::MAIN_MENU;
         m_view = std::make_shared<View>(this);
-        m_game = NULL;
     }
     GameController::~GameController() {}
 
@@ -40,23 +39,11 @@ namespace RG {
     void GameController::GoToGame() {
         m_mapOfGameStateHandlers[m_GameState]->GoToGame( this );
         m_view->setActiveView( SCENE::GAME_SCENE );
-        m_game = std::make_shared<Game>();
-        m_game->SetPlayer();
-        m_game->GetPlayer()->GetAnimation()->goToFrame(0);
-        m_game->GetPlayer()->GetAnimation()->startAnimation();
+        m_view->SetPlayer();
+        m_view->GetPlayer()->GetAnimation()->goToFrame(0);
+        m_view->GetPlayer()->GetAnimation()->startAnimation();
     }
     void GameController::setActiveGameState( STATES state ) {
         m_GameState = state;
-    }
-
-    std::shared_ptr<Animation> GameController::UpdateAndGetPlayer(float x,float y){
-        if(x || y){
-            m_game->GetPlayer()->UpdatePosition(x,y);
-            m_game->GetPlayer()->Update(0.001f);
-        }
-        else{
-            m_game->GetPlayer()->Update(0.0f);
-        }
-        return m_game->GetPlayer()->GetAnimation();
     }
 }
