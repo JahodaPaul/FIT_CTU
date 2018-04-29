@@ -36,7 +36,7 @@ namespace RG {
             void setActiveGameState( STATES state );
             bool m_running;
 
-            sf::RectangleShape UpdateAndGetPlayer(float x,float y); //temporary function
+            std::shared_ptr<Animation>  UpdateAndGetPlayer(float x,float y); //temporary function
         private:
             std::shared_ptr<View> m_view;
             std::map<int, std::shared_ptr<GameStateHandler> > m_mapOfGameStateHandlers;

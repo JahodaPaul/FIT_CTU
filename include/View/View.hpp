@@ -27,7 +27,7 @@ namespace RG {
             void Update();
             void Render();
             void ManageInput();
-            const std::shared_ptr<sf::RenderWindow> getWindow() const;
+            std::shared_ptr<sf::RenderWindow> getWindow();
             GameController * getGameController() const;
             const sf::Clock & getClock() const;
             void setActiveView( SCENE scene );

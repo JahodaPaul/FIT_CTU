@@ -42,13 +42,16 @@ namespace RG {
         m_view->setActiveView( SCENE::GAME_SCENE );
         m_game = std::make_shared<Game>();
         m_game->SetPlayer();
+        m_game->GetPlayer()->GetAnimation()->goToFrame(0);
+        m_game->GetPlayer()->GetAnimation()->startAnimation();
     }
     void GameController::setActiveGameState( STATES state ) {
         m_GameState = state;
     }
 
-    sf::RectangleShape GameController::UpdateAndGetPlayer(float x,float y){
+    std::shared_ptr<Animation> GameController::UpdateAndGetPlayer(float x,float y){
         m_game->GetPlayer()->SetPosition(x,y);
-        return m_game->GetPlayer()->GetPlayerRectangleShape();
+        m_game->GetPlayer()->Update();
+        return m_game->GetPlayer()->GetAnimation();
     }
 }

@@ -62,17 +62,10 @@ namespace RG {
         //ImGui
         ImGui::SFML::Render(*m_window);
         //display window content
-        if (m_activeScene == SCENE::GAME_SCENE) {
-//            sf::RectangleShape rectangleShape(sf::Vector2f(20.0f,20.0f));
-//            rectangleShape.setPosition(500.0f,500.0f);
-//            m_window->draw(rectangleShape);
-
-            m_window->draw(m_gameControllet->UpdateAndGetPlayer(200.0f, 200.f));
-        }
 
         m_window->display();
     }
-    const std::shared_ptr<sf::RenderWindow> View::getWindow() const {
+    std::shared_ptr<sf::RenderWindow> View::getWindow() {
         return m_window;
     }
     GameController * View::getGameController() const {

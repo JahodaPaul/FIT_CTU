@@ -6,8 +6,12 @@ namespace RG {
     GameScene::~GameScene() {
     }
     void GameScene::Update( View * view ) {
+
     }
     void GameScene::Render( View * view ) {
+//        view->getWindow()->draw(view->getGameController()->UpdateAndGetPlayer(200.0f, 200.f));
+        std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(200.0f,200.0f);
+        animation->draw(*view->getWindow(),sf::RenderStates());
     }
     void GameScene::ManageInput( View * view ) {
 

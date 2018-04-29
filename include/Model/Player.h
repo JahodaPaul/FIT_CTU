@@ -6,6 +6,8 @@
 #define GAME_PLAYER_H
 
 #include <SFML/Graphics.hpp>
+#include <View/Animation.hpp>
+#include <memory>
 
 namespace RG{
     class Player{
@@ -14,11 +16,15 @@ namespace RG{
         void SetPosition(float x,float y);
         std::pair<float,float> GetPosition();
         sf::RectangleShape GetPlayerRectangleShape();
+        std::shared_ptr<Animation> GetAnimation();
+        void Update();
     protected:
     private:
         sf::RectangleShape player;
+        sf::Texture playerTexture;
         float x;
         float y;
+        std::shared_ptr<Animation> animation;
     };
 
 }
