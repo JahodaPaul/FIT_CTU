@@ -7,6 +7,7 @@ namespace RG {
         m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<GameStateHandler>( new GameStateHandler() );
         m_GameState = STATES::MAIN_MENU;
         m_view = std::make_shared<View>(this);
+        m_game = NULL;
     }
     GameController::~GameController() {}
 
@@ -16,6 +17,7 @@ namespace RG {
         while ( m_running ) {
             if ( m_GameState == STATES::RUNNING ) {
                 //TODO(vojta) update game model
+
             }
             m_view->ManageInput();
             m_view->Update();
@@ -38,8 +40,15 @@ namespace RG {
     void GameController::GoToGame() {
         m_mapOfGameStateHandlers[m_GameState]->GoToGame( this );
         m_view->setActiveView( SCENE::GAME_SCENE );
+        m_game = std::make_shared<Game>();
+        m_game->SetPlayer();
     }
     void GameController::setActiveGameState( STATES state ) {
         m_GameState = state;
+    }
+
+    sf::RectangleShape GameController::UpdateAndGetPlayer(float x,float y){
+        m_game->GetPlayer()->SetPosition(x,y);
+        return m_game->GetPlayer()->GetPlayerRectangleShape();
     }
 }

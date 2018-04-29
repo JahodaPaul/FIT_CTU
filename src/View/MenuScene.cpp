@@ -13,7 +13,9 @@ namespace RG {
         ImGui::SetNextWindowSize({m_menuWidth,m_menuHeight});
 
         ImGui::Begin("", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove );
-        if (ImGui::Button("New Game", ImVec2(m_itemWidth,m_itemHeight))) { }
+        if (ImGui::Button("New Game", ImVec2(m_itemWidth,m_itemHeight))) {
+            view->getGameController()->GoToGame();
+        }
         {
             if (ImGui::Button("Higscores", ImVec2(m_itemWidth,m_itemHeight))) { }
             if (ImGui::Button("Exit", ImVec2(m_itemWidth,m_itemHeight)))

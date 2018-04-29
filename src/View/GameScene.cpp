@@ -10,6 +10,7 @@ namespace RG {
     void GameScene::Render( View * view ) {
     }
     void GameScene::ManageInput( View * view ) {
+
         std::shared_ptr<sf::RenderWindow> window = view->getWindow();
         sf::Event event;
         while (window->pollEvent(event))
