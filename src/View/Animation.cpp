@@ -1,4 +1,5 @@
 #include "View/Animation.hpp"
+#include <iostream>
 
 namespace RG {
     Animation::Animation(const char * texture, int frameWidth, int frameHeigt, int frameCount, float timeStep )

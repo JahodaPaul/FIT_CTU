@@ -50,8 +50,13 @@ namespace RG {
     }
 
     std::shared_ptr<Animation> GameController::UpdateAndGetPlayer(float x,float y){
-        m_game->GetPlayer()->SetPosition(x,y);
-        m_game->GetPlayer()->Update();
+        if(x || y){
+            m_game->GetPlayer()->UpdatePosition(x,y);
+            m_game->GetPlayer()->Update(0.001f);
+        }
+        else{
+            m_game->GetPlayer()->Update(0.0f);
+        }
         return m_game->GetPlayer()->GetAnimation();
     }
 }

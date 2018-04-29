@@ -6,11 +6,30 @@ namespace RG {
     GameScene::~GameScene() {
     }
     void GameScene::Update( View * view ) {
+        bool moved = false;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)){
+            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.1f,0.0f);
+            moved = true;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)){
+            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(-0.1f,0.0f);
+            moved = true;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)){
+            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.0f,-0.1f);
+            moved = true;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)){
+            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.0f,0.1f);
+            moved = true;
+        }
+        if(!moved){
+            std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.0f,0.0f);
+        }
 
     }
     void GameScene::Render( View * view ) {
-//        view->getWindow()->draw(view->getGameController()->UpdateAndGetPlayer(200.0f, 200.f));
-        std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(200.0f,200.0f);
+        std::shared_ptr<Animation> animation = view->getGameController()->UpdateAndGetPlayer(0.0f,0.0f);
         animation->draw(*view->getWindow(),sf::RenderStates());
     }
     void GameScene::ManageInput( View * view ) {

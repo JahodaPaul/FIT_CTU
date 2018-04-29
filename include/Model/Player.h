@@ -14,17 +14,20 @@ namespace RG{
     public:
         Player();
         void SetPosition(float x,float y);
+        void UpdatePosition(float x, float y);
         std::pair<float,float> GetPosition();
         sf::RectangleShape GetPlayerRectangleShape();
         std::shared_ptr<Animation> GetAnimation();
-        void Update();
+        void Update(float);
     protected:
     private:
         sf::RectangleShape player;
         sf::Texture playerTexture;
         float x;
         float y;
+        float time;
         std::shared_ptr<Animation> animation;
+        float GetAngle(float moveX,float moveY);
     };
 
 }
