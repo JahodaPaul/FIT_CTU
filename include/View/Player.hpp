@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <View/Animation.hpp>
 #include <memory>
+#include <math.h>
 
 namespace RG{
     class Player{
@@ -20,7 +21,8 @@ namespace RG{
         std::shared_ptr<Animation> GetAnimation();
         void Update(float);
 
-        std::shared_ptr<Animation> UpdateAndGetPlayer(float x,float y);
+        void UpdatePlayer(float x,float y);
+        void DrawPlayer(sf::RenderTarget& target);
     protected:
     private:
         sf::RectangleShape player;
@@ -30,6 +32,8 @@ namespace RG{
         float time;
         std::shared_ptr<Animation> animation;
         float GetAngle(float moveX,float moveY);
+
+        sf::Clock clock;
     };
 
 }

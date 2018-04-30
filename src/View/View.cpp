@@ -85,4 +85,12 @@ namespace RG {
     std::shared_ptr<Player> View::GetPlayer() {
         return player;
     }
+
+    void View::UpdatePlayer(float x, float y){
+        player->UpdatePlayer(x,y);
+    }
+
+    void View::DrawPlayer(){
+        player->DrawPlayer(*this->getWindow());
+    }
 }

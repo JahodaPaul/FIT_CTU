@@ -3,15 +3,17 @@
 //
 
 #include <View/Player.hpp>
+#include <iostream>
 
 namespace RG{
 
 
     Player::Player() {
+        clock = sf::Clock();
         player = sf::RectangleShape(sf::Vector2f(91.0f,91.0f));
 //        playerTexture.loadFromFile();
 //        player.setTexture(&playerTexture);
-        animation = std::make_shared<Animation>("../assets/graphics/objects/characters/player.png", 91, 91, 12, 0.1f);
+        animation = std::make_shared<Animation>("../assets/graphics/objects/characters/player.png", 91, 91, 12, 40.0f);
         this->x = 500;
         this->y = 500;
         this->time = 0;
@@ -19,6 +21,10 @@ namespace RG{
     }
 
     void Player::UpdatePosition(float x, float y) {
+        if (x != 0 && y != 0){
+            x /= sqrt(2);
+            y /= sqrt(2);
+        }
         this->x = this->x+x;
         this->y = this->y+y;
         animation->setRotation(this->GetAngle(x,y));
@@ -44,24 +50,21 @@ namespace RG{
     }
 
     void Player::Update(float time) {
-        this->time = this->time+time;
-        this->animation->update(this->time);
+        if (time != 0) {
+            this->time = time;
+        }
+        this->animation->update(this->clock.getElapsedTime().asMilliseconds());
     }
 
-    std::shared_ptr<Animation> Player::UpdateAndGetPlayer(float x,float y){
+    void Player::UpdatePlayer(float x,float y){
         if(x || y){
             this->UpdatePosition(x,y);
-            this->Update(0.001f);
+            this->Update(time);
         }
-        else{
-            this->Update(0.0f);
-        }
-        return this->GetAnimation();
     }
 
     float Player::GetAngle(float moveX, float moveY) {
         float angle = 0;
-
         if(moveY>0 || moveY<0){
             if(moveY<0){
                 angle = 0;
@@ -71,10 +74,18 @@ namespace RG{
             }
 
             if(moveX>0){
-                angle+=45;
+                float tmp = 1;
+                if (angle == 180){
+                    tmp = -1;
+                }
+                angle+=45*tmp;
             }
             else if(moveX<0){
-                angle -= 45;
+                float tmp = 1;
+                if (angle == 180){
+                    tmp = -1;
+                }
+                angle -= 45*tmp;
             }
             if(angle < 0){angle += 360.0;}
             if(angle > 360) {angle -= 360.0;}
@@ -88,5 +99,9 @@ namespace RG{
             }
         }
         return angle;
+    }
+
+    void Player::DrawPlayer(sf::RenderTarget &target) {
+        this->animation->draw(target,sf::RenderStates());
     }
 }

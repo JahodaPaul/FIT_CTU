@@ -36,7 +36,8 @@ namespace RG {
 
             std::shared_ptr<Player> GetPlayer();
             void SetPlayer();
-
+            void UpdatePlayer(float,float);
+            void DrawPlayer();
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
             sf::View m_view;
@@ -50,5 +51,6 @@ namespace RG {
             Console m_console;
 
             std::shared_ptr<Player> player;
+
     };
 }
