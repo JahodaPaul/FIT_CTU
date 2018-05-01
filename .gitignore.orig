@@ -21,6 +21,14 @@ cmake-build-debug/
 # ignore assets
 /assets
 
+<<<<<<< HEAD
+# ignore assets
+/assets
+
 # ignore imgui library ( it is managed by itself )
+||||||| merged common ancestors
+=======
+# ignore imgui library ( it is managed by itself )
+>>>>>>> develop
 /imgui
 /imgui-sfml
