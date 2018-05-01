@@ -46,4 +46,4 @@ ADD_EXECUTABLE(game src/main.cpp src/Controller/GameController.cpp src/Controlle
 LINK_DIRECTORIES(/usr/local/lib)
 INCLUDE_DIRECTORIES( ./include )
 
-TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window ${OPENGL_LIBRARIES} box2d)
+TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window ${OPENGL_LIBRARIES} Box2D)

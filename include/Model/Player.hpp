@@ -1,11 +1,15 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-#pragma once
+#ifndef GAME_PLAYER_H
+#define GAME_PLAYER_H
 
 #include <string>
 #include <utility>
 
 #include <Model/Entity.hpp>
+//
+// Created by pjahoda on 29.4.18.
+//
+
+
 
 namespace RG {
   namespace Model {
@@ -19,64 +23,16 @@ namespace RG {
 
         ~Player();
 
+        std::pair<float,float> GetPosition() const;
+
         void Move( void ); // FIXME (vanda)
 
       private:
+        float x;
+        float y;
     };
   }
 }
-=======
-//
-// Created by pjahoda on 29.4.18.
-//
-
-#ifndef GAME_PLAYER_H
-#define GAME_PLAYER_H
-
-#include <memory>
-
-namespace RG{
-    class Player{
-    public:
-        Player();
-        std::pair<float,float> GetPosition() const;
-        void Move(float x,float y);
-    protected:
-    private:
-        float x;
-        float y;
-    };
-
-}
 
 
 #endif //GAME_PLAYER_H
->>>>>>> develop
-||||||| merged common ancestors
-=======
-//
-// Created by pjahoda on 29.4.18.
-//
-
-#ifndef GAME_PLAYER_H
-#define GAME_PLAYER_H
-
-#include <memory>
-
-namespace RG{
-    class Player{
-    public:
-        Player();
-        std::pair<float,float> GetPosition() const;
-        void Move(float x,float y);
-    protected:
-    private:
-        float x;
-        float y;
-    };
-
-}
-
-
-#endif //GAME_PLAYER_H
->>>>>>> develop
