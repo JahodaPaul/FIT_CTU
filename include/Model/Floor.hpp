@@ -3,8 +3,8 @@
 #include <map>
 #include <string>
 
-#include <Model/Object.hpp>
-#include <Model/Room.hpp>
+#include "Model/Object.hpp"
+#include "Model/Room.hpp"
 
 namespace RG {
   namespace Model {

@@ -1,4 +1,4 @@
-#include <Model/Model.hpp>
+#include "Model/Model.hpp"
 
 namespace RG {
   namespace Model {
@@ -24,5 +24,13 @@ namespace RG {
     float Model::GetPlayerRadius ( void ) const {
       return 0; // FIXME (vanda)
     }
+
+      int Model::GetRoomId (void) const{
+          return 0; //TODO (vanda)
+      }
+
+      int Model::GetFloorLevel ( void ) const{
+          return 0; //TODO (vanda)
+      }
   }
 }

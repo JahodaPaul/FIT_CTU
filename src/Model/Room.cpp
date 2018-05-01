@@ -1,4 +1,4 @@
-#include<Model/Room.hpp>
+#include "Model/Room.hpp"
 
 namespace RG {
   namespace Model {

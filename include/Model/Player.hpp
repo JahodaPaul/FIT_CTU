@@ -1,10 +1,10 @@
-#ifndef GAME_PLAYER_H
-#define GAME_PLAYER_H
+#ifndef MODEL_PLAYER_H
+#define MODEL_PLAYER_H
 
 #include <string>
 #include <utility>
 
-#include <Model/Entity.hpp>
+#include "Model/Entity.hpp"
 //
 // Created by pjahoda on 29.4.18.
 //
@@ -35,4 +35,4 @@ namespace RG {
 }
 
 
-#endif //GAME_PLAYER_H
+#endif //MODEL_PLAYER_H

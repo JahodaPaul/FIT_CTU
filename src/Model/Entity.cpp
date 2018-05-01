@@ -1,4 +1,4 @@
-#include <Model/Entity.hpp>
+#include "Model/Entity.hpp"
 
 namespace RG {
   namespace Model {

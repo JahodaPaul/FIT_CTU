@@ -2,7 +2,7 @@
 // Created by pjahoda on 29.4.18.
 //
 
-#include <Model/Player.hpp>
+#include "Model/Player.hpp"
 
 namespace RG {
   namespace Model {

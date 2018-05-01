@@ -10,18 +10,28 @@
 #include "imgui-SFML.h"
 
 namespace RG {
-    class Console {
+    namespace View {
+        class Console {
         public:
             Console();
-            void RegisterFunction( std::string name, std::function<int(void)> function );
-            void WriteText( std::string log );
+
+            void RegisterFunction(std::string name, std::function<int(void)> function);
+
+            void WriteText(std::string log);
+
             void Draw();
+
         private:
-            int TextEditCallback(ImGuiTextEditCallbackData* );
+            int TextEditCallback(ImGuiTextEditCallbackData *);
+
             void DrawHistory();
+
             int ClearLogs();
+
             int HistoryPos;
-            int ExecCommand( std::string log );
+
+            int ExecCommand(std::string log);
+
         private:
             std::vector<std::string> buffer;
             std::vector<std::string> m_history;
@@ -33,5 +43,6 @@ namespace RG {
             char m_ret[12];
             std::map<std::string, std::function<int(void)>> m_api;
             std::vector<std::string> m_buildIn;
-    };
+        };
+    }
 }

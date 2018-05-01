@@ -3,7 +3,7 @@
 #include <string>
 #include <utility>
 
-#include <Model/DynamicObject.hpp>
+#include "Model/DynamicObject.hpp"
 
 namespace RG {
   namespace Model {

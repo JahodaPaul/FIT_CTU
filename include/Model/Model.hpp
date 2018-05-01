@@ -2,8 +2,8 @@
 
 #include <utility> // std::pair
 
-#include <Model/GameWorld.hpp>
-#include <Model/Room.hpp>
+#include "Model/GameWorld.hpp"
+#include "Model/Room.hpp"
 
 namespace RG {
   namespace Model {
@@ -38,6 +38,8 @@ namespace RG {
 //        b2Vec GetPlayerVector ( void ) const;
 
         int GetFloorLevel ( void ) const;
+
+        int GetRoomId (void) const;
 
       private:
         /// current game world

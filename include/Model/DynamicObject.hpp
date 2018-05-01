@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include <Model/Object.hpp>
+#include "Model/Object.hpp"
 
 namespace RG {
   namespace Model {

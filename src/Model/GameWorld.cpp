@@ -1,4 +1,4 @@
-#include<Model/GameWorld.hpp>
+#include "Model/GameWorld.hpp"
 
 namespace RG{
   namespace Model{
