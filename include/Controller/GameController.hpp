@@ -3,8 +3,8 @@
 #include <memory>
 #include <map>
 
-#include <Controller/GameStateHandler.hpp>
 #include <Controller/MenuStateHandler.hpp>
+#include <Controller/GameStateHandler.hpp>
 
 #include <View/View.hpp>
 
@@ -25,12 +25,13 @@ namespace RG {
             GameController();
             ~GameController();
             void GoToMainMenu();
-            void StartGame();
+            void GoToGame();
             void Update( float timeStep );
             void Run();
             bool Running() { return m_running; }
-            void Quit();
+            int Quit();
             void setState( STATES state );
+            void setActiveGameState( STATES state );
             bool m_running;
         private:
             std::shared_ptr<View> m_view;

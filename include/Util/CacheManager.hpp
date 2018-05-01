@@ -2,9 +2,9 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <map>
 #include <memory>
-#include <sys/stat.h>
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
@@ -15,6 +15,18 @@
  */
 
 namespace RG {
+
+    ///Exception for the case of non existing storage folder
+    class StorageException {
+        public:
+            StorageException(std::string folder): m_Folder(folder) {}
+            std::string what() const throw() {
+                return "Folder "+m_Folder+" doesn't exists.";
+            }
+        private:
+            std::string m_Folder;
+    };
+
     class CacheManager {
 
         public:
@@ -37,19 +49,27 @@ namespace RG {
             /** Method for deleting specified font from CacheManager object. */
             bool deleteFont(std::string fontName);
 
-            /** Method for setting the cache data folder */
+            /** Method for setting the cache data folder.
+             * The instance of RG::StorageException if thrown if the folder doesn't exist. */
             void SetStorageFolder(std::string folder);
+
+            /** Method for testing file existence. */
+            bool FileExists(std::string fileName);
 
         private:
 
+            /** Method for creating error texture. */
+            void CreateErrTexture();
+
             ///Member variable representing the cache data folder
-            std::string storageFolder;
+            std::string m_StorageFolder;
 
             ///Member variable representing the storage for holding textures.
-            std::map<std::string, std::pair<std::shared_ptr < sf::Texture>, int>> textures;
+            std::map<std::string, std::pair<std::shared_ptr<sf::Texture>, int>> m_Textures;
 
             ///Member variable respresenting the storage for holding fonts
-            std::map<std::string, std::pair<std::shared_ptr < sf::Font>, int>> fonts;
+            std::map<std::string, std::pair<std::shared_ptr<sf::Font>, int>> m_Fonts;
 
     };
+
 }

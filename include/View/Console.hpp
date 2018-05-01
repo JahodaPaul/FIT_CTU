@@ -11,6 +11,17 @@
 
 namespace RG {
     class Console {
+        public:
+            Console();
+            void RegisterFunction( std::string name, std::function<int(void)> function );
+            void WriteText( std::string log );
+            void Draw();
+        private:
+            int TextEditCallback(ImGuiTextEditCallbackData* );
+            void DrawHistory();
+            int ClearLogs();
+            int HistoryPos;
+            int ExecCommand( std::string log );
         private:
             std::vector<std::string> buffer;
             std::vector<std::string> m_history;
@@ -19,16 +30,8 @@ namespace RG {
             char InputBuf[256];
             bool reclaim_focus;
             bool ScrollToBottom;
-        public:
-            Console( std::map<std::string, std::function<void(void)>> *api );
-            void Draw();
-        private:
-            int TextEditCallback(ImGuiTextEditCallbackData* );
-            void DrawHistory();
-            void AddLog( std::string log );
-            void ClearLogs();
-            int HistoryPos;
-            bool ExecCommand( std::string log );
-            std::map<std::string, std::function<void(void)>> *m_api;
+            char m_ret[12];
+            std::map<std::string, std::function<int(void)>> m_api;
+            std::vector<std::string> m_buildIn;
     };
 }

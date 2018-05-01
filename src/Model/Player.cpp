@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <Model/Player.hpp>
 
 namespace RG {
@@ -12,3 +13,26 @@ namespace RG {
     void Player::Move ( void ) {} // FIXME (vanda)
   }
 }
+=======
+//
+// Created by pjahoda on 29.4.18.
+//
+
+#include <Model/Player.hpp>
+
+namespace RG{
+
+
+    Player::Player() {
+
+    }
+
+    void Player::Move(float x, float y) {
+        //TODO
+    }
+
+    std::pair<float, float> Player::GetPosition() const {
+        return std::make_pair(x,y);;
+    }
+}
+>>>>>>> develop

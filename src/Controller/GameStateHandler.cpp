@@ -1,3 +1,4 @@
+#include "Controller/GameController.hpp"
 #include "Controller/GameStateHandler.hpp"
 
 namespace RG {
@@ -8,8 +9,9 @@ namespace RG {
     void GameStateHandler::GoToMainMenu( GameController * gameController ) {
         std::cout << "GameStateHandler GoToMainMenu" << std::endl;
     }
-    void GameStateHandler::StartGame( GameController * gameController ) {
+    void GameStateHandler::GoToGame( GameController * gameController ) {
         std::cout << "GameStateHandler StartGame" << std::endl;
+        gameController->setActiveGameState(STATES::RUNNING);
     }
     void GameStateHandler::Quit( GameController * gameController ) {
         std::cout << "GameStateHandler StopGame" << std::endl;
