@@ -1,18 +1,18 @@
 * GIT
 ** Commit
 *** Commit message je anglicky.
-*** Ka�d� commit message je jedine�n�, ide�ln� kr�tk� a v�sti�n�.
-*** Jeden commit se vztahuje k jedn� funkcionalit� programu.
-** V�tve
-*** Pokud d�l�te vet�� funkcionalitu vytvo�te si pro n� vlastn� v�tev.
-*** Ve�ker� commity v masteru by m�ly b�t sestaviteln�.
-* Koment��e
-*** Koment��e v k�du jsou anglicky.
-*** Ka�d� t��da bude m� koment�� ve form�tu zpracovateln� doxygenem.
-* K�d
-*** Header fily maj� kkoncovku .hpp
+*** Každá commit message je jedinečná, ideálně krátká a výstižná.
+*** Jeden commit se vztahuje k jedné funkcionalitě programu.
+** Větve
+*** Pokud děláte vetší funkcionalitu vytvořte si pro ní vlastní větev.
+*** Veškeré commity v masteru by měly být sestavitelné.
+* Komentáře
+*** Komentáře v kódu jsou anglicky.
+*** Každá třída bude mí komentář ve formátu zpracovatelném doxygenem.
+* Kód
+*** Header fily mají kkoncovku .hpp
 *** Pri includovani pouzivat uvozovky pro lokalni soubory misto < (priklad #include "View/Console.hpp" misto #include <View/Console.hpp>
 * Struktura projektu
-*** .cpp soubory jsou v adres��i /src/
-*** Header fily jsou v adres��i /include/
-*** Grafiky, pop��ad� zvuky atd, jsou v adres��i /assets/ a neverzuj� se
+*** .cpp soubory jsou v adresáři /src/
+*** Header fily jsou v adresáři /include/
+*** Grafiky, popříadě zvuky atd, jsou v adresáři /assets/ a neverzují se
