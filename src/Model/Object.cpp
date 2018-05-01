@@ -18,7 +18,7 @@ namespace RG {
     }
 
     Object::~Object(){
-      m_World->DestroyBody(m_Body);
+      //m_World->DestroyBody(m_Body);
     }
     
     std::string Object::GetName ( void ) const {

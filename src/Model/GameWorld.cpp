@@ -2,9 +2,11 @@
 
 namespace RG{
   namespace Model{
-    GameWorld::GameWorld(std::string title) : m_Title(title), m_World({0.0f, 0.0f}),
-      m_Player(RG::Model::Player(0,0,std::make_shared<b2World>(m_World),"Hrac")), m_CurrentFloorIdx(0),
+    GameWorld::GameWorld(std::string title) : m_Title(title),
+       m_CurrentFloorIdx(0),
       m_Floors({RG::Model::Floor(0, 2)}) {
+        m_World = std::make_shared<b2World>(b2Vec2{0.0f, 0.0f});
+        m_Player = std::make_shared<RG::Model::Player>(0,0,m_World,"Hrac");
       }
 
     GameWorld::~GameWorld(){}
@@ -18,7 +20,7 @@ namespace RG{
    // }
 
     const RG::Model::Player& GameWorld::GetPlayer ( void ) const {
-      return m_Player;
+      return *m_Player;
     }
   }
 }

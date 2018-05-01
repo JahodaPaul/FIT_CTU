@@ -34,10 +34,10 @@ namespace RG {
         std::string m_Title;
       
         /// box2d world, where all objects will be placed
-        b2World m_World;
+        std::shared_ptr<b2World> m_World;
 
         /// an instance of the Player
-        RG::Model::Player m_Player;
+        std::shared_ptr<RG::Model::Player> m_Player;
 
         unsigned int m_CurrentFloorIdx;
 

@@ -1,17 +1,18 @@
 * GIT
 ** Commit
 *** Commit message je anglicky.
-*** Ka¾dá commit message je jedineèná, ideálnì krátká a výsti¾ná.
-*** Jeden commit se vztahuje k jedné funkcionalitì programu.
-** Vìtve
-*** Pokud dìláte vet¹í funkcionalitu vytvoøte si pro ní vlastní vìtev.
-*** Ve¹keré commity v masteru by mìly být sestavitelné.
-* Komentáøe
-*** Komentáøe v kódu jsou anglicky.
-*** Ka¾dá tøída bude má komentáø ve formátu zpracovatelné doxygenem.
-* Kód
-*** Header fily mají kkoncovku .hpp
+*** Kaï¿½dï¿½ commit message je jedineï¿½nï¿½, ideï¿½lnï¿½ krï¿½tkï¿½ a vï¿½stiï¿½nï¿½.
+*** Jeden commit se vztahuje k jednï¿½ funkcionalitï¿½ programu.
+** Vï¿½tve
+*** Pokud dï¿½lï¿½te vetï¿½ï¿½ funkcionalitu vytvoï¿½te si pro nï¿½ vlastnï¿½ vï¿½tev.
+*** Veï¿½kerï¿½ commity v masteru by mï¿½ly bï¿½t sestavitelnï¿½.
+* Komentï¿½ï¿½e
+*** Komentï¿½ï¿½e v kï¿½du jsou anglicky.
+*** Kaï¿½dï¿½ tï¿½ï¿½da bude mï¿½ komentï¿½ï¿½ ve formï¿½tu zpracovatelnï¿½ doxygenem.
+* Kï¿½d
+*** Header fily majï¿½ kkoncovku .hpp
+*** Pri includovani pouzivat uvozovky pro lokalni soubory misto < (priklad #include "View/Console.hpp" misto #include <View/Console.hpp>
 * Struktura projektu
-*** .cpp soubory jsou v adresáøi /src/
-*** Header fily jsou v adresáøi /include/
-*** Grafiky, popøíadì zvuky atd, jsou v adresáøi /assets/ a neverzují se
+*** .cpp soubory jsou v adresï¿½ï¿½i /src/
+*** Header fily jsou v adresï¿½ï¿½i /include/
+*** Grafiky, popï¿½ï¿½adï¿½ zvuky atd, jsou v adresï¿½ï¿½i /assets/ a neverzujï¿½ se

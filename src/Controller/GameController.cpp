@@ -7,6 +7,7 @@ namespace RG {
         m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<GameStateHandler>( new GameStateHandler() );
         m_GameState = STATES::MAIN_MENU;
         m_view = std::make_shared<RG::View::View>(this);
+        m_model = std::make_shared<RG::Model::Model>();
     }
     GameController::~GameController() {}
 
@@ -46,6 +47,14 @@ namespace RG {
     }
     void GameController::setActiveGameState( STATES state ) {
         m_GameState = state;
+    }
+
+    int GameController::GetRoomId(){
+        return m_model->GetRoomId();
+    }
+
+    int GameController::GetFloorLevel() {
+        return m_model->GetFloorLevel();
     }
 
 

@@ -15,6 +15,7 @@
 #include "View/GameScene.hpp"
 #include "View/Console.hpp"
 #include "View/Player.hpp"
+#include "View/Room.hpp"
 
 #include "Controller/GameController.hpp"
 
@@ -56,6 +57,8 @@ namespace RG {
 
             void DrawPlayer();
 
+            void DrawRoom();
+
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
             sf::View m_view;
@@ -69,7 +72,7 @@ namespace RG {
             Console m_console;
 
             std::shared_ptr<RG::View::Player> player;
-
+            std::shared_ptr<RG::View::Room> room;
         };
     }
 }

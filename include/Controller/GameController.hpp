@@ -35,6 +35,9 @@ namespace RG {
             void setState( STATES state );
             void setActiveGameState( STATES state );
             bool m_running;
+
+            int GetRoomId();
+            int GetFloorLevel();
         private:
             std::shared_ptr<RG::View::View> m_view;
             std::map<int, std::shared_ptr<GameStateHandler> > m_mapOfGameStateHandlers;

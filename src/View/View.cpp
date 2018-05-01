@@ -42,6 +42,8 @@ namespace RG {
                 m_gameControllet->GoToMainMenu();
                 return 0;
             }));
+
+            room = std::make_shared<RG::View::Room>();
         }
 
         View::~View() {}
@@ -111,6 +113,10 @@ namespace RG {
 
         void View::DrawPlayer() {
             player->DrawPlayer(*this->getWindow());
+        }
+
+        void View::DrawRoom() {
+            room->DrawRoom(this->getGameController()->GetFloorLevel(),this->getGameController()->GetRoomId(),*this->getWindow());
         }
     }
 }

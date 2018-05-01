@@ -1,5 +1,4 @@
 #include "View/GameScene.hpp"
-#include "View/Animation.hpp"
 
 namespace RG {
     namespace View {
@@ -15,6 +14,7 @@ namespace RG {
 
         void GameScene::Render(View *view) {
 //        view->UpdatePlayer(0.0f,0.0f);
+            view->DrawRoom();
             view->DrawPlayer();
         }
 
