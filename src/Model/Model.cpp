@@ -1,0 +1,28 @@
+#include <Model/Model.hpp>
+
+namespace RG {
+  namespace Model {
+    Model::Model():m_GameWorld(GameWorld("Novy Svet")){
+    }
+
+    Model::~Model(){}
+
+    void Move(){}
+
+    const RG::Model::Room& Model::GetCurrentRoom ( void ) const {
+      return RG::Model::Room(0,0); // FIXME (vanda)
+    }
+
+    std::pair<float, float> Model::GetPlayerPosition ( void ) const {
+      return {0,0}; // FIXME (vanda)
+    }
+
+    float Model::GetPlayerRotation ( void ) const {
+      return 0; // FIXME (vanda)
+    }
+
+    float Model::GetPlayerRadius ( void ) const {
+      return 0; // FIXME (vanda)
+    }
+  }
+}

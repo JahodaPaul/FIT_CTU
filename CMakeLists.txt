@@ -1,6 +1,9 @@
 PROJECT( game )
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 option(BUILD_DOC "Build documentation" ON)
 
 find_package(Doxygen)
@@ -32,14 +35,11 @@ find_package(OpenGL REQUIRED)
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
 INCLUDE_DIRECTORIES( ./include ./imgui ./imgui-sfml )
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -fsanitize=address")
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
-
-ADD_EXECUTABLE(game src/main.cpp src/Controller/GameController.cpp src/Controller/MenuStateHandler.cpp src/Controller/GameStateHandler.cpp src/View/View.cpp src/View/MenuScene.cpp src/View/Scene.cpp imgui/imgui.cpp imgui/imgui_draw.cpp imgui-sfml/imgui-SFML.cpp imgui/imgui_demo.cpp src/View/Console.cpp )
+ADD_EXECUTABLE(game src/main.cpp src/Controller/GameController.cpp src/Controller/MenuStateHandler.cpp src/Controller/GameStateHandler.cpp src/View/View.cpp src/View/MenuScene.cpp src/View/Scene.cpp imgui/imgui.cpp imgui/imgui_draw.cpp imgui-sfml/imgui-SFML.cpp imgui/imgui_demo.cpp src/View/Console.cpp src/Controller/GameController.cpp src/View/GameScene.cpp src/View/Animation.cpp src/Model/Model.cpp src/Model/GameWorld.cpp src/Model/Object.cpp src/Model/DynamicObject.cpp src/Model/Entity.cpp src/Model/Player.cpp src/Model/Floor.cpp src/Model/Room.cpp)
 
 LINK_DIRECTORIES(/usr/local/lib)
 INCLUDE_DIRECTORIES( ./include )
 
-TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window ${OPENGL_LIBRARIES} )
+TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window ${OPENGL_LIBRARIES} box2d)
