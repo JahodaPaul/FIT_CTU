@@ -16,6 +16,7 @@ namespace RG {
       public:
         Object(float x, float y, std::shared_ptr<b2World> world, std::string, bool dynamic);
 
+        Object();
         ~Object();
 
         std::string GetName ( void ) const;

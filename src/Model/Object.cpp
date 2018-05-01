@@ -12,7 +12,11 @@ namespace RG {
       bodyDef.position.Set(x, y);
       m_Body = m_World->CreateBody(&bodyDef);
     }
-    
+
+    Object::Object() {
+
+    }
+
     Object::~Object(){
       m_World->DestroyBody(m_Body);
     }

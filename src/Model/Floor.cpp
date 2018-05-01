@@ -3,7 +3,7 @@
 namespace RG {
   namespace Model {
     Floor::Floor(unsigned int level, unsigned int rooms):m_Level(level){
-      for(int i=0; i<rooms;++i){
+      for(unsigned int i=0; i<rooms;++i){
         m_Rooms.insert({i,{{0, Room(i,0)}}});  
       }
     }

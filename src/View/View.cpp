@@ -64,4 +64,4 @@ namespace RG {
         }
         ImGui::End();
     }
-};
+}
