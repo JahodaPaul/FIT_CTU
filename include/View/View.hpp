@@ -14,33 +14,65 @@
 #include "View/MenuScene.hpp"
 #include "View/GameScene.hpp"
 #include "View/Console.hpp"
+#include "View/Player.hpp"
+#include "View/Room.hpp"
+
 #include "Controller/GameController.hpp"
 
+
 namespace RG {
-    class GameController;
-    class Scene;
-    enum SCENE { MENU_SCENE, GAME_SCENE };
-    class View {
+        class GameController;
+    namespace View {
+        class Scene;
+
+        enum SCENE {
+            MENU_SCENE, GAME_SCENE
+        };
+
+        class View {
         public:
-            View( GameController * controller, Vect2f windowSize = { 900,600 }, const char * windowTitle = "game" );
+            View(GameController *controller, Vect2f windowSize = {900, 600}, const char *windowTitle = "game");
+
             ~View();
+
             void Update();
+
             void Render();
+
             void ManageInput();
-            const std::shared_ptr<sf::RenderWindow> getWindow() const;
-            GameController * getGameController() const;
-            const sf::Clock & getClock() const;
-            void setActiveView( SCENE scene );
+
+            std::shared_ptr<sf::RenderWindow> getWindow();
+
+            GameController *getGameController() const;
+
+            const sf::Clock &getClock() const;
+
+            void setActiveView(SCENE scene);
+
+            std::shared_ptr<RG::View::Player> GetPlayer();
+
+            void SetPlayer();
+
+            void UpdatePlayer(float, float);
+
+            void DrawPlayer();
+
+            void DrawRoom();
 
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
             sf::View m_view;
             SCENE m_activeScene;
-            GameController * m_gameControllet;
+            GameController *m_gameControllet;
             std::map<SCENE, std::shared_ptr<Scene> > m_mapOfGameScenes;
             sf::Clock m_clock;
 
+
             bool m_ImguiDemo;
             Console m_console;
-    };
+
+            std::shared_ptr<RG::View::Player> player;
+            std::shared_ptr<RG::View::Room> room;
+        };
+    }
 }

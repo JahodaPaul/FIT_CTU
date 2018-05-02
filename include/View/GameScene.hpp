@@ -6,12 +6,18 @@
 #include <iostream>
 
 namespace RG {
-    class GameScene : public Scene {
+    namespace View {
+        class GameScene : public Scene {
         public:
             GameScene();
+
             virtual ~GameScene();
-            virtual void Update( View * view );
-            virtual void Render( View * view );
-            virtual void ManageInput( View * view );
-    };
+
+            virtual void Update(View *view);
+
+            virtual void Render(View *view);
+
+            virtual void ManageInput(View *view);
+        };
+    }
 }
