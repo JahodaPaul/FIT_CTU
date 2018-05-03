@@ -3,7 +3,6 @@
 //
 #include "View/Room.hpp"
 
-
 namespace RG {
     namespace View {
 
@@ -38,5 +37,12 @@ namespace RG {
             target.draw(background);
         }
 
+        void Room::SetSpriteScale(float x, float y) {
+            if (this->windowX != x || this->windowY != y) {
+                this->windowX = x;
+                this->windowY = y;
+                background.setScale(x / this->background.getLocalBounds().width, y / this->background.getLocalBounds().height);
+            }
+        }
     }
 }

@@ -2,10 +2,10 @@
 
 namespace RG {
     namespace View {
-        View::View(GameController *controller, Vect2f windowSize, const char *windowTitle)
+        View::View(GameController *controller, std::pair<int,int> windowSize, const char *windowTitle)
                 : m_gameControllet(controller),
                   m_ImguiDemo(false) {
-            m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize.x, windowSize.y),
+            m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize.first, windowSize.second),
                                                           windowTitle, sf::Style::Default,
                                                           sf::ContextSettings{0u, 0u, 4u, 1u, 1u, 0u, false});
             //synchromize refresh rate with monitor refresh rate
@@ -14,7 +14,8 @@ namespace RG {
             // Invert y axis and zoom in
             //m_view.reset(sf::FloatRect(0, windowSize.y, 2*windowSize.x, 2*-windowSize.y));
 
-            m_window->setVerticalSyncEnabled(true);
+//            m_window->setVerticalSyncEnabled(true);
+            m_window->setFramerateLimit(60);
 
             // Apply setting
             //m_window.setView(m_view);
@@ -117,6 +118,12 @@ namespace RG {
 
         void View::DrawRoom() {
             room->DrawRoom(this->getGameController()->GetFloorLevel(),this->getGameController()->GetRoomId(),*this->getWindow());
+//            room->SetSpriteScale((float)m_window->getSize().x,(float)m_window->getSize().y);
+            room->SetSpriteScale(m_window->getView().getSize().x,m_window->getView().getSize().y);
+        }
+
+        sf::View * View::GetView() {
+            return &m_view;
         }
     }
 }

@@ -15,12 +15,15 @@ namespace RG{
             Room();
             ~Room();
             void DrawRoom(int level, int id, sf::RenderTarget &target);
+            void SetSpriteScale(float,float);
         protected:
         private:
             int currentId;
             void AssignBackground(int level, int id);
             sf::Texture room_texure;
             sf::Sprite background;
+            float windowX;
+            float windowY;
 
         };
     }

@@ -31,7 +31,7 @@ namespace RG {
 
         class View {
         public:
-            View(GameController *controller, Vect2f windowSize = {900, 600}, const char *windowTitle = "game");
+            View(GameController *controller, std::pair<int,int> windowSize = {900, 600}, const char *windowTitle = "game");
 
             ~View();
 
@@ -58,6 +58,8 @@ namespace RG {
             void DrawPlayer();
 
             void DrawRoom();
+
+            sf::View * GetView();
 
         private:
             std::shared_ptr<sf::RenderWindow> m_window;

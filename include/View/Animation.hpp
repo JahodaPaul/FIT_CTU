@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 
+
 //TODO(vojta) add documnetation
 //TODO(vojta) use ChacheManager for loading texture
 namespace RG {

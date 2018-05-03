@@ -23,7 +23,7 @@ namespace RG {
             std::shared_ptr<sf::RenderWindow> window = view->getWindow();
             sf::Event event;
 
-            float speed = 0.1;
+            float speed = 3;
             float x = 0, y = 0;
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
                 x += speed;
@@ -40,6 +40,9 @@ namespace RG {
             view->UpdatePlayer(x, y);
             while (window->pollEvent(event)) {
                 ImGui::SFML::ProcessEvent(event);
+                if (event.type == sf::Event::Resized){
+                    view->GetView()->setSize(event.size.width,event.size.height);
+                }
                 if (event.type == sf::Event::Closed) {
                     window->close();
                     view->getGameController()->Quit();
