@@ -17,6 +17,7 @@
 #include <View/Player.hpp>
 
 #include "Controller/GameController.hpp"
+#include "Util/IOManager.hpp"
 
 namespace RG {
     class GameController;
@@ -37,7 +38,7 @@ namespace RG {
             std::shared_ptr<Player> GetPlayer();
             void SetPlayer();
 
-        private:
+    private:
             std::shared_ptr<sf::RenderWindow> m_window;
             sf::View m_view;
             SCENE m_activeScene;
@@ -48,7 +49,8 @@ namespace RG {
 
             bool m_ImguiDemo;
             Console m_console;
+            IOManager m_IOManager;
 
-            std::shared_ptr<Player> player;
+        std::shared_ptr<Player> player;
     };
 }

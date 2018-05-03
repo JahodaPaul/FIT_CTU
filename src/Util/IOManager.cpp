@@ -47,10 +47,56 @@ namespace RG{
     }
 
     void IOManager::Draw(){
+        ImGui::SetNextWindowSize({360,200});
+        ImGui::SetNextWindowPos({0,250});
+        ImGui::SetNextWindowCollapsed(false, ImGuiCond_Once );
+        ImGui::Begin("Key settings");
+        static ImGuiComboFlags keyFlags = 0;
+        static ImGuiComboFlags valFlags = 0;
+        static const char * currentKey = m_Keys[0];
+        static int currentKeyInx = 0;
+        static const char * currentVal = m_Keys[0];
+        static int currentValInx = 0;
 
+        if (ImGui::BeginCombo("Key", currentKey, keyFlags))
+        {
+            for (int n = 0; n < IM_ARRAYSIZE(m_Keys); n++)
+            {
+                bool is_selected = (currentKey == m_Keys[n]);
+                if (ImGui::Selectable(m_Keys[n], is_selected)){
+                    currentKey = m_Keys[n];
+                    currentKeyInx = n;
+                }
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::BeginCombo("Value", currentVal, valFlags))
+        {
+            for (int n = 0; n < IM_ARRAYSIZE(m_Keys); n++)
+            {
+                bool is_selected = (currentVal == m_Keys[n]);
+                if (ImGui::Selectable(m_Keys[n], is_selected)){
+                    currentVal = m_Keys[n];
+                    currentValInx = n;
+                }
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+
+        if(ImGui::Button("Set", {100,50})){
+            MapKey((sf::Keyboard::Key) currentKeyInx,(sf::Keyboard::Key) currentValInx);
+        }
+
+        ImGui::End();
     }
 
     void IOManager::SetDefaultKeys(){
+        std::cout << "Key count: " << sf::Keyboard::KeyCount << std::endl;
         for(int i = 0; i < sf::Keyboard::KeyCount; i++)
             m_KeyArr.push_back((sf::Keyboard::Key) i);
         std::cout << "Setting default keys." << std::endl;
