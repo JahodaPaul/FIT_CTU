@@ -24,3 +24,6 @@ cmake-build-debug/
 # ignore imgui library ( it is managed by itself )
 /imgui
 /imgui-sfml
+
+#ignore vim tmp files
+*.swp
