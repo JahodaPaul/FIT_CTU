@@ -3,9 +3,6 @@
 namespace RG{
 
     IOManager::IOManager(std::string dir, std::string fileName): m_StorageDir(dir), m_File(fileName){
-        std::cout << "Storage directory: " << m_StorageDir << std::endl;
-        std::cout << "Mapping file: " << m_File << std::endl;
-
         if(FileExists(m_StorageDir+"/"+m_File)){
             Open();
             Deserialize();
@@ -61,10 +58,12 @@ namespace RG{
 
     void IOManager::SetStorageDir(std::string dir){
         m_StorageDir = dir;
+        Serialize();
     }
 
     void IOManager::SetFile(std::string fileName){
         m_File = fileName;
+        Serialize();
     }
 
     bool IOManager::Open(){
@@ -77,7 +76,6 @@ namespace RG{
                 return false;
             }
         }
-        std::cout << "Stream opened!" << std::endl;
         return true;
     }
 
