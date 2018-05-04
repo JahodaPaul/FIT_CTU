@@ -15,29 +15,60 @@
 
 namespace RG{
 
+    /**
+     * \brief
+     * IOManager class provides the service of mapping keyboard keys. It enables to map any keyboard key to different key
+     * or to map more than one keyboard keys to one keyboard key.
+     * */
     class IOManager{
 
         public:
 
-            IOManager(std::string dir = "/home/wiedzmin/FIT_CVUT/SP1/RG/test/Util/IOManager/keys", std::string fileName = "mapping.txt");
+            /** IOManager class constructor. */
+            IOManager(std::string dir = "/home/wiedzmin/FIT_CVUT/SP1/RG/test/View/IOManager/keys", std::string fileName = "mapping.txt");
+
+            /** IOManager class destructor. */
             ~IOManager();
+
+            /** Method for getting the key to which is the key from argument mapped. */
             sf::Keyboard::Key GetMapped(sf::Keyboard::Key key);
+
+            /** Method for mapping key toMap to key mapRes. */
             void MapKey(sf::Keyboard::Key toMap, sf::Keyboard::Key mapRes);
-            void Serialize();
-            void Deserialize();
+
+            /** Method for drawing IOManager interface. */
             void Draw();
 
+            /** Method for setting default key mapping. */
             void SetDefaultKeys();
-            void SetStorageDir(std::string dir);
-            void SetFile(std::string fileName);
 
-            bool Open();
-            bool Close();
-            bool FileExists(std::string fileName);
+            /** Method for setting the storage directory. */
+            void SetStorageDir(std::string dir);
+
+            /** Method for setting the storage file. */
+            void SetFile(std::string fileName);
 
         private:
 
+            /** Method for serializing keyboard key mapping. */
+            void Serialize();
+
+            /** Method for deserializing keyboard key mapping from file. */
+            void Deserialize();
+
+            /** Method for opening the storage file stream. */
+            bool Open();
+
+            /** Method for closing the storage file stream. */
+            bool Close();
+
+            /** Method for testing if the file exists. */
+            bool FileExists(std::string fileName);
+
+            ///Member variable representing mapping of keys
             std::vector<sf::Keyboard::Key> m_KeyArr;
+
+            ///Member variable representing keys description for interface
             const char * m_Keys[101] = {
                     "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
                     "U", "V", "W", "X", "Y", "Z", "Num0", "Num1", "Num2", "Num3", "Num4", "Num5", "Num6", "Num7", "Num8",
@@ -49,8 +80,14 @@ namespace RG{
                     "Numpad8", "Numpad9", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12",
                     "F13", "F14", "F15", "Pause"
             };
+
+            ///Member variable representing the storage file stream
             std::fstream m_Stream;
+
+            ///Member variable representing the storage directory
             std::string m_StorageDir;
+
+            ///Member variable representing the storage file
             std::string m_File;
 
     };

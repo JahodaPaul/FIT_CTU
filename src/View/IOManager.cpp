@@ -1,4 +1,4 @@
-#include <Util/IOManager.hpp>
+#include <View/IOManager.hpp>
 
 namespace RG{
 
@@ -49,8 +49,10 @@ namespace RG{
     void IOManager::Draw(){
         ImGui::SetNextWindowSize({360,200});
         ImGui::SetNextWindowPos({0,250});
+        ImGui::GetStyle().WindowBorderSize = 0;
+        ImGui::SetNextWindowBgAlpha(0);
         ImGui::SetNextWindowCollapsed(false, ImGuiCond_Once );
-        ImGui::Begin("Key settings");
+        ImGui::Begin("Key settings", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
         static ImGuiComboFlags keyFlags = 0;
         static ImGuiComboFlags valFlags = 0;
         static const char * currentKey = m_Keys[0];
