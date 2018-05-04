@@ -10,6 +10,9 @@
 namespace RG{
     namespace NPC{
         class BasicIntelligence : Intelligence{
+            BasicIntelligence();
+            ~BasicIntelligence();
+            std::map<int,std::vector<Request> > & BuyOrSell(std::map<int,std::vector<Request> > & offers, std::map<int,std::vector<Request> > & demands);
         public:
         protected:
         private:

@@ -13,8 +13,16 @@ namespace RG{
         public:
             Item(int id, int idType, int rarity, std::string name);
             ~Item();
+            int GetId();
+            int GetIdType();
+            int GetRarity();
+            std::string GetName();
         protected:
         private:
+            int id;
+            int idType;
+            int rarity;
+            std::string name;
         };
     }
 }

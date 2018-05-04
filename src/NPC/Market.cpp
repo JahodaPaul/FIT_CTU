@@ -6,6 +6,12 @@
 
 namespace RG{
     namespace NPC{
+        RG::NPC::Market::Market(){
 
+        }
+
+        RG::NPC::Market::~Market(){
+
+        }
     }
 }

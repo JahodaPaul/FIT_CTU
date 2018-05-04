@@ -7,5 +7,17 @@
 namespace RG{
     namespace NPC{
 
+        MatchingEngine::MatchingEngine() {
+
+        }
+
+        MatchingEngine::~MatchingEngine() {
+
+        }
+
+        void MatchingEngine::Match(std::map<int, std::vector<Request> > &offers,
+                                   std::map<int, std::vector<Request> > &demands) {
+
+        }
     }
 }

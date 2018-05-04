@@ -3,9 +3,17 @@
 //
 
 #include "NPC/Intelligence.hpp"
+#include "NPC/Request.hpp"
 
 namespace RG{
     namespace NPC{
 
+        Intelligence::~Intelligence() {
+
+        }
+
+        Intelligence::Intelligence() {
+
+        }
     }
 }
