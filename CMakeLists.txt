@@ -41,7 +41,7 @@ ADD_EXECUTABLE(game src/main.cpp src/Controller/GameController.cpp src/Controlle
     src/Controller/GameStateHandler.cpp src/View/View.cpp src/View/MenuScene.cpp src/View/Scene.cpp imgui/imgui.cpp
     imgui/imgui_draw.cpp imgui-sfml/imgui-SFML.cpp imgui/imgui_demo.cpp src/View/Console.cpp src/Controller/GameController.cpp
     src/View/GameScene.cpp src/View/Animation.cpp src/View/Player.cpp src/Model/Model.cpp src/Model/GameWorld.cpp 
-    src/Model/Object.cpp src/Model/DynamicObject.cpp src/Model/Entity.cpp src/Model/Player.cpp src/Model/Floor.cpp src/Model/Room.cpp include/View/RoomHistory.hpp src/View/RoomHistory.cpp include/View/Room.hpp src/View/Room.cpp)
+    src/Model/Object.cpp src/Model/DynamicObject.cpp src/Model/Entity.cpp src/Model/Player.cpp src/Model/Floor.cpp src/Model/Room.cpp include/View/RoomHistory.hpp src/View/RoomHistory.cpp include/View/Room.hpp src/View/Room.cpp include/NPC/Market.hpp src/NPC/Market.cpp include/NPC/Entity.hpp src/NPC/Entity.cpp include/NPC/Intelligence.hpp src/NPC/Intelligence.cpp include/NPC/BasicIntelligence.hpp src/NPC/BasicIntelligence.cpp include/NPC/MatchingEngine.hpp src/NPC/MatchingEngine.cpp include/NPC/Item.hpp src/NPC/Item.cpp)
 
 LINK_DIRECTORIES(/usr/local/lib)
 INCLUDE_DIRECTORIES( ./include )
