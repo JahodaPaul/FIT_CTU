@@ -47,12 +47,8 @@ namespace RG{
     }
 
     void IOManager::Draw(){
-        ImGui::SetNextWindowSize({360,200});
-        ImGui::SetNextWindowPos({0,250});
-        ImGui::GetStyle().WindowBorderSize = 0;
-        ImGui::SetNextWindowBgAlpha(0);
-        ImGui::SetNextWindowCollapsed(false, ImGuiCond_Once );
-        ImGui::Begin("Key settings", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        ImGui::BeginChild("Key settings", {0, 120});
+        ImGui::Text("Key settings");
         static ImGuiComboFlags keyFlags = 0;
         static ImGuiComboFlags valFlags = 0;
         static const char * currentKey = m_Keys[0];
@@ -94,7 +90,7 @@ namespace RG{
             MapKey((sf::Keyboard::Key) currentKeyInx,(sf::Keyboard::Key) currentValInx);
         }
 
-        ImGui::End();
+        ImGui::EndChild();
     }
 
     void IOManager::SetDefaultKeys(){

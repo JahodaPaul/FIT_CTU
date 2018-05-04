@@ -56,7 +56,6 @@ namespace RG {
         if ( m_ImguiDemo )
             ImGui::ShowDemoWindow();
         m_console.Draw();
-        m_IOManager.Draw();
 
         m_mapOfGameScenes[m_activeScene]->Render( this );
 
