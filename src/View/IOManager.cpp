@@ -31,12 +31,13 @@ namespace RG{
         Close();
         remove((m_StorageDir+"/"+m_File).c_str());
         Open();
-        for(unsigned i = 0; i < m_KeyArr.size(); i++)
+        for(unsigned i = 0; i < m_KeyArr.size(); i++){
             if(i != m_KeyArr.size()-1)
                 m_Stream << m_KeyArr[i] << " ";
             else
                 m_Stream << m_KeyArr[i];
             m_Stream << std::endl;
+	}
     }
 
     void IOManager::Deserialize(){
