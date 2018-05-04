@@ -102,6 +102,7 @@ namespace RG {
 
         void View::SetPlayer() {
             player = std::make_shared<Player>();
+            player->SetPosition(m_window->getView().getSize().x/2,m_window->getView().getSize().y/2);
         }
 
         std::shared_ptr<RG::View::Player> View::GetPlayer() {
@@ -120,10 +121,12 @@ namespace RG {
             room->DrawRoom(this->getGameController()->GetFloorLevel(),this->getGameController()->GetRoomId(),*this->getWindow());
 //            room->SetSpriteScale((float)m_window->getSize().x,(float)m_window->getSize().y);
             room->SetSpriteScale(m_window->getView().getSize().x,m_window->getView().getSize().y);
+            std::vector<bool> temporary = m_gameControllet->GetRoomDoors();
+            room->DrawDoor(*this->getWindow(), temporary[0],temporary[1],temporary[2],temporary[3]);
         }
 
-        sf::View * View::GetView() {
-            return &m_view;
+        const sf::View View::GetView() {
+            return m_window->getView();
         }
     }
 }

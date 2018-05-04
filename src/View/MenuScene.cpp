@@ -4,6 +4,8 @@ namespace RG {
     namespace View {
         MenuScene::MenuScene() {
             std::cout << "menu scene constructor" << std::endl;
+            this->background_texture.loadFromFile("../assets/graphics/backgrounds/screens/StartScreen.png");
+            this->background.setTexture(this->background_texture);
         }
 
         MenuScene::~MenuScene() {}
@@ -11,9 +13,17 @@ namespace RG {
         void MenuScene::Update(View *view) {}
 
         void MenuScene::Render(View *view) {
+
+            if(view->GetView().getSize().x != this->windowX || view->GetView().getSize().y != this->windowY){
+                this->windowX = view->GetView().getSize().x;
+                this->windowY = view->GetView().getSize().y;
+                this->background.setScale(this->windowX/this->background.getLocalBounds().width,this->windowY/this->background.getLocalBounds().height);
+            }
+            view->getWindow()->draw(this->background);
+
             ImGui::GetStyle().WindowBorderSize = 0;
             ImGui::SetNextWindowBgAlpha(0);
-            ImGui::SetNextWindowPos(ImVec2(view->getWindow()->getSize().x / 2 - m_menuWidth / 2,
+            ImGui::SetNextWindowPos(ImVec2(view->getWindow()->getSize().x / 3 - m_menuWidth / 2,
                                            view->getWindow()->getSize().y / 2 - m_menuHeight / 2));
             ImGui::SetNextWindowSize({m_menuWidth, m_menuHeight});
 

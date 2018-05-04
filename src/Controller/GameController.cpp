@@ -57,5 +57,9 @@ namespace RG {
         return m_model->GetFloorLevel();
     }
 
+    std::vector<bool> GameController::GetRoomDoors() {
+        return m_model->GetRoomDoors(this->m_model->GetRoomId());
+    }
+
 
 }

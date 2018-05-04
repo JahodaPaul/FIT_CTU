@@ -59,11 +59,10 @@ namespace RG {
 
             void DrawRoom();
 
-            sf::View * GetView();
+            const sf::View GetView();
 
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
-            sf::View m_view;
             SCENE m_activeScene;
             GameController *m_gameControllet;
             std::map<SCENE, std::shared_ptr<Scene> > m_mapOfGameScenes;

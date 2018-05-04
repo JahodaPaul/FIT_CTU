@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <map>
+#include <vector>
 
 #include <Controller/MenuStateHandler.hpp>
 #include <Controller/GameStateHandler.hpp>
@@ -38,6 +39,9 @@ namespace RG {
 
             int GetRoomId();
             int GetFloorLevel();
+
+            ///top right down left
+            std::vector<bool> GetRoomDoors();
         private:
             std::shared_ptr<RG::View::View> m_view;
             std::map<int, std::shared_ptr<GameStateHandler> > m_mapOfGameStateHandlers;

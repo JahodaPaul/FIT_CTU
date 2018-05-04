@@ -40,9 +40,6 @@ namespace RG {
             view->UpdatePlayer(x, y);
             while (window->pollEvent(event)) {
                 ImGui::SFML::ProcessEvent(event);
-                if (event.type == sf::Event::Resized){
-                    view->GetView()->setSize(event.size.width,event.size.height);
-                }
                 if (event.type == sf::Event::Closed) {
                     window->close();
                     view->getGameController()->Quit();

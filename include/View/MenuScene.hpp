@@ -24,6 +24,11 @@ namespace RG {
             const float m_itemHeight = 50;
             const float m_menuWidth = m_itemWidth + 20;
             const float m_menuHeight = m_itemHeight * 3 + 30;
+
+            sf::Texture background_texture;
+            sf::Sprite background;
+            float windowX;
+            float windowY;
         };
     }
 }

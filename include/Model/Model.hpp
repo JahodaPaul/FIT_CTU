@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility> // std::pair
+#include <vector>
 
 #include "Model/GameWorld.hpp"
 #include "Model/Room.hpp"
@@ -40,6 +41,8 @@ namespace RG {
         int GetFloorLevel ( void ) const;
 
         int GetRoomId (void) const;
+
+        std::vector<bool> GetRoomDoors (int) const;
 
       private:
         /// current game world
