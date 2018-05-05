@@ -23,7 +23,12 @@ namespace RG {
             const float m_itemWidth = 100;
             const float m_itemHeight = 50;
             const float m_menuWidth = m_itemWidth + 20;
-            const float m_menuHeight = m_itemHeight * 3 + 30;
+            const float m_menuHeight = m_itemHeight * 4 + 30;
+            bool m_showSetting;
+            bool m_showMenu;
+            bool m_notReset;
+            float m_settingsWidth = 400;
+            float m_settingsHeight = 300;
 
             sf::Texture background_texture;
             sf::Sprite background;

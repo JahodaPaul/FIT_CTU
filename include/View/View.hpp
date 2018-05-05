@@ -62,6 +62,7 @@ namespace RG {
 
             const sf::View GetView();
 
+            IOManager m_IOManager;
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
             SCENE m_activeScene;
