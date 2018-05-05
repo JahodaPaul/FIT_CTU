@@ -6,7 +6,8 @@ namespace RG {
         m_mapOfGameStateHandlers[STATES::MAIN_MENU] = std::shared_ptr<GameStateHandler>( new MenuStateHandler() );
         m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<GameStateHandler>( new GameStateHandler() );
         m_GameState = STATES::MAIN_MENU;
-        m_view = std::make_shared<View>(this);
+        m_view = std::make_shared<RG::View::View>(this);
+        m_model = std::make_shared<RG::Model::Model>();
     }
     GameController::~GameController() {}
 
@@ -34,16 +35,31 @@ namespace RG {
     void GameController::Update( float timeStep ) { }
     void GameController::GoToMainMenu() {
         m_mapOfGameStateHandlers[m_GameState]->GoToMainMenu( this );
-        m_view->setActiveView( SCENE::MENU_SCENE );
+        m_view->setActiveView( RG::View::SCENE::MENU_SCENE );
     }
     void GameController::GoToGame() {
         m_mapOfGameStateHandlers[m_GameState]->GoToGame( this );
-        m_view->setActiveView( SCENE::GAME_SCENE );
+        m_view->setActiveView( RG::View::SCENE::GAME_SCENE );
         m_view->SetPlayer();
         m_view->GetPlayer()->GetAnimation()->goToFrame(0);
         m_view->GetPlayer()->GetAnimation()->startAnimation();
+        m_model = std::make_shared<RG::Model::Model>();
     }
     void GameController::setActiveGameState( STATES state ) {
         m_GameState = state;
     }
+
+    int GameController::GetRoomId(){
+        return m_model->GetRoomId();
+    }
+
+    int GameController::GetFloorLevel() {
+        return m_model->GetFloorLevel();
+    }
+
+    std::vector<bool> GameController::GetRoomDoors() {
+        return m_model->GetRoomDoors(this->m_model->GetRoomId());
+    }
+
+
 }

@@ -2,20 +2,24 @@
 // Created by pjahoda on 29.4.18.
 //
 
-#include <Model/Player.hpp>
+#include "Model/Player.hpp"
 
-namespace RG{
+namespace RG {
+  namespace Model {
+        Player::Player(float x, float y, std::shared_ptr<b2World> world, std::string name) :
+            Entity(x, y, world, name) {
+        }
 
+        Player::~Player(){
+        }
 
-    Player::Player() {
+        void Player::Move ( void ) {
+            //TODO
+        } // FIXME (vanda)
 
-    }
-
-    void Player::Move(float x, float y) {
-        //TODO
-    }
-
-    std::pair<float, float> Player::GetPosition() const {
-        return std::make_pair(x,y);;
-    }
+        std::pair<float, float> Player::GetPosition() const {
+              return std::make_pair(x,y);;
+        }
+  }
 }
+

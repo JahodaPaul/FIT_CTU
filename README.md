@@ -5,7 +5,7 @@ Podrobnosti k prvnímu odevzdání ve složce 1.iterace.
 
 BUILD
 ===
-Projekt potřebuje k úspěšné kompilaci staženou knihovnu sfml a box2d
+Projekt potřebuje k úspěšné kompilaci staženou knihovnu sfml a box2d cmake verze 2.6 a vyšší
 - ubuntu
     - libsfml-dev 
     - libbox2d-dev 
