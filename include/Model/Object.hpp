@@ -23,8 +23,8 @@ namespace RG {
 
         float GetAngle(void) const;
 
-      protected:
         b2Body* m_Body;
+
         b2BodyDef* m_BodyDef;
 
       private:

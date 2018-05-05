@@ -3,7 +3,8 @@
 namespace RG {
   namespace Model {
     Object::Object(b2BodyDef* body, std::string name)
-      : m_BodyDef(body)
+      : m_Body(NULL)
+        , m_BodyDef(body)
         , m_Name(name)
     {
     }
