@@ -10,10 +10,10 @@ namespace RG {
   namespace Model {
     /**
      * \class Floor
-     * \brief This class desribes a floor inside the game world. There are multiple rooms inside and the transition
-     * between floors is by stairs.
+     * \brief This class desribes a floor inside the game world. There are
+     * multiple rooms inside and the transition between floors is by stairs.
      */
-    class Floor : public Object {
+    class Floor {
       public:
         /// constructor
         Floor(unsigned int level, unsigned int rooms);
@@ -22,17 +22,25 @@ namespace RG {
         ~Floor();
 
         /// returns how many floors under ground this floor is
-        unsigned int GetLevel ( void ) const;
+        unsigned int GetLevel(void) const;
+
+        const RG::Model::Room& GetRoom(void) const;
 
       private:
         /// array of rooms present at this floor
-        std::map<unsigned int, std::map<unsigned int, RG::Model::Room> > m_Rooms;
+        std::map<unsigned int, std::map<unsigned int, RG::Model::Room>> m_Rooms;
 
         /// how deep under ground the floor is
         unsigned int m_Level;
 
-        /// title of the floor 
+        /// title of the floor
         std::string m_Title;
+        
+        /// box2d world, where all objects will be placed
+        std::shared_ptr<b2World> m_World;
+
+        unsigned int m_X;
+        unsigned int m_Y;
     };
   }
 }

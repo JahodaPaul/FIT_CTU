@@ -14,16 +14,16 @@ namespace RG {
     class Entity : public DynamicObject {
       public:
         /// constructor
-        Entity(float x, float y, std::shared_ptr<b2World> world, std::string name);
+        Entity(b2BodyDef* body, std::string name);
 
         /// destructor
         ~Entity();
 
         /// returns the attack level
-        int GetAttackLevel ( void ) const;
+        int GetAttackLevel(void) const;
 
         /// changes stats depending on defense level and enemy attack level
-        void RecvAttack ( int enemy_attack );
+        void RecvAttack(int enemy_attack);
 
       private:
         /// health points

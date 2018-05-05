@@ -1,10 +1,11 @@
 #pragma once
 
-#include <utility> // std::pair
-#include <vector>  // std::vector
+#include <Box2D/Box2D.h> // b2Body, b2World, b2Vec2
+#include <utility>       // std::pair
+#include <vector>        // std::vector
 
+#include "Model/Entity.hpp" // RG::Model::Player
 #include "Model/Floor.hpp"  // RG::Model::Floor
-#include "Model/Player.hpp" // RG::Model::Player
 #include "Model/Room.hpp"   // RG::Model::Room
 
 namespace RG {
@@ -23,7 +24,7 @@ namespace RG {
         ~Model();
 
         /// moves the player
-        void Move();
+        void Move(float x, float y);
 
         /// returns reference to the current room
         const RG::Model::Room& GetCurrentRoom(void) const;
@@ -46,14 +47,19 @@ namespace RG {
         std::vector<bool> GetRoomDoors(int) const;
 
         // std::vector<type> GetEntityList(void) const;
+
+        /**
+         * \function Step
+         * \brief advance time in the game world
+         * @param time_step how much time has passed since the last update
+         */
+        void Step(float time_step);
+
       private:
         void GenerateFloors(unsigned int seed);
 
-        /// current game world
-        RG::Model::GameWorld m_GameWorld;
-
-        /// an instance of the Player
-        std::shared_ptr<RG::Model::Player> m_Player;
+        /// the Player
+        std::shared_ptr<RG::Model::Entity> m_Player;
 
         unsigned int m_CurrentFloorIdx;
 

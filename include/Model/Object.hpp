@@ -1,10 +1,9 @@
 #pragma once
 
-#include <memory>  // std::shared_ptr
-#include <string>  // std::string
-#include <utility> // std::pair
-
-#include <Box2D/Box2D.h>
+#include <Box2D/Box2D.h> // b2Body, b2Vec2
+#include <memory>        // std::shared_ptr
+#include <string>        // std::string
+#include <utility>       // std::pair
 
 namespace RG {
   namespace Model {
@@ -14,19 +13,21 @@ namespace RG {
      */
     class Object {
       public:
-        Object(float x, float y, std::shared_ptr<b2World> world, std::string, bool dynamic);
+        Object(b2BodyDef* body, std::string);
 
-        Object();
         ~Object();
 
-        std::string GetName ( void ) const;
+        std::string GetName(void) const;
+
+        b2Vec2 GetPosition(void) const;
+
+        float GetAngle(void) const;
 
       protected:
-        std::pair<float, float> m_Position;
+        b2Body* m_Body;
+        b2BodyDef* m_BodyDef;
 
       private:
-        b2Body* m_Body; // FIXME (vanda,smart pointer)
-        std::shared_ptr<b2World> m_World;
         std::string m_Name;
     };
   }

@@ -10,8 +10,9 @@ namespace RG {
   namespace Model {
     /**
      * \class Room
-     * \brief This class desribes a room. There can be objects and entities inside a room. The player can get to a
-     * different room using either doors or stairs.
+     * \brief This class desribes a room. There can be objects and entities inside
+     * a room. The player can get to a different room using either doors or
+     * stairs.
      */
     class Room : public Object {
       public:
@@ -20,6 +21,7 @@ namespace RG {
 
         /// destructor
         ~Room();
+
       private:
         /// position in the map grid
         std::pair<unsigned int, unsigned int> m_GridPosition;

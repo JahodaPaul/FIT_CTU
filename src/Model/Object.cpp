@@ -2,27 +2,21 @@
 
 namespace RG {
   namespace Model {
-    Object::Object(float x, float y, std::shared_ptr<b2World> world, std::string name, bool dynamic=false):m_World(world), m_Position({x,y}){
-      b2BodyDef bodyDef;
-      if(dynamic){
-        bodyDef.type = b2_dynamicBody;
-      } else {
-        bodyDef.type = b2_staticBody;
-      }
-      bodyDef.position.Set(x, y);
-      m_Body = m_World->CreateBody(&bodyDef);
+    Object::Object(b2BodyDef* body, std::string name)
+      : m_BodyDef(body)
+        , m_Name(name)
+    {
     }
 
-    Object::Object() {
+    Object::~Object() {}
 
+    std::string Object::GetName(void) const { return m_Name; }
+
+    b2Vec2 Object::GetPosition(void) const
+    {
+      return m_Body ? m_Body->GetPosition() : b2Vec2(0, 0);
     }
 
-    Object::~Object(){
-      //m_World->DestroyBody(m_Body);
-    }
-    
-    std::string Object::GetName ( void ) const {
-     return m_Name; 
-    }
+    float Object::GetAngle(void) const { return m_Body ? m_Body->GetAngle() : 0; }
   }
 }

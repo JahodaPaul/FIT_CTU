@@ -2,9 +2,17 @@
 
 namespace RG {
   namespace Model {
-    DynamicObject::DynamicObject(float x, float y, std::shared_ptr<b2World> world, std::string name) : 
-      Object(x, y, world, name, true){}
+    DynamicObject::DynamicObject(b2BodyDef* body, std::string name)
+      : Object(body, name)
+    {
+    }
 
-    DynamicObject::~DynamicObject(){}
+    DynamicObject::~DynamicObject() {}
+
+    void DynamicObject::Move(const b2Vec2& v)
+    {
+      m_Body->ApplyForce(v, m_Body->GetPosition(),
+          true); // FIXME (vanda, linearimpulse, add damping?)
+    }
   }
 }
