@@ -18,6 +18,7 @@
 #include "View/Room.hpp"
 
 #include "Controller/GameController.hpp"
+#include "View/IOManager.hpp"
 
 
 namespace RG {
