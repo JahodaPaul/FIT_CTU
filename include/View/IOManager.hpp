@@ -25,7 +25,7 @@ namespace RG{
         public:
 
             /** IOManager class constructor. */
-            IOManager(std::string dir = "/home/wiedzmin/FIT_CVUT/SP1/RG/test/View/IOManager/keys", std::string fileName = "mapping.txt");
+            IOManager(std::string dir = "./keys", std::string fileName = "mapping.txt");
 
             /** IOManager class destructor. */
             ~IOManager();
