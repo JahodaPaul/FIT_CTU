@@ -42,12 +42,11 @@ namespace RG{
                     int j = 0;
                     for(auto & offer : it->second){
                         j++;
-                        if(i<itDemand->second.size()){
+                        if(i<(int)itDemand->second.size()){
                             if(offer.price <= itDemand->second[i].price){
                                 int matchedPrice = this->MatchingPrice(itDemand->second[i].price, offer.price);
 
-                                std::cout << "Player " << offer.player->GetName() << " sold " << offer.item->GetName() << " for" << matchedPrice << "." << std::endl;
-                                std::cout << "Player " << itDemand->second[i].player->GetName() << " bought " << itDemand->second[i].item->GetName() << " for" << matchedPrice << "." << std::endl;
+                                std::cout << "Player " << offer.player->GetName() << " sold " << offer.item->GetName() << " to " << itDemand->second[i].player->GetName() << " for " << matchedPrice << "." << std::endl;
 
                                 //transfer items and money
                                 offer.player->AddMoney(matchedPrice);

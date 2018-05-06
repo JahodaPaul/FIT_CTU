@@ -52,5 +52,7 @@ namespace RG {
             int m_GameState;
             std::shared_ptr<RG::Model::Model> m_model;
             std::shared_ptr<RG::NPC::NPCWorldCycle> m_NPCWorld;
+
+            int m_howOftenRunNPCWorld;
     };
 }

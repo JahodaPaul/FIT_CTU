@@ -44,7 +44,8 @@ namespace RG{
                         if(!offerOrDemand.buy){
                             auto it = this->offers.find(request.item->GetIdType());
                             if(it == this->offers.end()){
-                                it->second = std::vector<Request>();
+                                this->offers.insert(std::make_pair(request.item->GetIdType(),std::vector<Request>()));
+                                it = this->offers.find(request.item->GetIdType());
                                 it->second.push_back(request);
                             }
                             else{
@@ -54,7 +55,8 @@ namespace RG{
                         else{
                             auto it = this->demands.find(request.item->GetIdType());
                             if(it == this->demands.end()){
-                                it->second = std::vector<Request>();
+                                this->demands.insert(std::make_pair(request.item->GetIdType(),std::vector<Request>()));
+                                it = this->demands.find(request.item->GetIdType());
                                 it->second.push_back(request);
                             }
                             else{

@@ -15,6 +15,7 @@ namespace RG{
             this->isPlayer = isPlayer;
             this->questNPCOnly = questNPCOnly;
             this->inventorySize = inventorySize;
+            this->itemIOwn = std::make_shared<std::vector<std::shared_ptr<RG::NPC::Item>>>();
         }
 
         Entity::~Entity() {

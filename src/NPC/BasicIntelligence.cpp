@@ -5,6 +5,8 @@
 #include "NPC/BasicIntelligence.hpp"
 #include "NPC/Request.hpp"
 
+#include <iostream>
+
 namespace RG{
     namespace NPC{
 
@@ -31,7 +33,7 @@ namespace RG{
             }
             else{
                 if(itemsIOwn->size() != 0){
-                    int temporary = (int)(std::rand() % listOfItemsPossibleToSell.size());
+                    int temporary = (int)(std::rand() % itemsIOwn->size());
                     int randomPrice = std::rand() % 10;
 
                     int price = (*itemsIOwn)[temporary]->GetRarity()-randomPrice >= 0 ? (*itemsIOwn)[temporary]->GetRarity()-randomPrice : 0;

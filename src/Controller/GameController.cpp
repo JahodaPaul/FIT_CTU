@@ -8,7 +8,8 @@ namespace RG {
         m_GameState = STATES::MAIN_MENU;
         m_view = std::make_shared<RG::View::View>(this);
         m_model = std::make_shared<RG::Model::Model>();
-        //m_NPCWorld  = std::make_shared<RG::NPC::NPCWorldCycle>();
+        m_NPCWorld  = std::make_shared<RG::NPC::NPCWorldCycle>();
+        m_howOftenRunNPCWorld = 0;
     }
     GameController::~GameController() {}
 
@@ -27,7 +28,11 @@ namespace RG {
     }
 
     void GameController::RunNPCWorld(){
-//        this->m_NPCWorld->Run();
+        if (m_howOftenRunNPCWorld % 100 == 0){
+            this->m_NPCWorld->Run();
+            m_howOftenRunNPCWorld = 0;
+        }
+        m_howOftenRunNPCWorld++;
     }
 
     int GameController::Quit() {
