@@ -57,11 +57,9 @@ DownloadAssets() {
     echo ""
     echo "Downloading assets..."
     echo ""
-    cd 'assets'
     curl 'ftp://mybestcloud.xyz/pub/assets-20180506T223100Z-001.zip' --output 'graphics.zip' 2>/dev/null
     unzip 'graphics.zip'
     rm 'graphics.zip'
-    cd ..
     return 0
 }
 
