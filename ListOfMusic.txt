@@ -1,0 +1,8 @@
+# zde jsou ulozeny zvuky
+# "sounds name" "path of sound" "enable/disable"
+"Night_Owl" "../../../assets/audio/music/Night_Owl.wav" "enable"
+"Doobly_Doo" "../../../assets/audio/music/Doobly_Doo.wav" "enable"
+"cheerful" "../../../assets/audio/music/391538__mativve__cheerful-song.wav" "enable"
+"snowfall" "../../../assets/audio/music/262259__shadydave__snowfall-final.wav" "enable"
+"duckers" "../../../assets/audio/music/366787__duckers-duckerson__music.wav" "enable"
+"frankum" "../../../assets/audio/music/384468__frankum__vintage-elecro-pop-loop.wav" "enable"
