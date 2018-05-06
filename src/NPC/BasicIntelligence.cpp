@@ -21,15 +21,17 @@ namespace RG{
         std::vector<RG::NPC::HalfRequest> BasicIntelligence::BuyOrSell(std::shared_ptr<std::vector<std::shared_ptr<RG::NPC::Item>>> itemsIOwn,
                                                                        std::map<int, std::vector<Request> > & offers,
                                                                            std::map<int, std::vector<Request> > & demands,
-                                                                       std::vector<std::shared_ptr<RG::NPC::Item> > & listOfItemsPossibleToSell) {
+                                                                       std::vector<std::shared_ptr<RG::NPC::Item> > & listOfItemsPossibleToSell, int goldEntityOwns) {
             std::vector<RG::NPC::HalfRequest> tmp;
             int buy = (int)(std::rand() % 2);
             if(buy){
                 int temporary = (int)(std::rand() % listOfItemsPossibleToSell.size());
                 int randomPrice = std::rand() % 20;
-                RG::NPC::HalfRequest myRequest = RG::NPC::HalfRequest(listOfItemsPossibleToSell[temporary],
-                                                                      listOfItemsPossibleToSell[temporary]->GetRarity()+randomPrice,true);
-                tmp.push_back(myRequest);
+                int price = listOfItemsPossibleToSell[temporary]->GetRarity() + randomPrice;
+                if(price <= goldEntityOwns) {
+                    RG::NPC::HalfRequest myRequest = RG::NPC::HalfRequest(listOfItemsPossibleToSell[temporary], price, true);
+                    tmp.push_back(myRequest);
+                }
             }
             else{
                 if(itemsIOwn->size() != 0){

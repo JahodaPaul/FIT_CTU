@@ -38,7 +38,7 @@ namespace RG{
                 if(!entity->IsPlayer()){
                     std::vector<HalfRequest> offersAndDemands = entity->GetIntelligence()->BuyOrSell(entity->GetItemsIOwn(),
                                                                                                      this->previousOffers,
-                                                                                                     this->previousDemands,this->listOfItemsPossibleToSell);
+                                                                                                     this->previousDemands,this->listOfItemsPossibleToSell, entity->GetGold());
                     for(auto & offerOrDemand : offersAndDemands){
                         RG::NPC::Request request = RG::NPC::Request(offerOrDemand.item, entity, offerOrDemand.price);
                         if(!offerOrDemand.buy){

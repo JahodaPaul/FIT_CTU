@@ -64,5 +64,9 @@ namespace RG{
         std::string Entity::GetName(){
             return this->name;
         }
+
+        int Entity::GetGold(){
+            return this->gold;
+        }
     }
 }

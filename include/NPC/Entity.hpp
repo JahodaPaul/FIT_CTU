@@ -32,6 +32,7 @@ namespace RG{
             void DeleteItemBasedOnID(int id);
 
             std::string GetName();
+            int GetGold();
         protected:
             std::shared_ptr<RG::NPC::Intelligence> intelligence;
             int gold;

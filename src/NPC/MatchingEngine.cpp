@@ -46,7 +46,7 @@ namespace RG{
                             if(offer.price <= itDemand->second[i].price){
                                 int matchedPrice = this->MatchingPrice(itDemand->second[i].price, offer.price);
 
-                                std::cout << "Player " << offer.player->GetName() << " sold " << offer.item->GetName() << " to " << itDemand->second[i].player->GetName() << " for " << matchedPrice << "." << std::endl;
+                                std::cout << offer.player->GetName() << " sold " << offer.item->GetName() << " to " << itDemand->second[i].player->GetName() << " for " << matchedPrice << "." << std::endl;
 
                                 //transfer items and money
                                 offer.player->AddMoney(matchedPrice);
