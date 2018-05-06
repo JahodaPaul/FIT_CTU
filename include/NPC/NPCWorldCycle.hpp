@@ -22,7 +22,7 @@ namespace RG{
         protected:
         private:
             std::shared_ptr<RG::NPC::Market> market;
-
+            bool EntitiesChoseItemsToWorkOn;
 
         };
     }

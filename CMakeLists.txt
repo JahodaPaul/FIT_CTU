@@ -75,7 +75,7 @@ ADD_EXECUTABLE(game src/main.cpp
     src/NPC/MatchingEngine.cpp
     src/NPC/Item.cpp
     src/NPC/NPCWorldCycle.cpp
-    )
+        include/NPC/HalfRequest.hpp)
 
 LINK_DIRECTORIES(/usr/local/lib)
 INCLUDE_DIRECTORIES( ./include )

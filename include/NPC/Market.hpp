@@ -19,13 +19,29 @@ namespace RG{
         public:
             Market();
             ~Market();
+            void AddItem(std::shared_ptr<RG::NPC::Item> item);
+            void AddEntity(std::shared_ptr<RG::NPC::Entity> entity);
+            void EntitiesWork();
+            void EntitiesBuyOrSell();
+            void EntitiesChooseFirstItemToWorkOn();
+
+            void MatchingEngineMatch();
+
         protected:
         private:
             RG::NPC::MatchingEngine matchingEngine;
+
+            ///entity is selling item (supply)
             std::map<int,std::vector<Request> > offers;
+
+            ///entity is buying item (demand)
             std::map<int,std::vector<Request> > demands;
 
+            std::map<int,std::vector<Request> > previousOffers;
+            std::map<int,std::vector<Request> > previousDemands;
+
             std::vector<std::shared_ptr<RG::NPC::Entity> > entities;
+            std::vector<std::shared_ptr<RG::NPC::Item> > listOfItemsPossibleToSell;
         };
     }
 }
