@@ -13,9 +13,9 @@ namespace RG{
             int startGold = 300;
             this->market->AddItem(std::make_shared<RG::NPC::Item>(0, 0, 5, "bread"));
             this->market->AddItem(std::make_shared<RG::NPC::Item>(0, 1, 10, "shoe"));
-//            this->market->AddEntity(std::make_shared<RG::NPC::Entity>(startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 1));
-//            this->market->AddEntity(std::make_shared<RG::NPC::Entity>(startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 2));
-//            this->market->AddEntity(std::make_shared<RG::NPC::Entity>(startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 3));
+            this->market->AddEntity(std::make_shared<RG::NPC::Entity>("Pavel", startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 1));
+            this->market->AddEntity(std::make_shared<RG::NPC::Entity>("Petr", startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 2));
+            this->market->AddEntity(std::make_shared<RG::NPC::Entity>("Vojta", startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 3));
         }
 
         NPCWorldCycle::~NPCWorldCycle() {

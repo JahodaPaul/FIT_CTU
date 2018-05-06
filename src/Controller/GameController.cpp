@@ -8,6 +8,7 @@ namespace RG {
         m_GameState = STATES::MAIN_MENU;
         m_view = std::make_shared<RG::View::View>(this);
         m_model = std::make_shared<RG::Model::Model>();
+        //m_NPCWorld  = std::make_shared<RG::NPC::NPCWorldCycle>();
     }
     GameController::~GameController() {}
 
@@ -24,6 +25,11 @@ namespace RG {
             m_view->Render();
         }
     }
+
+    void GameController::RunNPCWorld(){
+//        this->m_NPCWorld->Run();
+    }
+
     int GameController::Quit() {
         std::cout <<"quit" << std::endl;
         m_running = false;

@@ -7,6 +7,7 @@
 
 #include <map>
 #include <vector>
+#include <algorithm>
 
 #include "NPC/Request.hpp"
 
@@ -19,11 +20,12 @@ namespace RG{
             void Match(std::map<int,std::vector<Request> > & offers, std::map<int,std::vector<Request> > & demands);
         protected:
         private:
+            static bool Ascending(const Request & a, const Request & b);
+            static bool Descending(const Request & a, const Request & b);
+            int MatchingPrice(int priceOfferedForItem, int priceDemandedForItem);
+
         };
     }
 }
-
-
-
 
 #endif //GAME_MATCHINGENGINE_HPP

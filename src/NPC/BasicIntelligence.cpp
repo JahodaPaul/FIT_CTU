@@ -43,8 +43,7 @@ namespace RG{
 
             return tmp;
         }
-
-        std::shared_ptr<RG::NPC::Item> ChooseItemToCreate(std::vector<std::shared_ptr<RG::NPC::Item>> & items,
+        std::shared_ptr<RG::NPC::Item> BasicIntelligence::ChooseItemToCreate(std::vector<std::shared_ptr<RG::NPC::Item>> & items,
                                                           std::map<int,std::vector<Request> > & offers,
                                                           std::map<int,std::vector<Request> > & demands){
 

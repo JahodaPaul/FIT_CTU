@@ -9,7 +9,7 @@ namespace RG {
         }
 
         void GameScene::Update(View *view) {
-
+            view->getGameController()->RunNPCWorld();
         }
 
         void GameScene::Render(View *view) {
