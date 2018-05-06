@@ -22,6 +22,8 @@ namespace RG {
         b2Vec2 GetPosition(void) const;
 
         float GetAngle(void) const;
+      
+        void AddShape(b2Shape* shapeDef);
 
         b2Body* m_Body;
 
