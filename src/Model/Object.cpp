@@ -2,9 +2,9 @@
 
 namespace RG {
   namespace Model {
-    Object::Object(b2BodyDef* body, std::string name)
+    Object::Object(std::string name)
       : m_Body(NULL)
-        , m_BodyDef(body)
+        , m_BodyDef(NULL)
         , m_Name(name)
     {
     }
@@ -32,8 +32,10 @@ namespace RG {
       // Override the default friction.
       fixtureDef.friction = 0.8f;
 
-      // Add the shape to the body.
-      m_Body->CreateFixture(&fixtureDef);
+      if (m_Body){
+        // Add the shape to the body.
+        m_Body->CreateFixture(&fixtureDef);
+      }
     }
   }
 }

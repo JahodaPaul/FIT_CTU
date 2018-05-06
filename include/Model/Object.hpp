@@ -13,7 +13,7 @@ namespace RG {
      */
     class Object {
       public:
-        Object(b2BodyDef* body, std::string);
+        Object(std::string);
 
         ~Object();
 
@@ -22,7 +22,9 @@ namespace RG {
         b2Vec2 GetPosition(void) const;
 
         float GetAngle(void) const;
-      
+
+        void AddBody(b2Body* body);
+
         void AddShape(b2Shape* shapeDef);
 
         b2Body* m_Body;

@@ -11,6 +11,21 @@ namespace RG {
     }
     GameController::~GameController() {}
 
+    std::pair<float, float> GameController::GetPlayerPos() const
+    {
+      return m_model->GetPlayerPosition();
+    }
+
+    void GameController::MoveModel(float x, float y) const
+    {
+      return m_model->Move(x, y);
+    }
+
+    void GameController::StepModel(float step) const
+    {
+      return m_model->Step(step);
+    }
+
     void GameController::Run() {
         m_running = true;
         std::cout << "Running" << std::endl;

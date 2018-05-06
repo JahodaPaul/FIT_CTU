@@ -2,8 +2,8 @@
 
 namespace RG {
   namespace Model {
-    Entity::Entity(b2BodyDef* body, std::string name)
-      : DynamicObject(body, name)
+    Entity::Entity(std::string name)
+      : DynamicObject(name)
     {
     }
 

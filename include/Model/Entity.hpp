@@ -14,7 +14,7 @@ namespace RG {
     class Entity : public DynamicObject {
       public:
         /// constructor
-        Entity(b2BodyDef* body, std::string name);
+        Entity(std::string name);
 
         /// destructor
         ~Entity();

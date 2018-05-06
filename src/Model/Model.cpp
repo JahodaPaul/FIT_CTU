@@ -6,11 +6,18 @@ namespace RG {
       : m_CurrentFloorIdx(0)
     {
       m_Floors.push_back(
-          RG::Model::Floor(0, 2)); // FIXME(vanda, replace by world generation)
+          RG::Model::Floor(0, 2,0,0)); // FIXME(vanda, replace by world generation)
+
+      // adding the player
       b2BodyDef* bodyDef = new b2BodyDef;
       bodyDef->type = b2_dynamicBody;
       bodyDef->position.Set(0, 0);
-      m_Player = std::make_shared<RG::Model::Entity>(bodyDef, "Hrac"); // FIXME (vanda, b2Body)
+      m_Player = std::make_shared<RG::Model::Entity>("Hrac");
+      m_Player->m_Body = m_Floors[m_CurrentFloorIdx].GetPlayerBody(bodyDef);
+      b2CircleShape* circle = new b2CircleShape;
+      circle->m_p.Set(0,0);
+      circle->m_radius = 10;
+      m_Player->AddShape(circle);
     }
 
     Model::~Model() {}
@@ -53,6 +60,10 @@ namespace RG {
         dummy.push_back(true);
       }
       return dummy;
+    }
+    
+    void Model::Step(float time_step) {
+      this->m_Floors[this->m_CurrentFloorIdx].Step(time_step);
     }
   }
 }

@@ -14,7 +14,7 @@ namespace RG {
 
     class DynamicObject : public Object {
       public:
-        DynamicObject(b2BodyDef* body, std::string name);
+        DynamicObject(std::string name);
 
         ~DynamicObject();
 

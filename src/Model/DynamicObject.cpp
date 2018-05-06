@@ -2,8 +2,8 @@
 
 namespace RG {
   namespace Model {
-    DynamicObject::DynamicObject(b2BodyDef* body, std::string name)
-      : Object(body, name)
+    DynamicObject::DynamicObject(std::string name)
+      : Object(name)
     {
     }
 
@@ -11,8 +11,9 @@ namespace RG {
 
     void DynamicObject::Move(const b2Vec2& v)
     {
-      m_Body->ApplyForce(v, m_Body->GetPosition(),
-          true); // FIXME (vanda, linearimpulse, add damping?)
+      m_Body->ApplyForce(v, m_Body->GetPosition(), true);
+      m_Body->SetLinearDamping(0.05f);
+      //m_Body->SetAngularDamping(0.1f);
     }
   }
 }
