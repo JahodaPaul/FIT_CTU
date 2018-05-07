@@ -79,5 +79,40 @@ namespace RG{
         void RG::NPC::Market::MatchingEngineMatch(){
             this->matchingEngine.Match(offers,demands);
         }
+
+        std::pair<std::map<int,std::vector<Request> >,std::map<int,std::vector<Request> >> Market::ReturnOffersAndDemands() {
+            return std::make_pair(this->offers,this->demands);
+        }
+
+        std::vector<std::shared_ptr<RG::NPC::Item> > Market::ReturnItemsPossibleToBuy() {
+            return this->listOfItemsPossibleToSell;
+        }
+
+        void Market::Buy(std::shared_ptr<RG::NPC::Item> item, int price, std::shared_ptr<RG::NPC::Entity> player) {
+            RG::NPC::Request request = RG::NPC::Request(item, player, price);
+            auto it = this->demands.find(request.item->GetIdType());
+            if(it == this->demands.end()){
+                this->demands.insert(std::make_pair(request.item->GetIdType(),std::vector<Request>()));
+                it = this->demands.find(request.item->GetIdType());
+                it->second.push_back(request);
+            }
+            else{
+                it->second.push_back(request);
+            }
+        }
+
+        void Market::Sell(std::shared_ptr<RG::NPC::Item> item, int price, std::shared_ptr<RG::NPC::Entity> player) {
+            RG::NPC::Request request = RG::NPC::Request(item, player, price);
+            auto it = this->offers.find(request.item->GetIdType());
+            if(it == this->offers.end()){
+                this->offers.insert(std::make_pair(request.item->GetIdType(),std::vector<Request>()));
+                it = this->offers.find(request.item->GetIdType());
+                it->second.push_back(request);
+            }
+            else{
+                it->second.push_back(request);
+            }
+        }
+
     }
 }

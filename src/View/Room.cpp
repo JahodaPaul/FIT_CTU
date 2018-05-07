@@ -6,7 +6,11 @@
 namespace RG {
     namespace View {
 
-        RG::View::Room::Room() {
+        RG::View::Room::Room():room_bluestone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlueStoneBG.png"),
+                               room_blackstone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlackStoneBG.png"),
+                                room_cobblestone("/usr/share/RG/assets/graphics/backgrounds/rooms/CobbleStoneBG.png"),
+                                room_soil("/usr/share/RG/assets/graphics/backgrounds/rooms/SoilBG.png"),
+                                room_lava("/usr/share/RG/assets/graphics/backgrounds/rooms/LavaBG.png"){
             currentId = -1;
             this->door_up_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-top.png");
             this->door_right_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-right.png");
@@ -24,8 +28,32 @@ namespace RG {
         }
 
         void RG::View::Room::AssignBackground(int level, int id) {
+            std::string first;
+            std::string second;
+            if(level == 0){
+                first = room_bluestone;
+                second = room_blackstone;
+            }
+            else if(level == 1){
+                first = room_blackstone;
+                second = room_cobblestone;
+            }
+            else if(level == 2){
+                first = room_cobblestone;
+                second = room_soil;
+            }
+            else{
+                first = room_soil;
+                second = room_lava;
+            }
+
             this->currentId = id;
-            this->roomHistory.insert(std::make_pair(std::to_string(id),"/usr/share/RG/assets/graphics/backgrounds/rooms/BlackStoneBG.png")); //TODO do it almost random -> dependent on level
+            if(std::rand() % 2 == 0){
+                this->roomHistory.insert(std::make_pair(std::to_string(id),first));
+            }
+            else{
+                this->roomHistory.insert(std::make_pair(std::to_string(id),second));
+            }
         }
 
         void RG::View::Room::DrawRoom(int level, int id, sf::RenderTarget &target) {

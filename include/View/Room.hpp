@@ -45,6 +45,13 @@ namespace RG{
             sf::Texture door_left_texture;
             sf::Sprite door_left;
 
+            const std::string room_bluestone;
+            const std::string room_blackstone;
+            const std::string room_cobblestone;
+            const std::string room_soil;
+            const std::string room_lava;
+
+
         };
     }
 }

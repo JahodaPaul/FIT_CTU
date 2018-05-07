@@ -27,6 +27,13 @@ namespace RG{
 
             void MatchingEngineMatch();
 
+
+            void Buy(std::shared_ptr<RG::NPC::Item> item, int price, std::shared_ptr<RG::NPC::Entity> player);
+            void Sell(std::shared_ptr<RG::NPC::Item> item, int price, std::shared_ptr<RG::NPC::Entity> player);
+
+            std::pair<std::map<int,std::vector<Request> >,std::map<int,std::vector<Request> >> ReturnOffersAndDemands();
+            std::vector<std::shared_ptr<RG::NPC::Item> > ReturnItemsPossibleToBuy();
+
         protected:
         private:
             RG::NPC::MatchingEngine matchingEngine;
