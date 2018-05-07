@@ -44,7 +44,7 @@ void SoundManager::setSoundPosition( int id, sf::Vector3f & position ) {}
 
 bool SoundManager::PlayMusic(std::string name, int volume )
 {
-    if(m_listOfMusic.find(name) == m_listOfSounds.end())
+    if(m_listOfMusic.find(name) == m_listOfMusic.end())
         return false;
 
     m_music.stop();
@@ -57,6 +57,9 @@ bool SoundManager::PlayMusic(std::string name, int volume )
 
 bool SoundManager::PlayNextMusic( int volume )
 {
+    if(m_sizeListOfMusic == 0)
+        return false;
+
     ++m_activeMusic; 
     if(m_activeMusic == m_listOfMusic.end())
         m_activeMusic = m_listOfMusic.begin();    
@@ -67,6 +70,9 @@ bool SoundManager::PlayNextMusic( int volume )
 
 bool SoundManager::PlayMusic( int volume, bool repeat ) 
 {    
+    if(m_sizeListOfMusic == 0)
+        return false;
+
     std::string tmp = m_activeMusic->second;
     
     m_music.openFromFile(tmp);
@@ -149,10 +155,10 @@ bool SoundManager::ReadFile(std::string path, bool flag)
     m_file.open(path);
     if(m_file.fail())
     {
-        return false;
         std::cout << "nenasel jsem cestu" << path << std::endl; // TODO logger
+        return false;
     }
-    else
+   /* else
         std::cout << "nasel jsem cestu" << path << std::endl; // TODO logger */
    
     std::string str_tmp, name, m_path, use;
