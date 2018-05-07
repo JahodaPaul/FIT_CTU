@@ -16,6 +16,11 @@ namespace RG {
       return m_model->GetPlayerPosition();
     }
 
+    float GameController::GetPlayerAngle() const
+    {
+      return m_model->GetPlayerRotation();
+    }
+
     void GameController::MoveModel(float x, float y) const
     {
       return m_model->Move(x, y);
@@ -32,7 +37,7 @@ namespace RG {
         while ( m_running ) {
             if ( m_GameState == STATES::RUNNING ) {
                 //TODO(vojta) update game model
-
+                StepModel(1000.0f/16.0f);
             }
             m_view->ManageInput();
             m_view->Update();

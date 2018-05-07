@@ -42,6 +42,12 @@ namespace RG {
 
             ///top right down left
             std::vector<bool> GetRoomDoors();
+
+            std::pair<float, float> GetPlayerPos() const;
+            void MoveModel(float x, float y) const;
+            void StepModel(float step) const;
+            float GetPlayerAngle() const;
+
         private:
             std::shared_ptr<RG::View::View> m_view;
             std::map<int, std::shared_ptr<GameStateHandler> > m_mapOfGameStateHandlers;
