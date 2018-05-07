@@ -37,7 +37,7 @@ namespace RG {
             enum TYPE { INFO, WARNING, ERROR };
 
             ///Class constants for representing class flags
-            enum FLAGS { DATETIME = 1, FILE = 2, LINE = 4, LIMIT = 8 };
+            enum FLAGS { LEVEL = 1, DATETIME = 2, FILE = 4, LINE = 8, LIMIT = 16 };
 
             ///Class constants for representing outputs
             enum STREAM { STD_ONLY, FILE_ONLY, BOTH };
@@ -64,7 +64,7 @@ namespace RG {
             void _Error( const char * file, int line, const std::string & message );
 
             /** Method for setting limit of logs sent to the output */
-            void SetLimit(TYPE type, STREAM streamType);
+            void SetLimit(TYPE type = WARNING, STREAM streamType = BOTH);
 
             /** Method for setting the logger class flags */
             void SetFlags(unsigned char flags);
@@ -107,8 +107,13 @@ namespace RG {
             ///Member variables for holding number of logs in the log file.
             unsigned int m_LogsInFile;
 
-            ///Membe variable for holding limit of logs in the log file.
+            ///Member variable for holding limit of logs in the log file.
             unsigned int m_logsMax;
+
+            ///Member variable representing logs levels for printing
+            const char * m_Levels[3] = {
+                    "INFO", "WARNING", "ERROR"
+            };
 
             ///Member variable for log file directory
             std::string m_LogDir = "./";
