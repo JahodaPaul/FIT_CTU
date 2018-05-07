@@ -37,6 +37,9 @@ int main()
 
 		if(tmp == 8)
 			a.SoundResume();
+
+		if(tmp == 9)
+			a.IsMusicPlaying();
 	}
 
 	return 0;

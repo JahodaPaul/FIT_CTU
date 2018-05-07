@@ -118,6 +118,8 @@ public:
 	 /**	* \brief
     Setting of loud music */
 	bool SetMusicVolume(int change);
+
+	bool IsMusicPlaying() const;
 private:
 	 /**	* \brief
     Read list of music and sound. If flag is true, write the data on the list of sound, if false write data on the list of music. */

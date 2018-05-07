@@ -19,6 +19,10 @@ void SoundManager::setListenerPosition( const sf::Vector3f & position ) {}
 
 int SoundManager::PlaySound(std::string name, int volume, const sf::Vector3f & position )
 {
+    
+    if(m_listOfSounds.find(name) == m_listOfSounds.end())
+        return -1;
+
     m_lastActiveSound++;
     if(m_lastActiveSound == m_countSounds)
         m_lastActiveSound = 0;
@@ -91,6 +95,9 @@ bool SoundManager::SoundResume() {
 
 bool SoundManager::MusicResume()
 {
+    if(IsMusicPlaying())
+        return false;
+
     m_music.play();
     return true;
 }
@@ -113,6 +120,14 @@ bool SoundManager::SetMusicVolume(int change)
     m_music.setVolume(tmp);
     MusicResume();
     return true;
+}
+
+bool SoundManager::IsMusicPlaying() const
+{
+    if(m_music.getStatus() == 2)
+        return true;
+    else
+        return false;
 }
 
 int SoundManager::control(int volume)
