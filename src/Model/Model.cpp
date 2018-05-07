@@ -36,8 +36,18 @@ namespace RG {
 
     std::pair<float, float> Model::GetPlayerPosition(void) const
     {
-      return std::pair<float, float>{ m_Player->GetPosition().x,
-        m_Player->GetPosition().y };
+      float _x = m_Player->GetPosition().x
+        - m_Floors[m_CurrentFloorIdx].m_X
+        * m_Floors[m_CurrentFloorIdx].m_RoomWidth;
+
+      float _y = m_Player->GetPosition().y
+        - m_Floors[m_CurrentFloorIdx].m_Y
+        * m_Floors[m_CurrentFloorIdx].m_RoomHeight;
+
+//      std::cout << m_Player->GetPosition().x << " "
+//       << m_Player->GetPosition().y << std::endl;
+
+      return std::pair<float, float>{ _x, _y };
     }
 
     float Model::GetPlayerRotation(void) const

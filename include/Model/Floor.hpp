@@ -36,6 +36,9 @@ namespace RG {
         
         unsigned int m_X;
         unsigned int m_Y;
+        
+        unsigned int m_RoomHeight;
+        unsigned int m_RoomWidth;
 
       private:
         /// array of rooms present at this floor
@@ -52,9 +55,6 @@ namespace RG {
 
         unsigned int m_ScreenHeight;
         unsigned int m_ScreenWidth;
-
-        unsigned int m_RoomHeight;
-        unsigned int m_RoomWidth;
 
         unsigned int m_WallWidth;
         unsigned int m_WallHeight;

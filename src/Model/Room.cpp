@@ -33,10 +33,7 @@ namespace RG {
       for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
           b2PolygonShape* dynBox = new b2PolygonShape;
-          dynBox->SetAsBox(hw1, hh1,
-              { m_Body->GetPosition().x + hw1 + i * ow1,
-              m_Body->GetPosition().y + hh1 + j * oh1 },
-              0);
+          dynBox->SetAsBox(hw1, hh1, { hw1 + i * ow1, hh1 + j * oh1 }, 0);
           this->AddShape(dynBox, wall_density);
         }
       }
@@ -44,10 +41,7 @@ namespace RG {
       for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
           b2PolygonShape* dynBox = new b2PolygonShape;
-          dynBox->SetAsBox(hw2, hh2,
-              { m_Body->GetPosition().x + hw2 + i * ow2,
-              m_Body->GetPosition().y + hh2 + j * oh2 },
-              0);
+          dynBox->SetAsBox(hw2, hh2, { hw2 + i * ow2, hh2 + j * oh2 }, 0);
           this->AddShape(dynBox, wall_density);
         }
       }
@@ -59,15 +53,11 @@ namespace RG {
         if (i % 2 == 0) {
           unsigned int cnt = i / 2;
           dynBox->SetAsBox(door_w / 2, wall_h / 2,
-              { m_Body->GetPosition().x + screen_w / 2,
-              m_Body->GetPosition().y + wall_h / 2 + cnt * oh1 },
-              0);
+              { screen_w / 2, wall_h / 2 + cnt * oh1 }, 0);
         } else {
           unsigned int cnt = 1 - (i / 2);
           dynBox->SetAsBox(wall_w / 2, door_w / 2,
-              { m_Body->GetPosition().x + wall_w / 2 + cnt * ow2,
-              m_Body->GetPosition().y + screen_h / 2 },
-              0);
+              { wall_w / 2 + cnt * ow2, screen_h / 2 }, 0);
         }
         this->AddShape(dynBox, wall_density);
       }
