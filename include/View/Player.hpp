@@ -28,7 +28,7 @@ namespace RG{
 
             void Update(float);
 
-            void UpdatePlayer(float x, float y);
+            void UpdatePlayer(float relativeMoveX, float relativeMoveY, float absoluteX, float absoluteY);
 
             void DrawPlayer(sf::RenderTarget &target);
 

@@ -111,8 +111,8 @@ namespace RG {
             return player;
         }
 
-        void View::UpdatePlayer(float x, float y) {
-            player->UpdatePlayer(x, y);
+        void View::UpdatePlayer(float relativeMoveX, float relativeMoveY,float absoluteX, float absoluteY) {
+            player->UpdatePlayer(relativeMoveX, relativeMoveY,absoluteX,absoluteY);
         }
 
         void View::DrawPlayer() {

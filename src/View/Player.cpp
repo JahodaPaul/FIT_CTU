@@ -38,7 +38,7 @@ namespace RG{
         void Player::SetPosition(float x, float y) {
             this->x = x;
             this->y = y;
-            animation->setPosition(sf::Vector2f(this->x, this->y));
+            animation->setPosition(sf::Vector2f(this->x*(windowX/1920), this->y*(windowY/1080)));
         }
 
         std::pair<float, float> Player::GetPosition() {
@@ -60,9 +60,11 @@ namespace RG{
             this->animation->update(this->clock.getElapsedTime().asMilliseconds());
         }
 
-        void Player::UpdatePlayer(float x, float y) {
-            if (x || y) {
-                this->UpdatePosition(x, y);
+        void Player::UpdatePlayer(float relativeMoveX, float relativeMoveY, float absoluteX, float absoluteY) {
+            if (absoluteX != this->x || absoluteY != this->y) {
+//                this->UpdatePosition(x, y);
+                this->animation->setRotation(this->GetAngle(relativeMoveX,relativeMoveY));
+                this->SetPosition(absoluteX,absoluteY);
                 this->Update(time);
             }
         }
