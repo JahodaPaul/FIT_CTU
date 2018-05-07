@@ -14,7 +14,7 @@ namespace RG{
             player = sf::RectangleShape(sf::Vector2f(91.0f, 91.0f));
 //        playerTexture.loadFromFile();
 //        player.setTexture(&playerTexture);
-            animation = std::make_shared<Animation>("../assets/graphics/objects/characters/player.png", 91, 91, 12,
+            animation = std::make_shared<Animation>("/usr/share/RG/assets/graphics/objects/characters/player.png", 91, 91, 12,
                                                     40.0f);
 //            this->x = 500;
 //            this->y = 500;

@@ -9,8 +9,8 @@ SoundManager::SoundManager(unsigned int maxSounds ) :
     m_globalVolumeSound = 0;
     m_globalVolumeMusic = 0;
         
-    ReadFile("../ListOfSound.txt", true);
-    ReadFile("../ListOfMusic.txt", false);
+    ReadFile("./ListOfSound.txt", true);
+    ReadFile("./ListOfMusic.txt", false);
 
     m_activeMusic = m_listOfMusic.begin();
 }
@@ -44,6 +44,9 @@ void SoundManager::setSoundPosition( int id, sf::Vector3f & position ) {}
 
 bool SoundManager::PlayMusic(std::string name, int volume )
 {
+    if(m_listOfMusic.find(name) == m_listOfMusic.end())
+        return false;
+
     m_music.stop();
     m_activeMusic = m_listOfMusic.find(name);
     m_music.openFromFile(m_activeMusic->second);
@@ -54,6 +57,9 @@ bool SoundManager::PlayMusic(std::string name, int volume )
 
 bool SoundManager::PlayNextMusic( int volume )
 {
+    if(m_sizeListOfMusic == 0)
+        return false;
+
     ++m_activeMusic; 
     if(m_activeMusic == m_listOfMusic.end())
         m_activeMusic = m_listOfMusic.begin();    
@@ -64,6 +70,9 @@ bool SoundManager::PlayNextMusic( int volume )
 
 bool SoundManager::PlayMusic( int volume, bool repeat ) 
 {    
+    if(m_sizeListOfMusic == 0)
+        return false;
+
     std::string tmp = m_activeMusic->second;
     
     m_music.openFromFile(tmp);
@@ -144,9 +153,12 @@ int SoundManager::control(int volume)
 bool SoundManager::ReadFile(std::string path, bool flag)
 {
     m_file.open(path);
-   /* if(m_file.fail())
+    if(m_file.fail())
+    {
         std::cout << "nenasel jsem cestu" << path << std::endl; // TODO logger
-    else
+        return false;
+    }
+   /* else
         std::cout << "nasel jsem cestu" << path << std::endl; // TODO logger */
    
     std::string str_tmp, name, m_path, use;

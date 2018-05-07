@@ -8,10 +8,10 @@ namespace RG {
 
         RG::View::Room::Room() {
             currentId = -1;
-            this->door_up_texture.loadFromFile("../assets/graphics/objects/doors/door-top.png");
-            this->door_right_texture.loadFromFile("../assets/graphics/objects/doors/door-right.png");
-            this->door_down_texture.loadFromFile("../assets/graphics/objects/doors/door-bottom.png");
-            this->door_left_texture.loadFromFile("../assets/graphics/objects/doors/door-left.png");
+            this->door_up_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-top.png");
+            this->door_right_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-right.png");
+            this->door_down_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-bottom.png");
+            this->door_left_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-left.png");
             this->door_up.setTexture(door_up_texture);
             this->door_right.setTexture(door_right_texture);
             this->door_down.setTexture(door_down_texture);
@@ -25,7 +25,7 @@ namespace RG {
 
         void RG::View::Room::AssignBackground(int level, int id) {
             this->currentId = id;
-            this->roomHistory.insert(std::make_pair(std::to_string(id),"../assets/graphics/backgrounds/rooms/BlackStoneBG.png")); //TODO do it almost random -> dependent on level
+            this->roomHistory.insert(std::make_pair(std::to_string(id),"/usr/share/RG/assets/graphics/backgrounds/rooms/BlackStoneBG.png")); //TODO do it almost random -> dependent on level
         }
 
         void RG::View::Room::DrawRoom(int level, int id, sf::RenderTarget &target) {
