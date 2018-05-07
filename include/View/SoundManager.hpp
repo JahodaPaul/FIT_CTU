@@ -115,10 +115,12 @@ public:
     Setting  of loud all sounds. */
 	bool SetSoundVolume(int change);
 
-	 /**	* \brief
+	/**	* \brief
     Setting of loud music */
 	bool SetMusicVolume(int change);
 
+	/**	* \brief
+    Return true if music is playing */
 	bool IsMusicPlaying() const;
 private:
 	 /**	* \brief
