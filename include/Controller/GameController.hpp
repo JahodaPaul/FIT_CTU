@@ -13,6 +13,8 @@
 
 #include "NPC/NPCWorldCycle.hpp"
 
+#include "common.hpp"
+
 namespace RG {
     enum STATES {
         LOADING,

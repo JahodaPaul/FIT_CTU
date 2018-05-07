@@ -2,7 +2,7 @@
 
 namespace RG {
     GameController::GameController() : m_running( false ) {
-        std::cout << "GameController Constructor" << std::endl;
+        mainLog.Info("GameController Constructor");
         m_mapOfGameStateHandlers[STATES::MAIN_MENU] = std::shared_ptr<GameStateHandler>( new MenuStateHandler() );
         m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<GameStateHandler>( new GameStateHandler() );
         m_GameState = STATES::MAIN_MENU;
@@ -15,7 +15,7 @@ namespace RG {
 
     void GameController::Run() {
         m_running = true;
-        std::cout << "Running" << std::endl;
+        mainLog.Info("Game running");
         while ( m_running ) {
             if ( m_GameState == STATES::RUNNING ) {
                 //TODO(vojta) update game model
@@ -36,7 +36,7 @@ namespace RG {
     }
 
     int GameController::Quit() {
-        std::cout <<"quit" << std::endl;
+        mainLog.Info("Game quit");
         m_running = false;
         return 0;
     }

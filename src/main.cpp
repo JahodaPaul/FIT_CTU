@@ -1,7 +1,9 @@
 #include <iostream>
 
 #include "View/Player.hpp"
-#include "../include/Controller/GameController.hpp"
+#include "Controller/GameController.hpp"
+#include "common.hpp"
+#include "Util/Logger.hpp"
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -9,6 +11,8 @@
 #include <pwd.h>
 #include <dirent.h>
 #include <experimental/filesystem>
+
+RG::CLogger mainLog(RG::CLogger::INFO, " ", 50000);
 
 int main() {
     struct passwd *pw = getpwuid(getuid());
@@ -19,17 +23,21 @@ int main() {
 
     DIR* run_dir = opendir(run_dir_name.c_str());
     if ( !run_dir ) {
-        std::cout << "Creating run_dir - \"" << run_dir_name << "\"" << std::endl;
+        //mainLog.Info("Creating run_dir - \"" + run_dir_name + "\"" );
         mkdir( run_dir_name.c_str(), 0700 );
-        std::cout << "Copying default files to run dir." << std::endl;
+        //mainLog.Info("Copying default files to run dir.");
         std::experimental::filesystem::copy("/usr/share/RG/defaults/", run_dir_name, std::experimental::filesystem::copy_options::recursive);
     }
 
     chdir( run_dir_name.c_str() );
 
-    std::cout << homedir << std::endl;
+    mainLog.SetFlags(RG::CLogger::FLAGS::FILE);
+    mainLog.SetLogFile( "./log.txt" );
+    mainLog.SetLimit(RG::CLogger::INFO, RG::CLogger::STREAM::BOTH);
 
-    std::cout << "main" << std::endl;
+    mainLog.Info("Changed current directory to: \"" + run_dir_name + "\"");
+    
+
     RG::GameController g;
     g.Run();
 }

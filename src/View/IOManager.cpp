@@ -95,10 +95,10 @@ namespace RG{
     }
 
     void IOManager::SetDefaultKeys(){
-        std::cout << "Key count: " << sf::Keyboard::KeyCount << std::endl;
+        mainLog.Info("Key count: " + sf::Keyboard::KeyCount);
         for(int i = 0; i < sf::Keyboard::KeyCount; i++)
             m_KeyArr.push_back((sf::Keyboard::Key) i);
-        std::cout << "Setting default keys." << std::endl;
+        mainLog.Info("Setting default keys.");
     }
 
     void IOManager::SetStorageDir(std::string dir){

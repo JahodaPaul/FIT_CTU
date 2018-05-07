@@ -43,6 +43,8 @@ ADD_EXECUTABLE(game src/main.cpp
     imgui/imgui_demo.cpp
     imgui-sfml/imgui-SFML.cpp
 
+    src/Util/Logger.cpp
+
     src/Controller/GameController.cpp
     src/Controller/MenuStateHandler.cpp 
     src/Controller/GameStateHandler.cpp

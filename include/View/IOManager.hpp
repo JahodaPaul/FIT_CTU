@@ -10,8 +10,10 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "../../imgui-sfml/imgui-SFML.h"
-#include "../../imgui/imgui.h"
+#include "common.hpp"
+
+#include "imgui-SFML.h"
+#include "imgui.h"
 
 namespace RG{
 

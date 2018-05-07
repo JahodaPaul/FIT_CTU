@@ -7,7 +7,7 @@ namespace RG {
             m_showMenu( true ),
             m_notReset( true )
         {
-            std::cout << "menu scene constructor" << std::endl;
+            mainLog.Info("menu scene constructor");
             this->background_texture.loadFromFile("/usr/share/RG/assets/graphics/backgrounds/screens/StartScreen.png");
             this->background.setTexture(this->background_texture);
         }

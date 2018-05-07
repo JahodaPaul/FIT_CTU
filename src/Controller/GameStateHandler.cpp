@@ -3,17 +3,17 @@
 
 namespace RG {
     GameStateHandler::GameStateHandler() {
-        std::cout << "MenuState Constructor" << std::endl;
+        mainLog.Info("gameState Constructor");
     }
     void GameStateHandler::Update( float timeStep ) { }
     void GameStateHandler::GoToMainMenu( GameController * gameController ) {
-        std::cout << "GameStateHandler GoToMainMenu" << std::endl;
+        mainLog.Info("GameStateHandler GoToMainMenu");
     }
     void GameStateHandler::GoToGame( GameController * gameController ) {
-        std::cout << "GameStateHandler StartGame" << std::endl;
+        mainLog.Info("GameStateHandler StartGame");
         gameController->setActiveGameState(STATES::RUNNING);
     }
     void GameStateHandler::Quit( GameController * gameController ) {
-        std::cout << "GameStateHandler StopGame" << std::endl;
+        mainLog.Info("GameStateHandler StopGame");
     }
 }
