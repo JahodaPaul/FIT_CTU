@@ -37,7 +37,10 @@ namespace RG {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                 y -= speed;
             }
-            view->UpdatePlayer(x, y);
+
+            view->getGameController()->MoveModel(x,y);
+            view->UpdatePlayer(x,y,view->getGameController()->GetPlayerPos().first,view->getGameController()->GetPlayerPos().second);
+//            view->UpdatePlayer(x, y);
             while (window->pollEvent(event)) {
                 ImGui::SFML::ProcessEvent(event);
                 if (event.type == sf::Event::Closed) {

@@ -56,7 +56,7 @@ namespace RG {
 
             void SetPlayer();
 
-            void UpdatePlayer(float, float);
+            void UpdatePlayer(float, float,float, float);
 
             void DrawPlayer();
 
