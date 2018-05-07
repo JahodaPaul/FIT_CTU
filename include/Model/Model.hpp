@@ -42,7 +42,7 @@ namespace RG {
         int GetFloorLevel(void) const;
 
         /// returns a unique room identifier
-        int GetRoomId(void) const;
+        unsigned int GetRoomId(void) const;
 
         std::vector<bool> GetRoomDoors(int) const;
 
@@ -64,6 +64,8 @@ namespace RG {
         unsigned int m_CurrentFloorIdx;
 
         std::vector<RG::Model::Floor> m_Floors;
+
+        float m_PlayerRadius;
     };
   }
 }

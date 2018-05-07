@@ -1,9 +1,10 @@
 #pragma once
 
 #include <Box2D/Box2D.h> // b2Body, b2Vec2
-#include <memory>        // std::shared_ptr
-#include <string>        // std::string
-#include <utility>       // std::pair
+#include <iostream>
+#include <memory>  // std::shared_ptr
+#include <string>  // std::string
+#include <utility> // std::pair
 
 namespace RG {
   namespace Model {
@@ -25,7 +26,7 @@ namespace RG {
 
         void AddBody(b2Body* body);
 
-        void AddShape(b2Shape* shapeDef);
+        void AddShape(b2Shape* shapeDef, float density = 0.1f);
 
         b2Body* m_Body;
 

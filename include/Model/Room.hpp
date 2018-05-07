@@ -8,6 +8,7 @@
 
 namespace RG {
   namespace Model {
+
     /**
      * \class Room
      * \brief This class desribes a room. There can be objects and entities inside
@@ -22,6 +23,11 @@ namespace RG {
         /// destructor
         ~Room();
 
+        void SetDoors(std::vector<bool> doors);
+
+        void AddWalls(float screen_w, float screen_h, float door_w, float wall_w,
+            float wall_h);
+
       private:
         /// position in the map grid
         std::pair<unsigned int, unsigned int> m_GridPosition;
@@ -34,7 +40,7 @@ namespace RG {
 
         /// doors leading to another rooms -- whether there are doors on the
         // western, northern, eastern or southern walls
-        bool m_Doors[4];
+        std::vector<bool> m_Doors;
     };
   }
 }

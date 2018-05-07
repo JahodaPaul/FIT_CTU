@@ -7,19 +7,29 @@ namespace RG {
       : m_Level(level)
         , m_X(pos_X)
         , m_Y(pos_Y)
-        , m_RoomHeight(100)
-        , m_RoomWidth(100)
+        , m_ScreenHeight(1080)
+        , m_ScreenWidth(1920)
     {
       m_World = std::make_shared<b2World>(b2Vec2{ 0.0f, 0.0f });
+
+      m_WallWidth = 0.076389 * m_ScreenWidth;
+      m_WallHeight = 0.1267 * m_ScreenHeight;
+      m_DoorWidth = 0.0625 * m_ScreenWidth;
+      m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight;
+      m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth;
 
       for (unsigned int i = 0; i < rooms; ++i) {
         RG::Model::Room* tmp_room = new RG::Model::Room(i, 0);
         b2BodyDef* room_bodyDef = new b2BodyDef;
         room_bodyDef->type = b2_dynamicBody;
-        room_bodyDef->position.Set(i * m_RoomHeight, 0 * m_RoomWidth);
+        room_bodyDef->position.Set(0 * m_ScreenWidth, i * m_ScreenHeight);
         tmp_room->m_Body = m_World->CreateBody(room_bodyDef);
 
-        m_Rooms.insert({ i, { { 0, tmp_room } } });
+        tmp_room->SetDoors({ !!(i % 2), 0, !(i % 2), 0 }); // FIXME (vanda)
+        tmp_room->AddWalls(m_ScreenWidth, m_ScreenHeight, m_DoorWidth,
+            m_WallWidth, m_WallHeight);
+
+        m_Rooms.insert({ 0, { { i, tmp_room } } }); // FIXME (vanda)
       }
     }
 
@@ -39,9 +49,16 @@ namespace RG {
       return m_World->CreateBody(bodyDef);
     }
 
-    void Floor::Step(float time_step) {
-      this->m_World->Step(time_step, 8,3);
+    void Floor::Step(float time_step)
+    {
+      this->m_World->Step(time_step, 8, 3);
       this->m_World->ClearForces();
+    }
+
+    void Floor::UpdateID(b2Vec2 v)
+    {
+      m_X = (v.x - m_WallWidth) / m_RoomWidth;
+      m_Y = (v.y - m_WallHeight) / m_RoomHeight;
     }
   }
 }
