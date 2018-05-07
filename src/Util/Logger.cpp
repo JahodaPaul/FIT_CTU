@@ -53,6 +53,8 @@ namespace RG {
 
         std::stringstream outStream;
 
+        if (m_Flags & CLogger::FLAGS::LEVEL)
+            outStream << "[" << m_Levels[type] << "]" << m_Delimiter;
         if (m_Flags & CLogger::FLAGS::DATETIME)
             outStream << "[" << strTime << "]" << m_Delimiter;
         if (m_Flags & CLogger::FLAGS::FILE)
@@ -87,7 +89,7 @@ namespace RG {
         Log(file, line, message, CLogger::TYPE::ERROR);
     }
 
-    void CLogger::SetLimit(CLogger::TYPE type = WARNING, CLogger::STREAM streamType = BOTH) {
+    void CLogger::SetLimit(CLogger::TYPE type, CLogger::STREAM streamType) {
         if (streamType == CLogger::STREAM::STD_ONLY || streamType == CLogger::STREAM::BOTH)
             m_StdLim = type;
 
@@ -162,16 +164,4 @@ namespace RG {
         m_LogsInFile = m_logsMax;
 
     }
-
-    //int main() {
-    //    CLogger logger(CLogger::TYPE::INFO);
-    //    logger.SetLimit(CLogger::TYPE::INFO);
-    //    logger.SetFlags(CLogger::FLAGS::DATETIME | CLogger::FLAGS::FILE | CLogger::FLAGS::LINE | CLogger::FLAGS::LIMIT);
-    //    //logger.SetDelimiter("|");
-    //    //logger.SetLogFile( "./log.txt" );
-    //    //logger.SetLogsMax(100);
-
-    //    logger.Info("Some info message. 1");
-    //    logger.Error("Error has occurred. 2");
-    //}
 }
