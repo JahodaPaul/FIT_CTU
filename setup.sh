@@ -39,20 +39,26 @@ DownloadAssets() {
     echo -e "\t\tAssets setup"
     echo ""
     echo " Will Reguest root acces"
-    if [ -d '/usr/share/RG/assets' ]; then
-        echo "'assets' directory found, should I delete it and create new one? [y/n]"
+    if [ -d '/usr/share/RG' ]; then
+        echo "'/usr/share/RG' directory found, should I delete it and create new one? [y/n]"
         read -s -n 1 ans; echo "$ans"
         if [ "$ans" == "n" ]; then
             return 0
         else
-            sudo rm -rf '/usr/share/RG/assets'
+            sudo rm -rf '/usr/share/RG'
         fi
     fi
+    echo "Creating 'assets' directory..."
     sudo mkdir -p /usr/share/RG/assets 2> /dev/null
+
+    echo "Creating 'defaults' directory..."
+    sudo mkdir -p '/usr/share/RG/defaults'
+    sudo cp './ListOfMusic.txt' './ListOfSound.txt' '/usr/share/RG/defaults'
+
+    sudo chmod -R 555 '/usr/share/RG/'
     cd /usr/share/RG
     echo ""
     echo ""
-    echo "Creating 'assets' directory..."
     echo ""
     echo ""
     echo ""

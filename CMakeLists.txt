@@ -80,4 +80,4 @@ ADD_EXECUTABLE(game src/main.cpp
 LINK_DIRECTORIES(/usr/local/lib)
 INCLUDE_DIRECTORIES( ./include )
 
-TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window sfml-audio ${OPENGL_LIBRARIES} Box2D)
+TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window sfml-audio ${OPENGL_LIBRARIES} Box2D stdc++fs)

@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <pwd.h>
 #include <dirent.h>
+#include <experimental/filesystem>
 
 int main() {
     struct passwd *pw = getpwuid(getuid());
@@ -18,8 +19,10 @@ int main() {
 
     DIR* run_dir = opendir(run_dir_name.c_str());
     if ( !run_dir ) {
+        std::cout << "Creating run_dir - \"" << run_dir_name << "\"" << std::endl;
         mkdir( run_dir_name.c_str(), 0700 );
-        std::cout << "Creating run dir." << std::endl;
+        std::cout << "Copying default files to run dir." << std::endl;
+        std::experimental::filesystem::copy("/usr/share/RG/defaults/", run_dir_name, std::experimental::filesystem::copy_options::recursive);
     }
 
     chdir( run_dir_name.c_str() );
