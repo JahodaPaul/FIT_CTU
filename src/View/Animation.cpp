@@ -74,7 +74,7 @@ namespace RG {
         }
 
         sf::Vector2u Animation::getSize() const {
-            return m_texture.getSize();       
+            return {m_frameWidth,m_frameHeight};       
         }
     }
 }
