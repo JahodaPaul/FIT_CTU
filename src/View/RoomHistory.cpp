@@ -57,7 +57,7 @@ namespace RG {
             //delete '\n'
             if (splittedStrings[splittedStrings.size()-1][splittedStrings[splittedStrings.size()-1].length()-1] == '\n'){
                 std::string tmp = "";
-                for(int i=0;i<splittedStrings[splittedStrings.size()-1].length()-1;i++){
+                for(int i=0;i<(int)splittedStrings[splittedStrings.size()-1].length()-1;i++){
                     tmp += splittedStrings[splittedStrings.size()-1][i];
                 }
                 splittedStrings[splittedStrings.size()-1] = tmp;

@@ -26,7 +26,7 @@ namespace RG{
             bool MapToFile(const std::string &filename,const std::map<std::string,std::string> &);
             std::vector<std::string> Split(std::string strToSplit, char delimeter);
 
-            const std::string historyFileName = "../assets/history.txt";
+            const std::string historyFileName = "/usr/share/RG/assets/history.txt";
         };
     }
 }

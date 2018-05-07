@@ -21,6 +21,8 @@ namespace RG{
             this->market->AddItem(std::make_shared<RG::NPC::Item>(0, 6, 1, "wheat"));
             this->market->AddItem(std::make_shared<RG::NPC::Item>(0, 7, 200, "magic wand"));
 
+            this->player = std::make_shared<RG::NPC::Entity>("Username",startGold, std::make_shared<RG::NPC::BasicIntelligence>(),0,true);
+
             this->market->AddEntity(std::make_shared<RG::NPC::Entity>("Pavel", startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 1));
             this->market->AddEntity(std::make_shared<RG::NPC::Entity>("Petr", startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 2));
             this->market->AddEntity(std::make_shared<RG::NPC::Entity>("Vojta", startGold, std::make_shared<RG::NPC::BasicIntelligence>(), 3));
@@ -47,12 +49,29 @@ namespace RG{
             this->market->MatchingEngineMatch();
         }
 
-        void NPCWorldCycle::Buy(const RG::NPC::Item &item, int price) {
-
+        void NPCWorldCycle::Buy(std::shared_ptr<RG::NPC::Item> item, int price) {
+            this->market->Sell(item,price,this->player);
         }
 
-        void NPCWorldCycle::Sell(const RG::NPC::Item &item, int price) {
-
+        void NPCWorldCycle::Sell(std::shared_ptr<RG::NPC::Item> item, int price) {
+            this->market->Buy(item,price,this->player);
         }
+
+        std::vector<std::shared_ptr<RG::NPC::Item> > NPCWorldCycle::ReturnItemsPossibleToBuy() {
+            return this->market->ReturnItemsPossibleToBuy();
+        }
+
+        std::pair<std::map<int,std::vector<Request> >,std::map<int,std::vector<Request> >> NPCWorldCycle::ReturnOffersAndDemands() {
+            return this->market->ReturnOffersAndDemands();
+        }
+
+        int NPCWorldCycle::ReturnPlayerGold() {
+            return this->player->GetGold();
+        }
+
+        std::shared_ptr< std::vector<std::shared_ptr<RG::NPC::Item>> > NPCWorldCycle::ReturnPlayerItems() {
+            return this->player->GetItemsIOwn();
+        }
+
     }
 }
