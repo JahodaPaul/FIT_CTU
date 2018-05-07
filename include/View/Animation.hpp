@@ -30,6 +30,12 @@ namespace RG {
 
             void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
+            void setScale(float factorX, float factorY);
+
+            const sf::Vector2f& getScale() const;
+
+            sf::Vector2u getSize() const;
+
         private:
             sf::Texture m_texture;
             int m_frameCount;

@@ -64,5 +64,17 @@ namespace RG {
         void Animation::draw(sf::RenderTarget &target, sf::RenderStates states) const {
             target.draw(m_sprite);
         }
+
+        void Animation::setScale(float factorX, float factorY) {
+            m_sprite.setScale( factorX, factorY );
+        }
+
+        const sf::Vector2f& Animation::getScale() const {
+            return m_sprite.getScale();
+        }
+
+        sf::Vector2u Animation::getSize() const {
+            return m_texture.getSize();       
+        }
     }
 }
