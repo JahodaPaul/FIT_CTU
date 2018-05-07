@@ -9,8 +9,8 @@ SoundManager::SoundManager(unsigned int maxSounds ) :
     m_globalVolumeSound = 0;
     m_globalVolumeMusic = 0;
         
-    ReadFile("../../../ListOfSound.txt", true);
-    ReadFile("../../../ListOfMusic.txt", false);
+    ReadFile("../ListOfSound.txt", true);
+    ReadFile("../ListOfMusic.txt", false);
 
     m_activeMusic = m_listOfMusic.begin();
 }

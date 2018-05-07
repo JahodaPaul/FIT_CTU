@@ -11,14 +11,16 @@
 #include "imgui-SFML.h"
 
 #include "Util/Vect2.hpp"
+
 #include "View/MenuScene.hpp"
 #include "View/GameScene.hpp"
 #include "View/Console.hpp"
 #include "View/Player.hpp"
 #include "View/Room.hpp"
+#include "View/IOManager.hpp"
+#include "View/SoundManager.hpp"
 
 #include "Controller/GameController.hpp"
-#include "View/IOManager.hpp"
 
 
 namespace RG {
@@ -62,6 +64,8 @@ namespace RG {
 
             const sf::View GetView();
 
+            SoundManager & getSoundManager();
+
             IOManager m_IOManager;
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
@@ -69,6 +73,8 @@ namespace RG {
             GameController *m_gameControllet;
             std::map<SCENE, std::shared_ptr<Scene> > m_mapOfGameScenes;
             sf::Clock m_clock;
+
+            SoundManager m_soundManager;
 
 
             bool m_ImguiDemo;

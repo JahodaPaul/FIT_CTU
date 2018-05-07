@@ -45,6 +45,8 @@ namespace RG {
             }));
 
             room = std::make_shared<RG::View::Room>();
+
+            m_soundManager.PlayMusic("frankum");
         }
 
         View::~View() {}
