@@ -31,7 +31,7 @@ namespace RG{
             ~IOManager();
 
             /** Method for getting the key to which is the key from argument mapped. */
-            sf::Keyboard::Key GetMapped(sf::Keyboard::Key key);
+            sf::Keyboard::Key GetMapped(sf::Keyboard::Key key) const;
 
             /** Method for mapping key toMap to key mapRes. */
             void MapKey(sf::Keyboard::Key toMap, sf::Keyboard::Key mapRes);

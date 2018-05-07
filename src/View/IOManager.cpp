@@ -18,7 +18,7 @@ namespace RG{
         Close();
     }
 
-    sf::Keyboard::Key IOManager::GetMapped(sf::Keyboard::Key key){
+    sf::Keyboard::Key IOManager::GetMapped(sf::Keyboard::Key key) const {
         return m_KeyArr[key];
     }
 
