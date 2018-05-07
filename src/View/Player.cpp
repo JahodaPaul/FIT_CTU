@@ -16,8 +16,8 @@ namespace RG{
 //        player.setTexture(&playerTexture);
             animation = std::make_shared<Animation>("../assets/graphics/objects/characters/player.png", 91, 91, 12,
                                                     40.0f);
-            this->x = 500;
-            this->y = 500;
+//            this->x = 500;
+//            this->y = 500;
             this->time = 0;
             animation->setPosition(sf::Vector2f(this->x, this->y));
         }

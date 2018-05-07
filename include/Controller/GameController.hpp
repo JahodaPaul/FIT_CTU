@@ -2,13 +2,16 @@
 
 #include <memory>
 #include <map>
+#include <vector>
 
-#include <Controller/MenuStateHandler.hpp>
-#include <Controller/GameStateHandler.hpp>
+#include "Controller/MenuStateHandler.hpp"
+#include "Controller/GameStateHandler.hpp"
 
-#include <Model/Model.hpp>
+#include "Model/Model.hpp"
 
-#include <View/View.hpp>
+#include "View/View.hpp"
+
+#include "NPC/NPCWorldCycle.hpp"
 
 namespace RG {
     enum STATES {
@@ -38,10 +41,18 @@ namespace RG {
 
             int GetRoomId();
             int GetFloorLevel();
+
+            void RunNPCWorld();
+
+            ///top right down left
+            std::vector<bool> GetRoomDoors();
         private:
             std::shared_ptr<RG::View::View> m_view;
             std::map<int, std::shared_ptr<GameStateHandler> > m_mapOfGameStateHandlers;
             int m_GameState;
             std::shared_ptr<RG::Model::Model> m_model;
+            std::shared_ptr<RG::NPC::NPCWorldCycle> m_NPCWorld;
+
+            int m_howOftenRunNPCWorld;
     };
 }

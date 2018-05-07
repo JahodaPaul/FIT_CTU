@@ -32,5 +32,14 @@ namespace RG {
       int Model::GetFloorLevel ( void ) const{
           return 0; //TODO (vanda)
       }
+
+      std::vector<bool> Model::GetRoomDoors (int floorID) const{//TODO FIXME (vanda)
+          //dummy return
+          std::vector<bool> dummy;
+          for(int i = 0;i<4;i++){
+              dummy.push_back(true);
+          }
+          return dummy;
+      }
   }
 }

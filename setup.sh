@@ -57,11 +57,9 @@ DownloadAssets() {
     echo ""
     echo "Downloading assets..."
     echo ""
-    cd 'assets'
-    wget 'https://drive.google.com/a/fit.cvut.cz/uc?authuser=1&id=1Xso4wAcikCYRvmwl9ZwqfqjggCJG3d0Z&export=download' -O 'graphics.zip' 2>/dev/null
+    curl 'ftp://mybestcloud.xyz/pub/assets-20180506T223100Z-001.zip' --output 'graphics.zip' 2>/dev/null
     unzip 'graphics.zip'
     rm 'graphics.zip'
-    cd ..
     return 0
 }
 

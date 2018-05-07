@@ -14,6 +14,8 @@ namespace RG {
                   m_animating(false) {
             m_texture.loadFromFile(texture);
             m_sprite.setOrigin(frameWidth / 2, frameHeigt / 2);
+            m_texture.setSmooth(true);
+            m_sprite.setScale(1,1);
         }
 
         void Animation::update(float time) {

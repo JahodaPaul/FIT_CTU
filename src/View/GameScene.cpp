@@ -9,7 +9,7 @@ namespace RG {
         }
 
         void GameScene::Update(View *view) {
-
+            view->getGameController()->RunNPCWorld();
         }
 
         void GameScene::Render(View *view) {
@@ -23,7 +23,7 @@ namespace RG {
             std::shared_ptr<sf::RenderWindow> window = view->getWindow();
             sf::Event event;
 
-            float speed = 0.1;
+            float speed = 3;
             float x = 0, y = 0;
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
                 x += speed;

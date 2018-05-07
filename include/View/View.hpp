@@ -18,6 +18,7 @@
 #include "View/Room.hpp"
 
 #include "Controller/GameController.hpp"
+#include "View/IOManager.hpp"
 
 
 namespace RG {
@@ -31,7 +32,7 @@ namespace RG {
 
         class View {
         public:
-            View(GameController *controller, Vect2f windowSize = {900, 600}, const char *windowTitle = "game");
+            View(GameController *controller, std::pair<int,int> windowSize = {900, 600}, const char *windowTitle = "game");
 
             ~View();
 
@@ -59,9 +60,11 @@ namespace RG {
 
             void DrawRoom();
 
+            const sf::View GetView();
+
+            IOManager m_IOManager;
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
-            sf::View m_view;
             SCENE m_activeScene;
             GameController *m_gameControllet;
             std::map<SCENE, std::shared_ptr<Scene> > m_mapOfGameScenes;
