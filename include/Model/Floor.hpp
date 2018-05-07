@@ -33,6 +33,9 @@ namespace RG {
         void Step(float time_step);
 
         void UpdateID(b2Vec2 v);
+        
+        unsigned int m_X;
+        unsigned int m_Y;
 
       private:
         /// array of rooms present at this floor
@@ -46,9 +49,6 @@ namespace RG {
 
         /// box2d world, where all objects will be placed
         std::shared_ptr<b2World> m_World;
-
-        unsigned int m_X;
-        unsigned int m_Y;
 
         unsigned int m_ScreenHeight;
         unsigned int m_ScreenWidth;

@@ -4,9 +4,9 @@ namespace RG {
   namespace Model {
     Floor::Floor(unsigned int level, unsigned int rooms, unsigned int pos_X,
         unsigned int pos_Y)
-      : m_Level(level)
-        , m_X(pos_X)
+      : m_X(pos_X)
         , m_Y(pos_Y)
+        , m_Level(level)
         , m_ScreenHeight(1080)
         , m_ScreenWidth(1920)
     {
