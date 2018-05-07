@@ -37,7 +37,7 @@ namespace RG{
             else
                 m_Stream << m_KeyArr[i];
             m_Stream << std::endl;
-	}
+        }
     }
 
     void IOManager::Deserialize(){
@@ -48,6 +48,7 @@ namespace RG{
     }
 
     void IOManager::Draw(){
+        return;
         ImGui::BeginChild("Key settings", {0, 120});
         ImGui::Text("Key settings");
         static ImGuiComboFlags keyFlags = 0;
@@ -95,7 +96,8 @@ namespace RG{
     }
 
     void IOManager::SetDefaultKeys(){
-        mainLog.Info("Key count: " + sf::Keyboard::KeyCount);
+        //TODO causes crashes
+        //mainLog.Info("Key count: " + sf::Keyboard::KeyCount);
         for(int i = 0; i < sf::Keyboard::KeyCount; i++)
             m_KeyArr.push_back((sf::Keyboard::Key) i);
         mainLog.Info("Setting default keys.");
