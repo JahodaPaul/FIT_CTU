@@ -15,10 +15,13 @@ namespace RG{
             Room();
             ~Room();
             void DrawRoom(int level, int id, sf::RenderTarget &target);
-            void DrawDoor(sf::RenderTarget &target, bool top, bool right, bool down, bool left);
+            void DrawDoor(sf::RenderTarget &target, bool top, bool right, bool down, bool left, float, float);
             void SetSpriteScale(float,float);
         protected:
         private:
+            void SetDoorScaleLeftRight(float x, float y);
+            void SetDoorScaleTopBot(float x, float y);
+
             int currentId;
             void AssignBackground(int level, int id);
             void SetDoorPosition();
@@ -26,6 +29,9 @@ namespace RG{
             sf::Sprite background;
             float windowX;
             float windowY;
+
+            float winDoorsX;
+            float winDoorsY;
 
             sf::Texture door_up_texture;
             sf::Sprite door_up;
@@ -38,6 +44,13 @@ namespace RG{
 
             sf::Texture door_left_texture;
             sf::Sprite door_left;
+
+            const std::string room_bluestone;
+            const std::string room_blackstone;
+            const std::string room_cobblestone;
+            const std::string room_soil;
+            const std::string room_lava;
+
 
         };
     }

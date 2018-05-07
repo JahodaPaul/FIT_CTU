@@ -32,10 +32,15 @@ namespace RG{
 
             void DrawPlayer(sf::RenderTarget &target);
 
+            void SetPlayerScale(float x, float y);
+
         protected:
         private:
             sf::RectangleShape player;
             sf::Texture playerTexture;
+            float windowX;
+            float windowY;
+
             float x;
             float y;
             float time;

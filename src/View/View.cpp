@@ -45,6 +45,8 @@ namespace RG {
             }));
 
             room = std::make_shared<RG::View::Room>();
+
+            m_soundManager.PlayMusic("frankum");
         }
 
         View::~View() {}
@@ -114,6 +116,7 @@ namespace RG {
         }
 
         void View::DrawPlayer() {
+            player->SetPlayerScale(m_window->getView().getSize().x,m_window->getView().getSize().y);
             player->DrawPlayer(*this->getWindow());
         }
 
@@ -122,7 +125,7 @@ namespace RG {
 //            room->SetSpriteScale((float)m_window->getSize().x,(float)m_window->getSize().y);
             room->SetSpriteScale(m_window->getView().getSize().x,m_window->getView().getSize().y);
             std::vector<bool> temporary = m_gameControllet->GetRoomDoors();
-            room->DrawDoor(*this->getWindow(), temporary[0],temporary[1],temporary[2],temporary[3]);
+            room->DrawDoor(*this->getWindow(), temporary[0],temporary[1],temporary[2],temporary[3],m_window->getView().getSize().x,m_window->getView().getSize().y);
         }
 
         const sf::View View::GetView() {

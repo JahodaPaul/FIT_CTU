@@ -2,18 +2,18 @@
 
 namespace RG {
     MenuStateHandler::MenuStateHandler() : GameStateHandler() {
-        std::cout << "MenuState Constructor" << std::endl;
+        mainLog.Info("MenuState Constructor");
     }
     MenuStateHandler::~MenuStateHandler() { }
     void MenuStateHandler::Update( float timeStep ) { }
     void MenuStateHandler::GoToMainMenu( GameController * gameController ) {
-        std::cout << "MenuState GoToMainMenu" << std::endl;
+        mainLog.Info("MenuState GoToMainMenu");
     }
     void MenuStateHandler::GoToGame( GameController * gameController ) {
-        std::cout << "MenuState StartGame" << std::endl;
+        mainLog.Info("MenuState StartGame");
         gameController->setActiveGameState(STATES::RUNNING);
     }
     void MenuStateHandler::Quit( GameController * gameController ) {
-        std::cout << "MenuState StopGame" << std::endl;
+        mainLog.Info("MenuState StopGame");
     }
 }

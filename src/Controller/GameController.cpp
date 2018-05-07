@@ -2,12 +2,14 @@
 
 namespace RG {
     GameController::GameController() : m_running( false ) {
-        std::cout << "GameController Constructor" << std::endl;
+        mainLog.Info("GameController Constructor");
         m_mapOfGameStateHandlers[STATES::MAIN_MENU] = std::shared_ptr<GameStateHandler>( new MenuStateHandler() );
         m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<GameStateHandler>( new GameStateHandler() );
         m_GameState = STATES::MAIN_MENU;
         m_view = std::make_shared<RG::View::View>(this);
         m_model = std::make_shared<RG::Model::Model>();
+        m_NPCWorld  = std::make_shared<RG::NPC::NPCWorldCycle>();
+        m_howOftenRunNPCWorld = 0;
     }
     GameController::~GameController() {}
 
@@ -33,7 +35,7 @@ namespace RG {
 
     void GameController::Run() {
         m_running = true;
-        std::cout << "Running" << std::endl;
+        mainLog.Info("Game running");
         while ( m_running ) {
             if ( m_GameState == STATES::RUNNING ) {
                 //TODO(vojta) update game model
@@ -44,8 +46,17 @@ namespace RG {
             m_view->Render();
         }
     }
+
+    void GameController::RunNPCWorld(){
+        if (m_howOftenRunNPCWorld % 100 == 0){
+            this->m_NPCWorld->Run();
+            m_howOftenRunNPCWorld = 0;
+        }
+        m_howOftenRunNPCWorld++;
+    }
+
     int GameController::Quit() {
-        std::cout <<"quit" << std::endl;
+        mainLog.Info("Game quit");
         m_running = false;
         return 0;
     }

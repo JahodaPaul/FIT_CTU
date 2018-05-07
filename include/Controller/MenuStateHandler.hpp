@@ -2,6 +2,7 @@
 
 #include <Controller/GameController.hpp>
 #include <Controller/GameStateHandler.hpp>
+#include "common.hpp"
 
 namespace RG {
     class GameController;
