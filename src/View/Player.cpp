@@ -19,6 +19,8 @@ namespace RG{
 //            this->x = 500;
 //            this->y = 500;
             this->time = 0;
+            this->windowX = 0;
+            this->windowY = 0;
             animation->setPosition(sf::Vector2f(this->x, this->y));
         }
 
@@ -101,6 +103,17 @@ namespace RG{
 
         void Player::DrawPlayer(sf::RenderTarget &target) {
             this->animation->draw(target, sf::RenderStates());
+        }
+
+        void Player::SetPlayerScale(float windowWidth, float windowHeight){
+            if(windowWidth != windowX || windowHeight != windowY) {
+//                std::cout << windowWidth << " " << this->animation->getSize().x << std::endl;
+                float scaleX = (windowWidth / 20) / this->animation->getSize().x;
+                float scaleY = (windowWidth / 20) / this->animation->getSize().x;
+                this->animation->setScale(scaleX, scaleY);
+                windowX = windowWidth;
+                windowY = windowHeight;
+            }
         }
     }
 }

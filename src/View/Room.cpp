@@ -48,8 +48,8 @@ namespace RG {
 
         void Room::SetDoorPosition(){
             door_up.setPosition((this->windowX/2)-(this->door_up.getLocalBounds().width/2),0);
-            door_right.setPosition(this->windowX-this->door_right.getLocalBounds().width,(this->windowY/2)-(this->door_right.getLocalBounds().height/2));
-            door_down.setPosition((this->windowX/2)-(this->door_down.getLocalBounds().width/2),this->windowY-this->door_down.getLocalBounds().height);
+            door_right.setPosition(this->windowX-(this->door_right.getLocalBounds().width * this->door_right.getScale().x),(this->windowY/2)-(this->door_right.getLocalBounds().height/2));
+            door_down.setPosition((this->windowX/2)-(this->door_down.getLocalBounds().width/2),this->windowY-(this->door_down.getLocalBounds().height*this->door_down.getScale().y));
             door_left.setPosition(0,(this->windowY/2)-(this->door_left.getLocalBounds().height/2));
         }
 
@@ -62,7 +62,27 @@ namespace RG {
             }
         }
 
-        void Room::DrawDoor(sf::RenderTarget &target, bool top, bool right, bool down, bool left) {
+        void Room::SetDoorScaleTopBot(float x, float y){
+            float scaleY = (float)(y / 7.5) / this->door_up.getLocalBounds().height;
+            this->door_up.setScale(scaleY,scaleY);
+            this->door_down.setScale(scaleY,scaleY);
+        }
+
+        void Room::SetDoorScaleLeftRight(float x, float y){
+            float scaleX = (x / 9) / this->door_up.getLocalBounds().width;
+            this->door_right.setScale(scaleX,scaleX);
+            this->door_left.setScale(scaleX,scaleX);
+        }
+
+        void Room::DrawDoor(sf::RenderTarget &target, bool top, bool right, bool down, bool left,float x, float y) {
+            if(winDoorsX != x || winDoorsY != y){
+                SetDoorScaleTopBot(x,y);
+                SetDoorScaleLeftRight(x,y);
+                SetDoorPosition();
+                winDoorsX = x;
+                winDoorsY = y;
+            }
+
             if(top){
                 target.draw(door_up);
             }
