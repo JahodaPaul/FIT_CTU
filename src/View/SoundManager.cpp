@@ -44,6 +44,9 @@ void SoundManager::setSoundPosition( int id, sf::Vector3f & position ) {}
 
 bool SoundManager::PlayMusic(std::string name, int volume )
 {
+    if(m_listOfMusic.find(name) == m_listOfSounds.end())
+        return false;
+
     m_music.stop();
     m_activeMusic = m_listOfMusic.find(name);
     m_music.openFromFile(m_activeMusic->second);
@@ -144,8 +147,11 @@ int SoundManager::control(int volume)
 bool SoundManager::ReadFile(std::string path, bool flag)
 {
     m_file.open(path);
-   /* if(m_file.fail())
+    if(m_file.fail())
+    {
+        return false;
         std::cout << "nenasel jsem cestu" << path << std::endl; // TODO logger
+    }
     else
         std::cout << "nasel jsem cestu" << path << std::endl; // TODO logger */
    
