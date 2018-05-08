@@ -1,8 +1,10 @@
 #include "Model/Floor.hpp"
 
+#ifdef DEBUG_DRAW
 sf::RenderWindow m_window(sf::VideoMode(800, 600), "Debug Draw",
     sf::Style::Default, sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false });
 DebugDraw debugDraw(&m_window);
+#endif //DEBUG_DRAW
 
 namespace RG {
   namespace Model {
@@ -19,11 +21,13 @@ namespace RG {
     {
       m_World = std::make_shared<b2World>(b2Vec2{ 0.0f, 0.0f });
 
+      /*
       m_World->SetDebugDraw(&debugDraw);
       debugDraw.SetFlags(b2Draw::e_shapeBit);
       view.reset(sf::FloatRect(center_x, center_y, size, size));
 
       m_window.setView(view);
+      */
 
       m_WallWidth = 0.076389 * m_ScreenWidth;
       m_WallHeight = 0.1267 * m_ScreenHeight;
@@ -77,9 +81,10 @@ namespace RG {
 
     void Floor::Step(float time_step)
     {
-      m_window.clear({ 0, 0, 0, 255 });
       this->m_World->Step(time_step, 8, 3);
       this->m_World->ClearForces();
+#ifdef DEBUG_DRAW
+      m_window.clear({ 0, 0, 0, 255 });
       sf::Event event;
       while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::KeyPressed) {
@@ -108,6 +113,7 @@ namespace RG {
       m_window.setView(view);
       m_World->DrawDebugData();
       m_window.display();
+#endif //DEBUG_DRAW
     }
 
     void Floor::UpdateID(b2Vec2 v)
