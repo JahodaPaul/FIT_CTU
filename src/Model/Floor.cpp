@@ -1,5 +1,8 @@
 #include "Model/Floor.hpp"
 
+sf::RenderWindow m_window(sf::VideoMode(800, 600), "Debug Draw", sf::Style::Default, sf::ContextSettings{0u, 0u, 4u, 1u, 1u, 0u, false});
+DebugDraw debugDraw( &m_window );
+
 namespace RG {
   namespace Model {
     Floor::Floor(unsigned int level, unsigned int rooms, unsigned int pos_X,
@@ -11,6 +14,13 @@ namespace RG {
         , m_ScreenWidth(1920)
     {
       m_World = std::make_shared<b2World>(b2Vec2{ 0.0f, 0.0f });
+
+      m_World->SetDebugDraw(&debugDraw);
+      debugDraw.SetFlags( b2Draw::e_shapeBit );
+      sf::View view;
+      view.reset(sf::FloatRect(-16000, -16000, 100000, 100000));
+
+      m_window.setView(view);
 
       m_WallWidth = 0.076389 * m_ScreenWidth;
       m_WallHeight = 0.1267 * m_ScreenHeight;
@@ -51,8 +61,11 @@ namespace RG {
 
     void Floor::Step(float time_step)
     {
+      m_window.clear({0,0,0,255});
       this->m_World->Step(time_step, 8, 3);
       this->m_World->ClearForces();
+      m_World->DrawDebugData();
+      m_window.display();
     }
 
     void Floor::UpdateID(b2Vec2 v)

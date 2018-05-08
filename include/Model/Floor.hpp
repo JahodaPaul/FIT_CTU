@@ -5,6 +5,11 @@
 
 #include "Model/Object.hpp"
 #include "Model/Room.hpp"
+#include "View/DebugDraw.hpp"
+#include <SFML/Window.hpp>
+
+extern sf::RenderWindow m_window;
+extern DebugDraw debugDraw;
 
 namespace RG {
   namespace Model {
@@ -42,8 +47,7 @@ namespace RG {
 
       private:
         /// array of rooms present at this floor
-        std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms;
-
+        std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms; 
         /// how deep under ground the floor is
         unsigned int m_Level;
 
