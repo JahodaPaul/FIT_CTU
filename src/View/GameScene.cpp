@@ -34,21 +34,17 @@ namespace RG {
                 if(event.key.code == sf::Keyboard::Right){
                     if (event.type == sf::Event::KeyPressed) {
                         this->SetPlayerSpeedX(speed);
-                        std::cout <<"move right" << std::endl;
                     }
                     else if (event.type == sf::Event::KeyReleased) {
                         this->SetPlayerSpeedX(speed * -1);
-                        std::cout <<"stop move right" << std::endl;
                     }
                 }
                 if(event.key.code == sf::Keyboard::Left){
                     if (event.type == sf::Event::KeyPressed) {
                         this->SetPlayerSpeedX(speed * -1);
-                        std::cout <<"move left" << std::endl;
                     }
                     else if (event.type == sf::Event::KeyReleased) {
                         this->SetPlayerSpeedX(speed);
-                        std::cout <<"stop move left" << std::endl;
                     }
                 }
                 if(event.key.code == sf::Keyboard::Up){

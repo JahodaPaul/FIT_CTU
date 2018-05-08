@@ -46,37 +46,7 @@ namespace RG{
         }
 
         float Player::GetAngle(float moveX, float moveY) {
-            float angle = 0;
-            if (moveY > 0 || moveY < 0) {
-                if (moveY < 0) {
-                    angle = 0;
-                } else {
-                    angle = 180;
-                }
-
-                if (moveX > 0) {
-                    float tmp = 1;
-                    if (angle == 180) {
-                        tmp = -1;
-                    }
-                    angle += 45 * tmp;
-                } else if (moveX < 0) {
-                    float tmp = 1;
-                    if (angle == 180) {
-                        tmp = -1;
-                    }
-                    angle -= 45 * tmp;
-                }
-                if (angle < 0) { angle += 360.0; }
-                if (angle > 360) { angle -= 360.0; }
-            } else {
-                if (moveX > 0) {
-                    angle = 90;
-                } else if (moveX < 0) {
-                    angle = 270;
-                }
-            }
-            return angle;
+            return atan2( moveX, -moveY ) * 180 / M_PI;
         }
 
         void Player::DrawPlayer(sf::RenderTarget &target) {
