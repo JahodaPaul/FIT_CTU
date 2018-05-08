@@ -12,13 +12,15 @@ namespace RG {
         , m_Level(level)
         , m_ScreenHeight(1080)
         , m_ScreenWidth(1920)
+        , center_x(-16000)
+        , center_y(-16000)
+        , size( 100000 )
     {
       m_World = std::make_shared<b2World>(b2Vec2{ 0.0f, 0.0f });
 
       m_World->SetDebugDraw(&debugDraw);
       debugDraw.SetFlags( b2Draw::e_shapeBit );
-      sf::View view;
-      view.reset(sf::FloatRect(-16000, -16000, 100000, 100000));
+      view.reset(sf::FloatRect(center_x, center_y, size, size));
 
       m_window.setView(view);
 
@@ -64,6 +66,34 @@ namespace RG {
       m_window.clear({0,0,0,255});
       this->m_World->Step(time_step, 8, 3);
       this->m_World->ClearForces();
+      sf::Event event;
+      while(m_window.pollEvent(event))
+      {
+          if (event.type == sf::Event::KeyPressed)
+          {
+              if (event.key.code == sf::Keyboard::Left) {
+                  center_x += 1000;
+              }
+              if (event.key.code == sf::Keyboard::Right) {
+                  center_x -= 1000;
+              }
+              if (event.key.code == sf::Keyboard::Down) {
+                  center_y -= 1000;
+              }
+              if (event.key.code == sf::Keyboard::Up) {
+                  center_y += 1000;
+              }
+              if (event.key.code == sf::Keyboard::Add) {
+                  size *= 1.5;
+              }
+              if (event.key.code == sf::Keyboard::Subtract) {
+                  size /= 1.5;
+              }
+          }
+      }
+      view.setCenter( center_x, center_y );
+      view.setSize( size, size );
+      m_window.setView( view );
       m_World->DrawDebugData();
       m_window.display();
     }

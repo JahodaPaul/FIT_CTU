@@ -63,6 +63,9 @@ namespace RG {
         unsigned int m_WallWidth;
         unsigned int m_WallHeight;
         unsigned int m_DoorWidth;
+        sf::View view;
+        int center_x, center_y;
+        float size;
     };
   }
 }
