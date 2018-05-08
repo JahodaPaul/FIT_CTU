@@ -38,16 +38,16 @@ namespace RG {
         void Step(float time_step);
 
         void UpdateID(b2Vec2 v);
-        
+
         unsigned int m_X;
         unsigned int m_Y;
-        
+
         unsigned int m_RoomHeight;
         unsigned int m_RoomWidth;
 
       private:
         /// array of rooms present at this floor
-        std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms; 
+        std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms;
         /// how deep under ground the floor is
         unsigned int m_Level;
 

@@ -13,27 +13,30 @@ namespace RG {
 
     void Room::SetDoors(std::vector<bool> doors) { m_Doors = doors; }
 
+    std::vector<bool> Room::GetDoors(void) const { return m_Doors; }
+
     void Room::AddWalls(
         float screen_w, float screen_h, float door_w, float wall_w, float wall_h)
     {
-      float hw1 = (screen_w - door_w) / 4;
-      float hh1 = wall_h / 2;
+      float hw1 = (screen_w - door_w) / 4 - wall_w / 2;
+      float hh1 = 10;
 
-      float ow1 = screen_w - 2 * hw1;
-      float oh1 = screen_h - 2 * hh1;
+      float ow1 = 2 * hw1 + door_w;
+      float oh1 = screen_h - 2 * wall_h + hh1;
 
-      float hh2 = (screen_h - door_w) / 4;
-      float hw2 = wall_w / 2;
+      float hh2 = (screen_h - door_w) / 4 - wall_h / 2;
+      float hw2 = 10;
 
-      float ow2 = screen_w - 2 * hw2;
-      float oh2 = screen_h - 2 * hh2;
+      float ow2 = screen_w - 2 * wall_w + 2 * hw2;
+      float oh2 = door_w + 2 * hh2;
 
-      float wall_density = 1000;
+      float wall_density = 1000000;
 
       for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
           b2PolygonShape* dynBox = new b2PolygonShape;
-          dynBox->SetAsBox(hw1, hh1, { hw1 + i * ow1, hh1 + j * oh1 }, 0);
+          dynBox->SetAsBox(
+              hw1, hh1, { wall_w + hw1 + i * ow1, (wall_h - hh1) + j * oh1 }, 0);
           this->AddShape(dynBox, wall_density);
         }
       }
@@ -41,7 +44,8 @@ namespace RG {
       for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
           b2PolygonShape* dynBox = new b2PolygonShape;
-          dynBox->SetAsBox(hw2, hh2, { hw2 + i * ow2, hh2 + j * oh2 }, 0);
+          dynBox->SetAsBox(
+              hw2, hh2, { (wall_w - hw2) + i * ow2, wall_h + hh2 + j * oh2 }, 0);
           this->AddShape(dynBox, wall_density);
         }
       }
@@ -52,12 +56,12 @@ namespace RG {
         b2PolygonShape* dynBox = new b2PolygonShape;
         if (i % 2 == 0) {
           unsigned int cnt = i / 2;
-          dynBox->SetAsBox(door_w / 2, wall_h / 2,
-              { screen_w / 2, wall_h / 2 + cnt * oh1 }, 0);
+          dynBox->SetAsBox(
+              door_w / 2, hh1, { screen_w / 2, wall_h - hh1 + cnt * oh1 }, 0);
         } else {
           unsigned int cnt = 1 - (i / 2);
-          dynBox->SetAsBox(wall_w / 2, door_w / 2,
-              { wall_w / 2 + cnt * ow2, screen_h / 2 }, 0);
+          dynBox->SetAsBox(
+              hw2, door_w / 2, { wall_w - hw2 + cnt * ow2, screen_h / 2 }, 0);
         }
         this->AddShape(dynBox, wall_density);
       }

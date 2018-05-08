@@ -25,6 +25,8 @@ namespace RG {
 
         void SetDoors(std::vector<bool> doors);
 
+        std::vector<bool> GetDoors(void) const;
+
         void AddWalls(float screen_w, float screen_h, float door_w, float wall_w,
             float wall_h);
 
