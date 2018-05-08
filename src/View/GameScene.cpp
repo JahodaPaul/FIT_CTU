@@ -34,33 +34,37 @@ namespace RG {
                 if(event.key.code == sf::Keyboard::Right){
                     if (event.type == sf::Event::KeyPressed) {
                         this->SetPlayerSpeedX(speed);
+                        std::cout <<"move right" << std::endl;
                     }
-                    else{
-                        this->SetPlayerSpeedX(0);
+                    else if (event.type == sf::Event::KeyReleased) {
+                        this->SetPlayerSpeedX(speed * -1);
+                        std::cout <<"stop move right" << std::endl;
                     }
                 }
                 if(event.key.code == sf::Keyboard::Left){
                     if (event.type == sf::Event::KeyPressed) {
                         this->SetPlayerSpeedX(speed * -1);
+                        std::cout <<"move left" << std::endl;
                     }
-                    else{
-                        this->SetPlayerSpeedX(0);
+                    else if (event.type == sf::Event::KeyReleased) {
+                        this->SetPlayerSpeedX(speed);
+                        std::cout <<"stop move left" << std::endl;
                     }
                 }
                 if(event.key.code == sf::Keyboard::Up){
                     if (event.type == sf::Event::KeyPressed) {
                         this->SetPlayerSpeedY(speed * -1);
                     }
-                    else{
-                        this->SetPlayerSpeedY(0);
+                    else if (event.type == sf::Event::KeyReleased) {
+                        this->SetPlayerSpeedY(speed);
                     }
                 }
                 if(event.key.code == sf::Keyboard::Down){
                     if (event.type == sf::Event::KeyPressed) {
                         this->SetPlayerSpeedY(speed);
                     }
-                    else{
-                        this->SetPlayerSpeedY(0);
+                    else if (event.type == sf::Event::KeyReleased) {
+                        this->SetPlayerSpeedY(speed * -1);
                     }
                 }
 

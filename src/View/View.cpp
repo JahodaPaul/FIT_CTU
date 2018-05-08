@@ -16,6 +16,7 @@ namespace RG {
 
 //            m_window->setVerticalSyncEnabled(true);
             m_window->setFramerateLimit(60);
+            m_window->setKeyRepeatEnabled( false );
 
             // Apply setting
             //m_window.setView(m_view);

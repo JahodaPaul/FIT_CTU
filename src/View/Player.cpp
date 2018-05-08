@@ -9,7 +9,9 @@ namespace RG{
     namespace View {
 
 
-        Player::Player() {
+        Player::Player() :
+        relativeMoveX( 0 ),
+        relativeMoveY( 0 ) {
             clock = sf::Clock();
             player = sf::RectangleShape(sf::Vector2f(91.0f, 91.0f));
             animation = std::make_shared<Animation>("/usr/share/RG/assets/graphics/objects/characters/player.png", 91, 91, 12,
@@ -92,11 +94,11 @@ namespace RG{
         }
 
         void RG::View::Player::SetPlayerSpeedX(float x) {
-            this->relativeMoveX = x;
+            this->relativeMoveX += x;
         }
 
         void RG::View::Player::SetPlayerSpeedY(float y) {
-            this->relativeMoveY = y;
+            this->relativeMoveY += y;
         }
 
         float RG::View::Player::GetPlayerSpeedX() {
