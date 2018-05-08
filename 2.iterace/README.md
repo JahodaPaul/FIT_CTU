@@ -27,7 +27,7 @@ Pro ruční vytvoření pdf jsou třeba tyto kroky:
  - ```pdflatex analyticka_dokumentace.tex```
 
 ## Instalační balíček
-K dispozici je instalační balíček pro debian ( rg_0.1.1_amd64.deb ) který je na google drivu. Test instalace
+K dispozici je instalační balíček pro debian ( rg_0.0.2_amd64.deb ) který je na google drivu. Test instalace
 proběhl na debianu 9.4, na ubuntu 18.04 by také němel být problém. Starší verze těchto distribucí nemusí mít
 aktuální verzi potřebných knihoven v repozitářích, instalace tudíž může být optážnější. Pro nainstalování na 
-debian 9.4 stačí použít st8hnout bal84ek a pu69t ``sudo apt install ./tg_0.1.1_amd64.deb``
+debian 9.4 stačí použít st8hnout bal84ek a pu69t ``sudo apt install ./tg_0.0.2_amd64.deb``
