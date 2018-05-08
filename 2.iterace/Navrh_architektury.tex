@@ -1,0 +1,209 @@
+%% ZAKLADNI VLASTNOSTI STRANKY -- VELIKOST PISMA, STRANKY, OKRAJU
+\documentclass[12pt,a4paper]{article}
+\usepackage[marginparsep=14pt,left=2.5cm,right=2.5cm,top=3.2cm,bottom=4.5cm]{geometry}
+
+\setlength{\parskip}{8pt}
+\setlength{\parindent}{25pt}
+
+%% CESTINA
+\usepackage[czech]{babel}
+
+%% FONTY
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% VKLADANI ZDROJOVEHO KODU
+%\usepackage{listings}
+
+%% ZAHLAVI A ZAPATI
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+% prostredni cast zapati
+\cfoot{\thepage}
+
+% leva cast zahlavi -- nazev sekce/subsekce
+\lhead{\fancyplain{}{\rightmark}}
+
+\def\picturesfolder{obrazky}
+
+% prava cast zahlavi -- logo fitu
+\rhead{\includegraphics[width=5cm]{\picturesfolder/logo}}
+
+%% TABULKY
+\usepackage{tabularx}
+
+% podbarveni radku tabulek
+\usepackage[table]{xcolor}
+
+%% KRESLENI DIAGRAMU
+\usepackage{tikz}
+
+\usepackage{floatrow}
+\floatsetup[figure]{capposition=top}
+
+%% PROKLIKAVATELNE ODKAZY
+\usepackage[pdftex,pdfpagelabels,bookmarks,hyperindex,hyperfigures]{hyperref}
+
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=blue,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+
+\begin{document}
+%%%%% TITLEPAGE
+
+% alternuj bilou a svetle sedou pro radky vsech tabulek
+\rowcolors{1}{gray!25}{white}
+
+% bez cislovani stranek
+\pagenumbering{gobble}
+
+% bez cary oddelujici zahlavi a zapati
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\begin{titlepage}
+  % pro zobrazeni loga v zahlavi
+  \thispagestyle{fancy}
+
+  % vertikalni zarovnani
+	\vspace*{\fill}
+	\begin{center}
+    {\fontsize{28.83}{100}\selectfont Rogue-like hra}\\[0.6cm]
+		{\fontsize{15.74}{40}\selectfont Návrh architektury}\\[1.5cm]
+    {\fontsize{10}{10} \selectfont Dokument vytvořen pro potřeby předmětů
+    BI-SI1 a BI-SP1}\\
+	\end{center}
+
+  % vertikalni zarovnani
+	\vspace*{\fill}
+
+  % seznam clenu tymu razeny abecedne podle krestniho jmena
+  {\fontsize{10}{10} \selectfont \noindent
+\textbf{Autoři:}\\
+  Jakub Drbohlav\\
+  Jiří Kasl\\
+  Pavel Jahoda\\
+  Petr Pondělík\\
+  Vanda Hendrychová\\
+  Vojtěch Pejša\\
+  }
+\end{titlepage}
+
+\newpage
+
+% cara nahore a dole oddelujici zahlavi a zapati od obsahu stranky
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+
+
+%%%%% OBSAH
+
+% rimska cisla pro cislovani stranek v obsahu
+\pagenumbering{roman}
+
+% samotne vlozeni obsahu
+\tableofcontents
+
+\newpage
+
+% zapnout bezne cislovani stranek pomoci arabskych cislic
+\pagenumbering{arabic}
+
+
+
+%%%%% TEXT
+
+\section{Návrh Architektury}
+Architektura aplikace bude fungovat jako MVC(Model-View-Controler). Vybrali jsme
+tuto architekturu protože rozděluje aplikaci do tří komponent.
+
+\begin{itemize}
+\item Model (správa dat, fyzikální engine)
+\item View (vykreslení herních objektů, uživatelské rozhraní)
+\item Controller (řídící logika, v našem případě je kontroler velice tenký a v zásadě jen spojuje View a model)
+\end{itemize}
+
+Hlavní výhody, které do našeho projektu architektura MVC přináší je snadná práce
+v týmu. Programátoři kteří pracují na prezenční vrstvě nemusejí nijak znát
+logiku hry a strukturu dat, stačí jim pouze znát navržené rozhraní a
+implementovat vůči němu.  Dále nám také architektura umožňuje jednoduše vyměnit
+prezenční vrstvu (například přejít na jinou grafickou knihovnu).
+
+Pro lepší představu je architektura MVC znázorněna na následujícím obrázku.
+\begin{center}
+\includegraphics[width=\textwidth]{\picturesfolder/navrh_architektury}
+\end{center}
+
+\subsection{Prezentační vrstva - View}
+View je komponenta, která dostává data z modelu a zobrazuje je uživateli. Dále
+také zpracovává vstupy od uživatele a na jejich základě volá metody Controlleru.
+View je dále rozdělen do \uv{Scén}, příkladem takové scény je například herní
+menu, nebo vlastní herní obrazovka.
+
+\subsection{Datová vrstva - Model}
+Model reprezentuje veškerá data herního světa a mimo to se i stará a fyzikální
+engine hry (například kolize). Model je v našem návrhu plně nezávislý na
+zbylých dvou komponentách a komunikace s ním probíhá na základě předem
+definovaného rozhraní. Model bude také umožňovat ukládání respektive načítání
+hry.
+
+\subsection{Controller}
+Controller primárně zajišťuje komunikaci mezi prezenční a datovou vrstvou, v
+našem návrhu je velice \uv{tenký}.
+
+\section{Volba knihoven}
+Pro implementaci aplikace jsme se rozhodli použít tyto technologie:
+
+\begin{itemize}
+\item Správa buildů $\rightarrow$ CMake
+\item Grafická knihovna $\rightarrow$ sfml
+\item Grafické uživatelské rozhraní $\rightarrow$ dear imgui
+\item Fyzika a kolize $\rightarrow$ Box2D
+\end{itemize}
+
+Kombinace těchto knihoven můžu v budoucnu umožnit jednoduchý přenos aplikace na
+jiný operační systém (zatím je podporován jen Linux), protože všechny námi
+zvolené knihovny jsou plně multiplatformní (linux|MacOS|Windows|Android...)
+Samozřejmě by například pro implementaci na android bylo potřeba změnit
+uživatelské vstupy, to by ale díky plně izolované prezenční vrstvě neměl být
+velký problém.
+
+\subsection{build systém}
+Jako software na správu buildů jsme zvolili CMake. S nástrojem CMake již byly v
+našem týmu částěčné zkušenosti, plně splňuje všechny naše požadavky na build
+systém a v současnosti je to pro větší projekty v C++ v zásadě standard.
+
+\subsection{grafická knihovna}
+Jako grafické knihovny jsme zvažovali SDL2 a SFML. Obě knihovny nabízejí velice
+podobné možnosti, ale s přihlédnutím k jednoduššímu používání a lepší
+dokumentaci jsme nakonec zvolili SFML.
+
+\subsection{grafické uživatelské rozhraní}
+Vzhledem k tomu, že pro naši hru není uživatelské rozhraní příliš velká
+priorita, jsme volili GUI s větším důrazem na jednoduchost použití. \emph{Dear
+imgui} je takzvaná immediate gui library, to znamená, že jednotlivé prvky
+rozhraní jsou v zásadě bezestavové a je nutné je neustále znovu updatovat a
+vykreslovat (i přesto je knihovna velice efektivní z pohledu  využití
+procesoru). Tato její vlastnost pro nás ovšem není žádná překážka, protože naše
+hra je real time, tudíž zde bude probíhat mnoho updatů za sekundu.  
+
+Naopak přínosem této knihovny je její extrémně jednoduché používání a i zapojení
+do projektu. Celá knihovna se v zásadě skládá ze dvou souborů a bindingu, aby
+ji bylo možné použít společně se SFML.
+
+\subsection{Fyzikální engine}
+Hra má být 2D a to bylo také jedno z klíčových kritérií při výběru fyzikálního
+engine. V současnosti sice takových knihoven pro C++ existuje mnoho, ale Box2D
+je pravděpodobně nejlepší z nich a má velice kvalitní dokumentaci a tutoriály,
+vybrali jsme tudíž tu.
+
+\end{document}
