@@ -31,3 +31,4 @@ K dispozici je instalační balíček pro debian (rg_0.0.2_amd64.deb), který je
 proběhl na debianu 9.4, na ubuntu 18.04 by také němel být problém. Starší verze těchto distribucí nemusí mít
 aktuální verzi potřebných knihoven v repozitářích, instalace tudíž může být obtížnější. Pro nainstalování na 
 debian 9.4 stačí stáhnout balíček a nainstalovat pomocí nástroje apt: ``sudo apt install ./rg_0.0.2_amd64.deb``
+Hra se pak spouští z terminálu příkazem ``rg``.
