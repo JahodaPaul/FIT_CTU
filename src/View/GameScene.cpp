@@ -3,6 +3,8 @@
 namespace RG {
     namespace View {
         GameScene::GameScene() {
+            player = std::make_shared<Player>();
+            room = std::make_shared<RG::View::Room>();
         }
 
         GameScene::~GameScene() {
@@ -10,12 +12,13 @@ namespace RG {
 
         void GameScene::Update(View *view) {
             view->getGameController()->RunNPCWorld();
+            view->getGameController()->MoveModel(this->GetPlayerSpeedX(),this->GetPlayerSpeedY());
+            this->UpdatePlayer(view->getGameController()->GetPlayerPos().first,view->getGameController()->GetPlayerPos().second);
         }
 
         void GameScene::Render(View *view) {
-//        view->UpdatePlayer(0.0f,0.0f);
-            view->DrawRoom();
-            view->DrawPlayer();
+            this->DrawRoom(view);
+            this->DrawPlayer(view);
         }
 
         void GameScene::ManageInput(View *view) {
@@ -24,25 +27,43 @@ namespace RG {
             sf::Event event;
 
             float speed = 3;
-            float x = 0, y = 0;
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                x += speed;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                x -= speed;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                y += speed;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                y -= speed;
-            }
 
-            view->getGameController()->MoveModel(x,y);
-            view->UpdatePlayer(x,y,view->getGameController()->GetPlayerPos().first,view->getGameController()->GetPlayerPos().second);
-//            view->UpdatePlayer(x, y);
             while (window->pollEvent(event)) {
                 ImGui::SFML::ProcessEvent(event);
+
+                if(event.key.code == sf::Keyboard::Right){
+                    if (event.type == sf::Event::KeyPressed) {
+                        this->SetPlayerSpeedX(speed);
+                    }
+                    else{
+                        this->SetPlayerSpeedX(0);
+                    }
+                }
+                if(event.key.code == sf::Keyboard::Left){
+                    if (event.type == sf::Event::KeyPressed) {
+                        this->SetPlayerSpeedX(speed * -1);
+                    }
+                    else{
+                        this->SetPlayerSpeedX(0);
+                    }
+                }
+                if(event.key.code == sf::Keyboard::Up){
+                    if (event.type == sf::Event::KeyPressed) {
+                        this->SetPlayerSpeedY(speed * -1);
+                    }
+                    else{
+                        this->SetPlayerSpeedY(0);
+                    }
+                }
+                if(event.key.code == sf::Keyboard::Down){
+                    if (event.type == sf::Event::KeyPressed) {
+                        this->SetPlayerSpeedY(speed);
+                    }
+                    else{
+                        this->SetPlayerSpeedY(0);
+                    }
+                }
+
                 if (event.type == sf::Event::Closed) {
                     window->close();
                     view->getGameController()->Quit();
@@ -50,5 +71,38 @@ namespace RG {
                 }
             }
         }
+        void GameScene::UpdatePlayer(float absoluteX, float absoluteY) {//float relativeMoveX, float relativeMoveY,
+            player->UpdatePlayer(absoluteX,absoluteY);
+        }
+
+        void GameScene::DrawPlayer(View *view) {
+            player->SetPlayerScale(view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
+            player->DrawPlayer(*view->getWindow());
+        }
+
+        void GameScene::DrawRoom(View *view) {
+            room->DrawRoom(view->getGameController()->GetFloorLevel(),view->getGameController()->GetRoomId(),*view->getWindow());
+//            room->SetSpriteScale((float)m_window->getSize().x,(float)m_window->getSize().y);
+            room->SetSpriteScale(view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
+            std::vector<bool> temporary = view->getGameController()->GetRoomDoors();
+            room->DrawDoor(*view->getWindow(), temporary[0],temporary[1],temporary[2],temporary[3],view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
+        }
+
+        void GameScene::SetPlayerSpeedX(float x) {
+            this->player->SetPlayerSpeedX(x);
+        }
+
+        void GameScene::SetPlayerSpeedY(float y) {
+            this->player->SetPlayerSpeedY(y);
+        }
+
+        float GameScene::GetPlayerSpeedX() {
+            return this->player->GetPlayerSpeedX();
+        }
+
+        float GameScene::GetPlayerSpeedY() {
+            return this->player->GetPlayerSpeedY();
+        }
+
     }
 }

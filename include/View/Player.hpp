@@ -28,11 +28,19 @@ namespace RG{
 
             void Update(float);
 
-            void UpdatePlayer(float relativeMoveX, float relativeMoveY, float absoluteX, float absoluteY);
+            void UpdatePlayer(float absoluteX, float absoluteY); //float relativeMoveX, float relativeMoveY,
 
             void DrawPlayer(sf::RenderTarget &target);
 
             void SetPlayerScale(float x, float y);
+
+            void SetPlayerSpeedY(float y);
+
+            void SetPlayerSpeedX(float x);
+
+            float GetPlayerSpeedY();
+
+            float GetPlayerSpeedX();
 
         protected:
         private:
@@ -43,6 +51,9 @@ namespace RG{
 
             float x;
             float y;
+
+            float relativeMoveX;
+            float relativeMoveY;
             float time;
             std::shared_ptr<Animation> animation;
 

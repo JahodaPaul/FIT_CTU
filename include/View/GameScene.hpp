@@ -3,6 +3,9 @@
 #include "View/Scene.hpp"
 #include "View/View.hpp"
 
+#include "View/Player.hpp"
+#include "View/Room.hpp"
+
 #include <iostream>
 
 namespace RG {
@@ -18,6 +21,28 @@ namespace RG {
             virtual void Render(View *view);
 
             virtual void ManageInput(View *view);
+        private:
+            std::shared_ptr<RG::View::Player> GetPlayer();
+
+            void SetPlayer();
+
+            void SetPlayerSpeedY(float);
+
+            void SetPlayerSpeedX(float);
+
+            float GetPlayerSpeedY();
+
+            float GetPlayerSpeedX();
+
+            void UpdatePlayer(float, float);
+
+            void DrawPlayer(View *view);
+
+            void DrawRoom(View *view);
+
+
+            std::shared_ptr<RG::View::Player> player;
+            std::shared_ptr<RG::View::Room> room;
         };
     }
 }

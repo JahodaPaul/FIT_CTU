@@ -15,8 +15,7 @@
 #include "View/MenuScene.hpp"
 #include "View/GameScene.hpp"
 #include "View/Console.hpp"
-#include "View/Player.hpp"
-#include "View/Room.hpp"
+
 #include "View/IOManager.hpp"
 #include "View/SoundManager.hpp"
 
@@ -52,16 +51,6 @@ namespace RG {
 
             void setActiveView(SCENE scene);
 
-            std::shared_ptr<RG::View::Player> GetPlayer();
-
-            void SetPlayer();
-
-            void UpdatePlayer(float, float,float, float);
-
-            void DrawPlayer();
-
-            void DrawRoom();
-
             const sf::View GetView();
 
             SoundManager & getSoundManager();
@@ -79,9 +68,6 @@ namespace RG {
 
             bool m_ImguiDemo;
             Console m_console;
-
-            std::shared_ptr<RG::View::Player> player;
-            std::shared_ptr<RG::View::Room> room;
         };
     }
 }

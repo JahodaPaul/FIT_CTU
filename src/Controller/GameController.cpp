@@ -71,9 +71,6 @@ namespace RG {
     void GameController::GoToGame() {
         m_mapOfGameStateHandlers[m_GameState]->GoToGame( this );
         m_view->setActiveView( RG::View::SCENE::GAME_SCENE );
-        m_view->SetPlayer();
-        m_view->GetPlayer()->GetAnimation()->goToFrame(0);
-        m_view->GetPlayer()->GetAnimation()->startAnimation();
         m_model = std::make_shared<RG::Model::Model>();
     }
     void GameController::setActiveGameState( STATES state ) {

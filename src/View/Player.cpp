@@ -12,45 +12,20 @@ namespace RG{
         Player::Player() {
             clock = sf::Clock();
             player = sf::RectangleShape(sf::Vector2f(91.0f, 91.0f));
-//        playerTexture.loadFromFile();
-//        player.setTexture(&playerTexture);
             animation = std::make_shared<Animation>("/usr/share/RG/assets/graphics/objects/characters/player.png", 91, 91, 12,
                                                     40.0f);
-//            this->x = 500;
-//            this->y = 500;
             this->time = 0;
             this->windowX = 0;
             this->windowY = 0;
             animation->setPosition(sf::Vector2f(this->x, this->y));
-        }
-
-        void Player::UpdatePosition(float x, float y) {
-            if (x != 0 && y != 0) {
-                x /= sqrt(2);
-                y /= sqrt(2);
-            }
-            this->x = this->x + x;
-            this->y = this->y + y;
-            animation->setRotation(this->GetAngle(x, y));
-            animation->setPosition(sf::Vector2f(this->x, this->y));
+            animation->goToFrame(0);
+            animation->startAnimation();
         }
 
         void Player::SetPosition(float x, float y) {
             this->x = x;
             this->y = y;
             animation->setPosition(sf::Vector2f(this->x*(windowX/1920), this->y*(windowY/1080)));
-        }
-
-        std::pair<float, float> Player::GetPosition() {
-            return std::make_pair(x, y);
-        }
-
-        sf::RectangleShape Player::GetPlayerRectangleShape() {
-            return player;
-        }
-
-        std::shared_ptr<Animation> Player::GetAnimation() {
-            return this->animation;
         }
 
         void Player::Update(float time) {
@@ -60,10 +35,9 @@ namespace RG{
             this->animation->update(this->clock.getElapsedTime().asMilliseconds());
         }
 
-        void Player::UpdatePlayer(float relativeMoveX, float relativeMoveY, float absoluteX, float absoluteY) {
+        void Player::UpdatePlayer(float absoluteX, float absoluteY) {
             if (absoluteX != this->x || absoluteY != this->y) {
-//                this->UpdatePosition(x, y);
-                this->animation->setRotation(this->GetAngle(relativeMoveX,relativeMoveY));
+                this->animation->setRotation(this->GetAngle(this->relativeMoveX,this->relativeMoveY));
                 this->SetPosition(absoluteX,absoluteY);
                 this->Update(time);
             }
@@ -109,13 +83,28 @@ namespace RG{
 
         void Player::SetPlayerScale(float windowWidth, float windowHeight){
             if(windowWidth != windowX || windowHeight != windowY) {
-//                std::cout << windowWidth << " " << this->animation->getSize().x << std::endl;
                 float scaleX = (windowWidth / 20) / this->animation->getSize().x;
                 float scaleY = (windowWidth / 20) / this->animation->getSize().x;
                 this->animation->setScale(scaleX, scaleY);
                 windowX = windowWidth;
                 windowY = windowHeight;
             }
+        }
+
+        void RG::View::Player::SetPlayerSpeedX(float x) {
+            this->relativeMoveX = x;
+        }
+
+        void RG::View::Player::SetPlayerSpeedY(float y) {
+            this->relativeMoveY = y;
+        }
+
+        float RG::View::Player::GetPlayerSpeedX() {
+            return this->relativeMoveX;
+        }
+
+        float RG::View::Player::GetPlayerSpeedY() {
+            return this->relativeMoveY;
         }
     }
 }
