@@ -75,10 +75,10 @@ namespace RG {
         }
 
         void Room::SetDoorPosition(){
-            door_up.setPosition((this->windowX/2)-(this->door_up.getLocalBounds().width/2),0);
-            door_right.setPosition(this->windowX-(this->door_right.getLocalBounds().width * this->door_right.getScale().x),(this->windowY/2)-(this->door_right.getLocalBounds().height/2));
-            door_down.setPosition((this->windowX/2)-(this->door_down.getLocalBounds().width/2),this->windowY-(this->door_down.getLocalBounds().height*this->door_down.getScale().y));
-            door_left.setPosition(0,(this->windowY/2)-(this->door_left.getLocalBounds().height/2));
+            door_up.setPosition((this->windowX/2)-(this->door_up.getLocalBounds().width* this->door_up.getScale().x/2),0);
+            door_right.setPosition(this->windowX-(this->door_right.getLocalBounds().width * this->door_right.getScale().x),(this->windowY/2)-(this->door_right.getLocalBounds().height* this->door_right.getScale().y/2));
+            door_down.setPosition((this->windowX/2)-(this->door_down.getLocalBounds().width* this->door_down.getScale().x/2),this->windowY-(this->door_down.getLocalBounds().height*this->door_down.getScale().y));
+            door_left.setPosition(0,(this->windowY/2)-(this->door_left.getLocalBounds().height* this->door_left.getScale().y/2));
         }
 
         void Room::SetSpriteScale(float x, float y) {
