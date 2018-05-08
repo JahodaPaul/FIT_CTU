@@ -11,7 +11,7 @@ namespace RG {
       // adding the player
       b2BodyDef* bodyDef = new b2BodyDef;
       bodyDef->type = b2_dynamicBody;
-      bodyDef->position.Set(180, 180);
+      bodyDef->position.Set(300, 300);
       m_Player = std::make_shared<RG::Model::Entity>("Hrac");
       m_Player->m_Body = m_Floors[m_CurrentFloorIdx].GetPlayerBody(bodyDef);
       b2CircleShape* circle = new b2CircleShape;
@@ -44,9 +44,6 @@ namespace RG {
         - m_Floors[m_CurrentFloorIdx].m_Y
         * m_Floors[m_CurrentFloorIdx].m_RoomHeight;
 
-//      std::cout << m_Player->GetPosition().x << " "
-//       << m_Player->GetPosition().y << std::endl;
-
       return std::pair<float, float>{ _x, _y };
     }
 
@@ -68,13 +65,9 @@ namespace RG {
 
     std::vector<bool> Model::GetRoomDoors(int floorID) const
     {
-      // TODO FIXME (vanda)
-      // dummy return
-      std::vector<bool> dummy;
-      for (int i = 0; i < 4; i++) {
-        dummy.push_back(true);
-      }
-      return dummy;
+      std::vector<bool> tmp = GetCurrentRoom().GetDoors();
+      tmp.resize(4);
+      return tmp;
     }
 
     void Model::Step(float time_step)

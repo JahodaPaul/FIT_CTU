@@ -5,6 +5,11 @@
 
 #include "Model/Object.hpp"
 #include "Model/Room.hpp"
+#include "View/DebugDraw.hpp"
+#include <SFML/Window.hpp>
+
+extern sf::RenderWindow m_window;
+extern DebugDraw debugDraw;
 
 namespace RG {
   namespace Model {
@@ -33,17 +38,16 @@ namespace RG {
         void Step(float time_step);
 
         void UpdateID(b2Vec2 v);
-        
+
         unsigned int m_X;
         unsigned int m_Y;
-        
+
         unsigned int m_RoomHeight;
         unsigned int m_RoomWidth;
 
       private:
         /// array of rooms present at this floor
         std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms;
-
         /// how deep under ground the floor is
         unsigned int m_Level;
 
@@ -59,6 +63,9 @@ namespace RG {
         unsigned int m_WallWidth;
         unsigned int m_WallHeight;
         unsigned int m_DoorWidth;
+        sf::View view;
+        int center_x, center_y;
+        float size;
     };
   }
 }
