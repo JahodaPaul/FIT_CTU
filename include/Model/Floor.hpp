@@ -5,11 +5,16 @@
 
 #include "Model/Object.hpp"
 #include "Model/Room.hpp"
+
+#ifdef DEBUG_DRAW
+
 #include "View/DebugDraw.hpp"
 #include <SFML/Window.hpp>
 
 extern sf::RenderWindow m_window;
 extern DebugDraw debugDraw;
+
+#endif //DEBUG_DRAW
 
 namespace RG {
   namespace Model {
@@ -63,7 +68,9 @@ namespace RG {
         unsigned int m_WallWidth;
         unsigned int m_WallHeight;
         unsigned int m_DoorWidth;
+#ifdef DEBUG_DRAW
         sf::View view;
+#endif //DEBUG_DRAW
         int center_x, center_y;
         float size;
     };
