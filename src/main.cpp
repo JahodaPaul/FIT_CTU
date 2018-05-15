@@ -12,7 +12,7 @@
 #include <dirent.h>
 #include <experimental/filesystem>
 
-RG::CLogger mainLog(RG::CLogger::INFO, " ", 50000);
+RG::Util::CLogger mainLog(RG::Util::CLogger::INFO, " ", 50000);
 
 int main() {
     struct passwd *pw = getpwuid(getuid());
@@ -31,13 +31,13 @@ int main() {
 
     chdir( run_dir_name.c_str() );
 
-    mainLog.SetFlags(RG::CLogger::FLAGS::FILE);
+    mainLog.SetFlags(RG::Util::CLogger::FLAGS::FILE);
     mainLog.SetLogFile( "./log.txt" );
-    mainLog.SetLimit(RG::CLogger::INFO, RG::CLogger::STREAM::BOTH);
+    mainLog.SetLimit(RG::Util::CLogger::INFO, RG::Util::CLogger::STREAM::BOTH);
 
     mainLog.Info("Changed current directory to: \"" + run_dir_name + "\"");
     
 
-    RG::GameController g;
+    RG::Controller::GameController g;
     g.Run();
 }

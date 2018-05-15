@@ -1,16 +1,16 @@
 #include "Util/Logger.hpp"
 
-namespace RG {
+namespace RG { namespace Util {
     CLogger::CLogger(CLogger::TYPE type, const std::string &delimiter, unsigned int logsMax)
-            : m_StdLim{type}, m_FileLim{type}, m_Delimiter(delimiter), m_logsMax(logsMax) {
-        Open();
-        std::ifstream f(m_LogFile);
-        std::string line;
-        unsigned int i;
-        for (i = 0; std::getline(f, line); i++);
-        m_LogsInFile = i;
-        f.close();
-    }
+        : m_StdLim{type}, m_FileLim{type}, m_Delimiter(delimiter), m_logsMax(logsMax) {
+            Open();
+            std::ifstream f(m_LogFile);
+            std::string line;
+            unsigned int i;
+            for (i = 0; std::getline(f, line); i++);
+            m_LogsInFile = i;
+            f.close();
+        }
 
     CLogger::~CLogger() {
         std::cout << std::flush;
@@ -164,4 +164,4 @@ namespace RG {
         m_LogsInFile = m_logsMax;
 
     }
-}
+} }

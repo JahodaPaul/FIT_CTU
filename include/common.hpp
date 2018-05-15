@@ -1,3 +1,3 @@
 #include "Util/Logger.hpp"
 
-extern RG::CLogger mainLog;
+extern RG::Util::CLogger mainLog;

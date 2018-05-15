@@ -4,7 +4,7 @@
 #include <Controller/GameStateHandler.hpp>
 #include "common.hpp"
 
-namespace RG {
+namespace RG { namespace Controller {
     class GameController;
     /**
      * \class MenuStateHandler
@@ -20,4 +20,4 @@ namespace RG {
             virtual void GoToGame( GameController * gameController );
             virtual void Quit( GameController * gameController );
     };
-}
+} }

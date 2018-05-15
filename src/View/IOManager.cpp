@@ -1,6 +1,6 @@
 #include <View/IOManager.hpp>
 
-namespace RG{
+namespace RG{ namespace View {
 
     IOManager::IOManager(std::string dir, std::string fileName): m_StorageDir(dir), m_File(fileName){
         if(FileExists(m_StorageDir+"/"+m_File)){
@@ -145,4 +145,4 @@ namespace RG{
         return f.good();
     }
 
-}
+} }

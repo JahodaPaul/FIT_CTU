@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RG {
+namespace RG { namespace Util {
     /**
      * \class Vect2f
      * \brief
@@ -15,4 +15,4 @@ namespace RG {
     typedef Vect2<int> Vect2i;
     typedef Vect2<unsigned int> Vect2u;
     typedef Vect2<float> Vect2f;
-}
+} }

@@ -1,5 +1,7 @@
 #include "View/SoundManager.hpp"
 
+namespace RG { namespace View {
+
 SoundManager::SoundManager(unsigned int maxSounds ) :
     m_sound( maxSounds ),
     m_buffer( maxSounds )
@@ -213,3 +215,5 @@ bool SoundManager::ReadFile(std::string path, bool flag)
     m_file.close();
     return true;
 }
+
+} }

@@ -23,7 +23,7 @@
 
 
 namespace RG {
-        class GameController;
+        namespace Controller { class GameController; }
     namespace View {
         class Scene;
 
@@ -33,7 +33,7 @@ namespace RG {
 
         class View {
         public:
-            View(GameController *controller, std::pair<int,int> windowSize = {900, 600}, const char *windowTitle = "game");
+            View(Controller::GameController *controller, std::pair<int,int> windowSize = {900, 600}, const char *windowTitle = "game");
 
             ~View();
 
@@ -45,7 +45,7 @@ namespace RG {
 
             std::shared_ptr<sf::RenderWindow> getWindow();
 
-            GameController *getGameController() const;
+            Controller::GameController *getGameController() const;
 
             const sf::Clock &getClock() const;
 
@@ -59,7 +59,7 @@ namespace RG {
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
             SCENE m_activeScene;
-            GameController *m_gameControllet;
+            Controller::GameController *m_gameControllet;
             std::map<SCENE, std::shared_ptr<Scene> > m_mapOfGameScenes;
             sf::Clock m_clock;
 

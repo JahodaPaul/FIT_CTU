@@ -1,7 +1,7 @@
 #include "Controller/GameController.hpp"
 #include "Controller/GameStateHandler.hpp"
 
-namespace RG {
+namespace RG { namespace Controller {
     GameStateHandler::GameStateHandler() {
         mainLog.Info("gameState Constructor");
     }
@@ -16,4 +16,4 @@ namespace RG {
     void GameStateHandler::Quit( GameController * gameController ) {
         mainLog.Info("GameStateHandler StopGame");
     }
-}
+} }

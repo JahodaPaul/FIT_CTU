@@ -2,7 +2,7 @@
 
 namespace RG {
     namespace View {
-        View::View(GameController *controller, std::pair<int,int> windowSize, const char *windowTitle)
+        View::View(Controller::GameController *controller, std::pair<int,int> windowSize, const char *windowTitle)
                 : m_gameControllet(controller),
                   m_ImguiDemo(false) {
             m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize.first, windowSize.second),
@@ -89,7 +89,7 @@ namespace RG {
             return m_window;
         }
 
-        GameController *View::getGameController() const {
+        Controller::GameController *View::getGameController() const {
             return m_gameControllet;
         }
 

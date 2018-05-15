@@ -15,7 +15,7 @@
 #include "imgui-SFML.h"
 #include "imgui.h"
 
-namespace RG{
+namespace RG{ namespace View {
 
     /**
      * \brief
@@ -94,4 +94,4 @@ namespace RG{
 
     };
 
-}
+} }

@@ -27,7 +27,7 @@
  * </pre>
  * */
 
-namespace RG {
+namespace RG { namespace Util {
     class CLogger
     {
 
@@ -122,4 +122,4 @@ namespace RG {
             std::string m_LogFile = "log.log";
 
     };
-}
+} }

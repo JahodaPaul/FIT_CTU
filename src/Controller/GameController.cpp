@@ -1,6 +1,6 @@
 #include "Controller/GameController.hpp"
 
-namespace RG {
+namespace RG { namespace Controller {
     GameController::GameController() : m_running( false ) {
         mainLog.Info("GameController Constructor");
         m_mapOfGameStateHandlers[STATES::MAIN_MENU] = std::shared_ptr<GameStateHandler>( new MenuStateHandler() );
@@ -90,4 +90,4 @@ namespace RG {
     }
 
 
-}
+} }

@@ -15,7 +15,7 @@
 
 #include "common.hpp"
 
-namespace RG {
+namespace RG { namespace Controller {
     enum STATES {
         LOADING,
         MAIN_MENU,
@@ -63,4 +63,4 @@ namespace RG {
 
             int m_howOftenRunNPCWorld;
     };
-}
+} }

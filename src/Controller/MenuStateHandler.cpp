@@ -1,6 +1,6 @@
 #include "Controller/MenuStateHandler.hpp"
 
-namespace RG {
+namespace RG { namespace Controller {
     MenuStateHandler::MenuStateHandler() : GameStateHandler() {
         mainLog.Info("MenuState Constructor");
     }
@@ -16,4 +16,4 @@ namespace RG {
     void MenuStateHandler::Quit( GameController * gameController ) {
         mainLog.Info("MenuState StopGame");
     }
-}
+} }
