@@ -3,8 +3,6 @@
 #include <memory>
 #include <iostream>
 
-#include "Controller/GameController.hpp"
-#include "Controller/StateHandler.hpp"
 #include "common.hpp"
 
 namespace RG { namespace Controller {
@@ -13,11 +11,11 @@ namespace RG { namespace Controller {
      * \class GameStateHandler
      * \brief
      */
-    class GameStateHandler : public StateHandler
+    class StateHandler
     {
         public:
-            GameStateHandler();
-            virtual ~GameStateHandler(){}
+            StateHandler();
+            virtual ~StateHandler(){}
             virtual void GoToMainMenu( GameController * gameController );
             virtual void GoToGame( GameController * gameController );
             virtual void Quit( GameController * gameController );

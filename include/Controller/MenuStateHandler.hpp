@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Controller/GameController.hpp>
-#include <Controller/GameStateHandler.hpp>
+#include "Controller/GameController.hpp"
+#include "Controller/StateHandler.hpp"
 #include "common.hpp"
 
 namespace RG { namespace Controller {
@@ -10,7 +10,7 @@ namespace RG { namespace Controller {
      * \class MenuStateHandler
      * \brief
      */
-    class MenuStateHandler : public GameStateHandler
+    class MenuStateHandler : public StateHandler
     {
         public:
             MenuStateHandler();

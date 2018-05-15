@@ -1,8 +1,7 @@
-#include "Controller/GameController.hpp"
 #include "Controller/GameStateHandler.hpp"
 
 namespace RG { namespace Controller {
-    GameStateHandler::GameStateHandler() {
+    GameStateHandler::GameStateHandler() : StateHandler() {
         mainLog.Info("gameState Constructor");
     }
     void GameStateHandler::Update( float timeStep ) { }

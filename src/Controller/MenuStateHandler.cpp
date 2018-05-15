@@ -1,7 +1,7 @@
 #include "Controller/MenuStateHandler.hpp"
 
 namespace RG { namespace Controller {
-    MenuStateHandler::MenuStateHandler() : GameStateHandler() {
+    MenuStateHandler::MenuStateHandler() : StateHandler() {
         mainLog.Info("MenuState Constructor");
     }
     MenuStateHandler::~MenuStateHandler() { }

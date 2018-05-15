@@ -3,8 +3,8 @@
 namespace RG { namespace Controller {
     GameController::GameController() : m_running( false ) {
         mainLog.Info("GameController Constructor");
-        m_mapOfGameStateHandlers[STATES::MAIN_MENU] = std::shared_ptr<GameStateHandler>( new MenuStateHandler() );
-        m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<GameStateHandler>( new GameStateHandler() );
+        m_mapOfGameStateHandlers[STATES::MAIN_MENU] = std::shared_ptr<StateHandler>( new MenuStateHandler() );
+        m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<StateHandler>( new GameStateHandler() );
         m_GameState = STATES::MAIN_MENU;
         m_view = std::make_shared<RG::View::View>(this);
         m_model = std::make_shared<RG::Model::Model>();

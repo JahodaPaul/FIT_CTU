@@ -49,6 +49,7 @@ ADD_EXECUTABLE(game src/main.cpp
     src/Controller/MenuStateHandler.cpp 
     src/Controller/GameStateHandler.cpp
     src/Controller/GameController.cpp
+    src/Controller/StateHandler.cpp
 
     src/View/View.cpp
     src/View/MenuScene.cpp

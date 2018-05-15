@@ -6,6 +6,7 @@
 
 #include "Controller/MenuStateHandler.hpp"
 #include "Controller/GameStateHandler.hpp"
+#include "Controller/StateHandler.hpp"
 
 #include "Model/Model.hpp"
 
@@ -56,7 +57,7 @@ namespace RG { namespace Controller {
 
         private:
             std::shared_ptr<RG::View::View> m_view;
-            std::map<int, std::shared_ptr<GameStateHandler> > m_mapOfGameStateHandlers;
+            std::map<int, std::shared_ptr<StateHandler> > m_mapOfGameStateHandlers;
             int m_GameState;
             std::shared_ptr<RG::Model::Model> m_model;
             std::shared_ptr<RG::NPC::NPCWorldCycle> m_NPCWorld;
