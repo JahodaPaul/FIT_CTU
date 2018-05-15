@@ -1,0 +1,13 @@
+https://data.oecd.org/tax/tax-on-personal-income.htm#indicator-chart
+https://data.oecd.org/tax/tax-on-property.htm#indicator-chart
+https://data.oecd.org/tax/tax-on-goods-and-services.htm
+https://data.oecd.org/gga/general-government-debt.htm
+https://data.oecd.org/inequality/income-inequality.htm
+https://data.oecd.org/inequality/poverty-rate.htm
+https://data.oecd.org/pop/elderly-population.htm
+https://data.oecd.org/pop/fertility-rates.htm#indicator-chart
+https://data.oecd.org/healthcare/child-vaccination-rates.htm
+https://data.oecd.org/energy/renewable-energy.htm
+https://data.oecd.org/transport/road-accidents.htm
+https://data.oecd.org/unemp/unemployment-rate.htm
+https://data.oecd.org/eduresource/teachers-salaries.htm

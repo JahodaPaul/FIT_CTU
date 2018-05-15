@@ -1,0 +1,273 @@
+NUTS CODE,NUTS NAME,Average 2012- 2014
+AT11,Burgenland (AT),22.8
+AT12,Niederösterreich,27.5
+AT13,Wien,42.4
+AT21,Kärnten,29.2
+AT22,Steiermark,27.7
+AT31,Oberösterreich,25
+AT32,Salzburg,30.4
+AT33,Tirol,31.2
+AT34,Vorarlberg,24
+BE10,Région de Bruxelles-Capitale / Brussels Hoofdstedelijk Gewest,46.6
+BE21,Prov. Antwerpen,43.6
+BE22,Prov. Limburg (BE),39.1
+BE23,Prov. Oost-Vlaanderen,46.3
+BE24,Prov. Vlaams-Brabant,52.4
+BE25,Prov. West-Vlaanderen,41.4
+BE31,Prov. Brabant Wallon,56.6
+BE32,Prov. Hainaut,33.3
+BE33,Prov. Liège,40.4
+BE34,Prov. Luxembourg (BE),40.5
+BE35,Prov. Namur,42.6
+BG31,Severozapaden,20.8
+BG32,Severen tsentralen,21.7
+BG33,Severoiztochen,30.5
+BG34,Yugoiztochen,24.5
+BG41,Yugozapaden,39.8
+BG42,Yuzhen tsentralen,20.9
+CY00,Kýpros,50.1
+CZ01,Praha,45
+CZ02,Střední Čechy,23.7
+CZ03,Jihozápad,23.9
+CZ04,Severozápad,14.8
+CZ05,Severovýchod,23.1
+CZ06,Jihovýchod,30.8
+CZ07,Střední Morava,25
+CZ08,Moravskoslezsko,22.2
+DE11,Stuttgart,37.8
+DE12,Karlsruhe,37.8
+DE13,Freiburg,33.6
+DE14,Tübingen,37.6
+DE21,Oberbayern,44.6
+DE22,Niederbayern,29.2
+DE23,Oberpfalz,35.4
+DE24,Oberfranken,29.5
+DE25,Mittelfranken,33.9
+DE26,Unterfranken,35.2
+DE27,Schwaben,28.6
+DE30,Berlin,42.4
+DE40,Brandenburg,22.8
+DE50,Bremen,34.9
+DE60,Hamburg,39.9
+DE71,Darmstadt,37.6
+DE72,Gießen,30.5
+DE73,Kassel,27.1
+DE80,Mecklenburg-Vorpommern,22.8
+DE91,Braunschweig,30.9
+DE92,Hannover,29.7
+DE93,Lüneburg,21.7
+DE94,Weser-Ems,23
+DEA1,Düsseldorf,28.4
+DEA2,Köln,34.8
+DEA3,Münster,26.8
+DEA4,Detmold,24.2
+DEA5,Arnsberg,24
+DEB1,Koblenz,24
+DEB2,Trier,31.9
+DEB3,Rheinhessen-Pfalz,32.8
+DEC0,Saarland,26.1
+DED2,Dresden,35.3
+DED4,Chemnitz,27.3
+DED5,Leipzig,39.6
+DEE0,Sachsen-Anhalt,20.4
+DEF0,Schleswig-Holstein,25.3
+DEG0,Thüringen,26.3
+DK01,Hovedstaden,57.7
+DK02,Sjælland,31.8
+DK03,Syddanmark,31.8
+DK04,Midtjylland,40.3
+DK05,Nordjylland,35.3
+EE00,Eesti,43.3
+EL11,Anatoliki Makedonia. Thraki,22.5
+EL12,Kentriki Makedonia,35.5
+EL13,Dytiki Makedonia,30.6
+EL14,Thessalia,30.5
+EL21,Ipeiros,33
+EL22,Ionia Nisia,19.2
+EL23,Dytiki Ellada,28.7
+EL24,Sterea Ellada,22.9
+EL25,Peloponnisos,24.4
+EL30,Attiki,43.1
+EL41,Voreio Aigaio,22.7
+EL42,Notio Aigaio,26.9
+EL43,Kriti,26.8
+ES11,Galicia,43.5
+ES12,Principado de Asturias,50.9
+ES13,Cantabria,45.2
+ES21,País Vasco,60.2
+ES22,Comunidad Foral de Navarra,48.3
+ES23,La Rioja,44
+ES24,Aragón,43.9
+ES30,Comunidad de Madrid,53.3
+ES41,Castilla y León,42.3
+ES42,Castilla-La Mancha,34.1
+ES43,Extremadura,36.9
+ES51,Cataluña,45.4
+ES52,Comunidad Valenciana,40.6
+ES53,Illes Balears,34.3
+ES61,Andalucía,32.5
+ES62,Región de Murcia,29
+ES63,Ciudad Autónoma de Ceuta,15.2
+ES64,Ciudad Autónoma de Melilla,29.1
+ES70,Canarias,34.9
+FI19,Länsi-Suomi,43
+FI1B,Helsinki-Uusimaa,53.6
+FI1C,Etelä-Suomi,38.2
+FI1D,Pohjois- ja Itä-Suomi,41.7
+FI20,Åland,32.1
+FR10,Île de France,52.5
+FR21,Champagne-Ardenne,33.3
+FR22,Picardie,31.9
+FR23,Haute-Normandie,36.1
+FR24,Centre,40.3
+FR25,Basse-Normandie,35.1
+FR26,Bourgogne,36.2
+FR30,Nord - Pas-de-Calais,42.2
+FR41,Lorraine,36.4
+FR42,Alsace,44.7
+FR43,Franche-Comté,36.7
+FR51,Pays de la Loire,41.9
+FR52,Bretagne,42.3
+FR53,Poitou-Charentes,34.4
+FR61,Aquitaine,40.7
+FR62,Midi-Pyrénées,57.7
+FR63,Limousin,41.9
+FR71,Rhône-Alpes,47.9
+FR72,Auvergne,38.3
+FR81,Languedoc-Roussillon,35.8
+FR82,Provence-Alpes-Côte d'Azur,41.7
+FR83,Corse,36.2
+FR91,Guadeloupe,
+FR92,Martinique,
+FR93,Guyane,
+FR94,Réunion,
+HR03,Jadranska Hrvatska,28
+HR04,Kontinentalna Hrvatska,26.5
+HU10,Közép-Magyarország,45.4
+HU21,Közép-Dunántúl,25.1
+HU22,Nyugat-Dunántúl,26.7
+HU23,Dél-Dunántúl,24.9
+HU31,Észak-Magyarország,22.3
+HU32,Észak-Alföld,26.2
+HU33,Dél-Alföld,25.2
+IE01,Border. Midland and Western,46.4
+IE02,Southern and Eastern,53.7
+ITC1,Piemonte,23.2
+ITC2,Valle d'Aosta/Vallée d'Aoste,18.9
+ITC3,Liguria,28.9
+ITC4,Lombardia,25
+ITF1,Abruzzo,24
+ITF2,Molise,24.7
+ITF3,Campania,17.1
+ITF4,Puglia,20.1
+ITF5,Basilicata,20.8
+ITF6,Calabria,19.9
+ITG1,Sicilia,17.1
+ITG2,Sardegna,16.6
+ITH1,Provincia Autonoma di Bolzano/Bozen,23.1
+ITH2,Provincia Autonoma di Trento,25.7
+ITH3,Veneto,21.4
+ITH4,Friuli-Venezia Giulia,25.8
+ITH5,Emilia-Romagna,27.3
+ITI1,Toscana,23.8
+ITI2,Umbria,28.2
+ITI3,Marche,23.5
+ITI4,Lazio,28.4
+LT00,Lietuva,51.1
+LU00,Luxembourg,51.6
+LV00,Latvija,39.3
+MT00,Malta,25.8
+NL11,Groningen,48.2
+NL12,Friesland (NL),32.6
+NL13,Drenthe,31
+NL21,Overijssel,39
+NL22,Gelderland,40.1
+NL23,Flevoland,28.6
+NL31,Utrecht,55.8
+NL32,Noord-Holland,49.8
+NL33,Zuid-Holland,43.5
+NL34,Zeeland,26.1
+NL41,Noord-Brabant,43.5
+NL42,Limburg (NL),35.5
+PL11,Łódzkie,39.5
+PL12,Mazowieckie,52
+PL21,Małopolskie,40.3
+PL22,Śląskie,40
+PL31,Lubelskie,41.2
+PL32,Podkarpackie,38.7
+PL33,Świętokrzyskie,41.2
+PL34,Podlaskie,43.1
+PL41,Wielkopolskie,36.1
+PL42,Zachodniopomorskie,35.2
+PL43,Lubuskie,34.7
+PL51,Dolnośląskie,38.6
+PL52,Opolskie,35.9
+PL61,Kujawsko-Pomorskie,31.8
+PL62,Warmińsko-Mazurskie,31.2
+PL63,Pomorskie,40.9
+PT11,Norte,30.1
+PT15,Algarve,25.4
+PT16,Centro (PT),25.9
+PT17,Lisboa,36.2
+PT18,Alentejo,22.8
+PT20,Região Autónoma dos Açores,17.2
+PT30,Região Autónoma da Madeira,27.3
+RO11,Nord-Vest,20.9
+RO12,Centru,21.2
+RO21,Nord-Est,18.6
+RO22,Sud-Est,16.6
+RO31,Sud - Muntenia,16.6
+RO32,Bucure?ti - Ilfov,46.2
+RO41,Sud-Vest Oltenia,20.2
+RO42,Vest,20.9
+SE11,Stockholm,56.9
+SE12,Östra Mellansverige,46.8
+SE21,Småland med öarna,38.9
+SE22,Sydsverige,49.7
+SE23,Västsverige,48.3
+SE31,Norra Mellansverige,37.3
+SE32,Mellersta Norrland,38.5
+SE33,Övre Norrland,45.5
+SI01,Vzhodna Slovenija,37.2
+SI02,Zahodna Slovenija,43.2
+SK01,Bratislavský kraj,51.7
+SK02,Západné Slovensko,19.6
+SK03,Stredné Slovensko,23.7
+SK04,Východné Slovensko,23.1
+UKC1,Tees Valley and Durham,33
+UKC2,Northumberland and Tyne and Wear,39
+UKD1,Cumbria,41.8
+UKD3,Greater Manchester,46.8
+UKD4,Lancashire,33.6
+UKD6,Cheshire,49.1
+UKD7,Merseyside,38.4
+UKE1,East Yorkshire and Northern Lincolnshire,33.8
+UKE2,North Yorkshire,50
+UKE3,South Yorkshire,39.7
+UKE4,West Yorkshire,41.8
+UKF1,Derbyshire and Nottinghamshire,38.6
+UKF2,Leicestershire. Rutland and Northamptonshire,41.8
+UKF3,Lincolnshire,36.4
+UKG1,Herefordshire. Worcestershire and Warwickshire,42.6
+UKG2,Shropshire and Staffordshire,37.1
+UKG3,West Midlands,34.6
+UKH1,East Anglia,39.4
+UKH2,Bedfordshire and Hertfordshire,49.4
+UKH3,Essex,38.4
+UKI1,Inner London,70.5
+UKI2,Outer London,55.7
+UKJ1,Berkshire. Buckinghamshire and Oxfordshire,52.9
+UKJ2,Surrey. East and West Sussex,50
+UKJ3,Hampshire and Isle of Wight,45.9
+UKJ4,Kent,38.5
+UKK1,Gloucestershire. Wiltshire and Bristol/Bath area,53.7
+UKK2,Dorset and Somerset,42.7
+UKK3,Cornwall and Isles of Scilly,35.4
+UKK4,Devon,42.6
+UKL1,West Wales and The Valleys,37.1
+UKL2,East Wales,48
+UKM2,Eastern Scotland,56.3
+UKM3,South Western Scotland,51.9
+UKM5,North Eastern Scotland,57.7
+UKM6,Highlands and Islands,45.8
+UKN0,Northern Ireland,40.1
