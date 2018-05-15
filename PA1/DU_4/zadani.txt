@@ -1,0 +1,189 @@
+Úkolem je vytvořit program, který bude vyhledávat optimální investice do pozemků.
+
+Na vstupu programu je zadání cen parcel. Předpokládáme, že parcely leží v pravoúhlém rastru, kde známe počet řádek a sloupců. Cena je známá pro každou parcelu, jedná se o celé číslo (kladné, nulové, záporné). Záporná (nulová) cena parcely je přípustná, může se např. jednat o parcelu s břemenem. Po zadání cen pozemků následuje seznam dotazů. Chceme investovat zadaný objem peněz a hledáme parcelu/parcely, které mají v součtu cenu přesně rovnou zadanému objemu peněz. Jsme ale omezeni tím, že můžeme nakupovat pouze sousední parcely. Zakoupené parcely navíc musí tvořit obdélník či čtverec v rastru. Program dokáže zpracovávat dotazy dvou typů: buď pouze zobrazí počet různých možností, jak investovat zadanou částku (dotaz count), nebo navíc vypíše i seznam parcel, které dotazu vyhovují (dotaz list).
+
+Vstupem programu je:
+
+velikost rastru (šířka, výška), velikost je omezena na 1 až 2000 v každém směru,
+ceny jednotlivých parcel, ceny jsou zadané po řádcích,
+seznam dotazů.
+Dotaz je buď typu count x nebo list x, kde x je investovaná částka.
+
+Výstupem programu je vyřešení dotazů:
+
+na dotaz typu count x je odpovědí počet různých způsobů, kterými lze investovat částku x,
+na dotaz typu list x je odpovědí seznam alokací parcel, následovaný počtem nalezených alokací (tedy číslo stejné, jaké by vrátil dotaz typu count x). Seznam alokací parcel má podobu:
+    x @ (x1,y1) - (x2,y2) 
+    
+kde x1,y1 je souřadnice levého horního rohu alokace parcel a x2,y2 je souřadnice pravého dolního rohu alokace parcel.
+Pokud je vstup neplatný, program to musí detekovat a zobrazit chybové hlášení. Chybové hlášení zobrazujte na standardní výstup (ne na chybový výstup). Za chybu považujte:
+
+rozměr rastru je nečíselný, nulový, záporný nebo překračuje limit 2000,
+zadaná cena parcel není číslo,
+dotaz není typu count ani list,
+číslo v dotazu chybí / není správně zadané.
+Před implementací programu si rozmyslete, jakým způsobem budete reprezentovat ceny pozemků a jak budete v zadaném rastru vyhledávat. Velikost rastru je omezená na max. 2000 prvků v každém směru. Pro řešení tedy postačuje staticky alokovaná paměť.
+
+Vyhledávání v cenách pozemků může trvat velmi dlouho. Naivní řešení má složitost n6, vylepšováním algoritmu se dá složitost výrazně snížit. Časové limity testovacího prostředí jsou nastavené tak, aby rozumná implementace naivního algoritmu prošla všemi testy mimo testů bonusových.
+
+Ukázka práce programu:
+Velikost mapy:
+5 6
+Cenova mapa:
+-13   9 -16  14   3
+ 11   7  -5  14   9
+ -2  -5   9  -9  -4
+ 11  13   3   8 -16
+ -1 -15   1  -4   2
+  3   7  -8   0  27
+Dotazy:
+list 12
+12 @ (0,3) - (2,4)
+12 @ (0,4) - (4,5)
+12 @ (2,2) - (2,3)
+12 @ (4,0) - (4,1)
+Celkem: 4
+count 12
+Celkem: 4
+count 11
+Celkem: 10
+list 11
+11 @ (0,1) - (0,1)
+11 @ (0,3) - (0,3)
+11 @ (0,2) - (0,5)
+11 @ (0,1) - (1,2)
+11 @ (0,2) - (1,5)
+11 @ (0,2) - (3,5)
+11 @ (1,0) - (1,2)
+11 @ (1,1) - (3,2)
+11 @ (2,2) - (3,3)
+11 @ (2,3) - (3,3)
+Celkem: 10
+count -3
+Celkem: 2
+list -3
+-3 @ (0,0) - (4,0)
+-3 @ (2,4) - (3,4)
+Celkem: 2
+list 9
+9 @ (0,1) - (0,2)
+9 @ (0,2) - (0,3)
+9 @ (0,0) - (0,5)
+9 @ (0,0) - (2,5)
+9 @ (0,2) - (3,4)
+9 @ (1,0) - (1,0)
+9 @ (1,0) - (1,4)
+9 @ (1,2) - (4,5)
+9 @ (2,2) - (2,2)
+9 @ (2,1) - (3,1)
+9 @ (2,1) - (3,2)
+9 @ (2,1) - (3,5)
+9 @ (2,0) - (4,4)
+9 @ (2,1) - (4,3)
+9 @ (2,2) - (4,5)
+9 @ (3,1) - (3,4)
+9 @ (3,1) - (3,5)
+9 @ (4,1) - (4,1)
+9 @ (4,2) - (4,5)
+Celkem: 19
+list 0
+0 @ (1,1) - (1,4)
+0 @ (1,2) - (1,5)
+0 @ (1,0) - (2,5)
+0 @ (1,2) - (3,5)
+0 @ (2,1) - (2,5)
+0 @ (2,2) - (3,2)
+0 @ (2,2) - (3,5)
+0 @ (2,3) - (3,5)
+0 @ (3,5) - (3,5)
+0 @ (3,1) - (4,4)
+Celkem: 10
+count 10000
+Celkem: 0
+
+
+Velikost mapy:
+4 3
+Cenova mapa:
+1 -1 1 -1
+-1 1 -1 1
+1 -1 1 -1
+Dotazy:
+count 0
+Celkem: 36
+list 0
+0 @ (0,0) - (1,0)
+0 @ (0,0) - (3,0)
+0 @ (2,0) - (3,0)
+0 @ (1,0) - (2,0)
+0 @ (0,0) - (0,1)
+0 @ (0,0) - (1,1)
+0 @ (1,0) - (1,1)
+0 @ (0,0) - (2,1)
+0 @ (1,0) - (2,1)
+0 @ (2,0) - (2,1)
+0 @ (0,0) - (3,1)
+0 @ (1,0) - (3,1)
+0 @ (2,0) - (3,1)
+0 @ (3,0) - (3,1)
+0 @ (0,0) - (1,2)
+0 @ (0,0) - (3,2)
+0 @ (2,0) - (3,2)
+0 @ (1,0) - (2,2)
+0 @ (1,1) - (2,1)
+0 @ (0,1) - (1,1)
+0 @ (0,1) - (3,1)
+0 @ (2,1) - (3,1)
+0 @ (0,1) - (0,2)
+0 @ (0,1) - (1,2)
+0 @ (1,1) - (1,2)
+0 @ (0,1) - (2,2)
+0 @ (1,1) - (2,2)
+0 @ (2,1) - (2,2)
+0 @ (0,1) - (3,2)
+0 @ (1,1) - (3,2)
+0 @ (2,1) - (3,2)
+0 @ (3,1) - (3,2)
+0 @ (0,2) - (1,2)
+0 @ (0,2) - (3,2)
+0 @ (2,2) - (3,2)
+0 @ (1,2) - (2,2)
+Celkem: 36
+
+
+Velikost mapy:
+1 12
+Cenova mapa:
+1 2 3
+4 1 2 3 4 1 2
+3 4
+Dotazy:
+count 0
+Celkem: 0
+list 9
+9 @ (0,1) - (0,3)
+9 @ (0,5) - (0,7)
+9 @ (0,9) - (0,11)
+Celkem: 3
+count 10
+Celkem: 9
+list 10
+10 @ (0,0) - (0,3)
+10 @ (0,1) - (0,4)
+10 @ (0,2) - (0,5)
+10 @ (0,3) - (0,6)
+10 @ (0,4) - (0,7)
+10 @ (0,5) - (0,8)
+10 @ (0,6) - (0,9)
+10 @ (0,7) - (0,10)
+10 @ (0,8) - (0,11)
+Celkem: 9
+buy 10
+Nespravny vstup.
+
+
+Velikost mapy:
+2 2
+Cenova mapa:
+1 2 3 test
+Nespravny vstup.

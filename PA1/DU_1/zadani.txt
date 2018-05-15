@@ -1,0 +1,101 @@
+Úkolem je vytvořit program, který bude počítat množství látky potřebné pro vyrobení plachty.
+
+Předpokládáme, že máme k dispozici látku pro výrobu plachet. Látka se dodává ve tvaru obdélníků v zadaném rozměru (výška, šířka). Dále dostaneme informaci o požadované velikosti plachty. Plachta je obdélníkového tvaru, zadaná je výška a šířka. Program určí, kolik kusů látky je potřeba sešít, aby vznikla plachta požadované velikosti.
+
+Práce programu je trochu ztížena tím, že látky se v místě švu musí překrývat. Program tedy po načtení velikosti látky a plachty zjistí, zda bude potřeba látku sešívat. Pokud ano, zeptá se ještě na požadovanou velikost překryvu.
+
+Při sešívání předpokládáme, že obdélníkové kusy látky skládáme vždy ve stejné orientaci v pravoúhlém rastru. Tedy obdélníky jsou buď všecnhy ponechané v zadané orientaci, nebo všechny otočené o 90 stupňů. Dále předpokládáme, že případné přebývající kusy látky nelze znovu využít.
+
+Vstupem programu je zadání:
+
+velikosti látky - šířka a výška, desetinná čísla,
+velikosti požadované plachty - výška a šířka, desetinná čísla a
+velikost překryvu v místě švu (desetinné číslo). Program se na tuto informaci dotazuje jen pokud je potřeba látku sešívat.
+Výstupem programu je nejmenší počet kusů látky potřebných pro výrobu plachty. Pro některé kombinace vstupů nelze plachtu vyrobit, program pak toto zobrazí (viz ukázka).
+
+Pokud je vstup neplatný, program to musí detekovat a zobrazit chybové hlášení. Chybové hlášení zobrazujte na standardní výstup (ne na chybový výstup). Za chybu považujte:
+
+nečíselné zadání výšky, šířky nebo velikosti překryvu,
+výška nebo šířka je záporná nebo nulová,
+velikost překryvu je záporná (tedy připouští se nulový překryv),
+chybějící zadání výšky, šířky,
+chybějící zadání překryvu (v místě, kde je informace o překryvu nutná).
+Ukázka práce programu:
+
+Velikost latky:
+2.5 3
+Velikost plachty:
+12 5
+Prekryv:
+0
+Pocet kusu latky: 8
+
+Velikost latky:
+2.5 3
+Velikost plachty:
+12 5
+Prekryv:
+0.2
+Pocet kusu latky: 12
+
+Velikost latky:
+4 3
+Velikost plachty:
+5 4
+Prekryv:
+0.1
+Pocet kusu latky: 2
+
+Velikost latky:
+3 4
+Velikost plachty:
+2 2
+Pocet kusu latky: 1
+
+Velikost latky:
+1e100 1e100
+Velikost plachty:
+3e100 3e100
+Prekryv:
+1e99
+Pocet kusu latky: 16
+
+Velikost latky:
+0.71 1
+Velikost plachty:
+4.91 1.7
+Prekryv:
+0.01
+Pocet kusu latky: 14
+
+Velikost latky:
+2 2
+Velikost plachty:
+5 1
+Prekryv:
+1.5
+Pocet kusu latky: 7
+
+Velikost latky:
+2 1
+Velikost plachty:
+5 1
+Prekryv:
+1.5
+Pocet kusu latky: 7
+
+Velikost latky:
+1 1
+Velikost plachty:
+5 1
+Prekryv:
+1.5
+Nelze vyrobit.
+
+Velikost latky:
+3 abcd
+Nespravny vstup.
+
+Velikost latky:
+-5 1
+Nespravny vstup.

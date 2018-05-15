@@ -1,0 +1,135 @@
+Úkolem je vytvořit program, který bude řešit hádanky typu "mezi zadané číslice vlož operace +, -, * a / tak, aby vyšel zadaný výsledek".
+
+Vstupem programu je posloupnost desítkových cifer. Tato posloupnost je zadaná v hranatých závorkách, jednotlivé cifry jsou oddělené čárkou. Posloupnost má délku nejvýše 50 cifer. Po této posloupnosti následuje série dotazů. Dotaz je tvořen celým číslem. Úkolem programu je vyřešit dotazy, tedy vložit mezi zadanou posloupnost cifer operace +, -, * a / tak, aby vyšel výsledek zadaný v dotazu.
+
+Výstupem programu jsou jednotlivé výrazy, které ukazují jak se k výsledku dostat. Pro každý dotaz je navíc zobrazen i počet možných způsobů, jak se k výsledku dostat.
+
+Pokud je vstup neplatný, program to musí detekovat a zobrazit chybové hlášení. Chybové hlášení zobrazujte na standardní výstup (ne na chybový výstup). Po detekování chyby se program ukončí. Za chybu považujte:
+
+nebyla zadaná správná posloupnost desítkových cifer (chybí závorky, čárky, prvky posloupnosti nejsou desítkové cifry),
+byla zadaná prázdná posloupnost desítkových cifer,
+dotaz není celé desítkové číslo.
+Ukázka práce programu (zkráceno):
+Cislice:
+[0,1,2,3]
+Dotazy:
+0
+0 = 01+2-3
+0 = 0+1+2-3
+0 = 0-1-2+3
+0 = 0*123
+
+...
+
+0 = 0/1/2*3
+0 = 0/1/2/3
+Celkem: 21
+6
+6 = 01+2+3
+6 = 01*2*3
+6 = 0+1+2+3
+6 = 0+1*2*3
+6 = 0*1+2*3
+6 = 0/1+2*3
+Celkem: 6
+100
+Celkem: 0
+
+Cislice:
+[ 0 ,  2  , 0 , 1 , 3 ]
+Dotazy:
+0
+0 = 02+01-3
+0 = 02+0+1-3
+0 = 02-0+1-3
+0 = 02*0*13
+0 = 02*0*1*3
+
+...
+
+0 = 0/2/013
+0 = 0/2/01*3
+0 = 0/2/01/3
+Celkem: 93
+6
+6 = 02+01+3
+6 = 02+0+1+3
+6 = 02-0+1+3
+6 = 02*01*3
+6 = 02/01*3
+6 = 0+2+01+3
+6 = 0+2+0+1+3
+6 = 0+2-0+1+3
+6 = 0+2*01*3
+6 = 0+2/01*3
+Celkem: 10
+100
+Celkem: 0
+-7
+-7 = 0-20+13
+Celkem: 1
+
+
+Cislice:
+[1,2,3,9,8,7,1,2,3]
+Dotazy:
+42
+42 = 123-98+7*1*2+3
+42 = 123-98+7/1*2+3
+42 = 123-98-7+1+23
+
+...
+
+42 = 1/2/3*9*8+7+1*23
+42 = 1/2/3*9*8+7*1+23
+42 = 1/2/3*9*8+7/1+23
+Celkem: 186
+666
+666 = 1239-8*71-2-3
+666 = 12/3+98*7-1-23
+666 = 1+2+3+9*87-123
+
+... 
+
+666 = 1*2*3+9*87-123
+666 = 1*2*3-9+8*7*12-3
+Celkem: 19
+1000
+1000 = 12+3+987-1+2-3
+1000 = 12-3+987+12/3
+1000 = 12-3+987-1+2+3
+1000 = 12*3+987-1*23
+1000 = 12*3+987*1-23
+1000 = 12*3+987/1-23
+1000 = 12/3+987+12-3
+1000 = 1+2+3+987+1+2*3
+1000 = 1+2*3+987+1+2+3
+1000 = 1+2*3+987+1*2*3
+1000 = 1+2*3+987*1+2*3
+1000 = 1+2*3+987/1+2*3
+1000 = 1-2*3+9*8*7*1*2-3
+1000 = 1-2*3+9*8*7/1*2-3
+1000 = 1*2*3+987+1+2*3
+Celkem: 15
+0
+0 = 12+39-87+12*3
+0 = 12+39-8-7-12*3
+0 = 12+39-8*7+1*2+3
+
+...
+
+0 = 1/2/3*9*8-7*1-2-3
+0 = 1/2/3*9*8-7/1-2-3
+Celkem: 271
+
+
+Cislice:
+[1,2,3]
+Dotazy:
+hello
+Nespravny vstup.
+
+
+Cislice:
+[test]
+Nespravny vstup.
