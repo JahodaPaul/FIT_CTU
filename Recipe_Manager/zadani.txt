@@ -1,0 +1,18 @@
+Vyhledavač v jídelním lístku
+
+I v dnešní době pokročilých informačních systémů je nedostatek informací o gastronomických produktech, a možnost podrobnějšího filtrování v nich.
+
+Implementujte následující funkcionalitu:
+
+1.	Vkládání receptů jako seznamu surovin
+2.	Vkládání jídelních lístků jako seznamu jídel a nápojů a dalšího prodávaného zboží
+3.	Vyhledávání jídel na základě obsahu či neobsahu určité suroviny
+4.	Vyhledávání receptů v podobě "co vše lze udělat ze surovin"
+5.	Zadávání kalorických informací o jídlech
+
+Nástroj musí dále splňovat následující funkcionality:
+
+1.	Import a export databáze
+2.	Jednoduché zadávání informací
+3.	Kontrola duplicit v systému
+4.	Podpora sčítání kalorií za vybraná jídla

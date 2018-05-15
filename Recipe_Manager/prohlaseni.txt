@@ -1,0 +1,11 @@
+Čestně prohlašuji, že tato semestrální práce je výsledkem mého úsilí a že jsem tuto práci
+vymyslel a naprogramoval sám.
+
+Dále prohlašuji, že jsem internet používal na čtení, učení a kopírování názvů ingrediencí,
+nikoliv na kopírování zdrojových kódů.
+
+V neposlední řadě prohlašuji, že mi Vanda Hendrychová pomáhala pouze s testovaním abych věděl,
+že můj program funguje na různých linuxových distribucích.
+
+Pavel Jahoda
+dne 5.5.2017
