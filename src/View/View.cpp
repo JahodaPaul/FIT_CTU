@@ -93,15 +93,11 @@ namespace RG {
             return m_gameControllet;
         }
 
-        const sf::Clock &View::getClock() const {
-            return m_clock;
-        }
-
         void View::setActiveView(SCENE scene) {
             m_activeScene = scene;
         }
 
-        const sf::View View::GetView() {
+        const sf::View & View::GetView() {
             return m_window->getView();
         }
     }
