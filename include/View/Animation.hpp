@@ -12,7 +12,7 @@ namespace RG {
         public:
             Animation(const char *texture, int frameWidth, int frameHeigt, int frameCount, float timeStep);
 
-            void update(float time);
+            void update(float timeElapsed);
 
             void goToFrame(unsigned int frame);
 
@@ -44,7 +44,7 @@ namespace RG {
             int m_frameHeight;
             sf::IntRect m_rectSourceSprite;
             sf::Sprite m_sprite;
-            float m_lastTime;
+            float m_timeLeft;
             bool m_animating;
         };
     }

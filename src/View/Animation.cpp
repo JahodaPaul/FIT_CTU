@@ -10,7 +10,7 @@ namespace RG {
                   m_frameHeight(frameHeigt),
                   m_rectSourceSprite(0, 0, frameWidth, frameHeigt),
                   m_sprite(m_texture, m_rectSourceSprite),
-                  m_lastTime(0),
+                  m_timeLeft(0),
                   m_animating(false) {
             m_texture.loadFromFile(texture);
             m_sprite.setOrigin(frameWidth / 2, frameHeigt / 2);
@@ -18,18 +18,18 @@ namespace RG {
             m_sprite.setScale(1,1);
         }
 
-        void Animation::update(float time) {
+        void Animation::update(float timeElapsed) {
             if (!m_animating)
                 return;
-            float delta = time - m_lastTime;
-            if (delta >= m_step) {
-                m_rectSourceSprite.left += m_frameWidth * ((int) (delta / m_step) % m_frameCount);
+            timeElapsed += m_timeLeft;
+            if (timeElapsed >= m_step) {
+                m_rectSourceSprite.left += m_frameWidth * ((int) (timeElapsed / m_step) % m_frameCount);
                 if (m_rectSourceSprite.left >= m_frameCount * m_frameWidth)
                     m_rectSourceSprite.left = 0;
                 m_sprite.setTextureRect(m_rectSourceSprite);
-                //TODO(vojta) add remainder
-                m_lastTime = time;
-            }
+                m_timeLeft = timeElapsed - (int)(timeElapsed / m_step) * m_step;
+            } else
+                m_timeLeft += timeElapsed;
         }
 
         void Animation::goToFrame(unsigned int frame) {

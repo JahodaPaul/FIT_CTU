@@ -13,7 +13,7 @@ namespace RG {
 
             virtual ~MenuScene();
 
-            virtual void Update(View *view);
+            virtual void Update(View *view, float timeElapsed);
 
             virtual void Render(View *view);
 

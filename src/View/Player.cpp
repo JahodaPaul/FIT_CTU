@@ -3,7 +3,7 @@
 //
 
 #include "View/Player.hpp"
-#include <iostream>
+#include "View/View.hpp"
 
 namespace RG{
     namespace View {
@@ -12,7 +12,6 @@ namespace RG{
         Player::Player() :
         relativeMoveX( 0 ),
         relativeMoveY( 0 ) {
-            clock = sf::Clock();
             player = sf::RectangleShape(sf::Vector2f(91.0f, 91.0f));
             animation = std::make_shared<Animation>("/usr/share/RG/assets/graphics/objects/characters/player.png", 91, 91, 12,
                                                     40.0f);
@@ -30,23 +29,14 @@ namespace RG{
             animation->setPosition(sf::Vector2f(this->x*(windowX/1920), this->y*(windowY/1080)));
         }
 
-        void Player::Update(float time) {
-            if (time != 0) {
-                this->time = time;
-            }
-            this->animation->update(this->clock.getElapsedTime().asMilliseconds());
-        }
-
-        void Player::UpdatePlayer(float absoluteX, float absoluteY) {
+        void Player::UpdatePlayer(View * view, float timeElapsed) {
+            float absoluteX = view->getGameController()->GetPlayerPos().first;
+            float absoluteY = view->getGameController()->GetPlayerPos().second;
             if (absoluteX != this->x || absoluteY != this->y) {
-                this->animation->setRotation(this->GetAngle(this->relativeMoveX,this->relativeMoveY));
+                this->animation->setRotation(view->getGameController()->GetPlayerAngle() + 90.0f);
                 this->SetPosition(absoluteX,absoluteY);
-                this->Update(time);
+                this->animation->update(timeElapsed);
             }
-        }
-
-        float Player::GetAngle(float moveX, float moveY) {
-            return atan2( moveX, -moveY ) * 180 / M_PI;
         }
 
         void Player::DrawPlayer(sf::RenderTarget &target) {

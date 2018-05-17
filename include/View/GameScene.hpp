@@ -16,7 +16,7 @@ namespace RG {
 
             virtual ~GameScene();
 
-            virtual void Update(View *view);
+            virtual void Update(View *view, float timeElapsed);
 
             virtual void Render(View *view);
 
@@ -34,7 +34,7 @@ namespace RG {
 
             float GetPlayerSpeedX();
 
-            void UpdatePlayer(float, float);
+            void UpdatePlayer(View * view, float timeElapsed);
 
             void DrawPlayer(View *view);
 
