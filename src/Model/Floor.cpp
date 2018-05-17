@@ -1,9 +1,11 @@
 #include "Model/Floor.hpp"
 
 #ifdef DEBUG_DRAW
-sf::RenderWindow m_window(sf::VideoMode(800, 600), "Debug Draw",
-    sf::Style::Default, sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false });
-RG::DebugDraw debugDraw(&m_window);
+sf::RenderWindow m_window(
+                          sf::VideoMode(800, 600), "Debug Draw",
+                          sf::Style::Default, sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false }
+                         );
+RG::View::DebugDraw debugDraw(&m_window);
 #endif //DEBUG_DRAW
 
 namespace RG {

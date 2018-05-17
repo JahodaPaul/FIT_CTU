@@ -5,7 +5,7 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 
-namespace RG {
+namespace RG { namespace View {
     namespace sfdd
     {
         const float SCALE = 32.f;
@@ -34,4 +34,4 @@ namespace RG {
             sf::RenderWindow * m_window;
     };
 
-}
+} }

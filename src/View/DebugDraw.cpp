@@ -1,6 +1,6 @@
 #include "View/DebugDraw.hpp"
 
-namespace RG {
+namespace RG { namespace View {
     DebugDraw::DebugDraw( sf::RenderWindow * window ) :
         m_window( window )
     {
@@ -107,4 +107,4 @@ namespace RG {
     {
         return sf::Vector2f(vector.x * (scaleToPixels ? sfdd::SCALE : 1.f), vector.y * (scaleToPixels ? sfdd::SCALE : 1.f));
     }
-}
+} }
