@@ -15,11 +15,15 @@ namespace RG {
 
     class DynamicObject : public Object {
       public:
+        /// constructor
         DynamicObject(std::string name);
 
+        /// destructor
         ~DynamicObject();
 
-        void Move(const b2Vec2& v);
+        /// aplly force in a specified direction
+        void Move(const b2Vec2& v, float linear_damping = 0.04f,
+            float angular_damping = 2.0f);
 
       private:
     };
