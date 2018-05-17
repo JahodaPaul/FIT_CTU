@@ -12,7 +12,7 @@
 #include <SFML/Window.hpp>
 
 extern sf::RenderWindow m_window;
-extern DebugDraw debugDraw;
+extern RG::DebugDraw debugDraw;
 
 #endif //DEBUG_DRAW
 

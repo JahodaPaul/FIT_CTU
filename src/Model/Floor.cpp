@@ -3,7 +3,7 @@
 #ifdef DEBUG_DRAW
 sf::RenderWindow m_window(sf::VideoMode(800, 600), "Debug Draw",
     sf::Style::Default, sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false });
-DebugDraw debugDraw(&m_window);
+RG::DebugDraw debugDraw(&m_window);
 #endif //DEBUG_DRAW
 
 namespace RG {
@@ -21,13 +21,13 @@ namespace RG {
     {
       m_World = std::make_shared<b2World>(b2Vec2{ 0.0f, 0.0f });
 
-      /*
+#ifdef DEBUG_DRAW
       m_World->SetDebugDraw(&debugDraw);
       debugDraw.SetFlags(b2Draw::e_shapeBit);
       view.reset(sf::FloatRect(center_x, center_y, size, size));
 
       m_window.setView(view);
-      */
+#endif //DEBUG_DRAW
 
       m_WallWidth = 0.076389 * m_ScreenWidth;
       m_WallHeight = 0.1267 * m_ScreenHeight;
