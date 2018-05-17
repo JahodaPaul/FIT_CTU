@@ -38,7 +38,7 @@ namespace RG {
 
         //! \class View
         /*!
-         *  \brief View class
+         *  \brief
          *  This class is main class of RG::View namespace it manages all game scenes and switches between them.
          */
         class View {

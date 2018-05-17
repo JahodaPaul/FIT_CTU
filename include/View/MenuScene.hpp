@@ -9,7 +9,7 @@ namespace RG {
     namespace View {
         //! \class GameScene
         /*!
-         *  \brief GameScene ( descedant of Scene ) 
+         *  \brief ( descendant of Scene ) 
          *  This scene where is main menu of the game
          */
         class MenuScene : public Scene {
@@ -22,20 +22,20 @@ namespace RG {
 
             //! Update menu scene
             /*!
-             * \param view pinter to game View
-             * \param timeElapsed time alapsed from last update
+             * \param view pointer to game View
+             * \param timeElapsed time elapsed from last update
              */
             virtual void Update(View *view, float timeElapsed);
 
             //! Render menu scene
             /*!
-             * \param view pinter to game View
+             * \param view pointer to game View
              */
             virtual void Render(View *view);
 
             //! Manage player input
             /*!
-             * \param view pinter to game View
+             * \param view pointer to game View
              */
             virtual void ManageInput(View *view);
 

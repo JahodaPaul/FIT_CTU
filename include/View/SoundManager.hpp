@@ -10,9 +10,12 @@
 #include <iostream>
 
 
-/**	* \brief
-  This class work with audio data.*/
 namespace RG { namespace View {
+    //! \class SoundManager
+    /*!
+     * \brief
+     * This class work with audio data.
+     */
     class SoundManager
     {
         public:
@@ -70,7 +73,7 @@ namespace RG { namespace View {
 
         public:
             /**	* \brief
-              Construktor, you can set how many song can be plaing on same time. */
+              Constructor, you can set how many song can be playing on same time. */
             SoundManager( unsigned int maxSounds = 20 );	
 
             // (vojta) nastav pozici posluchace

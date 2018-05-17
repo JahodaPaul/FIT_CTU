@@ -6,8 +6,8 @@ namespace RG {
 
         //! \class Scene
         /*!
-         *  \brief Scene class
-         *  Abstract ancestor af all game scenes
+         *  \brief
+         *  This is abstract ancestor of all game scenes
          */
         class Scene {
         public:
@@ -19,20 +19,20 @@ namespace RG {
 
             //! Update game scene
             /*!
-             * \param view pinter to game View
-             * \param timeElapsed time alapsed from last update
+             * \param view pointer to game View
+             * \param timeElapsed time elapsed from last update
              */
             virtual void Update(View *view, float timeElapsed);
 
             //! Render game scene
             /*!
-             * \param view pinter to game View
+             * \param view pointer to game View
              */
             virtual void Render(View *view);
 
             //! Manege player input
             /*!
-             * \param view pinter to game View
+             * \param view pointer to game View
              */
             virtual void ManageInput(View *view);
         };

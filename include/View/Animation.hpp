@@ -9,7 +9,7 @@ namespace RG {
     namespace View {
         //! \class Animation
         /*!
-         *  \brief Animation class
+         *  \brief
          *  This class is used for animating sprites.
          */
         class Animation : public sf::Drawable {

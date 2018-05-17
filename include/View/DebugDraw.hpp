@@ -11,6 +11,12 @@ namespace RG {
         const float SCALE = 32.f;
     }
 
+
+    //! \class DebugDraw
+    /*!
+     *  \brief
+     *  This class is used for debugging purposes of Model and is implementing virtual methods from b2Draw
+     */
     class DebugDraw : public b2Draw
     {
         public:
