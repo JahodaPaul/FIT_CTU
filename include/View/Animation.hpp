@@ -4,9 +4,9 @@
 #include "SFML/System.hpp"
 
 
-//TODO(vojta) use ChacheManager for loading texture
 namespace RG {
     namespace View {
+        //TODO(vojta) use ChacheManager for loading texture
         //! \class Animation
         /*!
          *  \brief

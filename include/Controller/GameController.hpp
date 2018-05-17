@@ -17,11 +17,15 @@
 #include "common.hpp"
 
 namespace RG { namespace Controller {
+    //! \enum STATES
+    /*!
+     *  \brief enumeration of all game states in Controller
+     */
     enum STATES {
-        LOADING,
-        MAIN_MENU,
-        RUNNING,
-        GAME_OVER
+        //LOADING,
+        MAIN_MENU, /**< menu state of game */
+        RUNNING /**< play state of game */
+        //GAME_OVER
     };
     /**
      * \class GameController

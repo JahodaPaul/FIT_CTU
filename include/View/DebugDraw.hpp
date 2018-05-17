@@ -6,10 +6,12 @@
 #include <iostream>
 
 namespace RG { namespace View {
+    // \cond HIDDEN
     namespace sfdd
     {
         const float SCALE = 32.f;
     }
+    // \endcond
 
 
     //! \class DebugDraw
