@@ -55,12 +55,13 @@ namespace RG {
         }
 
         void View::Update() {
-            m_mapOfGameScenes[m_activeScene]->Update(this, m_clock.restart().asSeconds());
+            m_timeElapsed = m_clock.restart();
+            m_mapOfGameScenes[m_activeScene]->Update(this, m_timeElapsed.asSeconds());
         }
 
         void View::Render() {
             //ImGui
-            ImGui::SFML::Update(*m_window, m_clock.getElapsedTime());
+            ImGui::SFML::Update(*m_window, m_timeElapsed);
             m_window->clear({0, 0, 0, 255});
 
             //FPS counter

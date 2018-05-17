@@ -107,6 +107,7 @@ namespace RG {
 
             bool m_ImguiDemo;
             Console m_console;
+            sf::Time m_timeElapsed;
         };
     }
 }
