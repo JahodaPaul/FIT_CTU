@@ -37,21 +37,21 @@ namespace RG {
 
       for (unsigned int i = 0; i < rooms; ++i) {
         RG::Model::Room* tmp_room = new RG::Model::Room(0, i);
-        b2BodyDef* room_bodyDef = new b2BodyDef;
-        room_bodyDef->type = b2_dynamicBody;
-        room_bodyDef->position.Set(0 * m_RoomWidth, i * m_RoomHeight);
-        tmp_room->m_Body = m_World->CreateBody(room_bodyDef);
+        b2BodyDef room_bodyDef;
+        room_bodyDef.type = b2_dynamicBody;
+        room_bodyDef.position.Set(0 * m_RoomWidth, i * m_RoomHeight);
+        tmp_room->m_Body = m_World->CreateBody(&room_bodyDef);
 
         tmp_room->SetDoors({ !!(i % 2), 0, !(i % 2), 0 }); // FIXME (vanda)
         tmp_room->AddWalls(m_ScreenWidth, m_ScreenHeight, m_DoorWidth,
             m_WallWidth, m_WallHeight);
 
         for (unsigned int j = 0; j < 1; ++j) {
-          b2BodyDef* enemy_bodyDef = new b2BodyDef;
-          enemy_bodyDef->type = b2_dynamicBody;
-          enemy_bodyDef->position.Set((0.4 + 0.1 * j) * m_RoomWidth,
+          b2BodyDef enemy_bodyDef;
+          enemy_bodyDef.type = b2_dynamicBody;
+          enemy_bodyDef.position.Set((0.4 + 0.1 * j) * m_RoomWidth,
               (i + 0.4 + 0.1 * j) * m_RoomHeight); // FIXME
-          b2Body* enemy_body = m_World->CreateBody(enemy_bodyDef);
+          b2Body* enemy_body = m_World->CreateBody(&enemy_bodyDef);
 
           tmp_room->AddEnemy(enemy_body);
         }
@@ -66,7 +66,14 @@ namespace RG {
       m_ContactListener = new ContactListener(m_World);
     }
 
-    Floor::~Floor() {}
+    Floor::~Floor() {
+      delete m_ContactListener;
+      for(auto i:m_Rooms){
+        for(auto j:i.second){
+          delete j.second;
+        }
+      }
+    }
 
     unsigned int Floor::GetLevel(void) const { return m_Level; }
 

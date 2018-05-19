@@ -7,6 +7,10 @@ namespace RG {
       world->SetContactListener(this);
       m_World = world;
     }
+  
+    ContactListener::~ContactListener(){
+      m_World->SetContactListener(nullptr);
+    }
 
     void ContactListener::BeginContact(b2Contact* contact)
     {

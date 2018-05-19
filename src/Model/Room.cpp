@@ -34,36 +34,36 @@ namespace RG {
 
       for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
-          b2PolygonShape* dynBox = new b2PolygonShape;
-          dynBox->SetAsBox(
+          b2PolygonShape dynBox;
+          dynBox.SetAsBox(
               hw1, hh1, { wall_w + hw1 + i * ow1, (wall_h - hh1) + j * oh1 }, 0);
-          this->AddShape(dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
+          this->AddShape(&dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
         }
       }
 
       for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
-          b2PolygonShape* dynBox = new b2PolygonShape;
-          dynBox->SetAsBox(
+          b2PolygonShape dynBox;
+          dynBox.SetAsBox(
               hw2, hh2, { (wall_w - hw2) + i * ow2, wall_h + hh2 + j * oh2 }, 0);
-          this->AddShape(dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
+          this->AddShape(&dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
         }
       }
 
       for (unsigned int i = 0; i < m_Doors.size(); ++i) {
         if (m_Doors[i])
           continue;
-        b2PolygonShape* dynBox = new b2PolygonShape;
+        b2PolygonShape dynBox;
         if (i % 2 == 0) {
           unsigned int cnt = i / 2;
-          dynBox->SetAsBox(
+          dynBox.SetAsBox(
               door_w / 2, hh1, { screen_w / 2, wall_h - hh1 + cnt * oh1 }, 0);
         } else {
           unsigned int cnt = 1 - (i / 2);
-          dynBox->SetAsBox(
+          dynBox.SetAsBox(
               hw2, door_w / 2, { wall_w - hw2 + cnt * ow2, screen_h / 2 }, 0);
         }
-        this->AddShape(dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
+        this->AddShape(&dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
       }
     }
 
@@ -79,11 +79,11 @@ namespace RG {
     {
       m_Entities.emplace_back("Enemy");
       m_Entities[m_Entities.size() - 1].m_Body = body;
-      b2CircleShape* circle = new b2CircleShape;
-      circle->m_p.Set(0, 0);
-      circle->m_radius = 35;
+      b2CircleShape circle;
+      circle.m_p.Set(0, 0);
+      circle.m_radius = 35;
       m_Entities[m_Entities.size() - 1].AddShape(
-          circle, 0.01f, BIT_ENEMY, BIT_PLAYER | BIT_WALL);
+          &circle, 0.01f, BIT_ENEMY, BIT_PLAYER | BIT_WALL);
       std::cout << m_Entities.size() << std::endl;
     }
   }

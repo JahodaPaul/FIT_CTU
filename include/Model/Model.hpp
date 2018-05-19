@@ -64,7 +64,7 @@ namespace RG {
 
         unsigned int m_CurrentFloorIdx;
 
-        std::vector<RG::Model::Floor> m_Floors;
+        std::vector<RG::Model::Floor*> m_Floors;
 
         float m_PlayerRadius;
     };

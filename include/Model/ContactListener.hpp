@@ -11,6 +11,8 @@ namespace RG {
       public:
         ContactListener(std::shared_ptr<b2World> world);
 
+        ~ContactListener();
+
         virtual void BeginContact(b2Contact* contact);
 
         virtual void EndContact(b2Contact* b2Contact);
