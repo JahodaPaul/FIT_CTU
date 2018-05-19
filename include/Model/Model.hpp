@@ -6,7 +6,8 @@
 
 #include "Model/Entity.hpp" // RG::Model::Player
 #include "Model/Floor.hpp"  // RG::Model::Floor
-#include "Model/Room.hpp"   // RG::Model::Room
+#include "Model/Object.hpp"
+#include "Model/Room.hpp" // RG::Model::Room
 
 namespace RG {
   namespace Model {

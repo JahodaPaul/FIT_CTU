@@ -70,6 +70,7 @@ ADD_EXECUTABLE(game src/main.cpp
     src/Model/Entity.cpp
     src/Model/Floor.cpp
     src/Model/Room.cpp
+    src/Model/ContactListener.cpp
 
     src/NPC/Market.cpp 
     src/NPC/Entity.cpp 

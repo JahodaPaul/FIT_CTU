@@ -8,6 +8,12 @@
 
 namespace RG {
   namespace Model {
+    enum _category {
+      BIT_WALL = 0x01,
+      BIT_PLAYER = 0x02,
+      BIT_ENEMY = 0x04,
+    };
+
     /**
      * \class Object
      * \brief
@@ -26,14 +32,20 @@ namespace RG {
 
         void AddBody(b2Body* body);
 
-        void AddShape(b2Shape* shapeDef, float density = 0.1f);
+        void AddShape(b2Shape* shapeDef, float density, uint16 category_bits,
+            uint16 mask_bits);
 
         b2Body* m_Body;
 
         b2BodyDef* m_BodyDef;
 
+        bool IsDead(void);
+
       private:
         std::string m_Name;
+
+      protected:
+        bool m_IsDead;
     };
   }
 }

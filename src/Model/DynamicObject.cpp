@@ -12,7 +12,6 @@ namespace RG {
     void DynamicObject::Move(
         const b2Vec2& v, float linear_damping, float angular_damping)
     {
-      //      m_Body->ApplyAngularImpulse(M_PI, true);
       if (v.y != 0) {
         double angle = std::atan(v.x / v.y);
         if(angle < 0) angle += M_PI;

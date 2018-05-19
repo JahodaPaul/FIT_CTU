@@ -7,6 +7,7 @@ namespace RG {
         , m_BodyDef(NULL)
         , m_Name(name)
     {
+      m_IsDead = false;
     }
 
     Object::~Object() {}
@@ -20,7 +21,8 @@ namespace RG {
 
     float Object::GetAngle(void) const { return m_Body ? m_Body->GetAngle() : 0; }
 
-    void Object::AddShape(b2Shape* shapeDef, float density)
+    void Object::AddShape(
+        b2Shape* shapeDef, float density, uint16 category_bits, uint16 mask_bits)
     {
       // Define the dynamic body fixture.
       b2FixtureDef fixtureDef;
@@ -32,10 +34,16 @@ namespace RG {
       // Override the default friction.
       fixtureDef.friction = 0.8f;
 
+      fixtureDef.filter.categoryBits = category_bits;
+      fixtureDef.filter.maskBits = mask_bits;
+
       if (m_Body) {
         // Add the shape to the body.
+        m_Body->SetUserData(this);
         m_Body->CreateFixture(&fixtureDef);
       }
     }
+
+    bool Object::IsDead(void) { return m_IsDead; }
   }
 }

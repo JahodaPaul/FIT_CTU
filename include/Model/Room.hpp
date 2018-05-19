@@ -15,7 +15,7 @@ namespace RG {
      * a room. The player can get to a different room using either doors or
      * stairs.
      */
-    class Room : public Object {
+    class Room : public Entity {
       public:
         /// constructor
         Room(unsigned int x, unsigned int y);
@@ -29,6 +29,10 @@ namespace RG {
 
         void AddWalls(float screen_w, float screen_h, float door_w, float wall_w,
             float wall_h);
+
+        void Move(b2Vec2 PlayerPos);
+
+        void AddEnemy(b2Body* body);
 
       private:
         /// position in the map grid

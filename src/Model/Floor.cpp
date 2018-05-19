@@ -4,7 +4,7 @@
 sf::RenderWindow m_window(sf::VideoMode(800, 600), "Debug Draw",
     sf::Style::Default, sf::ContextSettings{ 0u, 0u, 4u, 1u, 1u, 0u, false });
 RG::DebugDraw debugDraw(&m_window);
-#endif //DEBUG_DRAW
+#endif // DEBUG_DRAW
 
 namespace RG {
   namespace Model {
@@ -27,7 +27,7 @@ namespace RG {
       view.reset(sf::FloatRect(center_x, center_y, size, size));
 
       m_window.setView(view);
-#endif //DEBUG_DRAW
+#endif // DEBUG_DRAW
 
       m_WallWidth = 0.076389 * m_ScreenWidth;
       m_WallHeight = 0.1267 * m_ScreenHeight;
@@ -46,6 +46,15 @@ namespace RG {
         tmp_room->AddWalls(m_ScreenWidth, m_ScreenHeight, m_DoorWidth,
             m_WallWidth, m_WallHeight);
 
+        for (unsigned int j = 0; j < 1; ++j) {
+          b2BodyDef* enemy_bodyDef = new b2BodyDef;
+          enemy_bodyDef->type = b2_dynamicBody;
+          enemy_bodyDef->position.Set((0.4 + 0.1 * j) * m_RoomWidth,
+              (i + 0.4 + 0.1 * j) * m_RoomHeight); // FIXME
+          b2Body* enemy_body = m_World->CreateBody(enemy_bodyDef);
+
+          tmp_room->AddEnemy(enemy_body);
+        }
         auto it1 = m_Rooms.find(0);
         if (it1 == m_Rooms.end()) {
           m_Rooms.insert({ 0, { { i, tmp_room } } });
@@ -53,13 +62,17 @@ namespace RG {
           it1->second.insert({ i, tmp_room });
         }
       }
+
+      m_ContactListener = new ContactListener(m_World);
     }
 
     Floor::~Floor() {}
 
     unsigned int Floor::GetLevel(void) const { return m_Level; }
 
-    const RG::Model::Room& Floor::GetRoom(void) const
+    const RG::Model::Room& Floor::GetRoom(void) const { return __GetRoom(); }
+
+    RG::Model::Room& Floor::__GetRoom(void) const
     {
       auto it_row = m_Rooms.find(m_X);
       if (it_row == m_Rooms.end()) {
@@ -79,8 +92,20 @@ namespace RG {
       return m_World->CreateBody(bodyDef);
     }
 
-    void Floor::Step(float time_step)
+    void Floor::Step(float time_step, b2Vec2 PlayerPos)
     {
+      // clearing dead bodies
+      b2Body* _b = this->m_World->GetBodyList();
+      while (_b) {
+        Entity* obj = static_cast<Entity*>(_b->GetUserData());
+        if (obj && obj->IsDead() && obj->GetName() != "Room") {
+          this->m_World->DestroyBody(_b);
+          _b->SetUserData(nullptr);
+        }
+        _b = _b->GetNext();
+      }
+
+      this->__GetRoom().Move(PlayerPos);
       this->m_World->Step(time_step, 8, 3);
       this->m_World->ClearForces();
 #ifdef DEBUG_DRAW
@@ -113,7 +138,7 @@ namespace RG {
       m_window.setView(view);
       m_World->DrawDebugData();
       m_window.display();
-#endif //DEBUG_DRAW
+#endif // DEBUG_DRAW
     }
 
     void Floor::UpdateID(b2Vec2 v)

@@ -14,7 +14,7 @@ namespace RG {
     class Entity : public DynamicObject {
       public:
         /// constructor
-        Entity(std::string name);
+        Entity(std::string name, unsigned int attack = 20);
 
         /// destructor
         ~Entity();
@@ -23,7 +23,7 @@ namespace RG {
         int GetAttackLevel(void) const;
 
         /// changes stats depending on defense level and enemy attack level
-        void RecvAttack(int enemy_attack);
+        void RecvAttack(int enemy_attack, std::shared_ptr<b2World> world);
 
       private:
         /// health points

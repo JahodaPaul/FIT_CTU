@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 
+#include "Model/ContactListener.hpp"
 #include "Model/Object.hpp"
 #include "Model/Room.hpp"
 
@@ -14,7 +15,7 @@
 extern sf::RenderWindow m_window;
 extern RG::DebugDraw debugDraw;
 
-#endif //DEBUG_DRAW
+#endif // DEBUG_DRAW
 
 namespace RG {
   namespace Model {
@@ -40,7 +41,7 @@ namespace RG {
         /// adds player to the world and returns box2d body
         b2Body* GetPlayerBody(b2BodyDef* bodyDef);
 
-        void Step(float time_step);
+        void Step(float time_step, b2Vec2 PlayerPos);
 
         void UpdateID(b2Vec2 v);
 
@@ -51,6 +52,8 @@ namespace RG {
         unsigned int m_RoomWidth;
 
       private:
+        RG::Model::Room& __GetRoom(void) const;
+
         /// array of rooms present at this floor
         std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms;
         /// how deep under ground the floor is
@@ -68,9 +71,11 @@ namespace RG {
         unsigned int m_WallWidth;
         unsigned int m_WallHeight;
         unsigned int m_DoorWidth;
+
+        RG::Model::ContactListener* m_ContactListener;
 #ifdef DEBUG_DRAW
         sf::View view;
-#endif //DEBUG_DRAW
+#endif // DEBUG_DRAW
         int center_x, center_y;
         float size;
     };

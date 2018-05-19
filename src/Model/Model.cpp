@@ -12,13 +12,13 @@ namespace RG {
       b2BodyDef* bodyDef = new b2BodyDef;
       bodyDef->type = b2_dynamicBody;
       bodyDef->position.Set(300, 300);
-      m_Player = std::make_shared<RG::Model::Entity>("Hrac");
+      m_Player = std::make_shared<RG::Model::Entity>("Hrac", 100);
       m_Player->m_Body = m_Floors[m_CurrentFloorIdx].GetPlayerBody(bodyDef);
       b2CircleShape* circle = new b2CircleShape;
       circle->m_p.Set(0, 0);
       circle->m_radius = 35;
       m_PlayerRadius = 35;
-      m_Player->AddShape(circle, 0.01f);
+      m_Player->AddShape(circle, 0.01f, BIT_PLAYER, BIT_ENEMY | BIT_WALL);
     }
 
     Model::~Model() {}
@@ -72,7 +72,8 @@ namespace RG {
 
     void Model::Step(float time_step)
     {
-      this->m_Floors[this->m_CurrentFloorIdx].Step(time_step);
+      this->m_Floors[this->m_CurrentFloorIdx].Step(
+          time_step, m_Player->GetPosition());
     }
   }
 }
