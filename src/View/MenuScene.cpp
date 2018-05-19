@@ -14,7 +14,7 @@ namespace RG {
 
         MenuScene::~MenuScene() {}
 
-        void MenuScene::Update(View *view) {
+        void MenuScene::Update(View *view, float timeElapsed) {
             if ( !m_notReset ) {
                 m_notReset = true;
                 m_showSetting = false;

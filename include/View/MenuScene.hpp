@@ -7,16 +7,36 @@
 
 namespace RG {
     namespace View {
+        //! \class GameScene
+        /*!
+         *  \brief ( descendant of Scene ) 
+         *  This scene where is main menu of the game
+         */
         class MenuScene : public Scene {
         public:
+            //! A constructor
             MenuScene();
 
+            //! A destructor
             virtual ~MenuScene();
 
-            virtual void Update(View *view);
+            //! Update menu scene
+            /*!
+             * \param view pointer to game View
+             * \param timeElapsed time elapsed from last update
+             */
+            virtual void Update(View *view, float timeElapsed);
 
+            //! Render menu scene
+            /*!
+             * \param view pointer to game View
+             */
             virtual void Render(View *view);
 
+            //! Manage player input
+            /*!
+             * \param view pointer to game View
+             */
             virtual void ManageInput(View *view);
 
         private:

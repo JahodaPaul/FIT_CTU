@@ -1,6 +1,6 @@
-#include "Util/CacheManager.hpp"
+#include "View/CacheManager.hpp"
 
-namespace RG {
+namespace RG { namespace View {
 
     CacheManager::CacheManager(std::string folder) {
         try {
@@ -91,4 +91,4 @@ namespace RG {
         m_Textures.insert( std::make_pair( textureName, std::make_pair(std::make_shared<sf::Texture>(render.getTexture()), 1)) );
     }
 
-}
+} }

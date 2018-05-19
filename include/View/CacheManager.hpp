@@ -9,27 +9,26 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-/**
- * \brief
- * Cache manager class provides the service of compact storing and caching of the SFML objects used in the game.
- */
+namespace RG { namespace View {
 
-namespace RG {
-
-    ///Exception for the case of non existing storage folder
-    class StorageException {
-        public:
-            StorageException(std::string folder): m_Folder(folder) {}
-            std::string what() const throw() {
-                return "Folder "+m_Folder+" doesn't exists.";
-            }
-        private:
-            std::string m_Folder;
-    };
-
+    /**
+     * \brief
+     * Cache manager class provides the service of compact storing and caching of the SFML objects used in the game.
+     */
     class CacheManager {
 
         public:
+            ///Exception for the case of non existing storage folder
+            class StorageException {
+                public:
+                    StorageException(std::string folder): m_Folder(folder) {}
+                    std::string what() const throw() {
+                        return "Folder "+m_Folder+" doesn't exists.";
+                    }
+                private:
+                    std::string m_Folder;
+            };
+
 
             /** Cache manager class constructor. */
             CacheManager(std::string folder = "cache");
@@ -71,5 +70,4 @@ namespace RG {
             std::map<std::string, std::pair<std::shared_ptr<sf::Font>, int>> m_Fonts;
 
     };
-
-}
+} }

@@ -55,12 +55,13 @@ namespace RG {
         }
 
         void View::Update() {
-            m_mapOfGameScenes[m_activeScene]->Update(this);
+            m_timeElapsed = m_clock.restart();
+            m_mapOfGameScenes[m_activeScene]->Update(this, m_timeElapsed.asSeconds());
         }
 
         void View::Render() {
             //ImGui
-            ImGui::SFML::Update(*m_window, m_clock.restart());
+            ImGui::SFML::Update(*m_window, m_timeElapsed);
             m_window->clear({0, 0, 0, 255});
 
             //FPS counter
@@ -93,15 +94,11 @@ namespace RG {
             return m_gameControllet;
         }
 
-        const sf::Clock &View::getClock() const {
-            return m_clock;
-        }
-
         void View::setActiveView(SCENE scene) {
             m_activeScene = scene;
         }
 
-        const sf::View View::GetView() {
+        const sf::View & View::GetView() {
             return m_window->getView();
         }
     }

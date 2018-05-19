@@ -6,12 +6,13 @@
 #define GAME_PLAYER_H
 
 #include <SFML/Graphics.hpp>
-#include "View/Animation.hpp"
 #include <memory>
 #include <math.h>
+#include "View/Animation.hpp"
 
 namespace RG{
     namespace View {
+        class View;
         class Player {
         public:
             Player();
@@ -26,9 +27,7 @@ namespace RG{
 
             std::shared_ptr<Animation> GetAnimation();
 
-            void Update(float);
-
-            void UpdatePlayer(float absoluteX, float absoluteY); //float relativeMoveX, float relativeMoveY,
+            void UpdatePlayer(View * view, float timeElapsed); //float relativeMoveX, float relativeMoveY,
 
             void DrawPlayer(sf::RenderTarget &target);
 
@@ -56,10 +55,6 @@ namespace RG{
             float relativeMoveY;
             float time;
             std::shared_ptr<Animation> animation;
-
-            float GetAngle(float moveX, float moveY);
-
-            sf::Clock clock;
         };
     }
 }

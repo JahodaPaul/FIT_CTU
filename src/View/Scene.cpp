@@ -6,7 +6,7 @@ namespace RG {
 
         Scene::~Scene() {}
 
-        void Scene::Update(View *view) {}
+        void Scene::Update(View *view, float timeElapsed) {}
 
         void Scene::Render(View *view) {
 

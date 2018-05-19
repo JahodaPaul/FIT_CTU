@@ -19,7 +19,7 @@ namespace RG{ namespace View {
 
     /**
      * \brief
-     * IOManager class provides the service of mapping keyboard keys. It enables to map any keyboard key to different key
+     * This class provides the service of mapping keyboard keys. It enables to map any keyboard key to different key
      * or to map more than one keyboard keys to one keyboard key.
      * */
     class IOManager{

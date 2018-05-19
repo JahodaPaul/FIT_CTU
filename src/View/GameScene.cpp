@@ -10,10 +10,10 @@ namespace RG {
         GameScene::~GameScene() {
         }
 
-        void GameScene::Update(View *view) {
+        void GameScene::Update(View *view, float timeElapsed) {
             view->getGameController()->RunNPCWorld();
             view->getGameController()->MoveModel(this->GetPlayerSpeedX(),this->GetPlayerSpeedY());
-            this->UpdatePlayer(view->getGameController()->GetPlayerPos().first,view->getGameController()->GetPlayerPos().second);
+            this->UpdatePlayer(view, timeElapsed);
         }
 
         void GameScene::Render(View *view) {
@@ -71,8 +71,8 @@ namespace RG {
                 }
             }
         }
-        void GameScene::UpdatePlayer(float absoluteX, float absoluteY) {//float relativeMoveX, float relativeMoveY,
-            player->UpdatePlayer(absoluteX,absoluteY);
+        void GameScene::UpdatePlayer(View * view, float timeElapsed) {//float relativeMoveX, float relativeMoveY,
+            player->UpdatePlayer(view, timeElapsed);
         }
 
         void GameScene::DrawPlayer(View *view) {

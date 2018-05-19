@@ -11,14 +11,31 @@
 
 namespace RG {
     namespace View {
+        //! \class Console
+        /*!
+         *  \brief
+         *  This is virtual Console inside our game. It can be used to register functions and call them via console GUI in game.
+         *  This is useful primary for debugging purposes.
+         */
         class Console {
         public:
+            //! A constructor
             Console();
 
+            //! register new function into console API
+            /*!
+             * \param name name of registered function, this can be used to call this function
+             * \param function std function of type int(void)
+             */
             void RegisterFunction(std::string name, std::function<int(void)> function);
 
+            //! Write text into console.
+            /*!
+             * \param log Text to be written
+             */
             void WriteText(std::string log);
 
+            //! Draw console this should be called every frame.
             void Draw();
 
         private:

@@ -11,23 +11,22 @@
 #define Warning(msg) _Warning(__FILE__,__LINE__,msg)
 #define Error(msg) _Error(__FILE__,__LINE__,msg)
 
-/**
- * \brief
- * Logger class provides the service of storing application logs into the specific log file.
- * */
-
-/**
- * <pre>
- * It provides several options for configuring the logging.
- * (e.g.: Setting if logs should be sent to stdout, log file or both.
- *        Setting the weight limit of logs sent to the output.
- *        Formatting logs sent to output.
- *        etc.
- * )
- * </pre>
- * */
-
 namespace RG { namespace Util {
+    /**
+     * \brief
+     * Logger class provides the service of storing application logs into the specific log file.
+     * */
+
+    /**
+     * <pre>
+     * It provides several options for configuring the logging.
+     * (e.g.: Setting if logs should be sent to stdout, log file or both.
+     *        Setting the weight limit of logs sent to the output.
+     *        Formatting logs sent to output.
+     *        etc.
+     * )
+     * </pre>
+     * */
     class CLogger
     {
 

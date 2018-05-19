@@ -5,12 +5,20 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 
-namespace RG {
+namespace RG { namespace View {
+    // \cond HIDDEN
     namespace sfdd
     {
         const float SCALE = 32.f;
     }
+    // \endcond
 
+
+    //! \class DebugDraw
+    /*!
+     *  \brief
+     *  This class is used for debugging purposes of Model and is implementing virtual methods from b2Draw
+     */
     class DebugDraw : public b2Draw
     {
         public:
@@ -28,4 +36,4 @@ namespace RG {
             sf::RenderWindow * m_window;
     };
 
-}
+} }

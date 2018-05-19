@@ -10,16 +10,36 @@
 
 namespace RG {
     namespace View {
+        //! \class GameScene
+        /*!
+         *  \brief ( descendant of Scene ) 
+         *  This scene where gameplay takes place
+         */
         class GameScene : public Scene {
         public:
+            //! A constructor
             GameScene();
 
+            //! A destructor
             virtual ~GameScene();
 
-            virtual void Update(View *view);
+            //! Update game scene
+            /*!
+             * \param view pointer to game View
+             * \param timeElapsed time elapsed from last update
+             */
+            virtual void Update(View *view, float timeElapsed);
 
+            //! Render game scene
+            /*!
+             * \param view pointer to game View
+             */
             virtual void Render(View *view);
 
+            //! Manage player input
+            /*!
+             * \param view pointer to game View
+             */
             virtual void ManageInput(View *view);
         private:
             std::shared_ptr<RG::View::Player> GetPlayer();
@@ -34,7 +54,7 @@ namespace RG {
 
             float GetPlayerSpeedX();
 
-            void UpdatePlayer(float, float);
+            void UpdatePlayer(View * view, float timeElapsed);
 
             void DrawPlayer(View *view);
 
