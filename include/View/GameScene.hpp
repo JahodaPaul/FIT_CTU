@@ -63,6 +63,7 @@ namespace RG {
 
             std::shared_ptr<RG::View::Player> player;
             std::shared_ptr<RG::View::Room> room;
+            bool m_firstFrame;
         };
     }
 }

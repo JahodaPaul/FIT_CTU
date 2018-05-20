@@ -2,7 +2,7 @@
 
 namespace RG {
     namespace View {
-        GameScene::GameScene() {
+        GameScene::GameScene() : m_firstFrame{ true } {
             player = std::make_shared<Player>();
             room = std::make_shared<RG::View::Room>();
         }
@@ -19,6 +19,11 @@ namespace RG {
         void GameScene::Render(View *view) {
             this->DrawRoom(view);
             this->DrawPlayer(view);
+            if (m_firstFrame) {
+                m_firstFrame = false;
+                player->SetPlayerScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
+                room->SetSpriteScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
+            }
         }
 
         void GameScene::ManageInput(View *view) {
@@ -69,6 +74,11 @@ namespace RG {
                     view->getGameController()->Quit();
                     return;
                 }
+
+                if (event.type == sf::Event::Resized) {
+                    player->SetPlayerScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
+                    room->SetSpriteScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
+                }
             }
         }
         void GameScene::UpdatePlayer(View * view, float timeElapsed) {//float relativeMoveX, float relativeMoveY,
@@ -76,14 +86,11 @@ namespace RG {
         }
 
         void GameScene::DrawPlayer(View *view) {
-            player->SetPlayerScale(view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
             player->DrawPlayer(*view->getWindow());
         }
 
         void GameScene::DrawRoom(View *view) {
             room->DrawRoom(view->getGameController()->GetFloorLevel(),view->getGameController()->GetRoomId(),*view->getWindow());
-//            room->SetSpriteScale((float)m_window->getSize().x,(float)m_window->getSize().y);
-            room->SetSpriteScale(view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
             std::vector<bool> temporary = view->getGameController()->GetRoomDoors();
             room->DrawDoor(*view->getWindow(), temporary[0],temporary[1],temporary[2],temporary[3],view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
         }

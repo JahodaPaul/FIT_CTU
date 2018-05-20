@@ -87,6 +87,8 @@ namespace RG {
                 this->windowY = y;
                 this->SetDoorPosition();
                 background.setScale(x / this->background.getLocalBounds().width, y / this->background.getLocalBounds().height);
+                SetDoorScaleTopBot(x,y);
+                SetDoorScaleLeftRight(x,y);
             }
         }
 

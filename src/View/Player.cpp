@@ -34,9 +34,9 @@ namespace RG{
             float absoluteY = view->getGameController()->GetPlayerPos().second;
             if (absoluteX != this->x || absoluteY != this->y) {
                 this->animation->setRotation(view->getGameController()->GetPlayerAngle() + 90.0f);
-                this->SetPosition(absoluteX,absoluteY);
                 this->animation->update(timeElapsed);
             }
+            this->SetPosition(absoluteX,absoluteY);
         }
 
         void Player::DrawPlayer(sf::RenderTarget &target) {
