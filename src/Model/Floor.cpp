@@ -151,8 +151,14 @@ namespace RG {
 
     void Floor::UpdateID(b2Vec2 v)
     {
+      unsigned int _x = m_X;
+      unsigned int _y = m_Y;
       m_X = (v.x - m_WallWidth) / m_RoomWidth;
       m_Y = (v.y - m_WallHeight) / m_RoomHeight;
+      if (m_X != _x || _y != m_Y) {
+        Notify(this, Util::Event::ROOM_CHANGE);
+      }
+    }
     }
   }
 }
