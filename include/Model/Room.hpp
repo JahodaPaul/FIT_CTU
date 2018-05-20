@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <utility>
 #include <vector>
 
@@ -15,7 +16,7 @@ namespace RG {
      * a room. The player can get to a different room using either doors or
      * stairs.
      */
-    class Room : public Entity {
+    class Room : public Object {
       public:
         /// constructor
         Room(unsigned int x, unsigned int y);
@@ -24,6 +25,10 @@ namespace RG {
         ~Room();
 
         void SetDoors(std::vector<bool> doors);
+
+        void AddDoors(unsigned int num, bool add = true);
+
+        void RemoveDoors(unsigned int num);
 
         std::vector<bool> GetDoors(void) const;
 
@@ -34,12 +39,16 @@ namespace RG {
 
         void AddEnemy(b2Body* body);
 
+        void RecvAttack(int enemy_attack, std::shared_ptr<b2World> world);
+
+        std::vector<std::shared_ptr<RG::Model::Entity>> GetEntities(void) const;
+
       private:
         /// position in the map grid
         std::pair<unsigned int, unsigned int> m_GridPosition;
 
         /// all entities inside the room
-        std::vector<RG::Model::Entity> m_Entities;
+        std::vector<std::shared_ptr<RG::Model::Entity>> m_Entities;
 
         /// whether the room has been visited by the player or not
         bool m_Visited;

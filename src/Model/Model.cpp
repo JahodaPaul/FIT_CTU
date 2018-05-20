@@ -21,8 +21,10 @@ namespace RG {
       m_Player->AddShape(&circle, 0.01f, BIT_PLAYER, BIT_ENEMY | BIT_WALL);
     }
 
-    Model::~Model() {
-      for(auto i:m_Floors) delete i;
+    Model::~Model()
+    {
+      for (auto i : m_Floors)
+        delete i;
     }
 
     void Model::Move(float x, float y)
@@ -78,8 +80,6 @@ namespace RG {
           time_step, m_Player->GetPosition());
     }
 
-    RG::Model::Entity & Model::GetPlayer() {
-        return *m_Player;
-    }
+    RG::Model::Entity& Model::GetPlayer() { return *m_Player; }
   }
 }

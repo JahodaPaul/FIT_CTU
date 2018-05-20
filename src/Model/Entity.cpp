@@ -19,15 +19,19 @@ namespace RG {
       if (enemy_attack > m_Defense) {
         m_HP -= enemy_attack - m_Defense;
       }
-      if (m_HP <= 0 && m_Body != nullptr) {
+      if (!m_IsDead && m_HP <= 0 && m_Body != nullptr) {
         m_IsDead = true;
+        Notify(this, Util::Event::ENTITY_DEAD);
       }
     }
-    void Entity::Move(const b2Vec2& v, float linear_damping, float angular_damping) {
-        if ( v.x == 0 && v.y == 0 )
-            return;
-        Notify(this, Util::Event::ENTITY_MOVE);
-        DynamicObject::Move(v);
+
+    void Entity::Move(
+        const b2Vec2& v, float linear_damping, float angular_damping)
+    {
+      if (v.x == 0 && v.y == 0)
+        return;
+      Notify(this, Util::Event::ENTITY_MOVE);
+      DynamicObject::Move(v);
     }
   }
 }

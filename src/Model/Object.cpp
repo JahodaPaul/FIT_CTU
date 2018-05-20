@@ -45,5 +45,7 @@ namespace RG {
     }
 
     bool Object::IsDead(void) { return m_IsDead; }
+
+    int Object::GetAttackLevel(void) const { return 0; }
   }
 }

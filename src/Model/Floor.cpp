@@ -66,10 +66,11 @@ namespace RG {
       m_ContactListener = new ContactListener(m_World);
     }
 
-    Floor::~Floor() {
+    Floor::~Floor()
+    {
       delete m_ContactListener;
-      for(auto i:m_Rooms){
-        for(auto j:i.second){
+      for (auto i : m_Rooms) {
+        for (auto j : i.second) {
           delete j.second;
         }
       }
@@ -105,7 +106,7 @@ namespace RG {
       b2Body* _b = this->m_World->GetBodyList();
       while (_b) {
         Entity* obj = static_cast<Entity*>(_b->GetUserData());
-        if (obj && obj->IsDead() && obj->GetName() != "Room") {
+        if (obj && obj->IsDead()) {
           this->m_World->DestroyBody(_b);
           _b->SetUserData(nullptr);
         }

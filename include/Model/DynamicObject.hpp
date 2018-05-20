@@ -1,9 +1,11 @@
 #pragma once
 
 #include <cmath>
+#include <string>
 #include <utility>
 
 #include "Model/Object.hpp"
+#include "common.hpp"
 
 namespace RG {
   namespace Model {
@@ -22,7 +24,7 @@ namespace RG {
         ~DynamicObject();
 
         /// aplly force in a specified direction
-        void Move(const b2Vec2& v, float linear_damping = 0.04f,
+        virtual void Move(const b2Vec2& v, float linear_damping = 0.04f,
             float angular_damping = 2.0f);
 
       private:

@@ -3,7 +3,7 @@
 namespace RG {
   namespace Model {
     Room::Room(unsigned int x, unsigned int y)
-      : Entity("Room", 0)
+      : Object("Room")
         , m_GridPosition({ x, y })
         , m_Visited(false)
         {
@@ -12,6 +12,14 @@ namespace RG {
     Room::~Room() {}
 
     void Room::SetDoors(std::vector<bool> doors) { m_Doors = doors; }
+
+    void Room::AddDoors(unsigned int num, bool add)
+    {
+      if (num < m_Doors.size())
+        m_Doors[num] = add;
+    }
+
+    void Room::RemoveDoors(unsigned int num) { AddDoors(num, false); }
 
     std::vector<bool> Room::GetDoors(void) const { return m_Doors; }
 
@@ -70,21 +78,27 @@ namespace RG {
     void Room::Move(b2Vec2 PlayerPos)
     {
       for (auto i : m_Entities) {
-        i.Move(b2Vec2{ PlayerPos.x - i.m_Body->GetPosition().x,
-            PlayerPos.y - i.m_Body->GetPosition().y });
+        i->Move(b2Vec2{ PlayerPos.x - i->m_Body->GetPosition().x,
+            PlayerPos.y - i->m_Body->GetPosition().y });
       }
     }
 
     void Room::AddEnemy(b2Body* body)
     {
-      m_Entities.emplace_back("Enemy");
-      m_Entities[m_Entities.size() - 1].m_Body = body;
+      m_Entities.emplace_back(std::make_shared<RG::Model::Entity>("Enemy", 20));
+      m_Entities[m_Entities.size() - 1]->m_Body = body;
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
       circle.m_radius = 35;
-      m_Entities[m_Entities.size() - 1].AddShape(
-          &circle, 0.01f, BIT_ENEMY, BIT_PLAYER | BIT_WALL);
-      std::cout << m_Entities.size() << std::endl;
+      m_Entities[m_Entities.size() - 1]->AddShape(
+          &circle, 0.0001f, BIT_ENEMY, BIT_PLAYER | BIT_WALL);
+    }
+
+    void Room::RecvAttack(int enemy_attack, std::shared_ptr<b2World> world) {}
+
+    std::vector<std::shared_ptr<RG::Model::Entity>> Room::GetEntities(void) const
+    {
+      return m_Entities;
     }
   }
 }

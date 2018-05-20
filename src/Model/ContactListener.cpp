@@ -7,16 +7,14 @@ namespace RG {
       world->SetContactListener(this);
       m_World = world;
     }
-  
-    ContactListener::~ContactListener(){
-      m_World->SetContactListener(nullptr);
-    }
+
+    ContactListener::~ContactListener() { m_World->SetContactListener(nullptr); }
 
     void ContactListener::BeginContact(b2Contact* contact)
     {
-      Entity* typeA = static_cast<Entity*>(
+      Object* typeA = static_cast<Object*>(
           contact->GetFixtureA()->GetBody()->GetUserData());
-      Entity* typeB = static_cast<Entity*>(
+      Object* typeB = static_cast<Object*>(
           contact->GetFixtureB()->GetBody()->GetUserData());
 
       typeA->RecvAttack(typeB->GetAttackLevel(), m_World);

@@ -6,6 +6,8 @@
 #include "Model/ContactListener.hpp"
 #include "Model/Object.hpp"
 #include "Model/Room.hpp"
+#include "Util/Event.hpp"
+#include "Util/Subject.hpp"
 
 #ifdef DEBUG_DRAW
 
@@ -24,14 +26,14 @@ namespace RG {
      * \brief This class desribes a floor inside the game world. There are
      * multiple rooms inside and the transition between floors is by stairs.
      */
-    class Floor {
+    class Floor : public Util::Subject {
       public:
         /// constructor
         Floor(unsigned int level, unsigned int rooms, unsigned int pos_X,
             unsigned int pos_Y);
 
         /// destructor
-        ~Floor();
+        virtual ~Floor();
 
         /// returns how many floors under ground this floor is
         unsigned int GetLevel(void) const;

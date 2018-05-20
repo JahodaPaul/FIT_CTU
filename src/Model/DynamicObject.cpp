@@ -14,11 +14,13 @@ namespace RG {
     {
       if (v.y != 0) {
         double angle = std::atan(v.x / v.y);
-        if(angle < 0) angle += M_PI;
-        else if(angle == 0) angle += M_PI/2;
-        if(v.y < 0) angle += M_PI;
-        m_Body->SetTransform(
-            m_Body->GetPosition(), angle);
+        if (angle < 0)
+          angle += M_PI;
+        else if (angle == 0)
+          angle += M_PI / 2;
+        if (v.y < 0)
+          angle += M_PI;
+        m_Body->SetTransform(m_Body->GetPosition(), angle);
       } else {
         m_Body->SetTransform(m_Body->GetPosition(), v.x > 0 ? 0 : M_PI);
       }

@@ -4,8 +4,8 @@
 #include <utility>
 
 #include "Model/DynamicObject.hpp"
-#include "Util/Subject.hpp"
 #include "Util/Event.hpp"
+#include "Util/Subject.hpp"
 
 namespace RG {
   namespace Model {
@@ -19,7 +19,7 @@ namespace RG {
         Entity(std::string name, unsigned int attack = 20);
 
         /// destructor
-        ~Entity();
+        virtual ~Entity();
 
         /// returns the attack level
         int GetAttackLevel(void) const;

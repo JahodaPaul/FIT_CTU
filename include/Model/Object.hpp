@@ -6,6 +6,8 @@
 #include <string>  // std::string
 #include <utility> // std::pair
 
+#include "common.hpp"
+
 namespace RG {
   namespace Model {
     enum _category {
@@ -16,7 +18,7 @@ namespace RG {
 
     /**
      * \class Object
-     * \brief
+     * \brief base class for all objects in the game
      */
     class Object {
       public:
@@ -28,10 +30,10 @@ namespace RG {
 
         b2Vec2 GetPosition(void) const;
 
+        /// return an angle in degrees
         float GetAngle(void) const;
 
-        void AddBody(b2Body* body);
-
+        /// add shape to a body and define with what does it collide
         void AddShape(b2Shape* shapeDef, float density, uint16 category_bits,
             uint16 mask_bits);
 
@@ -39,7 +41,14 @@ namespace RG {
 
         b2BodyDef* m_BodyDef;
 
-        bool IsDead(void);
+        virtual bool IsDead(void);
+
+        /// returns the attack level
+        virtual int GetAttackLevel(void) const;
+
+        /// changes stats depending on defense level and enemy attack level
+        virtual void RecvAttack(int enemy_attack, std::shared_ptr<b2World> world)
+          = 0;
 
       private:
         std::string m_Name;

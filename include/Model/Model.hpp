@@ -8,6 +8,7 @@
 #include "Model/Floor.hpp"  // RG::Model::Floor
 #include "Model/Object.hpp"
 #include "Model/Room.hpp" // RG::Model::Room
+#include "common.hpp"
 
 namespace RG {
   namespace Model {
@@ -56,7 +57,7 @@ namespace RG {
          */
         void Step(float time_step);
 
-        RG::Model::Entity & GetPlayer();
+        RG::Model::Entity& GetPlayer();
 
       private:
         void GenerateFloors(unsigned int seed);
