@@ -35,7 +35,7 @@ find_package(OpenGL REQUIRED)
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
 INCLUDE_DIRECTORIES( ./include ./imgui ./imgui-sfml )
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -fsanitize=address")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -fsanitize=address -DDEBUG_DRAW")
 
 ADD_EXECUTABLE(game src/main.cpp
     imgui/imgui.cpp
@@ -44,6 +44,7 @@ ADD_EXECUTABLE(game src/main.cpp
     imgui-sfml/imgui-SFML.cpp
 
     src/Util/Logger.cpp
+    src/Util/Subject.cpp
 
     src/Controller/GameController.cpp
     src/Controller/MenuStateHandler.cpp 
