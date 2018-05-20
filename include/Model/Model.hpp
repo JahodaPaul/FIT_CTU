@@ -56,6 +56,8 @@ namespace RG {
          */
         void Step(float time_step);
 
+        RG::Model::Entity & GetPlayer();
+
       private:
         void GenerateFloors(unsigned int seed);
 

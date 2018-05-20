@@ -22,8 +22,8 @@ namespace RG {
             //m_window.setView(m_view);
 
             m_activeScene = SCENE::MENU_SCENE;
-            m_mapOfGameScenes[SCENE::MENU_SCENE] = std::shared_ptr<Scene>(new MenuScene());
-            m_mapOfGameScenes[SCENE::GAME_SCENE] = std::shared_ptr<Scene>(new GameScene());
+            m_mapOfGameScenes[SCENE::MENU_SCENE] = std::shared_ptr<Scene>(new MenuScene(this));
+            m_mapOfGameScenes[SCENE::GAME_SCENE] = std::shared_ptr<Scene>(new GameScene(this));
 
             //initialize imgui
             ImGui::SFML::Init(*m_window);

@@ -23,5 +23,11 @@ namespace RG {
         m_IsDead = true;
       }
     }
+    void Entity::Move(const b2Vec2& v, float linear_damping, float angular_damping) {
+        if ( v.x == 0 && v.y == 0 )
+            return;
+        Notify(this, Util::Event::ENTITY_MOVE);
+        DynamicObject::Move(v);
+    }
   }
 }

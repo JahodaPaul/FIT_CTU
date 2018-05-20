@@ -6,9 +6,9 @@ namespace RG { namespace Controller {
         m_mapOfGameStateHandlers[STATES::MAIN_MENU] = std::shared_ptr<StateHandler>( new MenuStateHandler() );
         m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<StateHandler>( new GameStateHandler() );
         m_GameState = STATES::MAIN_MENU;
-        m_view = std::make_shared<RG::View::View>(this);
         m_model = std::make_shared<RG::Model::Model>();
         m_NPCWorld  = std::make_shared<RG::NPC::NPCWorldCycle>();
+        m_view = std::make_shared<RG::View::View>(this);
         m_howOftenRunNPCWorld = 0;
     }
     GameController::~GameController() {}
@@ -71,7 +71,6 @@ namespace RG { namespace Controller {
     void GameController::GoToGame() {
         m_mapOfGameStateHandlers[m_GameState]->GoToGame( this );
         m_view->setActiveView( RG::View::SCENE::GAME_SCENE );
-        m_model = std::make_shared<RG::Model::Model>();
     }
     void GameController::setActiveGameState( STATES state ) {
         m_GameState = state;
@@ -88,6 +87,8 @@ namespace RG { namespace Controller {
     std::vector<bool> GameController::GetRoomDoors() {
         return m_model->GetRoomDoors(this->m_model->GetRoomId());
     }
-
-
+    
+    Model::Model & GameController::getModel() {
+        return *m_model;
+    }
 } }

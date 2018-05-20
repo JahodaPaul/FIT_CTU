@@ -18,7 +18,7 @@ namespace RG {
         class GameScene : public Scene {
         public:
             //! A constructor
-            GameScene();
+            GameScene(View *view);
 
             //! A destructor
             virtual ~GameScene();

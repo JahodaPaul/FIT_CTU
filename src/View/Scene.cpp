@@ -2,7 +2,7 @@
 
 namespace RG {
     namespace View {
-        Scene::Scene() {}
+        Scene::Scene(View *view) {}
 
         Scene::~Scene() {}
 

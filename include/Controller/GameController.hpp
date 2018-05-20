@@ -58,6 +58,7 @@ namespace RG { namespace Controller {
             void MoveModel(float x, float y) const;
             void StepModel(float step) const;
             float GetPlayerAngle() const;
+            Model::Model & getModel();
 
         private:
             std::shared_ptr<RG::View::View> m_view;

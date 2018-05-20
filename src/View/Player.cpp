@@ -7,21 +7,23 @@
 
 namespace RG{
     namespace View {
-
-
         Player::Player() :
-        relativeMoveX( 0 ),
-        relativeMoveY( 0 ) {
-            player = sf::RectangleShape(sf::Vector2f(91.0f, 91.0f));
-            animation = std::make_shared<Animation>("/usr/share/RG/assets/graphics/objects/characters/player.png", 91, 91, 12,
-                                                    40.0f);
-            this->time = 0;
-            this->windowX = 0;
-            this->windowY = 0;
-            animation->setPosition(sf::Vector2f(this->x, this->y));
-            animation->goToFrame(0);
-            animation->startAnimation();
+            Observer(),
+            m_moved{ false },
+            relativeMoveX( 0 ),
+            relativeMoveY( 0 ) {
+                player = sf::RectangleShape(sf::Vector2f(91.0f, 91.0f));
+                animation = std::make_shared<Animation>("/usr/share/RG/assets/graphics/objects/characters/player.png", 91, 91, 12,
+                                                        40.0f);
+                this->time = 0;
+                this->windowX = 0;
+                this->windowY = 0;
+                animation->setPosition(sf::Vector2f(this->x, this->y));
+                animation->goToFrame(0);
+                animation->startAnimation();
         }
+
+        Player::~Player() {}
 
         void Player::SetPosition(float x, float y) {
             this->x = x;
@@ -30,13 +32,10 @@ namespace RG{
         }
 
         void Player::UpdatePlayer(View * view, float timeElapsed) {
-            float absoluteX = view->getGameController()->GetPlayerPos().first;
-            float absoluteY = view->getGameController()->GetPlayerPos().second;
-            if (absoluteX != this->x || absoluteY != this->y) {
-                this->animation->setRotation(view->getGameController()->GetPlayerAngle() + 90.0f);
+            if (m_moved) {
                 this->animation->update(timeElapsed);
+                m_moved = false;
             }
-            this->SetPosition(absoluteX,absoluteY);
         }
 
         void Player::DrawPlayer(sf::RenderTarget &target) {
@@ -67,6 +66,20 @@ namespace RG{
 
         float RG::View::Player::GetPlayerSpeedY() {
             return this->relativeMoveY;
+        }
+
+        void RG::View::Player::onNotify(const Util::Subject * subject, Util::Event event) {
+            switch(event) {
+                case Util::Event::ENTITY_MOVE:
+                    {
+                        Model::Entity * entity = (Model::Entity*)subject;
+                        float absoluteX = entity->GetPosition().x;
+                        float absoluteY = entity->GetPosition().y;
+                        this->animation->setRotation(entity->GetAngle() * 180 / M_PI + 90);
+                        this->SetPosition(absoluteX,absoluteY);
+                        m_moved = true;
+                    }
+            }       
         }
     }
 }

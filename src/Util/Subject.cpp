@@ -1,5 +1,6 @@
 #include "Util/Subject.hpp"
 #include "Util/Observer.hpp"
+#include <iostream>
 
 namespace RG { namespace Util {
     void Subject::AddObserver( Observer * observer ) {

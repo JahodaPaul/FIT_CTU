@@ -2,9 +2,12 @@
 
 namespace RG {
     namespace View {
-        GameScene::GameScene() : m_firstFrame{ true } {
+        GameScene::GameScene(View *view) :
+            Scene( view ),
+            m_firstFrame{ true } {
             player = std::make_shared<Player>();
             room = std::make_shared<RG::View::Room>();
+            view->getGameController()->getModel().GetPlayer().AddObserver( player.get() );
         }
 
         GameScene::~GameScene() {

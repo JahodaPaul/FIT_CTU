@@ -12,7 +12,7 @@ namespace RG {
         class Scene {
         public:
             //! A constructor
-            Scene();
+            Scene(View *view);
 
             //! A destructor
             virtual ~Scene();

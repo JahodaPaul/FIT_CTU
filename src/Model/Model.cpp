@@ -77,5 +77,9 @@ namespace RG {
       this->m_Floors[this->m_CurrentFloorIdx]->Step(
           time_step, m_Player->GetPosition());
     }
+
+    RG::Model::Entity & Model::GetPlayer() {
+        return *m_Player;
+    }
   }
 }

@@ -10,7 +10,7 @@ namespace RG { namespace Util {
      */
     class Observer {
         public:
-            virtual ~Observer();
+            virtual ~Observer() {}
             virtual void onNotify(const Subject * subject, Event event) = 0;
     };
 } }

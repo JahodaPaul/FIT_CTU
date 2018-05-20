@@ -2,7 +2,8 @@
 
 namespace RG {
     namespace View {
-        MenuScene::MenuScene() :
+        MenuScene::MenuScene(View *view) :
+            Scene( view ),
             m_showSetting( false ),
             m_showMenu( true ),
             m_notReset( true )

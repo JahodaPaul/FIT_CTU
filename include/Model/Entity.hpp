@@ -4,6 +4,8 @@
 #include <utility>
 
 #include "Model/DynamicObject.hpp"
+#include "Util/Subject.hpp"
+#include "Util/Event.hpp"
 
 namespace RG {
   namespace Model {
@@ -11,7 +13,7 @@ namespace RG {
      * \class Entity
      * \brief generic entity object with basic attributes
      */
-    class Entity : public DynamicObject {
+    class Entity : public DynamicObject, public Util::Subject {
       public:
         /// constructor
         Entity(std::string name, unsigned int attack = 20);
@@ -24,6 +26,9 @@ namespace RG {
 
         /// changes stats depending on defense level and enemy attack level
         void RecvAttack(int enemy_attack, std::shared_ptr<b2World> world);
+
+        void Move(const b2Vec2& v, float linear_damping = 0.04f,
+            float angular_damping = 2.0f);
 
       private:
         /// health points

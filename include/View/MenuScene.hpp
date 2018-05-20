@@ -15,7 +15,7 @@ namespace RG {
         class MenuScene : public Scene {
         public:
             //! A constructor
-            MenuScene();
+            MenuScene(View *view);
 
             //! A destructor
             virtual ~MenuScene();

@@ -9,13 +9,18 @@
 #include <memory>
 #include <math.h>
 #include "View/Animation.hpp"
+#include "Util/Observer.hpp"
+#include "Util/Subject.hpp"
+#include "Util/Event.hpp"
+#include "Model/Entity.hpp"
 
 namespace RG{
     namespace View {
         class View;
-        class Player {
+        class Player : public Util::Observer {
         public:
             Player();
+            virtual ~Player();
 
             void SetPosition(float x, float y);
 
@@ -41,6 +46,8 @@ namespace RG{
 
             float GetPlayerSpeedX();
 
+            virtual void onNotify(const Util::Subject * subject, Util::Event event) override;
+
         protected:
         private:
             sf::RectangleShape player;
@@ -50,6 +57,8 @@ namespace RG{
 
             float x;
             float y;
+
+            bool m_moved;
 
             float relativeMoveX;
             float relativeMoveY;
