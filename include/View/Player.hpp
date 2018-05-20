@@ -54,6 +54,8 @@ namespace RG{
             sf::Texture playerTexture;
             float windowX;
             float windowY;
+            float correctionX;
+            float correctionY;
 
             float x;
             float y;

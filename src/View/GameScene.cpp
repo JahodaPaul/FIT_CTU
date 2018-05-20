@@ -8,6 +8,7 @@ namespace RG {
             player = std::make_shared<Player>();
             room = std::make_shared<RG::View::Room>();
             view->getGameController()->getModel().GetPlayer().AddObserver( player.get() );
+            view->getGameController()->getModel().GetCurrentFloor().AddObserver( player.get() );
         }
 
         GameScene::~GameScene() {
@@ -34,7 +35,7 @@ namespace RG {
             std::shared_ptr<sf::RenderWindow> window = view->getWindow();
             sf::Event event;
 
-            float speed = 3;
+            float speed = 30;
 
             while (window->pollEvent(event)) {
                 ImGui::SFML::ProcessEvent(event);

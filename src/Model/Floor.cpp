@@ -159,6 +159,5 @@ namespace RG {
         Notify(this, Util::Event::ROOM_CHANGE);
       }
     }
-    }
   }
 }

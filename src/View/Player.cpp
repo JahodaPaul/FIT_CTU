@@ -4,14 +4,19 @@
 
 #include "View/Player.hpp"
 #include "View/View.hpp"
+#include "Util/Observer.hpp"
+#include "Model/Floor.hpp"
 
 namespace RG{
     namespace View {
         Player::Player() :
-            Observer(),
-            m_moved{ false },
-            relativeMoveX( 0 ),
-            relativeMoveY( 0 ) {
+            Observer()
+            ,correctionX( 0 )
+            ,correctionY( 0 )
+            ,m_moved{ false }
+            ,relativeMoveX( 0 )
+            ,relativeMoveY( 0 )
+            {
                 player = sf::RectangleShape(sf::Vector2f(91.0f, 91.0f));
                 animation = std::make_shared<Animation>("/usr/share/RG/assets/graphics/objects/characters/player.png", 91, 91, 12,
                                                         40.0f);
@@ -73,12 +78,22 @@ namespace RG{
                 case Util::Event::ENTITY_MOVE:
                     {
                         Model::Entity * entity = (Model::Entity*)subject;
-                        float absoluteX = entity->GetPosition().x;
-                        float absoluteY = entity->GetPosition().y;
+                        float absoluteX = entity->GetPosition().x - correctionX;
+                        float absoluteY = entity->GetPosition().y - correctionY;
                         this->animation->setRotation(entity->GetAngle() * 180 / M_PI + 90);
                         this->SetPosition(absoluteX,absoluteY);
                         m_moved = true;
+                        break;
                     }
+                case Util::Event::ROOM_CHANGE:
+                    {
+                        Model::Floor * floor = (Model::Floor*)subject;
+                        correctionX = floor->m_X * floor->m_RoomWidth;
+                        correctionY = floor->m_Y * floor->m_RoomHeight;
+                        break;
+                    }
+                default:
+                    break;
             }       
         }
     }

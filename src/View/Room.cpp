@@ -6,22 +6,25 @@
 namespace RG {
     namespace View {
 
-        RG::View::Room::Room():room_bluestone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlueStoneBG.png"),
-                               room_blackstone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlackStoneBG.png"),
-                                room_cobblestone("/usr/share/RG/assets/graphics/backgrounds/rooms/CobbleStoneBG.png"),
-                                room_soil("/usr/share/RG/assets/graphics/backgrounds/rooms/SoilBG.png"),
-                                room_lava("/usr/share/RG/assets/graphics/backgrounds/rooms/LavaBG.png"){
-            currentId = -1;
-            this->door_up_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-top.png");
-            this->door_right_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-right.png");
-            this->door_down_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-bottom.png");
-            this->door_left_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-left.png");
-            this->door_up.setTexture(door_up_texture);
-            this->door_right.setTexture(door_right_texture);
-            this->door_down.setTexture(door_down_texture);
-            this->door_left.setTexture(door_left_texture);
-//            this->door_up.setOrigin(this->door_up.getLocalBounds().width / 2, this->door_up.getLocalBounds().height / 2);
-        }
+        RG::View::Room::Room():
+            posX{0}
+            ,posY{0}
+            ,room_bluestone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlueStoneBG.png")
+            ,room_blackstone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlackStoneBG.png")
+            ,room_cobblestone("/usr/share/RG/assets/graphics/backgrounds/rooms/CobbleStoneBG.png")
+            ,room_soil("/usr/share/RG/assets/graphics/backgrounds/rooms/SoilBG.png")
+            ,room_lava("/usr/share/RG/assets/graphics/backgrounds/rooms/LavaBG.png") {
+                currentId = -1;
+                this->door_up_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-top.png");
+                this->door_right_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-right.png");
+                 this->door_down_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-bottom.png");
+                 this->door_left_texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-left.png");
+                 this->door_up.setTexture(door_up_texture);
+                 this->door_right.setTexture(door_right_texture);
+                 this->door_down.setTexture(door_down_texture);
+                 this->door_left.setTexture(door_left_texture);
+                 //            this->door_up.setOrigin(this->door_up.getLocalBounds().width / 2, this->door_up.getLocalBounds().height / 2);
+             }
 
         RG::View::Room::~Room() {
 
@@ -59,8 +62,7 @@ namespace RG {
         void RG::View::Room::DrawRoom(int level, int id, sf::RenderTarget &target) {
             if(id == this->currentId){
                 target.draw(background);
-                return;
-            }
+                return; }
             if(this->roomHistory.find(std::to_string(id)) == this->roomHistory.end()){
                 this->AssignBackground(level,id);
             }

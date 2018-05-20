@@ -5,12 +5,13 @@
 #ifndef GAME_ROOM_H
 #define GAME_ROOM_H
 
+#include <SFML/Graphics.hpp>
+
 #include "RoomHistory.hpp"
-#include "SFML/Graphics.hpp"
 
 namespace RG{
     namespace View{
-        class Room:RoomHistory{
+        class Room : RoomHistory{
         public:
             Room();
             ~Room();
@@ -19,6 +20,8 @@ namespace RG{
             void SetSpriteScale(float,float);
         protected:
         private:
+            float posX;
+            float posY;
             void SetDoorScaleLeftRight(float x, float y);
             void SetDoorScaleTopBot(float x, float y);
 
@@ -50,8 +53,6 @@ namespace RG{
             const std::string room_cobblestone;
             const std::string room_soil;
             const std::string room_lava;
-
-
         };
     }
 }

@@ -33,6 +33,10 @@ namespace RG {
       m_Floors[m_CurrentFloorIdx]->UpdateID(m_Player->GetPosition());
     }
 
+    RG::Model::Floor& Model::GetCurrentFloor(void) const {
+        return *m_Floors[m_CurrentFloorIdx];
+    }
+
     const RG::Model::Room& Model::GetCurrentRoom(void) const
     {
       return m_Floors[m_CurrentFloorIdx]->GetRoom();

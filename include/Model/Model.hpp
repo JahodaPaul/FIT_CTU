@@ -31,6 +31,9 @@ namespace RG {
         /// returns reference to the current room
         const RG::Model::Room& GetCurrentRoom(void) const;
 
+        /// returns reference to the current floor
+        RG::Model::Floor& GetCurrentFloor(void) const;
+
         /// returns player's current position
         std::pair<float, float> GetPlayerPosition(void) const; // TODO
 
