@@ -7,18 +7,18 @@
 To give students an idea, what is neccessary to obtain maximum points/best marks. To give an inspiration and help people.
 
 ### 1st semester
-  * [BI-PA1](https://github.com/JahodaPaul/FIT_CTU/tree/master/PA1) - Received more points than 98% percent of students.
+  * [BI-PA1](https://github.com/JahodaPaul/FIT_CTU/tree/master/PA1) - _Programming and Algorithmics 1_ - Received more points than 98% percent of students.
   
 ### 2nd semester
-  * [BI-PA2](https://github.com/JahodaPaul/FIT_CTU/tree/master/PA2) - Received more points than 95% percent of students.
-  * [BI-PA2 - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/Recipe_Manager) - 12/12 points received. 
+  * [BI-PA2](https://github.com/JahodaPaul/FIT_CTU/tree/master/PA2) - _Programming and Algorithmics 2_ - Received more points than 95% percent of students.
+  * [BI-PA2 - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/Recipe_Manager) - _Programming and Algorithmics 2_ - 12/12 points received. 
   
 ### 3th semester
-  * [BI-AG1](https://github.com/JahodaPaul/FIT_CTU/tree/master/AG1) - 100th percentile - maximum points obtainable received.
-  * [BI-ZNS - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/ZNS) - 50/50 points received.
+  * [BI-AG1](https://github.com/JahodaPaul/FIT_CTU/tree/master/AG1) - _Algortihms and Graphs 1_ - 100th percentile - maximum points obtainable received.
+  * [BI-ZNS - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/ZNS) - _Knowledge Engineering_ - 50/50 points received.
   
 ### 4th semester
-  * [BI-VWM - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/VWM) - 50/50 points received.
+  * [BI-VWM - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/VWM) - _Information Retrieval and Web Search_ - 50/50 points received.
   
   
   
