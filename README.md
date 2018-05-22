@@ -14,7 +14,7 @@ To give students an idea, what is neccessary to obtain maximum points/best marks
   * [BI-PA2 - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/Recipe_Manager) - _Programming and Algorithmics 2_ - 12/12 points received. 
   
 ### 3th semester
-  * [BI-AG1](https://github.com/JahodaPaul/FIT_CTU/tree/master/AG1) - _Algortihms and Graphs 1_ - 100th percentile - maximum points obtainable received.
+  * [BI-AG1](https://github.com/JahodaPaul/FIT_CTU/tree/master/AG1) - _Algorithms and Graphs 1_ - 100th percentile - maximum points obtainable received.
   * [BI-ZNS - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/ZNS) - _Knowledge Engineering_ - 50/50 points received.
   
 ### 4th semester
