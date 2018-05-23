@@ -48,7 +48,6 @@ namespace RG{ namespace View {
     }
 
     void IOManager::Draw(){
-        return;
         ImGui::BeginChild("Key settings", {0, 120});
         ImGui::Text("Key settings");
         static ImGuiComboFlags keyFlags = 0;

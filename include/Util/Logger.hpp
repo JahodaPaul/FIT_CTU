@@ -12,12 +12,10 @@
 #define Error(msg) _Error(__FILE__,__LINE__,msg)
 
 namespace RG { namespace Util {
-    /**
+    //! \class CLogger
+    /*!
      * \brief
      * Logger class provides the service of storing application logs into the specific log file.
-     * */
-
-    /**
      * <pre>
      * It provides several options for configuring the logging.
      * (e.g.: Setting if logs should be sent to stdout, log file or both.
@@ -26,98 +24,156 @@ namespace RG { namespace Util {
      *        etc.
      * )
      * </pre>
-     * */
+     */
     class CLogger
     {
 
         public:
 
-            ///Class constants for representing log weight
+            /// Class constants for representing log types.
             enum TYPE { INFO, WARNING, ERROR };
 
-            ///Class constants for representing class flags
+            /// Class constants for representing class flags.
             enum FLAGS { LEVEL = 1, DATETIME = 2, FILE = 4, LINE = 8, LIMIT = 16 };
 
-            ///Class constants for representing outputs
+            /// Class constants for representing outputs.
             enum STREAM { STD_ONLY, FILE_ONLY, BOTH };
 
-            /** Logger class constructor */
+            //! Logger class constructor.
+            /*!
+             * Constructor may take three parameters:
+             * @param type Logging type limit.
+             * @param delimiter Delimiter of item in log.
+             * @param logsMax Maximal number of stored logs.
+             * */
             CLogger(TYPE type = TYPE::WARNING, const std::string & delimiter = "\t", unsigned int logsMax = 1000);
 
-            /** Logger class destructor */
+            /// Logger class destructor.
             ~CLogger();
 
-            /** Method for opening stream to the log file */
-            bool Open();
-
-            /** Method for closing the stream to the log file */
-            bool Close();
-
-            /** Method for logging info logs */
+            //! Method for logging info logs.
+            /*!
+             * Method takes three parameters:
+             * @param file File in which the event occurred.
+             * @param line Line on which the event occurred.
+             * @param message Log message.
+             */
             void _Info( const char * file, int line, const std::string & message );
 
-            /** Method for logging warning logs */
+            //! Method for logging warning logs.
+            /*!
+            * Method takes three parameters:
+            * @param file File in which the event occurred.
+            * @param line Line on which the event occurred.
+            * @param message Log message.
+            */
             void _Warning( const char * file, int line, const std::string & message );
 
-            /** Method for logging error logs */
+            //! Method for logging error logs.
+            /*!
+            * Method takes three parameters:
+            * @param file File in which the event occurred.
+            * @param line Line on which the event occurred.
+            * @param message Log message.
+            */
             void _Error( const char * file, int line, const std::string & message );
 
-            /** Method for setting limit of logs sent to the output */
+            //! Method for setting limit of logs sent to the output.
+            /*!
+             * Method takes two parameters:
+             * @param type Logging limit.
+             * @param streamType Output type to which set the limit.
+             */
             void SetLimit(TYPE type = WARNING, STREAM streamType = BOTH);
 
-            /** Method for setting the logger class flags */
+            //! Method for setting the logger class flags.
+            /*!
+             * Method takes one parameter:
+             * @param flags Flags to be set.
+             */
             void SetFlags(unsigned char flags);
 
-            /** Method for setting the log file directory */
+            //! Method for setting the log file directory.
+            /*!
+             * Method takes one parameter:
+             * @param logDir Log file directory.
+             */
             void SetLogDir(const std::string &logDir);
 
-            /** Method for settign the log file name */
+            //! Method for setting the log file name.
+            /*!
+             * Method takes one parameter:
+             * @param logFile Log file name.
+             */
             void SetLogFile(const std::string &logFile);
 
-            /** Method for setting log data delimiter */
+            //! Method for setting log items delimiter.
+            /*!
+             * Method takes one parameter:
+             * @param logDelimiter Log items delimiter.
+             */
             void SetDelimiter(const std::string &logDelimiter);
 
-            /** Method for setting maximal number of stored logs in the log file */
+            //! Method for setting maximal number of stored logs in the log file.
+            /*!
+             * Method takes one parameter:
+             * @param max Maximal number of stored logs.
+             */
             void SetLogsMax(unsigned int max);
-
-            /** Method for cutting logs in the log file to the set limit */
-            void CutLogFile();
 
         private:
 
-            /** Method for logging. */
+            //! Method for logging.
+            /*!
+             * This method is called by _Info, _Warning and _Error methods for logging the right log type.
+             *
+             * Method takes four parameters:
+             * @param file File in which the event occurred.
+             * @param line Line on which the event occurred.
+             * @param msg Log message.
+             * @param type Log type.
+             */
             void Log(const char * file, int line, const std::string & msg, TYPE type );
 
-            ///Member variable for holding stdout logging limit.
+            /// Method for opening stream to the log file.
+            bool Open();
+
+            /// Method for closing the stream to the log file.
+            bool Close();
+
+            /// Method for cutting logs in the log file to the set limit.
+            void CutLogFile();
+
+            /// Member variable for holding stdout logging limit.
             TYPE m_StdLim;
 
-            ///Member variable for holding file output logging limit.
+            /// Member variable for holding file output logging limit.
             TYPE m_FileLim;
 
-            ///Member variable for holding the class flags.
+            /// Member variable for holding the class flags.
             unsigned char m_Flags;
 
-            ///Member variable for holding log data delimiter.
+            /// Member variable for holding log data delimiter.
             std::string m_Delimiter;
 
-            ///Member variable for holding output stream to the log file.
+            /// Member variable for holding output stream to the log file.
             std::ofstream m_Stream;
 
-            ///Member variables for holding number of logs in the log file.
+            /// Member variables for holding number of logs in the log file.
             unsigned int m_LogsInFile;
 
-            ///Member variable for holding limit of logs in the log file.
+            /// Member variable for holding limit of logs in the log file.
             unsigned int m_logsMax;
 
-            ///Member variable representing logs levels for printing
+            /// Member variable representing logs levels for printing.
             const char * m_Levels[3] = {
                     "INFO", "WARNING", "ERROR"
             };
 
-            ///Member variable for log file directory
+            /// Member variable for log file directory.
             std::string m_LogDir = "./";
 
-            ///Member variable for log file name
+            /// Member variable for log file name.
             std::string m_LogFile = "log.log";
 
     };

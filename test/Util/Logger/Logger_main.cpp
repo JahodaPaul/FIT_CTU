@@ -1,6 +1,6 @@
 #include "Util/Logger.hpp"
 
-using namespace RG;
+using namespace RG::Util;
 
 int main() {
     CLogger logger(CLogger::TYPE::INFO);
