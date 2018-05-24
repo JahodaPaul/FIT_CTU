@@ -54,6 +54,7 @@ ADD_EXECUTABLE(game src/main.cpp
 
     src/View/View.cpp
     src/View/MenuScene.cpp
+    src/View/GameOverScene.cpp
     src/View/Scene.cpp
     src/View/Console.cpp
     src/View/GameScene.cpp

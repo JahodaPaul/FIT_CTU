@@ -3,37 +3,31 @@
 #include "View/Scene.hpp"
 #include "View/View.hpp"
 
-#include "View/Player.hpp"
-#include "View/Entity.hpp"
-#include "View/Room.hpp"
-#include "Util/Subject.hpp"
-#include "View/SoundManager.hpp"
-
 #include <iostream>
 
 namespace RG {
     namespace View {
-        //! \class GameScene
+        //! \class GameOverScene
         /*!
          *  \brief ( descendant of Scene ) 
-         *  This scene where gameplay takes place
+         *  This scene where you end when you die
          */
-        class GameScene : public Scene, public Util::Subject {
+        class GameOverScene : public Scene {
         public:
             //! A constructor
-            GameScene(View *view);
+            GameOverScene(View *view);
 
             //! A destructor
-            virtual ~GameScene();
+            virtual ~GameOverScene();
 
-            //! Update game scene
+            //! Update menu scene
             /*!
              * \param view pointer to game View
              * \param timeElapsed time elapsed from last update
              */
             virtual void Update(View *view, float timeElapsed);
 
-            //! Render game scene
+            //! Render menu scene
             /*!
              * \param view pointer to game View
              */
@@ -45,18 +39,16 @@ namespace RG {
              */
             virtual void ManageInput(View *view);
 
-            const sf::Vector2f & getWindowSize() const;
         private:
-            std::shared_ptr<RG::View::Player> GetPlayer();
-            sf::Vector2f m_windowSize;
+            const float m_itemWidth = 100;
+            const float m_itemHeight = 50;
+            const float m_menuWidth = m_itemWidth + 20;
+            const float m_menuHeight = m_itemHeight * 4 + 30;
 
-            void SetPlayer();
-
-            std::shared_ptr<Entity> test_zombie;
-
-            std::shared_ptr<RG::View::Player> player;
-            std::shared_ptr<RG::View::Room> room;
-            bool m_firstFrame;
+            sf::Texture background_texture;
+            sf::Sprite background;
+            float windowX;
+            float windowY;
         };
     }
 }

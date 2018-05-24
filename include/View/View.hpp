@@ -16,6 +16,8 @@
 
 #include "View/MenuScene.hpp"
 #include "View/GameScene.hpp"
+#include "View/GameOverScene.hpp"
+
 #include "View/Console.hpp"
 
 #include "View/IOManager.hpp"
@@ -35,7 +37,8 @@ namespace RG {
          */
         enum SCENE {
             MENU_SCENE, /**< main menu of game */
-            GAME_SCENE /**< state of playing the game */
+            GAME_SCENE, /**< state of playing the game */
+            GAME_OVER_SCENE /**< end screen shown when you lose */
         };
 
         //! \class View

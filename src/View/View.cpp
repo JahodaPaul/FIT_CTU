@@ -27,6 +27,7 @@ namespace RG {
             m_activeScene = SCENE::MENU_SCENE;
             m_mapOfGameScenes[SCENE::MENU_SCENE] = std::shared_ptr<Scene>(new MenuScene(this));
             m_mapOfGameScenes[SCENE::GAME_SCENE] = std::shared_ptr<Scene>(new GameScene(this));
+            m_mapOfGameScenes[SCENE::GAME_OVER_SCENE] = std::shared_ptr<Scene>(new GameOverScene(this));
 
             //initialize imgui
             ImGui::SFML::Init(*m_window);
@@ -48,7 +49,7 @@ namespace RG {
                 return 0;
             }));
 
-            m_soundManager.PlayMusic("frankum");
+            m_soundManager.PlayMusic();
         }
 
         View::~View() {}
@@ -106,6 +107,9 @@ namespace RG {
         }
         sol::state & View::getLuaState() {
             return m_lua;
+        }
+        SoundManager & View::getSoundManager() {
+            return m_soundManager;
         }
     }
 }
