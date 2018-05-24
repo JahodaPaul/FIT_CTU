@@ -5,7 +5,7 @@ namespace RG {
     Model::Model()
       : m_CurrentFloorIdx(0)
     {
-      RG::Model::Floor* tmp_floor = new RG::Model::Floor(0, 2, 0, 0);
+      RG::Model::Floor* tmp_floor = new RG::Model::Floor(0, 10, 0, 0);
       m_Floors.push_back(tmp_floor); // FIXME(vanda, replace by world generation)
 
       // adding the player
@@ -33,8 +33,9 @@ namespace RG {
       m_Floors[m_CurrentFloorIdx]->UpdateID(m_Player->GetPosition());
     }
 
-    RG::Model::Floor& Model::GetCurrentFloor(void) const {
-        return *m_Floors[m_CurrentFloorIdx];
+    RG::Model::Floor& Model::GetCurrentFloor(void) const
+    {
+      return *m_Floors[m_CurrentFloorIdx];
     }
 
     const RG::Model::Room& Model::GetCurrentRoom(void) const

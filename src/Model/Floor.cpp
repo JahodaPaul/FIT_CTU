@@ -35,33 +35,7 @@ namespace RG {
       m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight + 30;
       m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth + 20;
 
-      for (unsigned int i = 0; i < rooms; ++i) {
-        RG::Model::Room* tmp_room = new RG::Model::Room(0, i);
-        b2BodyDef room_bodyDef;
-        room_bodyDef.type = b2_dynamicBody;
-        room_bodyDef.position.Set(0 * m_RoomWidth, i * m_RoomHeight);
-        tmp_room->m_Body = m_World->CreateBody(&room_bodyDef);
-
-        tmp_room->SetDoors({ !!(i % 2), 0, !(i % 2), 0 }); // FIXME (vanda)
-        tmp_room->AddWalls(m_ScreenWidth, m_ScreenHeight, m_DoorWidth,
-            m_WallWidth, m_WallHeight);
-
-        for (unsigned int j = 0; j < 1; ++j) {
-          b2BodyDef enemy_bodyDef;
-          enemy_bodyDef.type = b2_dynamicBody;
-          enemy_bodyDef.position.Set((0.4 + 0.1 * j) * m_RoomWidth,
-              (i + 0.4 + 0.1 * j) * m_RoomHeight); // FIXME
-          b2Body* enemy_body = m_World->CreateBody(&enemy_bodyDef);
-
-          tmp_room->AddEnemy(enemy_body);
-        }
-        auto it1 = m_Rooms.find(0);
-        if (it1 == m_Rooms.end()) {
-          m_Rooms.insert({ 0, { { i, tmp_room } } });
-        } else {
-          it1->second.insert({ i, tmp_room });
-        }
-      }
+      __GenerateRooms(rooms);
 
       m_ContactListener = new ContactListener(m_World);
     }
@@ -157,6 +131,88 @@ namespace RG {
       m_Y = (v.y - m_WallHeight) / m_RoomHeight;
       if (m_X != _x || _y != m_Y) {
         Notify(this, Util::Event::ROOM_CHANGE);
+      }
+    }
+
+    void Floor::__GenerateRooms(unsigned int cnt)
+    {
+      srand(time(NULL));
+      unsigned int _x = 0;
+      unsigned int _y = 0;
+      unsigned int _cnt = 0;
+      unsigned int prev_num = 0;
+
+      while (_cnt < cnt) {
+        unsigned int num;
+        unsigned int _x_next;
+        unsigned int _y_next;
+
+        do
+          num = rand() % 4;
+        while ((num == 3 && _x == 0) || (num == 0 && _y == 0));
+
+        _x_next = _x + ((num > 1) ? (-1) : 1) * (num % 2);
+        _y_next = _y + ((num <= 1) ? (-1) : 1) * !(num % 2);
+
+        // check whether the room already exists
+        {
+          auto it1 = m_Rooms.find(_x);
+          if (it1 != m_Rooms.end()) {
+            auto it2 = it1->second.find(_y);
+            if (it2 != it1->second.end()) {
+              it2->second->AddDoors((prev_num + 2) % 4);
+              it2->second->AddDoors(num);
+              _x = _x_next;
+              _y = _y_next;
+              prev_num = num;
+              continue;
+            }
+          }
+        }
+
+        // if it does not exist, create it
+        RG::Model::Room* tmp_room = new RG::Model::Room(_x, _y);
+        b2BodyDef room_bodyDef;
+        room_bodyDef.type = b2_dynamicBody;
+        room_bodyDef.position.Set(_x * m_RoomWidth, _y * m_RoomHeight);
+        tmp_room->m_Body = m_World->CreateBody(&room_bodyDef);
+
+        if (_cnt != 0) {
+          tmp_room->AddDoors((prev_num + 2) % 4);
+        }
+
+        if (_cnt != cnt - 1) {
+          tmp_room->AddDoors(num);
+        }
+        for (unsigned int j = 0; j < 1; ++j) {
+          b2BodyDef enemy_bodyDef;
+          enemy_bodyDef.type = b2_dynamicBody;
+          enemy_bodyDef.position.Set((_x + 0.4 + 0.1 * j) * m_RoomWidth,
+              (_y + 0.4 + 0.1 * j) * m_RoomHeight); // FIXME
+          b2Body* enemy_body = m_World->CreateBody(&enemy_bodyDef);
+
+          tmp_room->AddEnemy(enemy_body);
+        }
+        auto it1 = m_Rooms.find(_x);
+        if (it1 == m_Rooms.end()) {
+          m_Rooms.insert({ _x, { { _y, tmp_room } } });
+        } else {
+          it1->second.insert({ _y, tmp_room });
+        }
+
+        _x = _x_next;
+        _y = _y_next;
+
+        _cnt++;
+        prev_num = num;
+      }
+
+      /// now add walls to all the newly created rooms
+      for (auto row : m_Rooms) {
+        for (auto cell : row.second) {
+          cell.second->AddWalls(m_ScreenWidth, m_ScreenHeight, m_DoorWidth,
+              m_WallWidth, m_WallHeight);
+        }
       }
     }
   }

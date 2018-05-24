@@ -56,6 +56,8 @@ namespace RG {
       private:
         RG::Model::Room& __GetRoom(void) const;
 
+        void __GenerateRooms(unsigned int cnt);
+
         /// array of rooms present at this floor
         std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms;
         /// how deep under ground the floor is

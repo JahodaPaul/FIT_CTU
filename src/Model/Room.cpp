@@ -7,6 +7,7 @@ namespace RG {
         , m_GridPosition({ x, y })
         , m_Visited(false)
         {
+          m_Doors.resize(4,false);
         }
 
     Room::~Room() {}
