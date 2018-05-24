@@ -45,6 +45,7 @@ ADD_EXECUTABLE(game src/main.cpp
 
     src/Util/Logger.cpp
     src/Util/Subject.cpp
+    src/Util/Observer.cpp
 
     src/Controller/GameController.cpp
     src/Controller/MenuStateHandler.cpp 
