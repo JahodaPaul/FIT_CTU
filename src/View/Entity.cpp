@@ -4,17 +4,28 @@
 
 namespace RG{
     namespace View {
-        Entity::Entity(GameScene * gameScene) :
+        Entity::Entity(GameScene * gameScene, sol::state & luaState, std::string name) :
             correctionX( 0 )
             ,correctionY( 0 )
             ,m_moved{ false }
             ,windowX{0}
             ,windowY{0}
             ,time{0}
+            ,m_rotationCorrection{0}
         {
-            animation = std::make_shared<Animation>("/usr/share/RG/assets/graphics/objects/characters/zombie.png", 100, 87, 8, 40.0f);
+            if ( !luaState[name] )
+                name = "default";
+            std::string texture = luaState[name]["textureFile"];
+            int frameWidth = luaState[name]["frameWidth"];
+            int frameHeight = luaState[name]["frameHeight"];
+            int frameCount = luaState[name]["frameCount"];
+            float frameTime = luaState[name]["frameTime"];
+            m_rotationCorrection = luaState[name]["rotation"];
+            m_rotationCorrection += 90;
+            animation = std::make_shared<Animation>(texture.c_str(), frameWidth, frameHeight, frameCount, frameTime);
             gameScene->AddObserver( this );
             animation->setPosition(sf::Vector2f(this->x, this->y));
+            animation->setRotation(m_rotationCorrection);
             animation->goToFrame(0);
             animation->startAnimation();
         }
@@ -55,7 +66,8 @@ namespace RG{
                         Model::Entity * entity = (Model::Entity*)subject;
                         float absoluteX = entity->GetPosition().x - correctionX;
                         float absoluteY = entity->GetPosition().y - correctionY;
-                        this->animation->setRotation(entity->GetAngle() * 180 / M_PI + 90);
+                        this->animation->setRotation(entity->GetAngle() * 180.0f / M_PI + m_rotationCorrection);
+                        std::cout << m_rotationCorrection << std::endl;
                         this->SetPosition(absoluteX,absoluteY);
                         m_moved = true;
                         break;

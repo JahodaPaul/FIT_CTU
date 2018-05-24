@@ -83,6 +83,6 @@ ADD_EXECUTABLE(game src/main.cpp
     src/NPC/NPCWorldCycle.cpp )
 
 LINK_DIRECTORIES(/usr/local/lib)
-INCLUDE_DIRECTORIES( ./include )
+INCLUDE_DIRECTORIES( ./include ./sol2 )
 
-TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window sfml-audio ${OPENGL_LIBRARIES} Box2D stdc++fs)
+TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window sfml-audio ${OPENGL_LIBRARIES} Box2D stdc++fs lua)

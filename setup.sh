@@ -70,6 +70,9 @@ DownloadAssets() {
     sudo mkdir -p '/usr/share/RG/defaults'
     sudo cp './ListOfMusic.txt' './ListOfSound.txt' '/usr/share/RG/defaults'
 
+    echo "Creating 'lua' directory..."
+    sudo cp -r './lua' '/usr/share/RG/'
+
     sudo chmod -R 555 '/usr/share/RG/'
     cd /usr/share/RG
     echo ""

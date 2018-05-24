@@ -9,8 +9,8 @@
 
 namespace RG{
     namespace View {
-        Player::Player(GameScene * gameScene) :
-            Entity( gameScene )
+        Player::Player(GameScene * gameScene, sol::state & luaState) :
+            Entity( gameScene, luaState, {"player"} )
             ,relativeMoveX( 0 )
             ,relativeMoveY( 0 )
             {

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <math.h>
+
 #include "View/Animation.hpp"
 #include "View/Entity.hpp"
 #include "Util/Observer.hpp"
@@ -16,7 +17,7 @@ namespace RG{
         class GameScene;
         class Player : public Entity {
         public:
-            Player(GameScene *gameScene);
+            Player(GameScene *gameScene, sol::state & luaState);
             virtual ~Player();
 
             void SetPlayerSpeedY(float y);

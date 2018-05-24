@@ -7,8 +7,8 @@ namespace RG {
             ,m_windowSize{ view->getWindow()->getSize() }
             ,m_firstFrame{ true }
         {
-            player = std::make_shared<Player>(this);
-            test_zombie = std::make_shared<Entity>(this);
+            player = std::make_shared<Player>(this, view->getLuaState());
+            test_zombie = std::make_shared<Entity>(this, view->getLuaState(), "zombie");
             room = std::make_shared<RG::View::Room>();
             view->getGameController()->getModel().GetPlayer().AddObserver( player.get() );
             view->getGameController()->getModel().GetCurrentFloor().GetRoom().GetEntities()[0]->AddObserver( test_zombie.get() );

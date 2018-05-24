@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <math.h>
+#include <string>
+#include <sol.hpp>
 
 #include "View/Animation.hpp"
 #include "Util/Observer.hpp"
@@ -17,7 +19,7 @@ namespace RG{
         class GameScene;
         class Entity : public Util::Observer, public sf::Drawable {
         public:
-            Entity(GameScene * gameScene);
+            Entity(GameScene * gameScene, sol::state & luaState, std::string name);
             virtual ~Entity();
 
             void Update(View * view, float timeElapsed);
@@ -43,6 +45,7 @@ namespace RG{
 
             float time;
             std::shared_ptr<Animation> animation;
+            float m_rotationCorrection;
         };
     }
 }
