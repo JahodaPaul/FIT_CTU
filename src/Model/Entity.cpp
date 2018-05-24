@@ -8,6 +8,7 @@ namespace RG {
         , m_Defense(0)
         , m_Attack(attack)
     {
+      Deleted = false;
     }
 
     Entity::~Entity() {}

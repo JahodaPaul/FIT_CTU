@@ -42,6 +42,8 @@ namespace RG {
         void RecvAttack(int enemy_attack, std::shared_ptr<b2World> world);
 
         std::vector<std::shared_ptr<RG::Model::Entity>> GetEntities(void) const;
+   
+        void SweepDeadEntities(void);
 
       private:
         /// position in the map grid

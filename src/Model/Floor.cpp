@@ -83,6 +83,7 @@ namespace RG {
         if (obj && obj->IsDead()) {
           this->m_World->DestroyBody(_b);
           _b->SetUserData(nullptr);
+          obj->Deleted = true;
         }
         _b = _b->GetNext();
       }
@@ -131,6 +132,7 @@ namespace RG {
       m_Y = (v.y - m_WallHeight) / m_RoomHeight;
       if (m_X != _x || _y != m_Y) {
         Notify(this, Util::Event::ROOM_CHANGE);
+        m_Rooms.find(_x)->second.find(_y)->second->SweepDeadEntities();
       }
     }
 

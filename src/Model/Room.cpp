@@ -20,6 +20,15 @@ namespace RG {
         m_Doors[num] = add;
     }
 
+    void Room::SweepDeadEntities(void){
+      for(unsigned int i = 0; i<m_Entities.size(); ++i){
+        if(m_Entities[i]->Deleted){
+          m_Entities[i] = m_Entities.back();
+          m_Entities.pop_back();
+        }
+      }
+    }
+
     void Room::RemoveDoors(unsigned int num) { AddDoors(num, false); }
 
     std::vector<bool> Room::GetDoors(void) const { return m_Doors; }

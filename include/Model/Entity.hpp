@@ -30,6 +30,8 @@ namespace RG {
         void Move(const b2Vec2& v, float linear_damping = 0.04f,
             float angular_damping = 2.0f);
 
+        bool Deleted;
+
       private:
         /// health points
         int m_HP;
