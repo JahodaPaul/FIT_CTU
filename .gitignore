@@ -27,3 +27,5 @@ cmake-build-debug/
 
 #ignore vim tmp files
 *.swp
+
+/sol2

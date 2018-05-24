@@ -30,6 +30,21 @@ SetupLibraries() {
     echo "Updating imgui code..."
     echo ""
     cat 'imgui-sfml/imconfig-SFML.h' >> 'imgui/imconfig.h'
+
+
+    if [ -d 'sol2' ]; then
+        echo "'sol2' directory found, should I delete it and create new one? [y/n]"
+        read -s -n 1 ans; echo "$ans"
+        if [ "$ans" == "n" ]; then
+            return 0
+        else
+            rm -rf 'sol2'
+        fi fi
+    echo ""
+    echo ""
+    echo "Cloning sol2..."
+    echo ""
+    git clone https://github.com/ThePhD/sol2.git
     return 0
 }
 
@@ -54,6 +69,9 @@ DownloadAssets() {
     echo "Creating 'defaults' directory..."
     sudo mkdir -p '/usr/share/RG/defaults'
     sudo cp './ListOfMusic.txt' './ListOfSound.txt' '/usr/share/RG/defaults'
+
+    echo "Creating 'lua' directory..."
+    sudo cp -r './lua' '/usr/share/RG/'
 
     sudo chmod -R 555 '/usr/share/RG/'
     cd /usr/share/RG

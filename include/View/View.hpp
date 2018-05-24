@@ -7,6 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <sol.hpp>
+
 #include "imgui.h"
 #include "imgui-SFML.h"
 
@@ -95,6 +97,8 @@ namespace RG {
             SoundManager & getSoundManager();
 
             IOManager m_IOManager;
+
+            sol::state & getLuaState();
         private:
             std::shared_ptr<sf::RenderWindow> m_window;
             SCENE m_activeScene;
@@ -108,6 +112,8 @@ namespace RG {
             bool m_ImguiDemo;
             Console m_console;
             sf::Time m_timeElapsed;
+
+            sol::state m_lua;
         };
     }
 }

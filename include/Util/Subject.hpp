@@ -16,6 +16,6 @@ namespace RG { namespace Util {
         private:
             std::set<Observer *> m_observers;
         protected:
-            void Notify( const Subject * subject, Event event );
+            void Notify( Subject * subject, Event event );
     };
 } }

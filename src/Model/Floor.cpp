@@ -215,5 +215,9 @@ namespace RG {
         }
       }
     }
+    unsigned int Floor::GetRoomId(void) const
+    {
+      return 1000000 * m_Level + 1000 * m_X + m_Y;
+    }
   }
 }

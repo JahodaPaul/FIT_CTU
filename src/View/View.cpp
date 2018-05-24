@@ -5,6 +5,9 @@ namespace RG {
         View::View(Controller::GameController *controller, std::pair<int,int> windowSize, const char *windowTitle)
                 : m_gameControllet(controller),
                   m_ImguiDemo(false) {
+            //TODO(vojta) move to correct location
+            m_lua.script_file("/usr/share/RG/lua/characters.lua");
+
             m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize.first, windowSize.second),
                                                           windowTitle, sf::Style::Default,
                                                           sf::ContextSettings{0u, 0u, 4u, 1u, 1u, 0u, false});
@@ -100,6 +103,9 @@ namespace RG {
 
         const sf::View & View::GetView() {
             return m_window->getView();
+        }
+        sol::state & View::getLuaState() {
+            return m_lua;
         }
     }
 }

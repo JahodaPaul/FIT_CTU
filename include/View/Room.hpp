@@ -1,27 +1,31 @@
-//
-// Created by pjahoda on 1.5.18.
-//
-
-#ifndef GAME_ROOM_H
-#define GAME_ROOM_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
+#include <sol.hpp>
 
+#include "Model/Floor.hpp"
+#include "Model/Model.hpp"
 #include "RoomHistory.hpp"
+#include "View/Animation.hpp"
+#include "View/Entity.hpp"
+#include "Util/Observer.hpp"
 
 namespace RG{
     namespace View{
-        class Room : RoomHistory{
+        class GameScene;
+        class Room : RoomHistory, public sf::Drawable, public Util::Observer{
         public:
-            Room();
+            Room(GameScene * scene, sol::state & lua, Model::Model * model);
             ~Room();
-            void DrawRoom(int level, int id, sf::RenderTarget &target);
-            void DrawDoor(sf::RenderTarget &target, bool top, bool right, bool down, bool left, float, float);
-            void SetSpriteScale(float,float);
+            void ChangeRoom(Model::Floor * floor);
+            void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+            void SetDoors(std::vector<bool> doors);
+            void Update(View * view, float timeElapsed);
+            virtual void onNotify(Util::Subject * subject, Util::Event event) override;
         protected:
         private:
-            float posX;
-            float posY;
+            void SetScale(float,float);
+            sol::state m_lua;
             void SetDoorScaleLeftRight(float x, float y);
             void SetDoorScaleTopBot(float x, float y);
 
@@ -36,25 +40,20 @@ namespace RG{
             float winDoorsX;
             float winDoorsY;
 
-            sf::Texture door_up_texture;
-            sf::Sprite door_up;
-
-            sf::Texture door_right_texture;
-            sf::Sprite door_right;
-
-            sf::Texture door_down_texture;
-            sf::Sprite door_down;
-
-            sf::Texture door_left_texture;
-            sf::Sprite door_left;
-
+            struct {
+                sf::Sprite sprite;
+                sf::Texture texture;
+                bool visible;
+            } doors[4];
             const std::string room_bluestone;
             const std::string room_blackstone;
             const std::string room_cobblestone;
             const std::string room_soil;
             const std::string room_lava;
+
+            std::vector<Entity> enemies;
+            GameScene * m_gameScene;
+            Model::Model * m_model;
         };
     }
 }
-
-#endif //GAME_ROOM_H

@@ -3,12 +3,16 @@
 namespace RG {
     namespace View {
         GameScene::GameScene(View *view) :
-            Scene( view ),
-            m_firstFrame{ true } {
-            player = std::make_shared<Player>();
-            room = std::make_shared<RG::View::Room>();
+            Scene( view )
+            ,m_windowSize{ view->getWindow()->getView().getSize() }
+            ,m_firstFrame{ true }
+        {
+            player = std::make_shared<Player>(this, view->getLuaState());
+            room = std::make_shared<RG::View::Room>(this, view->getLuaState(), &view->getGameController()->getModel() );
             view->getGameController()->getModel().GetPlayer().AddObserver( player.get() );
             view->getGameController()->getModel().GetCurrentFloor().AddObserver( player.get() );
+            room->ChangeRoom(&view->getGameController()->getModel().GetCurrentFloor());
+            Notify( this, Util::Event::WINDOW_RESIZE );
         }
 
         GameScene::~GameScene() {
@@ -16,18 +20,14 @@ namespace RG {
 
         void GameScene::Update(View *view, float timeElapsed) {
             view->getGameController()->RunNPCWorld();
-            view->getGameController()->MoveModel(this->GetPlayerSpeedX(),this->GetPlayerSpeedY());
-            this->UpdatePlayer(view, timeElapsed);
+            view->getGameController()->MoveModel(player->GetPlayerSpeedX(),player->GetPlayerSpeedY());
+            player->Update(view, timeElapsed);
+            room->Update(view, timeElapsed);
         }
 
         void GameScene::Render(View *view) {
-            this->DrawRoom(view);
-            this->DrawPlayer(view);
-            if (m_firstFrame) {
-                m_firstFrame = false;
-                player->SetPlayerScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
-                room->SetSpriteScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
-            }
+            view->getWindow()->draw( *room );
+            view->getWindow()->draw( *player );
         }
 
         void GameScene::ManageInput(View *view) {
@@ -42,34 +42,34 @@ namespace RG {
 
                 if(event.key.code == sf::Keyboard::Right){
                     if (event.type == sf::Event::KeyPressed) {
-                        this->SetPlayerSpeedX(speed);
+                        player->SetPlayerSpeedX(speed);
                     }
                     else if (event.type == sf::Event::KeyReleased) {
-                        this->SetPlayerSpeedX(speed * -1);
+                        player->SetPlayerSpeedX(speed * -1);
                     }
                 }
                 if(event.key.code == sf::Keyboard::Left){
                     if (event.type == sf::Event::KeyPressed) {
-                        this->SetPlayerSpeedX(speed * -1);
+                        player->SetPlayerSpeedX(speed * -1);
                     }
                     else if (event.type == sf::Event::KeyReleased) {
-                        this->SetPlayerSpeedX(speed);
+                        player->SetPlayerSpeedX(speed);
                     }
                 }
                 if(event.key.code == sf::Keyboard::Up){
                     if (event.type == sf::Event::KeyPressed) {
-                        this->SetPlayerSpeedY(speed * -1);
+                        player->SetPlayerSpeedY(speed * -1);
                     }
                     else if (event.type == sf::Event::KeyReleased) {
-                        this->SetPlayerSpeedY(speed);
+                        player->SetPlayerSpeedY(speed);
                     }
                 }
                 if(event.key.code == sf::Keyboard::Down){
                     if (event.type == sf::Event::KeyPressed) {
-                        this->SetPlayerSpeedY(speed);
+                        player->SetPlayerSpeedY(speed);
                     }
                     else if (event.type == sf::Event::KeyReleased) {
-                        this->SetPlayerSpeedY(speed * -1);
+                        player->SetPlayerSpeedY(speed * -1);
                     }
                 }
 
@@ -80,40 +80,14 @@ namespace RG {
                 }
 
                 if (event.type == sf::Event::Resized) {
-                    player->SetPlayerScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
-                    room->SetSpriteScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
+                    m_windowSize = view->getWindow()->getView().getSize();
+                    Notify( this, Util::Event::WINDOW_RESIZE );
                 }
             }
         }
-        void GameScene::UpdatePlayer(View * view, float timeElapsed) {//float relativeMoveX, float relativeMoveY,
-            player->UpdatePlayer(view, timeElapsed);
-        }
 
-        void GameScene::DrawPlayer(View *view) {
-            player->DrawPlayer(*view->getWindow());
+        const sf::Vector2f & GameScene::getWindowSize() const {
+            return m_windowSize;
         }
-
-        void GameScene::DrawRoom(View *view) {
-            room->DrawRoom(view->getGameController()->GetFloorLevel(),view->getGameController()->GetRoomId(),*view->getWindow());
-            std::vector<bool> temporary = view->getGameController()->GetRoomDoors();
-            room->DrawDoor(*view->getWindow(), temporary[0],temporary[1],temporary[2],temporary[3],view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
-        }
-
-        void GameScene::SetPlayerSpeedX(float x) {
-            this->player->SetPlayerSpeedX(x);
-        }
-
-        void GameScene::SetPlayerSpeedY(float y) {
-            this->player->SetPlayerSpeedY(y);
-        }
-
-        float GameScene::GetPlayerSpeedX() {
-            return this->player->GetPlayerSpeedX();
-        }
-
-        float GameScene::GetPlayerSpeedY() {
-            return this->player->GetPlayerSpeedY();
-        }
-
     }
 }
