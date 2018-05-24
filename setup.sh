@@ -81,7 +81,7 @@ DownloadAssets() {
     echo ""
     echo "Downloading assets..."
     echo ""
-    sudo curl 'ftp://mybestcloud.xyz/pub/assets-20180506T223100Z-001.zip' --output 'graphics.zip' 2>/dev/null
+    sudo curl 'ftp://mybestcloud.xyz/pub/assets_aktual.zip' --output 'graphics.zip' 2>/dev/null
     sudo unzip 'graphics.zip'
     sudo rm 'graphics.zip'
     sudo chmod -R 555 '/usr/share/RG/'
