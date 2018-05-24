@@ -8,28 +8,27 @@ SetupLibraries() {
     if [ -d 'imgui' -o -d 'imgui-sfml' ]; then
         echo "'imgui' or 'imgui-sfml' directory found, should I delete it and create new one? [y/n]"
         read -s -n 1 ans; echo "$ans"
-        if [ "$ans" == "n" ]; then
-            return 0
-        else
+        if [ "$ans" != "n" ]; then
             rm -rf 'imgui' 'imgui-sfml'
-        fi fi
-    echo ""
-    echo ""
-    echo "Cloning imgui..."
-    echo ""
-    git clone https://github.com/ocornut/imgui.git
+            echo ""
+            echo ""
+            echo "Cloning imgui..."
+            echo ""
+            git clone https://github.com/ocornut/imgui.git
 
-    echo ""
-    echo ""
-    echo "Cloning imgui SFML binding..."
-    echo ""
-    git clone https://github.com/eliasdaler/imgui-sfml.git
+            echo ""
+            echo ""
+            echo "Cloning imgui SFML binding..."
+            echo ""
+            git clone https://github.com/eliasdaler/imgui-sfml.git
 
-    echo ""
-    echo ""
-    echo "Updating imgui code..."
-    echo ""
-    cat 'imgui-sfml/imconfig-SFML.h' >> 'imgui/imconfig.h'
+            echo ""
+            echo ""
+            echo "Updating imgui code..."
+            echo ""
+            cat 'imgui-sfml/imconfig-SFML.h' >> 'imgui/imconfig.h'
+        fi
+    fi
 
 
     if [ -d 'sol2' ]; then
