@@ -4,15 +4,14 @@ namespace RG {
     namespace View {
         GameScene::GameScene(View *view) :
             Scene( view )
-            ,m_windowSize{ view->getWindow()->getSize() }
+            ,m_windowSize{ view->getWindow()->getView().getSize() }
             ,m_firstFrame{ true }
         {
             player = std::make_shared<Player>(this, view->getLuaState());
-            test_zombie = std::make_shared<Entity>(this, view->getLuaState(), "zombie");
-            room = std::make_shared<RG::View::Room>();
+            room = std::make_shared<RG::View::Room>(this, view->getLuaState(), &view->getGameController()->getModel() );
             view->getGameController()->getModel().GetPlayer().AddObserver( player.get() );
-            view->getGameController()->getModel().GetCurrentFloor().GetRoom().GetEntities()[0]->AddObserver( test_zombie.get() );
             view->getGameController()->getModel().GetCurrentFloor().AddObserver( player.get() );
+            room->ChangeRoom(&view->getGameController()->getModel().GetCurrentFloor());
             Notify( this, Util::Event::WINDOW_RESIZE );
         }
 
@@ -23,17 +22,12 @@ namespace RG {
             view->getGameController()->RunNPCWorld();
             view->getGameController()->MoveModel(player->GetPlayerSpeedX(),player->GetPlayerSpeedY());
             player->Update(view, timeElapsed);
-            test_zombie->Update(view, timeElapsed);
+            room->Update(view, timeElapsed);
         }
 
         void GameScene::Render(View *view) {
-            this->DrawRoom(view);
+            view->getWindow()->draw( *room );
             view->getWindow()->draw( *player );
-            view->getWindow()->draw( *test_zombie );
-            if (m_firstFrame) {
-                m_firstFrame = false;
-                room->SetSpriteScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
-            }
         }
 
         void GameScene::ManageInput(View *view) {
@@ -88,15 +82,8 @@ namespace RG {
                 if (event.type == sf::Event::Resized) {
                     m_windowSize = view->getWindow()->getView().getSize();
                     Notify( this, Util::Event::WINDOW_RESIZE );
-                    room->SetSpriteScale( view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
                 }
             }
-        }
-
-        void GameScene::DrawRoom(View *view) {
-            room->DrawRoom(view->getGameController()->GetFloorLevel(),view->getGameController()->GetRoomId(),*view->getWindow());
-            std::vector<bool> temporary = view->getGameController()->GetRoomDoors();
-            room->DrawDoor(*view->getWindow(), temporary[0],temporary[1],temporary[2],temporary[3],view->getWindow()->getView().getSize().x,view->getWindow()->getView().getSize().y);
         }
 
         const sf::Vector2f & GameScene::getWindowSize() const {

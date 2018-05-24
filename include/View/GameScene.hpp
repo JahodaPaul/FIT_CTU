@@ -51,8 +51,6 @@ namespace RG {
 
             void SetPlayer();
 
-            void DrawRoom(View *view);
-
             std::shared_ptr<Entity> test_zombie;
 
             std::shared_ptr<RG::View::Player> player;

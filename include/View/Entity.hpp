@@ -19,8 +19,10 @@ namespace RG{
         class GameScene;
         class Entity : public Util::Observer, public sf::Drawable {
         public:
-            Entity(GameScene * gameScene, sol::state & luaState, std::string name);
+            Entity(GameScene * gameScene, sol::state & luaState, std::string name, float sizeY = 20, float sizeX = 20);
             virtual ~Entity();
+
+            void setCorrection( float correctionX, float correctionY );
 
             void Update(View * view, float timeElapsed);
 
@@ -28,7 +30,9 @@ namespace RG{
 
             void SetScale(float x, float y);
 
-            virtual void onNotify(const Util::Subject * subject, Util::Event event) override;
+            virtual void onNotify(Util::Subject * subject, Util::Event event) override;
+
+            bool Alive() const;
 
         protected:
             void SetPosition(float x, float y);
@@ -46,6 +50,10 @@ namespace RG{
             float time;
             std::shared_ptr<Animation> animation;
             float m_rotationCorrection;
+            float sizeX;
+            float sizeY;
+
+            bool m_alive;
         };
     }
 }

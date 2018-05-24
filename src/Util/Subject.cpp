@@ -9,7 +9,7 @@ namespace RG { namespace Util {
     void Subject::RemoveObserver( Observer * observer ) {
         m_observers.erase( observer );
     }
-    void Subject::Notify( const Subject * subject, Event event ) {
+    void Subject::Notify( Subject * subject, Event event ) {
         for ( auto it : m_observers ) {
             it->onNotify( subject, event );
         }

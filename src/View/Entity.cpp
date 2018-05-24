@@ -4,15 +4,18 @@
 
 namespace RG{
     namespace View {
-        Entity::Entity(GameScene * gameScene, sol::state & luaState, std::string name) :
-            correctionX( 0 )
-            ,correctionY( 0 )
+        Entity::Entity(GameScene * gameScene, sol::state & luaState, std::string name, float sizeX, float sizeY) :
+            correctionX{ 0 }
+            ,correctionY{ 0 }
             ,m_moved{ false }
-            ,windowX{0}
-            ,windowY{0}
             ,time{0}
             ,m_rotationCorrection{0}
+            ,sizeX{ sizeX }
+            ,sizeY{ sizeY }
+            ,m_alive{ true }
         {
+            windowX = gameScene->getWindowSize().x; 
+            windowY = gameScene->getWindowSize().y;
             if ( !luaState[name] )
                 name = "default";
             std::string texture = luaState[name]["textureFile"];
@@ -28,9 +31,15 @@ namespace RG{
             animation->setRotation(m_rotationCorrection);
             animation->goToFrame(0);
             animation->startAnimation();
+            SetScale( windowX, windowY );
         }
 
         Entity::~Entity() {}
+
+        void Entity::setCorrection( float correctionX, float correctionY ) {
+            this->correctionX = correctionX;
+            this->correctionY = correctionY;
+        }
 
         void Entity::SetPosition(float x, float y) {
             this->x = x;
@@ -50,16 +59,18 @@ namespace RG{
         }
 
         void Entity::SetScale(float windowWidth, float windowHeight){
-            if(windowWidth != windowX || windowHeight != windowY) {
-                float scaleX = (windowWidth / 20) / this->animation->getSize().x;
-                float scaleY = (windowWidth / 20) / this->animation->getSize().x;
+                float scaleX = (windowWidth / sizeX) / this->animation->getSize().x;
+                float scaleY = (windowWidth / sizeY) / this->animation->getSize().y;
                 this->animation->setScale(scaleX, scaleY);
                 windowX = windowWidth;
                 windowY = windowHeight;
-            }
         }
 
-        void RG::View::Entity::onNotify(const Util::Subject * subject, Util::Event event) {
+        bool Entity::Alive() const {
+            return m_alive;
+        }
+
+        void RG::View::Entity::onNotify(Util::Subject * subject, Util::Event event) {
             switch(event) {
                 case Util::Event::ENTITY_MOVE:
                     {
@@ -67,7 +78,6 @@ namespace RG{
                         float absoluteX = entity->GetPosition().x - correctionX;
                         float absoluteY = entity->GetPosition().y - correctionY;
                         this->animation->setRotation(entity->GetAngle() * 180.0f / M_PI + m_rotationCorrection);
-                        std::cout << m_rotationCorrection << std::endl;
                         this->SetPosition(absoluteX,absoluteY);
                         m_moved = true;
                         break;
@@ -84,6 +94,11 @@ namespace RG{
                         GameScene * gameScene = (GameScene*)subject;
                         SetScale( gameScene->getWindowSize().x, gameScene->getWindowSize().y );
                         break;
+                    }
+                case Util::Event::ENTITY_DEAD:
+                    {
+                        subject->RemoveObserver( this );
+                        m_alive = false;
                     }
                 default:
                     break;

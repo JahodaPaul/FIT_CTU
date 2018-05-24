@@ -53,6 +53,8 @@ namespace RG {
         unsigned int m_RoomHeight;
         unsigned int m_RoomWidth;
 
+        unsigned int GetRoomId(void) const;
+
       private:
         RG::Model::Room& __GetRoom(void) const;
 
