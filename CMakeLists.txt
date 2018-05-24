@@ -66,6 +66,7 @@ ADD_EXECUTABLE(game src/main.cpp
     src/View/SoundManager.cpp
     src/View/DebugDraw.cpp
     src/View/Entity.cpp
+    src/View/NPCLog.cpp
 
     src/Model/Model.cpp
     src/Model/Object.cpp

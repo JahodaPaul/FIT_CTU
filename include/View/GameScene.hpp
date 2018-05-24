@@ -8,6 +8,7 @@
 #include "View/Room.hpp"
 #include "Util/Subject.hpp"
 #include "View/SoundManager.hpp"
+#include "View/NPCLog.hpp"
 
 #include <iostream>
 
@@ -57,6 +58,7 @@ namespace RG {
             std::shared_ptr<RG::View::Player> player;
             std::shared_ptr<RG::View::Room> room;
             bool m_firstFrame;
+            NPCLog m_npcLog;
         };
     }
 }

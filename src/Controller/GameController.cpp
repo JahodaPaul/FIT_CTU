@@ -91,4 +91,7 @@ namespace RG { namespace Controller {
     Model::Model & GameController::getModel() {
         return *m_model;
     }
+    NPC::NPCWorldCycle & GameController::getNPCWorldCycle() {
+        return *m_NPCWorld;
+    }
 } }

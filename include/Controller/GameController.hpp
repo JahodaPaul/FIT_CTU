@@ -59,6 +59,7 @@ namespace RG { namespace Controller {
             void StepModel(float step) const;
             float GetPlayerAngle() const;
             Model::Model & getModel();
+            NPC::NPCWorldCycle & getNPCWorldCycle();
 
         private:
             std::shared_ptr<RG::View::View> m_view;

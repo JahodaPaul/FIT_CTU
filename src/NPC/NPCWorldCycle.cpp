@@ -39,6 +39,10 @@ namespace RG{
 
         }
 
+        RG::NPC::Market & NPCWorldCycle::getMarket() {
+            return *market;
+        }
+
         void NPCWorldCycle::Run() {
             if(!EntitiesChoseItemsToWorkOn){
                 this->market->EntitiesChooseFirstItemToWorkOn();

@@ -76,6 +76,10 @@ namespace RG{
             }
         }
 
+        RG::NPC::MatchingEngine & Market::getMatchingEngine() {
+            return matchingEngine;
+        }
+
         void RG::NPC::Market::MatchingEngineMatch(){
             this->matchingEngine.Match(offers,demands);
         }

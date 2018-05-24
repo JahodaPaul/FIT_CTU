@@ -28,6 +28,10 @@ namespace RG{
             return priceDemandedForItem+priceOfferedForItem/2;
         }
 
+        const std::string & MatchingEngine::getOutput() const {
+            return m_output;
+        }
+
         void MatchingEngine::Match(std::map<int, std::vector<Request> > &offers,
                                    std::map<int, std::vector<Request> > &demands) {
 
@@ -46,7 +50,9 @@ namespace RG{
                             if(offer.price <= itDemand->second[i].price){
                                 int matchedPrice = this->MatchingPrice(itDemand->second[i].price, offer.price);
 
-                                std::cout << offer.player->GetName() << " sold " << offer.item->GetName() << " to " << itDemand->second[i].player->GetName() << " for " << matchedPrice << "." << std::endl;
+                                //std::cout << offer.player->GetName() << " sold " << offer.item->GetName() << " to " << itDemand->second[i].player->GetName() << " for " << matchedPrice << "." << std::endl;
+                                m_output = offer.player->GetName() + " sold " + offer.item->GetName() + " to " + itDemand->second[i].player->GetName() + " for " + std::to_string(matchedPrice) + ".\n";
+                                Notify( this, Util::Event::ITEM_SOLD );
 
                                 //transfer items and money
                                 offer.player->AddMoney(matchedPrice);

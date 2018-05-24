@@ -35,6 +35,7 @@ namespace RG{
             ///what items player owns
             std::shared_ptr< std::vector<std::shared_ptr<RG::NPC::Item>> > ReturnPlayerItems();
 
+            RG::NPC::Market & getMarket();
         protected:
         private:
             std::shared_ptr<RG::NPC::Market> market;
