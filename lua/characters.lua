@@ -4,7 +4,9 @@ default = {
     frameHeight = 87,
     frameCount = 1,
     frameTime = 9999,
-    rotation = 0
+    rotation = 0,
+    Dead = function() end,
+    Hurt = function() end
 }
 
 zombie = {
@@ -13,7 +15,9 @@ zombie = {
     frameHeight = 87,
     frameCount = 8,
     frameTime = 40,
-    rotation = 180
+    rotation = 180,
+    Dead = function() play_sound("hurt1", 50) end,
+    Hurt = function() play_sound("hurt1", 50) end,
 }
 
 player = {
@@ -22,5 +26,7 @@ player = {
     frameHeight = 91,
     frameCount = 12,
     frameTime = 40,
-    rotation = 0
+    rotation = 0,
+    Dead = function() play_sound("hurt1", 50) end,
+    Hurt = function() play_sound("hurt1", 50) end,
 }

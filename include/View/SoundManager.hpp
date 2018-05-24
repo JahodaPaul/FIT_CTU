@@ -81,7 +81,7 @@ namespace RG { namespace View {
 
             /**	* \brief
               Plays the sound by name of sound. */
-            int PlaySound(std::string name, int volume = 50, const sf::Vector3f & position = {0,0,0} );
+            int PlaySound(std::string name, int volume = 50);
             //int PlaySound(std::string name, const sf::Vector3f & position = {0,0,0}, int volume = 50 );
 
             // (vojta) nastav pozici pro zvuk kde id je to co vrati PlaySound()

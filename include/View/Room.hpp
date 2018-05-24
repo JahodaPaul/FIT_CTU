@@ -25,7 +25,7 @@ namespace RG{
         protected:
         private:
             void SetScale(float,float);
-            sol::state m_lua;
+            sol::state & m_lua;
             void SetDoorScaleLeftRight(float x, float y);
             void SetDoorScaleTopBot(float x, float y);
 

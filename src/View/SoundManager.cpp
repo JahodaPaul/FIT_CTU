@@ -19,7 +19,7 @@ SoundManager::SoundManager(unsigned int maxSounds ) :
 
 void SoundManager::setListenerPosition( const sf::Vector3f & position ) {}
 
-int SoundManager::PlaySound(std::string name, int volume, const sf::Vector3f & position )
+int SoundManager::PlaySound(std::string name, int volume )
 {
     
     if(m_listOfSounds.find(name) == m_listOfSounds.end())

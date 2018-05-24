@@ -13,6 +13,8 @@ namespace RG{
             ,sizeX{ sizeX }
             ,sizeY{ sizeY }
             ,m_alive{ true }
+            ,m_lua{ &luaState }
+            ,m_name{ name }
         {
             windowX = gameScene->getWindowSize().x; 
             windowY = gameScene->getWindowSize().y;
@@ -99,6 +101,13 @@ namespace RG{
                     {
                         subject->RemoveObserver( this );
                         m_alive = false;
+                        (*m_lua)[m_name]["Dead"]();
+                        break;
+                    }
+                case Util::Event::ENTITY_DAMAGED:
+                    {
+                        (*m_lua)[m_name]["Hurt"]();
+                        break;
                     }
                 default:
                     break;

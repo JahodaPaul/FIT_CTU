@@ -54,6 +54,8 @@ namespace RG{
             float sizeY;
 
             bool m_alive;
+            sol::state * m_lua;
+            std::string m_name;
         };
     }
 }

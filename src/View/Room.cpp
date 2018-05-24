@@ -12,10 +12,10 @@ namespace RG {
             ,room_lava("/usr/share/RG/assets/graphics/backgrounds/rooms/LavaBG.png")
             ,m_gameScene( gameScene )
             ,m_model( model )
+            ,m_lua( lua )
             {
                 windowX = gameScene->getWindowSize().x;
                 windowY = gameScene->getWindowSize().y;
-                m_lua.script_file("/usr/share/RG/lua/characters.lua");
                 currentId = -1;
                 doors[0].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-top.png");
                 doors[1].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-right.png");

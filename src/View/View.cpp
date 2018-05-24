@@ -6,6 +6,8 @@ namespace RG {
                 : m_gameControllet(controller),
                   m_ImguiDemo(false) {
             //TODO(vojta) move to correct location
+            m_lua.open_libraries(sol::lib::base);
+            m_lua.set_function("play_sound", &SoundManager::PlaySound, &m_soundManager);
             m_lua.script_file("/usr/share/RG/lua/characters.lua");
 
             m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize.first, windowSize.second),
@@ -49,7 +51,7 @@ namespace RG {
                 return 0;
             }));
 
-            m_soundManager.PlayMusic();
+            m_soundManager.PlayMusic(20);
         }
 
         View::~View() {}
