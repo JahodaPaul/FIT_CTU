@@ -17,18 +17,24 @@ namespace RG{
         public:
             Entity(std::string name, int startGold, std::shared_ptr<RG::NPC::Intelligence> intelligence, int entityId, bool isPlayer=false, bool questNPCOnly=false,int inventorySize = 5);
             virtual ~Entity();
+            ///create NPC::Item
             void Work();
             void AddMoney(int money);
             void SubtractMoney(int money);
 
 
             void Taxes(int money){};//TODO LATER
+
+            ///whether entity is character controlled by person behind the computer or not
             bool IsPlayer() const;
             std::shared_ptr<RG::NPC::Intelligence> GetIntelligence();
             void SetItem(std::shared_ptr<RG::NPC::Item> item);
+
             std::shared_ptr< std::vector<std::shared_ptr<RG::NPC::Item>> > GetItemsIOwn();
 
+            ///Function for matching engine, for buying NPC::Item
             void AddItem(std::shared_ptr<RG::NPC::Item> );
+            ///Function for matching engine, for selling NPC::Item
             void DeleteItemBasedOnID(int id);
 
             std::string GetName();

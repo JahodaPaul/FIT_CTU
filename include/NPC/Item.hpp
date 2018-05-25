@@ -9,6 +9,7 @@
 
 namespace RG{
     namespace NPC{
+        ///object containing ID, type, rarity and name of the item
         class Item{
         public:
             Item(int id, int idType, int rarity, std::string name);

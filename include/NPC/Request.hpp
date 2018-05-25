@@ -12,6 +12,7 @@
 
 namespace RG{
     namespace NPC{
+        ///object containing NPC::Item, price and NPC::Entity that is buying or selling said item
         class Request{
         public:
             Request(){

@@ -14,6 +14,8 @@ namespace RG{
             NPCWorldCycle();
             NPCWorldCycle(int numberOfEntities, int numberOfGoldToBeginWith);
             ~NPCWorldCycle();
+
+            /// Entities choose items to create (if necessary), work on those items, buy or sell items and then matchingEngine match function is called
             void Run();
 
 
