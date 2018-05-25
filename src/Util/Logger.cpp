@@ -53,6 +53,10 @@ namespace RG { namespace Util {
 
         std::stringstream outStream;
 
+        if (type == TYPE::ERROR)
+            outStream << RED;
+        if (type == TYPE::WARNING)
+            outStream << YELLOW;
         if (m_Flags & CLogger::FLAGS::LEVEL)
             outStream << "[" << m_Levels[type] << "]" << m_Delimiter;
         if (m_Flags & CLogger::FLAGS::DATETIME)
@@ -63,6 +67,7 @@ namespace RG { namespace Util {
             outStream << "[line: " << line << "]" << m_Delimiter;
         outStream << msg;
         outStream << "\n";
+        outStream << RESET;
 
         if (type >= m_StdLim)
             std::cout << outStream.str();
