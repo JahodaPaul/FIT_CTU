@@ -46,7 +46,10 @@ namespace RG { namespace Controller {
             void setActiveGameState( STATES state );
             bool m_running;
 
+            /// returns a floor-unique room id
             int GetRoomId();
+
+            /// returns how deep under ground the player currently is
             int GetFloorLevel();
 
             void RunNPCWorld();
@@ -54,10 +57,16 @@ namespace RG { namespace Controller {
             ///top right down left
             std::vector<bool> GetRoomDoors();
 
-            std::pair<float, float> GetPlayerPos() const;
+            /// sends a message to the model to move the player in the physical world
             void MoveModel(float x, float y) const;
+
+            /**
+             * \function StepModel
+             * \brief step time in the physical world
+             * @param step how much time has elapsed since the last time the function was called
+             */
             void StepModel(float step) const;
-            float GetPlayerAngle() const;
+            
             Model::Model & getModel();
             NPC::NPCWorldCycle & getNPCWorldCycle();
 

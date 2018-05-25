@@ -34,15 +34,6 @@ namespace RG {
         /// returns reference to the current floor
         RG::Model::Floor& GetCurrentFloor(void) const;
 
-        /// returns player's current position
-        std::pair<float, float> GetPlayerPosition(void) const; // TODO
-
-        /// returns player's current rotation in degrees // FIXME(vanda, units)
-        float GetPlayerRotation(void) const;
-
-        /// returns player's radius
-        float GetPlayerRadius(void) const;
-
         /// returns how deep under ground the player currently is
         int GetFloorLevel(void) const;
 
@@ -50,8 +41,6 @@ namespace RG {
         unsigned int GetRoomId(void) const;
 
         std::vector<bool> GetRoomDoors(int) const;
-
-        // std::vector<type> GetEntityList(void) const;
 
         /**
          * \function Step
