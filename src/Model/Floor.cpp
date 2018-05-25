@@ -131,8 +131,8 @@ namespace RG {
       m_X = (v.x - m_WallWidth) / m_RoomWidth;
       m_Y = (v.y - m_WallHeight) / m_RoomHeight;
       if (m_X != _x || _y != m_Y) {
-        Notify(this, Util::Event::ROOM_CHANGE);
         m_Rooms.find(_x)->second.find(_y)->second->SweepDeadEntities();
+        Notify(this, Util::Event::ROOM_CHANGE);
       }
     }
 
