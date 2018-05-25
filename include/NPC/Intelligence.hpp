@@ -22,10 +22,14 @@ namespace RG{
         public:
             Intelligence();
             virtual ~Intelligence();
+            /// intelligence decides whether to buy or sell and if so what item based on function
+            /// returns vector of objects containing item, price and whether to buy or sell
             virtual std::vector<RG::NPC::HalfRequest> BuyOrSell(std::shared_ptr<std::vector<std::shared_ptr<RG::NPC::Item>>>
                                                                 itemsIOwn, std::map<int,std::vector<Request> > & offers,
                                                                 std::map<int,std::vector<Request> > & demands,
                                                                 std::vector<std::shared_ptr<RG::NPC::Item> > &, int goldEntityOwns) = 0;
+
+            ///NPC characters are able to create items, this functions decides what items should the NPC focus on
             virtual std::shared_ptr<RG::NPC::Item> ChooseItemToCreate(std::vector<std::shared_ptr<RG::NPC::Item>> & items,
                                                                       std::map<int,std::vector<Request> > & offers,
                                                                       std::map<int,std::vector<Request> > & demands) = 0;
