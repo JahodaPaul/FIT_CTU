@@ -17,8 +17,14 @@ namespace RG{
         public:
             Room(GameScene * scene, sol::state & lua, Model::Model * model);
             ~Room();
+
+            /// assigns background image if the room has never been visited
+            /// if it has been visited - changes background image based on room ID
+            /// receives from model which doors to draw
             void ChangeRoom(Model::Floor * floor);
             void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+            ///Sets which doors are visible
             void SetDoors(std::vector<bool> doors);
             void Update(View * view, float timeElapsed);
             virtual void onNotify(Util::Subject * subject, Util::Event event) override;
@@ -30,6 +36,7 @@ namespace RG{
             void SetDoorScaleTopBot(float x, float y);
 
             int currentId;
+            ///assign background image to new room
             void AssignBackground(int level, int id);
             void SetDoorPosition();
             sf::Texture room_texure;

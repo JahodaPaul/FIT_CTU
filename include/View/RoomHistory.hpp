@@ -20,10 +20,20 @@ namespace RG{
         protected:
             std::map<std::string,std::string> roomHistory;
         private:
+
+            ///calls FileToMap function
             void LoadHistory();
+
+            ///calls MapToFile function
             void SaveHistoroy();
+
+            /// loads room history - map where key is room ID and value is string path to background image
             bool FileToMap(const std::string &filename, std::map<std::string,std::string> &);
+
+            /// saves room history - map where key is room ID and value is string path to background image
             bool MapToFile(const std::string &filename,const std::map<std::string,std::string> &);
+
+            ///split string (line in a file) based on delimeter parameter
             std::vector<std::string> Split(std::string strToSplit, char delimeter);
 
             const std::string historyFileName = "./history.txt";

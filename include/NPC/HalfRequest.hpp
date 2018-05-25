@@ -11,6 +11,7 @@
 
 namespace RG{
     namespace NPC{
+        ///Object containing - NPC::Item, price and whether to buy or sell said item
         class HalfRequest{
         public:
             HalfRequest(){
