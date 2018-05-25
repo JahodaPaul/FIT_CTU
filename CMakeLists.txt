@@ -33,7 +33,7 @@ FIND_PACKAGE(SFML 2.4 REQUIRED system window graphics network audio)
 find_package(OpenGL REQUIRED)
 
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
-INCLUDE_DIRECTORIES( ./include ./imgui ./imgui-sfml )
+INCLUDE_DIRECTORIES( ./include ./imgui ./imgui-sfml /usr/include/lua5.3 )
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -fsanitize=address -DDEBUG_DRAW")
 
@@ -88,4 +88,4 @@ ADD_EXECUTABLE(game src/main.cpp
 LINK_DIRECTORIES(/usr/local/lib)
 INCLUDE_DIRECTORIES( ./include ./sol2 )
 
-TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window sfml-audio ${OPENGL_LIBRARIES} Box2D stdc++fs lua)
+TARGET_LINK_LIBRARIES (game sfml-graphics sfml-system sfml-window sfml-audio ${OPENGL_LIBRARIES} Box2D stdc++fs lua5.3)
