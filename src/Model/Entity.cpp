@@ -17,10 +17,13 @@ namespace RG {
 
     void Entity::RecvAttack(int enemy_attack, std::shared_ptr<b2World> world)
     {
-      if (enemy_attack > m_Defense) {
-        m_HP -= enemy_attack - m_Defense;
-      }
-      if (!m_IsDead && m_HP <= 0 && m_Body != nullptr) {
+      if (m_Body == nullptr || m_IsDead || enemy_attack <= m_Defense)
+        return;
+
+      m_HP -= enemy_attack - m_Defense;
+      if (m_HP > 0) {
+        Notify(this, Util::Event::ENTITY_DAMAGED);
+      } else {
         m_IsDead = true;
         Notify(this, Util::Event::ENTITY_DEAD);
       }
@@ -34,5 +37,7 @@ namespace RG {
       Notify(this, Util::Event::ENTITY_MOVE);
       DynamicObject::Move(v);
     }
+
+    unsigned int Entity::GetHP(void) const { return m_HP; }
   }
 }

@@ -13,16 +13,6 @@ namespace RG { namespace Controller {
     }
     GameController::~GameController() {}
 
-    std::pair<float, float> GameController::GetPlayerPos() const
-    {
-      return m_model->GetPlayerPosition();
-    }
-
-    float GameController::GetPlayerAngle() const
-    {
-      return m_model->GetPlayerRotation();
-    }
-
     void GameController::MoveModel(float x, float y) const
     {
       return m_model->Move(x, y);
