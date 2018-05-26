@@ -1,10 +1,14 @@
 #include "View/Gui.hpp"
 #include "View/View.hpp"
 #include "Model/Entity.hpp"
+#include "Model/Model.hpp"
 
 namespace RG { namespace View {
     Gui::Gui( View * view ) {
+        view->getGameController()->getModel().AddObserver( this );
         Model::Entity *player = &view->getGameController()->getModel().GetPlayer();
+
+        floor = "Floor: " + std::to_string(view->getGameController()->getModel().GetFloorLevel());
 
         attack = "Attack: " + std::to_string(player->GetAttackLevel());
         playerName = "Vojta";
@@ -31,6 +35,8 @@ namespace RG { namespace View {
 
         ImGui::Begin("", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize );
 
+        ImGui::Text(floor.c_str());
+
         ImGui::Text(playerName.c_str());
 
         ImGui::Text("HP: ");
@@ -49,6 +55,11 @@ namespace RG { namespace View {
     }
     void Gui::onNotify(Util::Subject * subject, Util::Event event) {
         switch(event) {
+            case Util::Event::FLOOR_CHANGE:
+                {
+                    floor = "Floor: " + std::to_string(((Model::Model*)subject)->GetFloorLevel());
+                    break;
+                }
             case Util::Event::WINDOW_RESIZE:
                 {
                     break;

@@ -34,6 +34,8 @@ namespace RG { namespace View {
         private:
             std::string playerName;
             std::string attack;
+            std::string floor;
+
             int maxHealth;
             int currentHealth;
             float healtPart;
