@@ -138,7 +138,7 @@ namespace RG {
     void Room::AddStairsObserver(RG::Util::Observer* obs)
     {
       for (unsigned int i = 0; i < 2; ++i) {
-        if (m_Stairs[i] != nullptr) {
+        if (m_Stairs.size() > i && m_Stairs[i] != nullptr) {
           m_Stairs[i]->AddObserver(obs);
         }
       }

@@ -35,14 +35,21 @@ namespace RG {
       m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight + 30;
       m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth + 20;
 
-      __GenerateRooms(rooms);
+      m_Stairs = __GenerateRooms(rooms);
+
+      mainLog.Info("(" + std::to_string(m_Stairs.first.first) + ","
+          + std::to_string(m_Stairs.first.second) + "), "
+          + std::to_string(m_Stairs.second.first) + " ("
+          + std::to_string(m_Stairs.second.second) + ")");
 
       if (level > 0) {
-        __GetRoom().AddStairs(true, m_World, m_RoomHeight, m_RoomWidth);
+        __GetRoom(m_Stairs.first.first, m_Stairs.first.second)
+          .AddStairs(true, m_World, m_RoomHeight, m_RoomWidth);
       }
 
       if (level < MAX_FLOORS - 1) {
-        __GetRoom().AddStairs(false, m_World, m_RoomHeight, m_RoomWidth);
+        __GetRoom(m_Stairs.second.first, m_Stairs.second.second)
+          .AddStairs(false, m_World, m_RoomHeight, m_RoomWidth);
       }
 
       m_ContactListener = new ContactListener(m_World);
@@ -62,20 +69,20 @@ namespace RG {
 
     const RG::Model::Room& Floor::GetRoom(void) const { return __GetRoom(); }
 
-    RG::Model::Room& Floor::__GetRoom(void) const
+    RG::Model::Room& Floor::__GetRoom(unsigned int x, unsigned int y) const
     {
-      auto it_row = m_Rooms.find(m_X);
+      auto it_row = m_Rooms.find(x);
       if (it_row == m_Rooms.end()) {
-        RG::Model::Room* tmp = new RG::Model::Room(0, 0);
-        return *tmp;
+        throw RG::Model::RoomNotFound();
       }
-      auto it_col = it_row->second.find(m_Y);
+      auto it_col = it_row->second.find(y);
       if (it_col == it_row->second.end()) {
-        RG::Model::Room* tmp = new RG::Model::Room(0, 0);
-        return *tmp;
+        throw RG::Model::RoomNotFound();
       }
       return *(it_col->second);
     }
+
+    RG::Model::Room& Floor::__GetRoom(void) const { return __GetRoom(m_X, m_Y); }
 
     b2Body* Floor::GetPlayerBody(b2BodyDef* bodyDef)
     {
@@ -144,95 +151,115 @@ namespace RG {
       }
     }
 
-    void Floor::__GenerateRooms(unsigned int cnt)
-    {
-      srand(rand() % 100000 + time(NULL));
-      unsigned int _x = 0;
-      unsigned int _y = 0;
-      unsigned int _cnt = 0;
-      unsigned int prev_num = 0;
-
-      while (_cnt < cnt) {
-        unsigned int num;
-        unsigned int _x_next;
-        unsigned int _y_next;
-
-        do
-          num = rand() % 4;
-        while ((num == 3 && _x == 0) || (num == 0 && _y == 0));
-
-        _x_next = _x + ((num > 1) ? (-1) : 1) * (num % 2);
-        _y_next = _y + ((num <= 1) ? (-1) : 1) * !(num % 2);
-
-        // check whether the room already exists
+    std::pair<std::pair<unsigned int, unsigned int>,
+      std::pair<unsigned int, unsigned int>>
+        Floor::__GenerateRooms(unsigned int cnt)
         {
-          auto it1 = m_Rooms.find(_x);
-          if (it1 != m_Rooms.end()) {
-            auto it2 = it1->second.find(_y);
-            if (it2 != it1->second.end()) {
-              it2->second->AddDoors((prev_num + 2) % 4);
-              it2->second->AddDoors(num);
-              _x = _x_next;
-              _y = _y_next;
-              prev_num = num;
-              continue;
+          unsigned int up = (m_Level * rand() % 11 + rand() % 37) % cnt;
+          unsigned int down = (m_Level * rand() % 11 + rand() % 37) % cnt;
+
+          std::pair<std::pair<unsigned int, unsigned int>,
+            std::pair<unsigned int, unsigned int>>
+              res;
+
+          unsigned int _x = 0;
+          unsigned int _y = 0;
+          unsigned int _cnt = 0;
+          unsigned int prev_num = 0;
+
+          while (_cnt < cnt) {
+            unsigned int num;
+            unsigned int _x_next;
+            unsigned int _y_next;
+
+            if (_cnt == up) {
+              res.first = std::make_pair(_x, _y);
+            }
+
+            if (_cnt == down) {
+              res.second = std::make_pair(_x, _y);
+            }
+
+            do
+              num = (m_Level * rand() % 7 + rand()) % 4;
+            while ((num == 3 && _x == 0) || (num == 0 && _y == 0));
+
+            _x_next = _x + ((num > 1) ? (-1) : 1) * (num % 2);
+            _y_next = _y + ((num <= 1) ? (-1) : 1) * !(num % 2);
+
+            // check whether the room already exists
+            {
+              auto it1 = m_Rooms.find(_x);
+              if (it1 != m_Rooms.end()) {
+                auto it2 = it1->second.find(_y);
+                if (it2 != it1->second.end()) {
+                  it2->second->AddDoors((prev_num + 2) % 4);
+                  it2->second->AddDoors(num);
+                  _x = _x_next;
+                  _y = _y_next;
+                  prev_num = num;
+                  continue;
+                }
+              }
+            }
+
+            // if it does not exist, create it
+            RG::Model::Room* tmp_room = new RG::Model::Room(_x, _y);
+            b2BodyDef room_bodyDef;
+            room_bodyDef.type = b2_dynamicBody;
+            room_bodyDef.position.Set(_x * m_RoomWidth, _y * m_RoomHeight);
+            tmp_room->m_Body = m_World->CreateBody(&room_bodyDef);
+
+            if (_cnt != 0) {
+              tmp_room->AddDoors((prev_num + 2) % 4);
+            }
+
+            if (_cnt != cnt - 1) {
+              tmp_room->AddDoors(num);
+            }
+            for (unsigned int j = 0; j < 1; ++j) {
+              b2BodyDef enemy_bodyDef;
+              enemy_bodyDef.type = b2_dynamicBody;
+              enemy_bodyDef.position.Set((_x + 0.4 + 0.1 * j) * m_RoomWidth,
+                  (_y + 0.4 + 0.1 * j) * m_RoomHeight); // FIXME
+              b2Body* enemy_body = m_World->CreateBody(&enemy_bodyDef);
+
+              tmp_room->AddEnemy(enemy_body);
+            }
+            auto it1 = m_Rooms.find(_x);
+            if (it1 == m_Rooms.end()) {
+              m_Rooms.insert({ _x, { { _y, tmp_room } } });
+            } else {
+              it1->second.insert({ _y, tmp_room });
+            }
+
+            _x = _x_next;
+            _y = _y_next;
+
+            _cnt++;
+            prev_num = num;
+          }
+
+          // now add walls to all the newly created rooms
+          for (auto row : m_Rooms) {
+            for (auto cell : row.second) {
+              cell.second->AddWalls(m_ScreenWidth, m_ScreenHeight, m_DoorWidth,
+                  m_WallWidth, m_WallHeight);
             }
           }
+
+          return res;
         }
 
-        // if it does not exist, create it
-        RG::Model::Room* tmp_room = new RG::Model::Room(_x, _y);
-        b2BodyDef room_bodyDef;
-        room_bodyDef.type = b2_dynamicBody;
-        room_bodyDef.position.Set(_x * m_RoomWidth, _y * m_RoomHeight);
-        tmp_room->m_Body = m_World->CreateBody(&room_bodyDef);
-
-        if (_cnt != 0) {
-          tmp_room->AddDoors((prev_num + 2) % 4);
-        }
-
-        if (_cnt != cnt - 1) {
-          tmp_room->AddDoors(num);
-        }
-        for (unsigned int j = 0; j < 1; ++j) {
-          b2BodyDef enemy_bodyDef;
-          enemy_bodyDef.type = b2_dynamicBody;
-          enemy_bodyDef.position.Set((_x + 0.4 + 0.1 * j) * m_RoomWidth,
-              (_y + 0.4 + 0.1 * j) * m_RoomHeight); // FIXME
-          b2Body* enemy_body = m_World->CreateBody(&enemy_bodyDef);
-
-          tmp_room->AddEnemy(enemy_body);
-        }
-        auto it1 = m_Rooms.find(_x);
-        if (it1 == m_Rooms.end()) {
-          m_Rooms.insert({ _x, { { _y, tmp_room } } });
-        } else {
-          it1->second.insert({ _y, tmp_room });
-        }
-
-        _x = _x_next;
-        _y = _y_next;
-
-        _cnt++;
-        prev_num = num;
-      }
-
-      /// now add walls to all the newly created rooms
-      for (auto row : m_Rooms) {
-        for (auto cell : row.second) {
-          cell.second->AddWalls(m_ScreenWidth, m_ScreenHeight, m_DoorWidth,
-              m_WallWidth, m_WallHeight);
-        }
-      }
-    }
     unsigned int Floor::GetRoomId(void) const
     {
       return 1000000 * m_Level + 1000 * m_X + m_Y;
     }
 
-    void Floor::AddStairsObserver(RG::Util::Observer* obs)
+    void Floor::AddStairsObserver(
+        RG::Util::Observer* obs, unsigned int x, unsigned int y)
     {
-      this->__GetRoom().AddStairsObserver(obs);
+      this->__GetRoom(x, y).AddStairsObserver(obs);
     }
   }
 }

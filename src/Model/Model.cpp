@@ -105,7 +105,12 @@ namespace RG {
         srand(time(NULL));
         RG::Model::Floor* tmp_floor
           = new RG::Model::Floor(i, 10 + rand() % 5, 0, 0, MAX_FLOORS);
-        tmp_floor->AddStairsObserver(this);
+
+        tmp_floor->AddStairsObserver(this, tmp_floor->m_Stairs.first.first,
+            tmp_floor->m_Stairs.first.second);
+        tmp_floor->AddStairsObserver(this, tmp_floor->m_Stairs.second.first,
+            tmp_floor->m_Stairs.second.second);
+
         m_Floors.push_back(tmp_floor);
       }
     }

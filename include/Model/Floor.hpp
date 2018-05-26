@@ -1,5 +1,6 @@
 #pragma once
 
+#include <exception>
 #include <map>
 #include <string>
 
@@ -23,6 +24,8 @@ extern RG::View::DebugDraw debugDraw;
 
 namespace RG {
   namespace Model {
+    class RoomNotFound : public std::exception {
+    };
     /**
      * \class Floor
      * \brief This class desribes a floor inside the game world. There are
@@ -92,13 +95,17 @@ namespace RG {
          */
         unsigned int GetRoomId(void) const;
 
-        void AddStairsObserver(RG::Util::Observer* obs);
+        void AddStairsObserver(
+            RG::Util::Observer* obs, unsigned int x, unsigned int y);
 
         unsigned int m_X;
         unsigned int m_Y;
 
         unsigned int m_RoomHeight;
         unsigned int m_RoomWidth;
+        
+        std::pair<std::pair<unsigned int, unsigned int>,
+          std::pair<unsigned int, unsigned int>> m_Stairs;
 
       private:
         /**
@@ -108,11 +115,21 @@ namespace RG {
         RG::Model::Room& __GetRoom(void) const;
 
         /**
+         * \function __GetRoom
+         * \brief returns a (NOT const) reference to the current floor
+         * @param x horizontal coordinate of the room
+         * @param y vertical coordinate of the room
+         */
+        RG::Model::Room& __GetRoom(unsigned int x, unsigned int y) const;
+
+        /**
          * \function __GenerateRooms
          * \brief randomly generates room layout, expects m_Rooms to be clear
          * @param cnt how many rooms will be generated
          */
-        void __GenerateRooms(unsigned int cnt);
+        std::pair<std::pair<unsigned int, unsigned int>,
+          std::pair<unsigned int, unsigned int>>
+            __GenerateRooms(unsigned int cnt);
 
         /// array of rooms present at this floor
         std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms;
