@@ -28,24 +28,66 @@ namespace RG {
      */
     class Floor : public Util::Subject {
       public:
-        /// constructor
+        /**
+         * \function Floor
+         * \brief constructor
+         * @param level how deep under ground the floor is
+         * @param rooms how many rooms are there going to be
+         * @param pos_X horizontal postition(in the rooms grid) of the room where
+         * the player starts in this floor
+         * @param pos_Y vertical postition(in the rooms grid) of the room where the
+         * player starts in this floor
+         */
         Floor(unsigned int level, unsigned int rooms, unsigned int pos_X,
             unsigned int pos_Y);
 
-        /// destructor
+        /**
+         * \function ~Floor
+         * \brief destructor
+         */
         virtual ~Floor();
 
-        /// returns how many floors under ground this floor is
+        /**
+         * \function GetRoom
+         * \brief returns how many floors under ground this floor is
+         */
         unsigned int GetLevel(void) const;
 
+        /**
+         * \function GetRoom
+         * \brief returns a const reference to the current floor
+         */
         const RG::Model::Room& GetRoom(void) const;
 
-        /// adds player to the world and returns box2d body
+        /**
+         * \function GetPlayerBody
+         * \brief adds player to the world and returns a box2d body
+         * @param bodyDef Box2D body definition, should be complete and ready
+         * for adding into the Box2D world
+         */
         b2Body* GetPlayerBody(b2BodyDef* bodyDef);
 
+        /**
+         * \function Step
+         * \brief advances time in the physical world, checks for dead bodies
+         * and makes entitities in the current room move
+         * @param time_step how much time has elapsed since last Step
+         * @param PlayerPos player's current position
+         */
         void Step(float time_step, b2Vec2 PlayerPos);
 
+        /**
+         * \function UpdateID
+         * \brief calculates Room ID and sends a notification if it changes
+         * @param v player's current position
+         */
         void UpdateID(b2Vec2 v);
+
+        /**
+         * \function GetRoomId
+         * \brief returns the current Room ID
+         */
+        unsigned int GetRoomId(void) const;
 
         unsigned int m_X;
         unsigned int m_Y;
@@ -53,15 +95,23 @@ namespace RG {
         unsigned int m_RoomHeight;
         unsigned int m_RoomWidth;
 
-        unsigned int GetRoomId(void) const;
-
       private:
+        /**
+         * \function __GetRoom
+         * \brief returns a (NOT const) reference to the current floor
+         */
         RG::Model::Room& __GetRoom(void) const;
 
+        /**
+         * \function __GenerateRooms
+         * \brief randomly generates room layout, expects m_Rooms to be clear
+         * @param cnt how many rooms will be generated
+         */
         void __GenerateRooms(unsigned int cnt);
 
         /// array of rooms present at this floor
         std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms;
+
         /// how deep under ground the floor is
         unsigned int m_Level;
 

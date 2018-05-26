@@ -17,8 +17,8 @@ namespace RG {
       Object* typeB = static_cast<Object*>(
           contact->GetFixtureB()->GetBody()->GetUserData());
 
-      typeA->RecvAttack(typeB->GetAttackLevel(), m_World);
-      typeB->RecvAttack(typeA->GetAttackLevel(), m_World);
+      typeA->RecvAttack(typeB->GetAttackLevel());
+      typeB->RecvAttack(typeA->GetAttackLevel());
     }
 
     void ContactListener::EndContact(b2Contact* b2Contact) {}

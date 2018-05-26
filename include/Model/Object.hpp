@@ -22,33 +22,74 @@ namespace RG {
      */
     class Object {
       public:
-        Object(std::string);
+        /**
+         * \function Object
+         * \brief constructor
+         * @param name name of the object
+         */
+        Object(std::string name);
 
+        /**
+         * \function ~Object
+         * \brief destructor
+         */
         ~Object();
 
+        /**
+         * \function GetName
+         * \brief returns name of the object
+         */
         std::string GetName(void) const;
 
+        /**
+         * \function GetPosition
+         * \brief returns position of the object (absolute, in the physical
+         * world)
+         */
         b2Vec2 GetPosition(void) const;
 
-        /// return an angle in degrees
+        /**
+         * \function GetAngle
+         * \brief return an angle in radians
+         */
         float GetAngle(void) const;
 
-        /// add shape to a body and define with what does it collide
+        /**
+         * \function AddShape
+         * \brief  add shape to a body and define with what does it collide
+         * @param shapeDef Box2D shape definition, should be ready for adding to
+         * the body
+         * @param density density of the newly created shape
+         * @param category_bits what collision category does the object belong
+         * to
+         * @param mask_bits with what types of objects does the shape collide
+         * with
+         */
         void AddShape(b2Shape* shapeDef, float density, uint16 category_bits,
             uint16 mask_bits);
+
+        /**
+         * \function IsDead
+         * \brief returns whether the object is dead or not
+         */
+        virtual bool IsDead(void);
+
+        /**
+         * \function GetAttackLevel
+         * \brief returns the attack level
+         */
+        virtual int GetAttackLevel(void) const;
+
+        /**
+         * \function RecvAttack
+         * \brief changes stats depending on defense level and enemy attack level
+         * @param enemy_attack how strong the enemy is
+         */
+        virtual void RecvAttack(int enemy_attack);
 
         b2Body* m_Body;
 
         b2BodyDef* m_BodyDef;
-
-        virtual bool IsDead(void);
-
-        /// returns the attack level
-        virtual int GetAttackLevel(void) const;
-
-        /// changes stats depending on defense level and enemy attack level
-        virtual void RecvAttack(int enemy_attack, std::shared_ptr<b2World> world)
-          = 0;
 
       private:
         std::string m_Name;

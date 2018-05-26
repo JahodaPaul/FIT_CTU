@@ -19,25 +19,47 @@ namespace RG {
      */
     class Model {
       public:
-        /// constructor
+        /**
+         * \function Model
+         * \brief constructor
+         */
         Model();
 
-        /// destructor
+        /**
+         * \function ~Model
+         * \brief destructor
+         */
         ~Model();
 
-        /// moves the player
+        /**
+         * \function Move
+         * \brief moves the player
+         * @param x first coordinate of the movment vector
+         * @param y second coordinate of the movement vector
+         */
         void Move(float x, float y);
 
-        /// returns reference to the current room
+        /**
+         * \brief returns reference to the current room
+         */
         const RG::Model::Room& GetCurrentRoom(void) const;
 
-        /// returns reference to the current floor
+        /**
+         * \function GetCurrentFloor
+         * \brief  returns reference to the current floor
+         */
         RG::Model::Floor& GetCurrentFloor(void) const;
 
-        /// returns how deep under ground the player currently is
+        /**
+         * \function GetFloorLevel
+         * \brief  returns how deep under ground the player currently is
+         */
         int GetFloorLevel(void) const;
 
-        /// returns a unique room identifier
+        /**
+         * \function GetRoomId
+         * \brief  returns a unique room identifier
+         */
         unsigned int GetRoomId(void) const;
 
         std::vector<bool> GetRoomDoors(int) const;
@@ -52,6 +74,11 @@ namespace RG {
         RG::Model::Entity& GetPlayer();
 
       private:
+        /**
+         * \function GenerateFloors
+         * \brief pseudorandomly generate floors
+         * @param seed initiates the random generator
+         */
         void GenerateFloors(unsigned int seed);
 
         /// the Player

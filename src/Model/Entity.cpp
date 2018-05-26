@@ -9,13 +9,14 @@ namespace RG {
         , m_Attack(attack)
     {
       Deleted = false;
+      m_First = true;
     }
 
     Entity::~Entity() {}
 
     int Entity::GetAttackLevel(void) const { return m_Attack; }
 
-    void Entity::RecvAttack(int enemy_attack, std::shared_ptr<b2World> world)
+    void Entity::RecvAttack(int enemy_attack)
     {
       if (m_Body == nullptr || m_IsDead || enemy_attack <= m_Defense)
         return;
@@ -33,9 +34,12 @@ namespace RG {
         const b2Vec2& v, float linear_damping, float angular_damping)
     {
       if (v.x == 0 && v.y == 0)
-        return;
-      Notify(this, Util::Event::ENTITY_MOVE);
+        if (m_First)
+          m_First = false;
+        else
+          return;
       DynamicObject::Move(v);
+      Notify(this, Util::Event::ENTITY_MOVE);
     }
 
     unsigned int Entity::GetHP(void) const { return m_HP; }

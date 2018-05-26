@@ -18,31 +18,91 @@ namespace RG {
      */
     class Room : public Object {
       public:
-        /// constructor
+        /**
+         * \function Room
+         * \brief constructor
+         * @param x horizontal position in the rooms grid
+         * @param y vertical position in the rooms grid
+         */
         Room(unsigned int x, unsigned int y);
 
-        /// destructor
+        /**
+         * \function ~Room
+         * \brief destructor
+         */
         ~Room();
 
+        /**
+         * \function SetDoors
+         * \brief changes where doors are and where there are not, does not make
+         * physical changes unless called before AddWalls
+         */
         void SetDoors(std::vector<bool> doors);
 
+        /**
+         * \function AddDoors
+         * \brief adds or removes doors, does not make physical changes unless
+         * called before AddWalls
+         */
         void AddDoors(unsigned int num, bool add = true);
 
+        /**
+         * \function RemoveDoors
+         * \brief removes doors, does not make physical changes unless called before
+         * AddWalls
+         */
         void RemoveDoors(unsigned int num);
 
+        /**
+         * \function GetDoors
+         * \brief returns where the doors are (order: top, left, down, right)
+         */
         std::vector<bool> GetDoors(void) const;
 
+        /**
+         * \function AddWalls
+         * \brief adds physical walls and doors
+         * @param screen_w width of the screen
+         * @param screen_h height of the screen
+         * @param door_w width of doors
+         * @param wall_w width of walls(on left and right side)
+         * @param wall_h width of walls(on top and bottom)
+         */
         void AddWalls(float screen_w, float screen_h, float door_w, float wall_w,
             float wall_h);
 
+        /**
+         * \function Move
+         * \brief moves all entities in the room
+         * @param PlayerPos player's current position(entities follow him)
+         */
         void Move(b2Vec2 PlayerPos);
 
+        /**
+         * \function AddEnemy
+         * \brief adds an enemy to the room
+         * @param body done Box2D body to just assign to an enemy
+         */
         void AddEnemy(b2Body* body);
 
-        void RecvAttack(int enemy_attack, std::shared_ptr<b2World> world);
+        /**
+         * \function RecvAttack
+         * \brief manages what happens when something collides with walls
+         * @param enemy_attack how strong the enemy is
+         */
+        void RecvAttack(int enemy_attack);
 
+        /**
+         * \function GetEntities
+         * \brief returns all entities in the room
+         */
         std::vector<std::shared_ptr<RG::Model::Entity>> GetEntities(void) const;
-   
+
+        /**
+         * \function SweepDeadEntities
+         * \brief checks whether entities are alive or dead and clears them if they
+         * are dead
+         */
         void SweepDeadEntities(void);
 
       private:
@@ -56,7 +116,7 @@ namespace RG {
         bool m_Visited;
 
         /// doors leading to another rooms -- whether there are doors on the
-        // western, northern, eastern or southern walls
+        /// top, left, down, right walls
         std::vector<bool> m_Doors;
     };
   }
