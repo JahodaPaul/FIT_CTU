@@ -111,5 +111,37 @@ namespace RG {
     {
       return m_Entities;
     }
+
+    void Room::AddStairs(bool up, std::shared_ptr<b2World> world,
+        unsigned int RoomWidth, unsigned int RoomHeight)
+    {
+      if (m_Stairs.size() < 2)
+        m_Stairs.resize(2);
+      if (m_Stairs[up] != nullptr)
+        return;
+
+      m_Stairs[up] = std::make_shared<Stairs>(up);
+      b2BodyDef stairs_bodyDef;
+      stairs_bodyDef.type = b2_dynamicBody;
+      stairs_bodyDef.position.Set(
+          (m_GridPosition.first + 0.3 + 0.1 * up) * RoomWidth,
+          (m_GridPosition.second + 0.5) * RoomHeight); // FIXME
+      b2Body* stairs_body = world->CreateBody(&stairs_bodyDef);
+
+      m_Stairs[up]->m_Body = stairs_body;
+
+      b2PolygonShape dynBox;
+      dynBox.SetAsBox(30, 30, { 0, 0 }, 0);
+      m_Stairs[up]->AddShape(&dynBox, 100000, BIT_STAIRS, BIT_PLAYER);
+    }
+
+    void Room::AddStairsObserver(RG::Util::Observer* obs)
+    {
+      for (unsigned int i = 0; i < 2; ++i) {
+        if (m_Stairs[i] != nullptr) {
+          m_Stairs[i]->AddObserver(obs);
+        }
+      }
+    }
   }
 }

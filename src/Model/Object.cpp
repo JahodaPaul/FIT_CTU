@@ -21,8 +21,8 @@ namespace RG {
 
     float Object::GetAngle(void) const { return m_Body ? m_Body->GetAngle() : 0; }
 
-    void Object::AddShape(
-        b2Shape* shapeDef, float density, uint16 category_bits, uint16 mask_bits)
+    void Object::AddShape(b2Shape* shapeDef, float density, uint16 category_bits,
+        uint16 mask_bits, b2Body* body)
     {
       // Define the dynamic body fixture.
       b2FixtureDef fixtureDef;
@@ -37,10 +37,13 @@ namespace RG {
       fixtureDef.filter.categoryBits = category_bits;
       fixtureDef.filter.maskBits = mask_bits;
 
-      if (m_Body) {
+      if (body == nullptr)
+        body = m_Body;
+
+      if (body) {
         // Add the shape to the body.
-        m_Body->SetUserData(this);
-        m_Body->CreateFixture(&fixtureDef);
+        body->SetUserData(this);
+        body->CreateFixture(&fixtureDef);
       }
     }
 

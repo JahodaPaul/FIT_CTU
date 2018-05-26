@@ -9,7 +9,7 @@ RG::View::DebugDraw debugDraw(&m_window);
 namespace RG {
   namespace Model {
     Floor::Floor(unsigned int level, unsigned int rooms, unsigned int pos_X,
-        unsigned int pos_Y)
+        unsigned int pos_Y, unsigned int MAX_FLOORS)
       : m_X(pos_X)
         , m_Y(pos_Y)
         , m_Level(level)
@@ -36,6 +36,14 @@ namespace RG {
       m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth + 20;
 
       __GenerateRooms(rooms);
+
+      if (level > 0) {
+        __GetRoom().AddStairs(true, m_World, m_RoomHeight, m_RoomWidth);
+      }
+
+      if (level < MAX_FLOORS - 1) {
+        __GetRoom().AddStairs(false, m_World, m_RoomHeight, m_RoomWidth);
+      }
 
       m_ContactListener = new ContactListener(m_World);
     }
@@ -138,7 +146,7 @@ namespace RG {
 
     void Floor::__GenerateRooms(unsigned int cnt)
     {
-      srand(time(NULL));
+      srand(rand() % 100000 + time(NULL));
       unsigned int _x = 0;
       unsigned int _y = 0;
       unsigned int _cnt = 0;
@@ -220,6 +228,11 @@ namespace RG {
     unsigned int Floor::GetRoomId(void) const
     {
       return 1000000 * m_Level + 1000 * m_X + m_Y;
+    }
+
+    void Floor::AddStairsObserver(RG::Util::Observer* obs)
+    {
+      this->__GetRoom().AddStairsObserver(obs);
     }
   }
 }

@@ -5,6 +5,8 @@
 
 #include "Model/Entity.hpp"
 
+#include "common.hpp"
+
 namespace RG {
   namespace Model {
     /**

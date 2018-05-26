@@ -4,10 +4,12 @@
 #include <utility>       // std::pair
 #include <vector>        // std::vector
 
-#include "Model/Entity.hpp" // RG::Model::Player
-#include "Model/Floor.hpp"  // RG::Model::Floor
+#include "Model/Entity.hpp"
+#include "Model/Floor.hpp" // RG::Model::Floor
 #include "Model/Object.hpp"
-#include "Model/Room.hpp" // RG::Model::Room
+#include "Model/Player.hpp" // RG::Model::Player
+#include "Model/Room.hpp"   // RG::Model::Room
+#include "Util/Observer.hpp"
 #include "common.hpp"
 
 namespace RG {
@@ -17,7 +19,7 @@ namespace RG {
      * \brief this class wraps up all the logic in the game and provides an
      * interface for other layers - View and Controller
      */
-    class Model {
+    class Model : public Util::Observer {
       public:
         /**
          * \function Model
@@ -71,24 +73,35 @@ namespace RG {
          */
         void Step(float time_step);
 
+        /**
+         * \function GetPlayer
+         * \brief returns a reference to the player
+         */
         RG::Model::Entity& GetPlayer();
+
+        /**
+         * \function onNotify
+         * \brief receive notifications
+         */
+        virtual void onNotify(Util::Subject* subject, Util::Event event) override;
 
       private:
         /**
          * \function GenerateFloors
-         * \brief pseudorandomly generate floors
-         * @param seed initiates the random generator
+         * \brief generate floors
          */
-        void GenerateFloors(unsigned int seed);
+        void GenerateFloors(void);
 
         /// the Player
-        std::shared_ptr<RG::Model::Entity> m_Player;
+        std::shared_ptr<RG::Model::Player> m_Player;
 
         unsigned int m_CurrentFloorIdx;
 
         std::vector<RG::Model::Floor*> m_Floors;
 
         float m_PlayerRadius;
+
+        unsigned int MAX_FLOORS;
     };
   }
 }

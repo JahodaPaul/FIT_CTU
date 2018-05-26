@@ -6,7 +6,9 @@
 #include "Model/ContactListener.hpp"
 #include "Model/Object.hpp"
 #include "Model/Room.hpp"
+#include "Model/Stairs.hpp"
 #include "Util/Event.hpp"
+#include "Util/Observer.hpp"
 #include "Util/Subject.hpp"
 
 #ifdef DEBUG_DRAW
@@ -37,9 +39,10 @@ namespace RG {
          * the player starts in this floor
          * @param pos_Y vertical postition(in the rooms grid) of the room where the
          * player starts in this floor
+         * @param MAX_FLOORS total number of floors in the game
          */
         Floor(unsigned int level, unsigned int rooms, unsigned int pos_X,
-            unsigned int pos_Y);
+            unsigned int pos_Y, unsigned int MAX_FLOORS);
 
         /**
          * \function ~Floor
@@ -88,6 +91,8 @@ namespace RG {
          * \brief returns the current Room ID
          */
         unsigned int GetRoomId(void) const;
+
+        void AddStairsObserver(RG::Util::Observer* obs);
 
         unsigned int m_X;
         unsigned int m_Y;

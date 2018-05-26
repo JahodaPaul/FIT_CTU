@@ -50,7 +50,6 @@ ADD_EXECUTABLE(game src/main.cpp
     src/Controller/GameController.cpp
     src/Controller/MenuStateHandler.cpp 
     src/Controller/GameStateHandler.cpp
-    src/Controller/GameController.cpp
     src/Controller/StateHandler.cpp
 
     src/View/View.cpp
@@ -70,13 +69,15 @@ ADD_EXECUTABLE(game src/main.cpp
     src/View/NPCLog.cpp
     src/View/Gui.cpp
 
-    src/Model/Model.cpp
-    src/Model/Object.cpp
+    src/Model/ContactListener.cpp
     src/Model/DynamicObject.cpp
     src/Model/Entity.cpp
     src/Model/Floor.cpp
+    src/Model/Model.cpp
+    src/Model/Object.cpp
+    src/Model/Player.cpp
     src/Model/Room.cpp
-    src/Model/ContactListener.cpp
+    src/Model/Stairs.cpp
 
     src/NPC/Market.cpp 
     src/NPC/Entity.cpp 

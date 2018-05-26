@@ -5,20 +5,29 @@ namespace RG {
     Model::Model()
       : m_CurrentFloorIdx(0)
     {
-      RG::Model::Floor* tmp_floor = new RG::Model::Floor(0, 10, 0, 0);
-      m_Floors.push_back(tmp_floor); // FIXME(vanda, replace by world generation)
+      MAX_FLOORS = 5;
+
+      this->GenerateFloors();
 
       // adding the player
       b2BodyDef bodyDef;
       bodyDef.type = b2_dynamicBody;
       bodyDef.position.Set(300, 300);
-      m_Player = std::make_shared<RG::Model::Entity>("Hrac", 100);
-      m_Player->m_Body = m_Floors[m_CurrentFloorIdx]->GetPlayerBody(&bodyDef);
+      m_Player = std::make_shared<RG::Model::Player>("Hrac");
+
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
       circle.m_radius = 35;
       m_PlayerRadius = 35;
-      m_Player->AddShape(&circle, 0.01f, BIT_PLAYER, BIT_ENEMY | BIT_WALL);
+
+      m_Player->m_Bodies.resize(MAX_FLOORS);
+
+      for (unsigned int i = 0; i < MAX_FLOORS; ++i) {
+        m_Player->m_Bodies[i] = m_Floors[i]->GetPlayerBody(&bodyDef);
+        m_Player->AddShape(&circle, 0.01f, BIT_PLAYER,
+            BIT_ENEMY | BIT_WALL | BIT_STAIRS, m_Player->m_Bodies[i]);
+      }
+      m_Player->m_Body = m_Player->m_Bodies[0];
     }
 
     Model::~Model()
@@ -66,5 +75,37 @@ namespace RG {
     }
 
     RG::Model::Entity& Model::GetPlayer() { return *m_Player; }
+
+    void Model::onNotify(Util::Subject* subject, Util::Event event)
+    {
+      switch (event) {
+        case Util::Event::FLOOR_UP:
+          if (m_CurrentFloorIdx > 0) {
+            m_CurrentFloorIdx--;
+            m_Player->ChangeFloor(m_CurrentFloorIdx);
+          }
+          break;
+        case Util::Event::FLOOR_DOWN:
+          if (m_CurrentFloorIdx < MAX_FLOORS - 1) {
+            m_CurrentFloorIdx++;
+            mainLog.Info("down to" + std::to_string(m_CurrentFloorIdx));
+            m_Player->ChangeFloor(m_CurrentFloorIdx);
+          }
+          break;
+        default:
+          break;
+      }
+    }
+
+    void Model::GenerateFloors(void)
+    {
+      for (unsigned int i = 0; i < MAX_FLOORS; ++i) {
+        srand(time(NULL));
+        RG::Model::Floor* tmp_floor
+          = new RG::Model::Floor(i, 10 + rand() % 5, 0, 0, MAX_FLOORS);
+        tmp_floor->AddStairsObserver(this);
+        m_Floors.push_back(tmp_floor);
+      }
+    }
   }
 }

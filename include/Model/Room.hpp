@@ -6,6 +6,8 @@
 
 #include "Model/Entity.hpp"
 #include "Model/Object.hpp"
+#include "Model/Stairs.hpp"
+#include "Util/Observer.hpp"
 
 namespace RG {
   namespace Model {
@@ -105,6 +107,19 @@ namespace RG {
          */
         void SweepDeadEntities(void);
 
+        /**
+         * \function AddStairs
+         * \brief adds stairs to the room
+         * @param up whether the stairs lead up or not
+         */
+        void AddStairs(bool up, std::shared_ptr<b2World> world,
+            unsigned int RoomWidth, unsigned int RoomHeight);
+
+        /**
+         * TODO
+         */
+        void AddStairsObserver(RG::Util::Observer* obs);
+
       private:
         /// position in the map grid
         std::pair<unsigned int, unsigned int> m_GridPosition;
@@ -118,6 +133,8 @@ namespace RG {
         /// doors leading to another rooms -- whether there are doors on the
         /// top, left, down, right walls
         std::vector<bool> m_Doors;
+
+        std::vector<std::shared_ptr<RG::Model::Stairs>> m_Stairs;
     };
   }
 }
