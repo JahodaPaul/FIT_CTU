@@ -38,18 +38,18 @@ namespace RG {
       m_Stairs = __GenerateRooms(rooms);
 
       mainLog.Info("(" + std::to_string(m_Stairs.first.first) + ","
-          + std::to_string(m_Stairs.first.second) + "), "
-          + std::to_string(m_Stairs.second.first) + " ("
+          + std::to_string(m_Stairs.first.second) + "), ("
+          + std::to_string(m_Stairs.second.first) + " "
           + std::to_string(m_Stairs.second.second) + ")");
 
       if (level > 0) {
         __GetRoom(m_Stairs.first.first, m_Stairs.first.second)
-          .AddStairs(true, m_World, m_RoomHeight, m_RoomWidth);
+          .AddStairs(true, m_World, m_RoomWidth, m_RoomHeight);
       }
 
       if (level < MAX_FLOORS - 1) {
         __GetRoom(m_Stairs.second.first, m_Stairs.second.second)
-          .AddStairs(false, m_World, m_RoomHeight, m_RoomWidth);
+          .AddStairs(false, m_World, m_RoomWidth, m_RoomHeight);
       }
 
       m_ContactListener = new ContactListener(m_World);
