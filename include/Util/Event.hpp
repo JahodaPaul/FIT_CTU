@@ -14,7 +14,8 @@ namespace RG {
         ENTITY_DAMAGED, /**< Model::Entity has been damadged, should be send by Model::Entity */
         ITEM_SOLD, /**< Item has been sold */
         FLOOR_UP, /**< Player used stairs to go up */
-        FLOOR_DOWN /**< Player used stairs to go down */
+        FLOOR_DOWN, /**< Player used stairs to go down */
+        FLOOR_CHANGE /**< Player used stairs to change floor */
     };
   }
 }

@@ -19,7 +19,7 @@ namespace RG {
      * \brief this class wraps up all the logic in the game and provides an
      * interface for other layers - View and Controller
      */
-    class Model : public Util::Observer {
+    class Model : public Util::Observer, public Util::Subject {
       public:
         /**
          * \function Model

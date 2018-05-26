@@ -83,6 +83,7 @@ namespace RG {
           if (m_CurrentFloorIdx > 0) {
             m_CurrentFloorIdx--;
             m_Player->ChangeFloor(m_CurrentFloorIdx);
+            Notify(this, Util::Event::FLOOR_CHANGE);
           }
           break;
         case Util::Event::FLOOR_DOWN:
@@ -90,6 +91,7 @@ namespace RG {
             m_CurrentFloorIdx++;
             mainLog.Info("down to" + std::to_string(m_CurrentFloorIdx));
             m_Player->ChangeFloor(m_CurrentFloorIdx);
+            Notify(this, Util::Event::FLOOR_CHANGE);
           }
           break;
         default:

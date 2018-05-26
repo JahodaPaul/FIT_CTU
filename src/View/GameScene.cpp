@@ -98,5 +98,9 @@ namespace RG {
         const sf::Vector2f & GameScene::getWindowSize() const {
             return m_windowSize;
         }
+
+        std::shared_ptr<Player> GameScene::getPlayer() {
+            return player;
+        }
     }
 }

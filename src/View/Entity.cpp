@@ -84,6 +84,13 @@ namespace RG{
                         m_moved = true;
                         break;
                     }
+                case Util::Event::FLOOR_CHANGE:
+                    {
+                        Model::Floor * floor = &((Model::Model*)subject)->GetCurrentFloor();
+                        correctionX = floor->m_X * floor->m_RoomWidth;
+                        correctionY = floor->m_Y * floor->m_RoomHeight;
+                        break;
+                    }
                 case Util::Event::ROOM_CHANGE:
                     {
                         Model::Floor * floor = (Model::Floor*)subject;

@@ -33,6 +33,7 @@ namespace RG {
 
                 gameScene->AddObserver( this );
                 model->GetCurrentFloor().AddObserver( this );
+                model->AddObserver( this );
             }
 
         RG::View::Room::~Room() {
@@ -165,6 +166,14 @@ namespace RG {
 
         void RG::View::Room::onNotify(Util::Subject * subject, Util::Event event) {
             switch(event) {
+                case Util::Event::FLOOR_CHANGE:
+                    {
+                        Model::Floor * floor = &((Model::Model*)subject)->GetCurrentFloor();
+                        floor->AddObserver( this );
+                        floor->AddObserver( m_gameScene->getPlayer().get() );
+                        ChangeRoom( floor );
+                        break;
+                    }
                 case Util::Event::ROOM_CHANGE:
                     {
                         Model::Floor * floor = (Model::Floor*)subject;
