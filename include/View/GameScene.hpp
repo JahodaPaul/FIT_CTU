@@ -9,6 +9,7 @@
 #include "Util/Subject.hpp"
 #include "View/SoundManager.hpp"
 #include "View/NPCLog.hpp"
+#include "View/Gui.hpp"
 
 #include <iostream>
 
@@ -59,6 +60,7 @@ namespace RG {
             std::shared_ptr<RG::View::Room> room;
             bool m_firstFrame;
             NPCLog m_npcLog;
+            RG::View::Gui m_gui;
         };
     }
 }

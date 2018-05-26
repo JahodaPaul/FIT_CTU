@@ -20,7 +20,7 @@ namespace RG { namespace View {
         ImGui::SetNextWindowBgAlpha(0);
         ImGui::SetNextWindowSize(ImVec2(400,200), ImGuiCond_Once);
         ImGui::SetNextWindowPos(ImVec2(x,y));
-        ImGui::Begin(title, p_open, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove );
+        ImGui::Begin(title, p_open, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs );
         ImGui::SetNextWindowBgAlpha(0.3);
         ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
