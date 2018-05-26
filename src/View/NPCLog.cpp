@@ -4,6 +4,12 @@ namespace RG { namespace View {
     NPCLog::NPCLog( NPC::MatchingEngine * matchingEngine ) {
         matchingEngine->AddObserver( this );
     }
+
+    void NPCLog::Clear() {
+        Buf.clear();
+        LineOffsets.clear();
+    }
+
     void  NPCLog::AddLog(const char* fmt, ...) {
         int old_size = Buf.size();
         va_list args;
@@ -15,12 +21,19 @@ namespace RG { namespace View {
                 LineOffsets.push_back(old_size);
         ScrollToBottom = true;
     }
+
     void    NPCLog::Draw(const char* title, bool* p_open, int x, int y) {
         ImGui::GetStyle().WindowBorderSize = 0;
         ImGui::SetNextWindowBgAlpha(0);
         ImGui::SetNextWindowSize(ImVec2(400,200), ImGuiCond_Once);
         ImGui::SetNextWindowPos(ImVec2(x,y));
-        ImGui::Begin(title, p_open, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs );
+        ImGui::Begin(title, p_open,
+                ImGuiWindowFlags_NoTitleBar
+                | ImGuiWindowFlags_NoCollapse
+                | ImGuiWindowFlags_NoResize
+                | ImGuiWindowFlags_NoMove
+                | ImGuiWindowFlags_NoInputs
+                );
         ImGui::SetNextWindowBgAlpha(0.3);
         ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar);
 

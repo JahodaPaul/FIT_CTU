@@ -2,6 +2,17 @@
 
 namespace RG {
   namespace Util {
-    enum Event { ENTITY_MOVE, ENTITY_DEAD, ROOM_CHANGE, WINDOW_RESIZE, ENTITY_DAMAGED, ITEM_SOLD };
+    //! \enum Event
+    /*!
+     *  \brief enumeration of game events used by Observer and Subject for comunication
+     */
+    enum Event {
+        ENTITY_MOVE, /**< Model::Entity has moves, should be send by Model::Entity */
+        ENTITY_DEAD, /**< Model::Entity has died, should be send by Model::Entity */
+        ROOM_CHANGE, /**< room has changed, should be send by Model::Floor */
+        WINDOW_RESIZE, /**< window has been resized */
+        ENTITY_DAMAGED, /**< Model::Entity has been damadged, should be send by Model::Entity */
+        ITEM_SOLD /**< Item has been sold */
+    };
   }
 }

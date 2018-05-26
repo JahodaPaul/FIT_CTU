@@ -13,8 +13,20 @@
 namespace RG{
     namespace View{
         class GameScene;
+        /**
+         * \class Room
+         * \brief Presentation a room used to draw room, player, enemies...
+         */
         class Room : RoomHistory, public sf::Drawable, public Util::Observer{
         public:
+            //! Room class constructor.
+            /*!
+             * Method takes three parameters:
+             *
+             * @param scene pointer to GameScene
+             * @param lua pointer to lua state
+             * @param model pointer to Model used for registering Observers
+             */
             Room(GameScene * scene, sol::state & lua, Model::Model * model);
             ~Room();
 
@@ -22,11 +34,26 @@ namespace RG{
             /// if it has been visited - changes background image based on room ID
             /// receives from model which doors to draw
             void ChangeRoom(Model::Floor * floor);
+
+            /*!
+             * Draws room and everything in it.
+             */
             void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
             ///Sets which doors are visible
             void SetDoors(std::vector<bool> doors);
+
+            /*!
+             * Updates room and everytinkg in it.
+             *
+             * @param view pointer to View
+             * @param timeElapsed time elapsed since last update
+             */
             void Update(View * view, float timeElapsed);
+
+            /*!
+             * This methos is used to recieve nitifikations from model
+             */
             virtual void onNotify(Util::Subject * subject, Util::Event event) override;
         protected:
         private:
