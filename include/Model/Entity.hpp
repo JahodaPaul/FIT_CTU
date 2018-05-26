@@ -49,6 +49,9 @@ namespace RG {
 
         /// attack level -- how much does the entity damage enemies during an attack
         int m_Attack;
+
+        /// whether the first zero movement of the game has already been made or not
+        bool m_First;
     };
   }
 }
