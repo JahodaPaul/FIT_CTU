@@ -68,6 +68,7 @@ ADD_EXECUTABLE(game src/main.cpp
     src/View/DebugDraw.cpp
     src/View/Entity.cpp
     src/View/NPCLog.cpp
+    src/View/Gui.cpp
 
     src/Model/Model.cpp
     src/Model/Object.cpp

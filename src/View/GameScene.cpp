@@ -7,6 +7,7 @@ namespace RG {
             ,m_windowSize{ view->getWindow()->getView().getSize() }
             ,m_firstFrame{ true }
             ,m_npcLog( &view->getGameController()->getNPCWorldCycle().getMarket().getMatchingEngine() )
+            ,m_gui( view )
         {
             player = std::make_shared<Player>(this, view->getLuaState());
             room = std::make_shared<RG::View::Room>(this, view->getLuaState(), &view->getGameController()->getModel() );
@@ -35,6 +36,7 @@ namespace RG {
             m_npcLog.Draw("Trading", NULL, m_windowSize.x - 410, 20);
             view->getWindow()->draw( *room );
             view->getWindow()->draw( *player );
+            m_gui.Draw();
         }
 
         void GameScene::ManageInput(View *view) {
