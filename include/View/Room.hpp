@@ -31,16 +31,19 @@ namespace RG{
         protected:
         private:
             void SetScale(float,float);
-            sol::state & m_lua;
             void SetDoorScaleLeftRight(float x, float y);
             void SetDoorScaleTopBot(float x, float y);
-
-            int currentId;
             ///assign background image to new room
             void AssignBackground(int level, int id);
             void SetDoorPosition();
+
+        private:
+            sol::state & m_lua;
+
+            int currentId;
             sf::Texture room_texure;
             sf::Sprite background;
+
             float windowX;
             float windowY;
 
@@ -52,6 +55,7 @@ namespace RG{
                 sf::Texture texture;
                 bool visible;
             } doors[4];
+
             const std::string room_bluestone;
             const std::string room_blackstone;
             const std::string room_cobblestone;

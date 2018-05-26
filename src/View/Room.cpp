@@ -5,14 +5,14 @@ namespace RG {
     namespace View {
 
         RG::View::Room::Room(GameScene * gameScene, sol::state & lua, Model::Model * model) :
-            room_bluestone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlueStoneBG.png")
+            m_lua( lua )
+            ,room_bluestone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlueStoneBG.png")
             ,room_blackstone("/usr/share/RG/assets/graphics/backgrounds/rooms/BlackStoneBG.png")
             ,room_cobblestone("/usr/share/RG/assets/graphics/backgrounds/rooms/CobbleStoneBG.png")
             ,room_soil("/usr/share/RG/assets/graphics/backgrounds/rooms/SoilBG.png")
             ,room_lava("/usr/share/RG/assets/graphics/backgrounds/rooms/LavaBG.png")
             ,m_gameScene( gameScene )
             ,m_model( model )
-            ,m_lua( lua )
             {
                 windowX = gameScene->getWindowSize().x;
                 windowY = gameScene->getWindowSize().y;

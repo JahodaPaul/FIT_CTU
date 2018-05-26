@@ -118,7 +118,7 @@ namespace RG{ namespace View {
             try{
                 m_Stream.open(fullPath, std::ios::out | std::ios::app | std::ios::in);
             }
-            catch(std::exception e){
+            catch(std::exception & e){
                 return false;
             }
         }
