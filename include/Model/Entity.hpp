@@ -15,23 +15,55 @@ namespace RG {
      */
     class Entity : public DynamicObject, public Util::Subject {
       public:
-        /// constructor
+        /**
+         * \function Entity
+         * \brief constructor
+         * @param name name of the entity
+         * @param attack how much is the entity going to damage others
+         */
         Entity(std::string name, unsigned int attack = 20);
 
-        /// destructor
+        /**
+         * \function ~Entity
+         * \brief destructor
+         */
         virtual ~Entity();
 
-        /// returns the attack level
+        /**
+         * \function GetAttackLevel
+         * \brief returns the attack level
+         */
         int GetAttackLevel(void) const;
 
-        /// changes stats depending on defense level and enemy attack level
-        void RecvAttack(int enemy_attack, std::shared_ptr<b2World> world);
+        /**
+         * \function RecvAttack
+         * \brief changes stats depending on defense level and enemy attack level
+         * @param enemy_attack how strong is the enemy
+         */
+        void RecvAttack(int enemy_attack);
 
+        /**
+         * \function Move
+         * \brief moves the entity and sends a notification to the observer
+         * @param v Box2D vector of movement - in which direction should the object
+         * move
+         * @param linear_damping how much is the object gradually slowed down
+         * by surrounding environment
+         * @param angular_damping how much is the object gradually slowed down when
+         * rotating
+         */
         void Move(const b2Vec2& v, float linear_damping = 0.04f,
             float angular_damping = 2.0f);
 
+        /**
+         * \function GetHP
+         * \brief returns how many health points does the entity have(maximum is
+         * 100, can be negative)
+         */
         unsigned int GetHP(void) const;
 
+        /// whether the body is deleted from the Box2D world which makes the obejct
+        /// prepared for destruction
         bool Deleted;
 
       private:

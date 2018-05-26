@@ -7,7 +7,7 @@ namespace RG {
         , m_GridPosition({ x, y })
         , m_Visited(false)
         {
-          m_Doors.resize(4,false);
+          m_Doors.resize(4, false);
         }
 
     Room::~Room() {}
@@ -20,9 +20,10 @@ namespace RG {
         m_Doors[num] = add;
     }
 
-    void Room::SweepDeadEntities(void){
-      for(unsigned int i = 0; i<m_Entities.size(); ++i){
-        if(m_Entities[i]->Deleted){
+    void Room::SweepDeadEntities(void)
+    {
+      for (unsigned int i = 0; i < m_Entities.size(); ++i) {
+        if (m_Entities[i]->Deleted) {
           m_Entities[i] = m_Entities.back();
           m_Entities.pop_back();
         }
@@ -104,7 +105,7 @@ namespace RG {
           &circle, 0.0001f, BIT_ENEMY, BIT_PLAYER | BIT_WALL);
     }
 
-    void Room::RecvAttack(int enemy_attack, std::shared_ptr<b2World> world) {}
+    void Room::RecvAttack(int enemy_attack) {}
 
     std::vector<std::shared_ptr<RG::Model::Entity>> Room::GetEntities(void) const
     {

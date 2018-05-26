@@ -16,7 +16,7 @@ namespace RG {
 
     int Entity::GetAttackLevel(void) const { return m_Attack; }
 
-    void Entity::RecvAttack(int enemy_attack, std::shared_ptr<b2World> world)
+    void Entity::RecvAttack(int enemy_attack)
     {
       if (m_Body == nullptr || m_IsDead || enemy_attack <= m_Defense)
         return;

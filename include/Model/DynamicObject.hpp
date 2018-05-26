@@ -17,13 +17,29 @@ namespace RG {
 
     class DynamicObject : public Object {
       public:
-        /// constructor
+        /**
+         * \function DynamicObject
+         * \brief constructor
+         * @param name name of the object
+         */
         DynamicObject(std::string name);
 
-        /// destructor
+        /**
+         * \function ~DynamicObject
+         * \brief destructor
+         */
         ~DynamicObject();
 
-        /// aplly force in a specified direction
+        /**
+         * \function Move
+         * \brief aplly force in a specified direction
+         * @param v Box2D vector of movement - in which direction should the object
+         * move
+         * @param linear_damping how much is the object gradually slowed down
+         * by surrounding environment
+         * @param angular_damping how much is the object gradually slowed down when
+         * rotating
+         */
         virtual void Move(const b2Vec2& v, float linear_damping = 0.04f,
             float angular_damping = 2.0f);
 

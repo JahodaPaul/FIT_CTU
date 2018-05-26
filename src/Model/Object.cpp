@@ -47,5 +47,11 @@ namespace RG {
     bool Object::IsDead(void) { return m_IsDead; }
 
     int Object::GetAttackLevel(void) const { return 0; }
+
+    void Object::RecvAttack(int enemy_attack)
+    {
+      mainLog.Warning(
+          "RecvAttack in the Object class, this should never be called");
+    }
   }
 }
