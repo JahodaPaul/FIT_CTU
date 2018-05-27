@@ -1,6 +1,8 @@
 #pragma once
 
 #include <set>
+#include <vector>
+
 #include "Util/Event.hpp"
 
 namespace RG { namespace Util {
@@ -14,6 +16,7 @@ namespace RG { namespace Util {
      */
     class Subject {
         public:
+            Subject();
             /**
              * \brief Register new Util::Observer
              *
@@ -29,8 +32,6 @@ namespace RG { namespace Util {
              * 
              */
             void RemoveObserver( Observer * observer );
-        private:
-            std::set<Observer *> m_observers;
         protected:
             /**
              * \brief Send notification to all registered observers
@@ -40,5 +41,9 @@ namespace RG { namespace Util {
              * 
              */
             void Notify( Subject * subject, Event event );
+        private:
+            std::set<Observer *> m_observers;
+            bool m_lock;
+            std::vector<Observer *> m_toDelete;
     };
 } }
