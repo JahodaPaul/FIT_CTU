@@ -9,6 +9,12 @@
 
 namespace RG{
     namespace NPC{
+
+        //! \class BasicIntelligence
+        /*!
+         * \brief
+         * Chooses randomly what to buy, sell or what to work on.
+         */
         class BasicIntelligence : public Intelligence{
         public:
             BasicIntelligence();

@@ -17,7 +17,11 @@ namespace RG{
     namespace NPC{
 
         class Request;
-
+        //! \class Intelligence
+        /*!
+         * \brief
+         * virtual class. Each entity has an intelligence that decides what to work on or what to sell
+         */
         class Intelligence{
         public:
             Intelligence();

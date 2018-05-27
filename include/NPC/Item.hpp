@@ -9,9 +9,14 @@
 
 namespace RG{
     namespace NPC{
-        ///object containing ID, type, rarity and name of the item
+        //! \class Item
+        /*!
+         * \brief
+         * Item
+         */
         class Item{
         public:
+            ///object containing ID, type, rarity and name of the item
             Item(int id, int idType, int rarity, std::string name);
             ~Item();
             int GetId();

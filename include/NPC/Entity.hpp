@@ -13,6 +13,12 @@
 
 namespace RG{
     namespace NPC{
+
+        //! \class Entity
+        /*!
+         * \brief
+         * An object with distinct and independent existence.
+         */
         class Entity{
         public:
             Entity(std::string name, int startGold, std::shared_ptr<RG::NPC::Intelligence> intelligence, int entityId, bool isPlayer=false, bool questNPCOnly=false,int inventorySize = 5);

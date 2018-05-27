@@ -14,6 +14,12 @@
 
 namespace RG{
     namespace NPC{
+
+        //! \class MatchingEngine
+        /*!
+         * \brief
+         * class that matches offers (entity is selling item) with demands (entity is buying item) in a stockmarket-like manner
+         */
         class MatchingEngine : public Util::Subject {
         public:
             MatchingEngine();

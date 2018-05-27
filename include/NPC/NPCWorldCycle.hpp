@@ -9,6 +9,11 @@
 
 namespace RG{
     namespace NPC{
+        //! \class NPCWorldCycle
+        /*!
+         * \brief
+         * NPCWorldCycle class provides interface for communication between market world and rest of the application. Has the ability to run the market world.
+         */
         class NPCWorldCycle{
         public:
             NPCWorldCycle();

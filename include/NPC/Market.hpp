@@ -15,6 +15,11 @@
 
 namespace RG{
     namespace NPC{
+        //! \class Market
+        /*!
+         * \brief
+         * Asks entities what they want to buy/sell. Items and Entities can be created in this class.
+         */
         class Market{
         public:
             Market();
