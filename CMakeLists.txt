@@ -35,7 +35,9 @@ find_package(OpenGL REQUIRED)
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
 INCLUDE_DIRECTORIES( ./include ./imgui ./imgui-sfml /usr/include/lua5.3 )
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -fsanitize=address -DDEBUG_DRAW")
+set(CMAKE_CXX_FLAGS "-Wall -pedantic")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -DDEBUG_DRAW")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 ADD_EXECUTABLE(game src/main.cpp
     imgui/imgui.cpp
