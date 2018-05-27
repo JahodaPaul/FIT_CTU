@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 #include <sol.hpp>
 
@@ -89,7 +91,7 @@ namespace RG{
             const std::string room_soil;
             const std::string room_lava;
 
-            std::vector<Entity> enemies;
+            std::vector<std::unique_ptr<Entity>> enemies;
             GameScene * m_gameScene;
             Model::Model * m_model;
         };

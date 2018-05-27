@@ -94,10 +94,10 @@ namespace RG {
             float correctionX = floor->m_X * floor->m_RoomWidth;
             float correctionY = floor->m_Y * floor->m_RoomHeight;
             for ( auto it : floor->GetRoom().GetEntities() ) {
-                enemies.emplace_back(m_gameScene, m_lua, "zombie" );
-                enemies.back().setCorrection( correctionX, correctionY );
-                it->AddObserver( &enemies.back() );
-                floor->AddObserver( &enemies.back() );
+                enemies.push_back(std::make_unique<Entity>(m_gameScene, m_lua, "zombie" ));
+                enemies.back()->setCorrection( correctionX, correctionY );
+                it->AddObserver( enemies.back().get() );
+                floor->AddObserver( enemies.back().get() );
             }
         }
 
@@ -136,11 +136,11 @@ namespace RG {
 
         void Room::Update(View * view, float timeElapsed) {
             for ( size_t i = 0; i<enemies.size(); ++i ) {
-                if ( enemies[i].Alive() )
-                    enemies[i].Update( view, timeElapsed );
+                if ( enemies[i]->Alive() )
+                    enemies[i]->Update( view, timeElapsed );
                 else {
-                    m_gameScene->RemoveObserver( &enemies[i] );
-                    m_model->GetCurrentFloor().RemoveObserver( &enemies[i] );
+                    m_gameScene->RemoveObserver( enemies[i].get() );
+                    m_model->GetCurrentFloor().RemoveObserver( enemies[i].get() );
                     enemies.erase( enemies.begin() + i-- );
                 }
             }
@@ -151,7 +151,7 @@ namespace RG {
             for ( auto i = 0; i < 4; ++i )
                 if ( doors[i].visible ) target.draw( doors[i].sprite );
             for ( auto & it : enemies )
-                target.draw( it );
+                target.draw( *it );
         }
 
         void Room::SetDoors(std::vector<bool> doors) {
