@@ -49,13 +49,27 @@ namespace RG { namespace Util {
         public:
 
             /// Class constants for representing log types.
-            enum TYPE { INFO, WARNING, ERROR };
+            enum TYPE {
+                INFO, /**< Informational log level. */
+                WARNING, /**< Warning log level. */
+                ERROR /**< Error log level. */
+            };
 
             /// Class constants for representing class flags.
-            enum FLAGS { LEVEL = 1, DATETIME = 2, FILE = 4, LINE = 8, LIMIT = 16 };
+            enum FLAGS {
+                LEVEL = 1, /**< Display log level. */
+                DATETIME = 2, /**< Display log time and date. */
+                FILE = 4, /**< Display the file in which the log occurred. */
+                LINE = 8, /**< Display the line on which the log occurred. */
+                LIMIT = 16 /**< Apply limitation of stored logs. */
+            };
 
             /// Class constants for representing outputs.
-            enum STREAM { STD_ONLY, FILE_ONLY, BOTH };
+            enum STREAM {
+                STD_ONLY, /**< Print log only to standard output. */
+                FILE_ONLY, /**< Print log only to file output. */
+                BOTH /**< Print log to both standard and file outputs. */
+            };
 
             //! Logger class constructor.
             /*!
