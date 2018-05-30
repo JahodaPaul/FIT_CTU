@@ -1,0 +1,90 @@
+Úkolem je realizovat třídu, která bude umožňovat rychle těžit kryptoměnu.
+
+Boom kryptoměn zaznamenalo i ČVUT a naše fakulta a probíhá příprava na ICO této virtuální měny. Pro zajištění transakcí se používají výpočetně náročné operace, které zároveň umožňují takovou měnu těžit. Vaším úkolem je implementovat program, který dokáže tuto těžbu pomocí vláken rozkládat na všechny dostupné procesory.
+
+Protože nedošlo k dohodě mezi ČVUT a FIT, má plánovaná měna dva různé algoritmy těžení. Vznikají tak různé varianty měny, které budeme pracovně nazývat fitCoin a čvutCoin.
+
+fitCoin
+dostane na vstupu pole 32 bitových neznaménkových celých čísel - bitových vektorů. Dále má parametrem zadanou vzdálenost dist. Algoritmus těžení hledá, kolik existuje různých 32 bitových čísel x takových, že se liší od každého ze zadaných vektorů nejvýše v dist bitech. Výpočet je demonstrován na příkladu, pouze pro přehlednost uvažujeme pouze 4 bitová čísla. Pokud budou zadané vektory:
+  0011
+  0101
+  0110
+  
+Pak dostaneme pro čísla x následující počty odlišných bitů:
+          ≤0     ≤1     ≤2     ≤3     ≤4
+  0000                   *      *      *
+  0001                          *      *
+  0010                          *      *
+  0011                   *      *      *
+  0100                          *      *
+  0101                   *      *      *
+  0110                   *      *      *
+  0111            *      *      *      *
+  1000                          *      *
+  1001                                 *
+  1010                                 *
+  1011                          *      *
+  1100                                 *
+  1101                          *      *
+  1110                          *      *
+  1111                   *      *      *
+  Celkem:  0      1      6     13     16
+  
+Bude-li tedy vstupem algoritmu předložená sada vektorů a dist nastaveno na 3, je výsledkem výpočtu číslo 13 (platí pro ukázku se 4-bitovými vektory).
+čvutCoin
+dostane na vstupu pole bajtů. Algoritmus výpočtu toto pole chápe jako posloupnost bitů počínaje LSB (nejméně významným bitem) prvního bajtu a konče MSB (nejvíce významným bitem) posledního bajtu. Pro vstup délky n bajtů tedy máme posloupnost délky 8n bitů. Dále jsou parametrem dvě celá čísla distMin a distMax. Úkolem je vyzkoušet všechny neprázdné předpony (prefixy) této bitové posloupnosti a všechny neprázdné suffixy této posloupnosti, pro každou dvojici (prefix x suffix) je potřeba určit jejich editační vzdálenost. Výsledkem je počet dvojic, jejichž editační vzdálenost patří do zadaného uzavřeného intervalu < minDist ; maxDist >. Editační vzdálenost dvojice bitových řetězců chápeme jako nejmenší počet operací mazání/vkládání/změny bitu tak, aby z jednoho bitového řetězce vznikl druhý.
+Vaším úkolem je realizovat třídu CRig, která dokáže takové problémy řešit. Oba uvedené problémy jsou výpočetně náročnější a oba problémy je potřeba řešit rychle. Proto bude využito vláken k rozdělení výpočetní zátěže na více CPU a asynchronního modelu výpočtu.
+
+Třída CRig má modelovat opakované výpočty obou výše popsaných problémů v těžebním poolu. Problémy zadávají zákazníci (instance třídy CCustomer, vytvořené testovacím prostředím a předané CRig). Zákazníci předávají problémy (instance tříd CFITCoin a CCVUTCoin), Vaše implementace CRig si instance problému převezme, zpracuje je a vyřešené je zadávajícímu vrátí.
+
+Vaše implementace si vytvoří pracovní vlákna, jejich počet je předán při spouštění výpočtu. Dále, pro načítání problémů si vytvořte tři pomocná vlákna pro každého zákazníka. Tato vlákna budou volat odpovídající metody instance CCustomer, jedno vlákno bude volat funkci pro doručování problémů typu fitCoin, druhé pro doručování problémů čvutCoin a třetí vlákno bude doručovat zpět oba druhy vyřešených problémů. Zadaný problém má podobu instance třídy CFITCoin nebo třídy CCVUTCoin (podle typu úlohy, instance jsou předané jako smart pointery - shared_ptr<CFITCoin> a shared_ptr<CCVUTCoin>, pro zkrácení zápisu jsou pro smart pointery vytvořené aliasy AFITCoin a ACVUTCoin). Vlákna, která přebírají zadávané problémy, nejsou určena k tomu, aby počítala řešení, jejich úkolem je pouze předání problémů dále k pracovním vláknům.
+
+Pracovních vláken vytvoříte více (podle parametrů při inicializaci). Pracovní vlákna vyřeší zadanou instanci problémů a podle výsledků vyplní příslušné složky instance AFITCoin / ACVUTCoin. Po vyplnění předají instanci vyřešeného problému vyčleněnému předávacímu vláknu daného zákazníka. Předávací vlákno zajistí zavolání příslušné metody rozhraní zákazníka a zajistí serializaci odevzdávaní vyřešených úloh.
+
+Jak již bylo řečeno, načítací a odevzdávací vlákna slouží pouze k odebírání požadavků od zákazníků a k předávání těchto požadavků pracovním vláknům. Celkový počet načítacích vláken bude dvojnásobkem počtu zákazníků, celkový počet odevzdávacích vláken bude roven počtu zákazníků. Pokud by načítací/odevzdávací vlákna rovnou řešila zadávané problémy a zákazníků bylo mnoho, vedlo by takové řešení k neefektivnímu využívání CPU (mnoho rozpracovaných problémů, časté přepínání kontextu, ...). Proto požadované řešení ponechává výpočty pouze na pracovních vláknech, kterých je pouze zadaný fixní počet.
+
+Rozhraním Vaší implementace bude třída CRig. V této třídě musí být k dispozici metody podle popisu níže (mohou existovat i další privátní metody potřebné pro Vaši implementaci):
+
+implicitní konstruktor
+inicializuje instanci třídy.
+destruktor
+uvolní prostředky alokované instancí CRig.
+Start (thr)
+metoda spustí vlastní výpočet. V této metodě vytvoříte potřebná pracovní vlákna pro výpočty. Pracovních vláken vytvořte celkem thr podle hodnoty parametru. Tím se spustí obsluha požadavků od zákazníků. Metoda Start se po spuštění pracovních vláken okamžitě vrací (tedy nečeká na doběhnutí výpočtů).
+Stop ()
+metoda informuje, že se mají ukončit výpočty. Tedy je potřeba převzít zbývající požadavky od existujících zákazníků, počkat na jejich vypočtení a vrácení výsledků. Metoda Stop se vrátí volajícímu po doběhnutí a uvolnění jak načítacích, předávacích, tak pracovních vláken. Metoda Stop se musí vrátit do volajícího. Neukončujte celý program (nevolejte exit a podobné funkce), pokud ukončíte celý program, budete hodnoceni 0 body.
+AddCustomer ( c )
+metoda přidá dalšího zákazníka do seznamu zákazníků obsluhovaných touto instancí. Parametrem je smart pointer (shared_ptr<CCustomer>, zkráceně ACustomer) začleňovaného zákazníka. Metoda AddCustomer musí mj. vytvořit dvě pomocná načítací vlákna, která budou tohoto nového zákazníka obsluhovat a předávací vlákno pro odevzdávání vyřešených zadání. Pozor: metodu lze zavolat ještě před voláním Start (tedy zákazníci jsou obsluhovaní, ale výpočetní vlákna ještě neexistují), tak i po spuštění Start (nový zákazník je přidán k existujícím a je zahájena jeho obsluha).
+Solve (fitCoin)
+- metoda vypočte sekvenčně jeden zadaný problém typu AFITCoin (parametr). Testovací prostředí nejprve zkouší sekvenční řešení, abyste případně snáze odhalili chyby v implementaci algoritmu.
+Solve (cvutCoin)
+- metoda vypočte sekvenčně jeden zadaný problém typu ACVUTCoin (parametr). Testovací prostředí nejprve zkouší sekvenční řešení, abyste případně snáze odhalili chyby v implementaci algoritmu.
+Třída CCustomer definuje rozhraní jednoho zákazníka. Zákazník je implementován v testovacím prostředí a je předán Vaší implementaci v podobě smart pointeru (shared_ptr<CCustomer> alias ACustomer). Rozhraní CCustomer má následující metody:
+
+destruktor
+uvolňuje prostředky alokované pro zákazníka,
+FITCoinGen() / CVUTCoinGen()
+metoda po zavolání vrací další instanci problému fitCoin/čvutCoin ke zpracování. Návratovou hodnotou je smart pointer (shared_ptr<CFITCoin> alias AFITCoin případně shared_ptr<CCVUTCoin> alias ACVUTCoin) s popisem problému k vyřešení. Pokud je vrácen prázdný smart pointer (obsahuje NULL), znamená to, že daný zákazník již nemá žádný další problém tohoto typu k vyřešení (ale stále může dodávat problémy typu druhého typu). Pokud metoda vrátí prázdný ukazatel, lze ukončit příslušné načítací vlákno.
+FITCoinAccept ( fitCoin ) / CVUTCoinAccept (cvutCoin)
+metodou se předá vyřešený problém typu fitCoin/čvutCoin zpět zákazníkovi. Je potřeba vrátit vyřešený problém tomu zákazníkovi, který problém zadal. Dále, je potřeba vrátit tu samou instanci problému, kterou dříve předala metoda FITCoinGen / CVUTCoinGen, pouze je v ní potřeba vyplnit vypočítané hodnoty. Metody FITCoinAccept / CVUTCoinAccept je potřeba volat serializovaně z odevzdávacího vlákna, toto vlákno musí být pro daného zákazníka stále stejné.
+Třída CFITCoin je deklarovaná a implementovaná v testovacím prostředí. Pro testování Vaší implementace je k dispozici v bloku podmíněného překladu (ponechte jej tak). Význam složek je následující:
+
+m_Vectors
+seznam 32 bitových vektorů zadání úlohy. Tato hodnota je vyplněna při vytváření zadání, Vaše implementace ji nesmí měnit.
+m_DistMax
+maximální vzdálenost od zadaných bitových vektorů. Tato hodnota je vyplněna při vytváření zadání, Vaše implementace ji nesmí měnit.
+m_Count
+je výsledkem výpočtu - počet 32 bitových hodnot x takových, že jejich vzdálenost od zadaných vektorů je nejvýše m_DistMax. Tuto hodnotu má vyplnit pracovní vlákno.
+implicitní konstruktor
+existuje pro usnadnění vytváření instance problému.
+Třída CCVUTCoin je deklarovaná a implementovaná v testovacím prostředí. Pro testování Vaší implementace je k dispozici v bloku podmíněného překladu (ponechte jej tak). Význam složek je následující:
+
+m_Data
+bajty tvořící bitovou posloupnost k analýze (bity čteme směrem od nejnižšího k nejvyššímu). Tato hodnota je vyplněna při vytváření zadání, Vaše implementace ji nesmí měnit.
+m_DistMin, m_DistMax
+Rozmezí hodnot odlišnosti bitových řetězců při porovnávání. Tyto hodnoty jsou vyplněné při vytváření zadání, Vaše implementace je nesmí měnit.
+m_Count
+je výsledek výpočtu, který má vyplnit pracovní vlákno. Hodnota má udávat počet dvojic (předpona, přípona) zadané bitové posloupnosti takových, že jejich editační vzdálenost patří do intervalu hodnot < m_DistMin ; m_DistMax >.
+implicitní konstruktor
+existuje pro usnadnění vytváření instance problému.
+
