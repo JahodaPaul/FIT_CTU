@@ -30,6 +30,17 @@ namespace RG {
      */
     namespace Controller {}
 
+    //! \namespace RG::NPC
+    /*!
+     *  \brief Namespace used for trading items and assigning work to NPC's.
+     *
+     *  NPC namespace contains marketplace class used for trading items between player and NPC's and between NPC themselves.
+     *  Each NPC has their own intelligence and each NPC works and or creates Items.
+     *  Matching of trades is done via MatchingEngine class.
+     *  NPCWorldCycle is used as a interface for communicating between Controller namespace and NPC namespace.
+     */
+    namespace NPC {}
+
     //! \namespace RG::Util
     /*!
      *  \brief This namespace includes some usefull utileties whitch are used in all part of the game.
