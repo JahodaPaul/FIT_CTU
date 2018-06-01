@@ -96,7 +96,8 @@ namespace RG {
 
     void Room::AddEnemy(b2Body* body)
     {
-      m_Entities.emplace_back(std::make_shared<RG::Model::Entity>("Enemy", rand()%18 + 1));
+      m_Entities.emplace_back(
+          std::make_shared<RG::Model::Entity>("Enemy", rand() % 18 + 1));
       m_Entities[m_Entities.size() - 1]->m_Body = body;
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
@@ -142,6 +143,11 @@ namespace RG {
           m_Stairs[i]->AddObserver(obs);
         }
       }
+    }
+
+    std::vector<std::shared_ptr<RG::Model::Stairs>> Room::GetStairs(void) const
+    {
+      return m_Stairs;
     }
   }
 }

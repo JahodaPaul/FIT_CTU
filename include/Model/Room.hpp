@@ -116,9 +116,18 @@ namespace RG {
             unsigned int RoomWidth, unsigned int RoomHeight);
 
         /**
-         * TODO
+         * \function AddStairsObserver
+         * \brief Adds an observer to all stairs in the room
          */
         void AddStairsObserver(RG::Util::Observer* obs);
+
+        /**
+         * \function GetStairs
+         * \brief returns all stairs in the room
+         * @return vector of shared pointers, size=2, result[0] = stairs down,
+         * result[1] = stairs up, filled with nullptr if stairs are not present
+         */
+        std::vector<std::shared_ptr<RG::Model::Stairs>> GetStairs(void) const;
 
       private:
         /// position in the map grid

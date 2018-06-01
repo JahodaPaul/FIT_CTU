@@ -32,8 +32,9 @@ namespace RG {
 
     Model::~Model()
     {
-      for (auto i : m_Floors)
+      for (auto i : m_Floors) {
         delete i;
+      }
     }
 
     void Model::Move(float x, float y)
