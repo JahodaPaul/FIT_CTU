@@ -28,7 +28,7 @@ namespace RG{
             m_rotationCorrection = luaState[name]["rotation"];
             m_rotationCorrection += 90;
             animation = std::make_shared<Animation>(texture.c_str(), frameWidth, frameHeight, frameCount, frameTime);
-            gameScene->AddObserver( this );
+            SubscribeTo( gameScene );
             animation->setPosition(sf::Vector2f(this->x, this->y));
             animation->setRotation(m_rotationCorrection);
             animation->goToFrame(0);
@@ -82,6 +82,13 @@ namespace RG{
                         this->animation->setRotation(entity->GetAngle() * 180.0f / M_PI + m_rotationCorrection);
                         this->SetPosition(absoluteX,absoluteY);
                         m_moved = true;
+                        break;
+                    }
+                case Util::Event::FLOOR_CHANGE:
+                    {
+                        Model::Floor * floor = &((Model::Model*)subject)->GetCurrentFloor();
+                        correctionX = floor->m_X * floor->m_RoomWidth;
+                        correctionY = floor->m_Y * floor->m_RoomHeight;
                         break;
                     }
                 case Util::Event::ROOM_CHANGE:

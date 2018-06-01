@@ -86,8 +86,8 @@ namespace RG{
              */
             bool Alive() const;
 
-        protected:
             void SetPosition(float x, float y);
+        protected:
 
             float windowX;
             float windowY;

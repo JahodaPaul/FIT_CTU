@@ -13,15 +13,16 @@ namespace RG {
             ,room_lava("/usr/share/RG/assets/graphics/backgrounds/rooms/LavaBG.png")
             ,m_gameScene( gameScene )
             ,m_model( model )
+            ,m_stairs{ {false, {gameScene, lua, "stairs_up"}}, {false, {gameScene, lua, "stairs_down"}} }
             {
                 windowX = gameScene->getWindowSize().x;
                 windowY = gameScene->getWindowSize().y;
                 currentId = -1;
+
                 doors[0].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-top.png");
                 doors[1].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-right.png");
                 doors[2].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-bottom.png");
                 doors[3].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-left.png"); 
-
                 doors[0].sprite.setTexture(doors[0].texture);
                 doors[1].sprite.setTexture(doors[1].texture);
                 doors[2].sprite.setTexture(doors[2].texture);
@@ -31,8 +32,12 @@ namespace RG {
                 doors[2].visible = false;
                 doors[3].visible = false;
 
-                gameScene->AddObserver( this );
-                model->GetCurrentFloor().AddObserver( this );
+                SubscribeTo( gameScene );
+                SubscribeTo( &model->GetCurrentFloor() );
+                SubscribeTo( model );
+
+                m_stairs[0].second.SubscribeTo( &model->GetCurrentFloor() );
+                m_stairs[1].second.SubscribeTo( &model->GetCurrentFloor() );
             }
 
         RG::View::Room::~Room() {
@@ -69,6 +74,9 @@ namespace RG {
         }
 
         void RG::View::Room::ChangeRoom(Model::Floor * floor) {
+            m_correctionX = floor->m_X * floor->m_RoomWidth;
+            m_correctionY = floor->m_Y * floor->m_RoomHeight;
+
             SetScale( windowX, windowY );
             int level = floor->GetLevel();
             int id = floor->GetRoomId();
@@ -83,20 +91,18 @@ namespace RG {
             }
 
             SetDoors( floor->GetRoom().GetDoors() );
+            SetStairs( floor->GetRoom().GetStairs() );
 
             auto it = this->roomHistory.find(std::to_string(id));
             room_texure.loadFromFile(it->second);
             background.setTexture(room_texure);
 
-            //TODO(vojta) remove listenres
             enemies.clear();
-            float correctionX = floor->m_X * floor->m_RoomWidth;
-            float correctionY = floor->m_Y * floor->m_RoomHeight;
             for ( auto it : floor->GetRoom().GetEntities() ) {
-                enemies.emplace_back(m_gameScene, m_lua, "zombie" );
-                enemies.back().setCorrection( correctionX, correctionY );
-                it->AddObserver( &enemies.back() );
-                floor->AddObserver( &enemies.back() );
+                enemies.push_back(std::make_unique<Entity>(m_gameScene, m_lua, "zombie" ));
+                enemies.back()->setCorrection( m_correctionX, m_correctionY );
+                enemies.back()->SubscribeTo( &(*it) );
+                enemies.back()->SubscribeTo( &(*floor) );
             }
         }
 
@@ -123,23 +129,23 @@ namespace RG {
 
         void Room::SetDoorScaleTopBot(float x, float y){
             float scaleY = (float)(y / 7.5) / doors[0].sprite.getLocalBounds().height;
-            doors[0].sprite.setScale(scaleY,scaleY);
-            doors[2].sprite.setScale(scaleY,scaleY);
+            float scaleX = (x / 7) / doors[0].sprite.getLocalBounds().width;
+            doors[0].sprite.setScale(scaleX,scaleY);
+            doors[2].sprite.setScale(scaleX,scaleY);
         }
 
         void Room::SetDoorScaleLeftRight(float x, float y){
+            float scaleY = (float)(y / 3.5) / doors[1].sprite.getLocalBounds().height;
             float scaleX = (x / 12) / doors[1].sprite.getLocalBounds().width;
-            doors[1].sprite.setScale(scaleX,scaleX);
-            doors[3].sprite.setScale(scaleX,scaleX);
+            doors[1].sprite.setScale(scaleX,scaleY);
+            doors[3].sprite.setScale(scaleX,scaleY);
         }
 
         void Room::Update(View * view, float timeElapsed) {
             for ( size_t i = 0; i<enemies.size(); ++i ) {
-                if ( enemies[i].Alive() )
-                    enemies[i].Update( view, timeElapsed );
+                if ( enemies[i]->Alive() )
+                    enemies[i]->Update( view, timeElapsed );
                 else {
-                    m_gameScene->RemoveObserver( &enemies[i] );
-                    m_model->GetCurrentFloor().RemoveObserver( &enemies[i] );
                     enemies.erase( enemies.begin() + i-- );
                 }
             }
@@ -149,8 +155,25 @@ namespace RG {
             target.draw(background);
             for ( auto i = 0; i < 4; ++i )
                 if ( doors[i].visible ) target.draw( doors[i].sprite );
+            for ( auto i = 0; i < 2; ++i )
+                if ( m_stairs[i].first ) target.draw( m_stairs[i].second );
             for ( auto & it : enemies )
-                target.draw( it );
+                target.draw( *it );
+        }
+
+        void Room::SetStairs( std::vector<std::shared_ptr<RG::Model::Stairs> > stairs ) {
+            m_stairs[0].second.setCorrection( m_correctionX, m_correctionY );
+            m_stairs[1].second.setCorrection( m_correctionX, m_correctionY );
+
+            m_stairs[0].first = false;
+            m_stairs[1].first = false;
+
+            for ( unsigned int i = 0;i<stairs.size();++i ) {
+                if ( stairs[i] != nullptr ) {
+                    m_stairs[i].first = true;
+                    m_stairs[i].second.SetPosition( stairs[i]->GetPosition().x - m_correctionX, stairs[i]->GetPosition().y - m_correctionY );
+                }
+            }
         }
 
         void Room::SetDoors(std::vector<bool> doors) {
@@ -165,6 +188,14 @@ namespace RG {
 
         void RG::View::Room::onNotify(Util::Subject * subject, Util::Event event) {
             switch(event) {
+                case Util::Event::FLOOR_CHANGE:
+                    {
+                        Model::Floor * floor = &((Model::Model*)subject)->GetCurrentFloor();
+                        SubscribeTo( floor );
+                        m_gameScene->getPlayer().get()->SubscribeTo( floor );
+                        ChangeRoom( floor );
+                        break;
+                    }
                 case Util::Event::ROOM_CHANGE:
                     {
                         Model::Floor * floor = (Model::Floor*)subject;

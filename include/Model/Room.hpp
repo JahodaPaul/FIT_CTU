@@ -6,6 +6,8 @@
 
 #include "Model/Entity.hpp"
 #include "Model/Object.hpp"
+#include "Model/Stairs.hpp"
+#include "Util/Observer.hpp"
 
 namespace RG {
   namespace Model {
@@ -30,7 +32,7 @@ namespace RG {
          * \function ~Room
          * \brief destructor
          */
-        ~Room();
+        virtual ~Room();
 
         /**
          * \function SetDoors
@@ -105,6 +107,28 @@ namespace RG {
          */
         void SweepDeadEntities(void);
 
+        /**
+         * \function AddStairs
+         * \brief adds stairs to the room
+         * @param up whether the stairs lead up or not
+         */
+        void AddStairs(bool up, std::shared_ptr<b2World> world,
+            unsigned int RoomWidth, unsigned int RoomHeight);
+
+        /**
+         * \function AddStairsObserver
+         * \brief Adds an observer to all stairs in the room
+         */
+        void AddStairsObserver(RG::Util::Observer* obs);
+
+        /**
+         * \function GetStairs
+         * \brief returns all stairs in the room
+         * @return vector of shared pointers, size=2, result[0] = stairs down,
+         * result[1] = stairs up, filled with nullptr if stairs are not present
+         */
+        std::vector<std::shared_ptr<RG::Model::Stairs>> GetStairs(void) const;
+
       private:
         /// position in the map grid
         std::pair<unsigned int, unsigned int> m_GridPosition;
@@ -118,6 +142,8 @@ namespace RG {
         /// doors leading to another rooms -- whether there are doors on the
         /// top, left, down, right walls
         std::vector<bool> m_Doors;
+
+        std::vector<std::shared_ptr<RG::Model::Stairs>> m_Stairs;
     };
   }
 }

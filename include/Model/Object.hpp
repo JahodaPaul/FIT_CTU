@@ -14,6 +14,7 @@ namespace RG {
       BIT_WALL = 0x01,
       BIT_PLAYER = 0x02,
       BIT_ENEMY = 0x04,
+      BIT_STAIRS = 0x08
     };
 
     /**
@@ -64,9 +65,11 @@ namespace RG {
          * to
          * @param mask_bits with what types of objects does the shape collide
          * with
+         * @param body body to which the shape should be added, default is
+         * m_Body
          */
         void AddShape(b2Shape* shapeDef, float density, uint16 category_bits,
-            uint16 mask_bits);
+            uint16 mask_bits, b2Body* body = nullptr);
 
         /**
          * \function IsDead

@@ -35,7 +35,9 @@ find_package(OpenGL REQUIRED)
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
 INCLUDE_DIRECTORIES( ./include ./imgui ./imgui-sfml /usr/include/lua5.3 )
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -fsanitize=address -DDEBUG_DRAW")
+set(CMAKE_CXX_FLAGS "-Wall -pedantic")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -DDEBUG_DRAW")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 ADD_EXECUTABLE(game src/main.cpp
     imgui/imgui.cpp
@@ -50,7 +52,6 @@ ADD_EXECUTABLE(game src/main.cpp
     src/Controller/GameController.cpp
     src/Controller/MenuStateHandler.cpp 
     src/Controller/GameStateHandler.cpp
-    src/Controller/GameController.cpp
     src/Controller/StateHandler.cpp
 
     src/View/View.cpp
@@ -70,13 +71,15 @@ ADD_EXECUTABLE(game src/main.cpp
     src/View/NPCLog.cpp
     src/View/Gui.cpp
 
-    src/Model/Model.cpp
-    src/Model/Object.cpp
+    src/Model/ContactListener.cpp
     src/Model/DynamicObject.cpp
     src/Model/Entity.cpp
     src/Model/Floor.cpp
+    src/Model/Model.cpp
+    src/Model/Object.cpp
+    src/Model/Player.cpp
     src/Model/Room.cpp
-    src/Model/ContactListener.cpp
+    src/Model/Stairs.cpp
 
     src/NPC/Market.cpp 
     src/NPC/Entity.cpp 

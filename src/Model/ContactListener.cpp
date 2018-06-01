@@ -12,6 +12,7 @@ namespace RG {
 
     void ContactListener::BeginContact(b2Contact* contact)
     {
+      mainLog.Info("contact");
       Object* typeA = static_cast<Object*>(
           contact->GetFixtureA()->GetBody()->GetUserData());
       Object* typeB = static_cast<Object*>(

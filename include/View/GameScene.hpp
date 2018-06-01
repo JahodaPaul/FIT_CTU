@@ -15,38 +15,54 @@
 
 namespace RG {
     namespace View {
-        //! \class GameScene
         /*!
-         *  \brief ( descendant of Scene ) 
-         *  This scene where gameplay takes place
+         * \class GameScene
+         *
+         * \brief ( descendant of Scene ) This scene where gameplay takes place
          */
         class GameScene : public Scene, public Util::Subject {
         public:
-            //! A constructor
+            /*!
+             * \brief A constructor
+             *
+             * @param view pointer to View
+             */
             GameScene(View *view);
 
-            //! A destructor
+            /*!
+             * \brief A destructor
+             */
             virtual ~GameScene();
 
-            //! Update game scene
             /*!
-             * \param view pointer to game View
-             * \param timeElapsed time elapsed from last update
+             * Update game scene
+             * @param view pointer to game View
+             * @param timeElapsed time elapsed from last update
              */
             virtual void Update(View *view, float timeElapsed);
 
-            //! Render game scene
             /*!
-             * \param view pointer to game View
+             * \brief Render game scene.
+             *
+             * @param view pointer to game View
              */
             virtual void Render(View *view);
 
-            //! Manage player input
             /*!
-             * \param view pointer to game View
+             * \brief Manage player input.
+             *
+             * @param view pointer to game View
              */
             virtual void ManageInput(View *view);
 
+            /*!
+             * \brief Get shared pointer to Player.
+             */
+            std::shared_ptr<Player> getPlayer();
+
+            /*!
+             * \brief Get game window size.
+             */
             const sf::Vector2f & getWindowSize() const;
         private:
             std::shared_ptr<RG::View::Player> GetPlayer();

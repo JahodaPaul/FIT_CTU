@@ -1,10 +1,15 @@
 #pragma once
 
+#include <memory>
+#include <tuple>
+
 #include <SFML/Graphics.hpp>
 #include <sol.hpp>
 
 #include "Model/Floor.hpp"
 #include "Model/Model.hpp"
+#include "Model/Stairs.hpp"
+
 #include "RoomHistory.hpp"
 #include "View/Animation.hpp"
 #include "View/Entity.hpp"
@@ -28,7 +33,8 @@ namespace RG{
              * @param model pointer to Model used for registering Observers
              */
             Room(GameScene * scene, sol::state & lua, Model::Model * model);
-            ~Room();
+
+            virtual ~Room();
 
             /// assigns background image if the room has never been visited
             /// if it has been visited - changes background image based on room ID
@@ -63,6 +69,7 @@ namespace RG{
             ///assign background image to new room
             void AssignBackground(int level, int id);
             void SetDoorPosition();
+            void SetStairs( std::vector<std::shared_ptr<RG::Model::Stairs> > );
 
         private:
             sol::state & m_lua;
@@ -89,9 +96,14 @@ namespace RG{
             const std::string room_soil;
             const std::string room_lava;
 
-            std::vector<Entity> enemies;
+            float m_correctionX;
+            float m_correctionY;
+
+            std::vector<std::unique_ptr<Entity>> enemies;
             GameScene * m_gameScene;
             Model::Model * m_model;
+
+            std::pair<bool,Entity> m_stairs[2];
         };
     }
 }
