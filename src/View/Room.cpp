@@ -11,10 +11,9 @@ namespace RG {
             ,room_cobblestone("/usr/share/RG/assets/graphics/backgrounds/rooms/CobbleStoneBG.png")
             ,room_soil("/usr/share/RG/assets/graphics/backgrounds/rooms/SoilBG.png")
             ,room_lava("/usr/share/RG/assets/graphics/backgrounds/rooms/LavaBG.png")
-            ,stairs_down("/usr/share/RG/assets/graphics/objects/obstacles/holes/hole_big.png")
-            ,stairs_up("/usr/share/RG/assets/graphics/objects/obstacles/holes/hole_big.png")
             ,m_gameScene( gameScene )
             ,m_model( model )
+            ,m_stairs{ {false, {gameScene, lua, "stairs_up"}}, {false, {gameScene, lua, "stairs_down"}} }
             {
                 windowX = gameScene->getWindowSize().x;
                 windowY = gameScene->getWindowSize().y;
@@ -33,16 +32,12 @@ namespace RG {
                 doors[2].visible = false;
                 doors[3].visible = false;
 
-                m_stairs[0].texture.loadFromFile(stairs_up);
-                m_stairs[1].texture.loadFromFile(stairs_down);
-                m_stairs[0].sprite.setTexture(m_stairs[0].texture);
-                m_stairs[1].sprite.setTexture(m_stairs[1].texture);
-                m_stairs[0].visible = false;
-                m_stairs[1].visible = false;
-
                 SubscribeTo( gameScene );
                 SubscribeTo( &model->GetCurrentFloor() );
                 SubscribeTo( model );
+
+                m_stairs[0].second.SubscribeTo( &model->GetCurrentFloor() );
+                m_stairs[1].second.SubscribeTo( &model->GetCurrentFloor() );
             }
 
         RG::View::Room::~Room() {
@@ -79,6 +74,9 @@ namespace RG {
         }
 
         void RG::View::Room::ChangeRoom(Model::Floor * floor) {
+            m_correctionX = floor->m_X * floor->m_RoomWidth;
+            m_correctionY = floor->m_Y * floor->m_RoomHeight;
+
             SetScale( windowX, windowY );
             int level = floor->GetLevel();
             int id = floor->GetRoomId();
@@ -100,11 +98,9 @@ namespace RG {
             background.setTexture(room_texure);
 
             enemies.clear();
-            float correctionX = floor->m_X * floor->m_RoomWidth;
-            float correctionY = floor->m_Y * floor->m_RoomHeight;
             for ( auto it : floor->GetRoom().GetEntities() ) {
                 enemies.push_back(std::make_unique<Entity>(m_gameScene, m_lua, "zombie" ));
-                enemies.back()->setCorrection( correctionX, correctionY );
+                enemies.back()->setCorrection( m_correctionX, m_correctionY );
                 enemies.back()->SubscribeTo( &(*it) );
                 enemies.back()->SubscribeTo( &(*floor) );
             }
@@ -129,11 +125,6 @@ namespace RG {
             background.setScale(x / background.getLocalBounds().width, y / background.getLocalBounds().height);
             SetDoorScaleTopBot(x,y);
             SetDoorScaleLeftRight(x,y);
-
-            float scaleY = (float)(y / 10) / m_stairs[0].sprite.getLocalBounds().height;
-            float scaleX = (float)(y / 10) / m_stairs[0].sprite.getLocalBounds().width;
-            m_stairs[0].sprite.setScale(scaleX,scaleY);
-            m_stairs[1].sprite.setScale(scaleX,scaleY);
         }
 
         void Room::SetDoorScaleTopBot(float x, float y){
@@ -165,22 +156,22 @@ namespace RG {
             for ( auto i = 0; i < 4; ++i )
                 if ( doors[i].visible ) target.draw( doors[i].sprite );
             for ( auto i = 0; i < 2; ++i )
-                if ( m_stairs[i].visible ) target.draw( m_stairs[i].sprite );
+                if ( m_stairs[i].first ) target.draw( m_stairs[i].second );
             for ( auto & it : enemies )
                 target.draw( *it );
         }
 
         void Room::SetStairs( std::vector<std::shared_ptr<RG::Model::Stairs> > stairs ) {
-            m_stairs[0].visible = false;
-            m_stairs[1].visible = false;
+            m_stairs[0].second.setCorrection( m_correctionX, m_correctionY );
+            m_stairs[1].second.setCorrection( m_correctionX, m_correctionY );
+
+            m_stairs[0].first = false;
+            m_stairs[1].first = false;
 
             for ( unsigned int i = 0;i<stairs.size();++i ) {
                 if ( stairs[i] != nullptr ) {
-                    m_stairs[i].visible = true;
-                    m_stairs[i].sprite.setPosition(
-                            stairs[i]->GetPosition().x*(windowX/1920) - (m_stairs[i].sprite.getLocalBounds().width * m_stairs[i].sprite.getScale().x/2)
-                            , stairs[i]->GetPosition().y*(windowY/1080) - (m_stairs[i].sprite.getLocalBounds().height * m_stairs[i].sprite.getScale().y/2)
-                            );
+                    m_stairs[i].first = true;
+                    m_stairs[i].second.SetPosition( stairs[i]->GetPosition().x - m_correctionX, stairs[i]->GetPosition().y - m_correctionY );
                 }
             }
         }

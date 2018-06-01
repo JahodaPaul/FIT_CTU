@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <tuple>
 
 #include <SFML/Graphics.hpp>
 #include <sol.hpp>
@@ -89,24 +90,20 @@ namespace RG{
                 bool visible;
             } doors[4];
 
-            struct {
-                sf::Sprite sprite;
-                sf::Texture texture;
-                bool visible;
-            } m_stairs[2];
-
             const std::string room_bluestone;
             const std::string room_blackstone;
             const std::string room_cobblestone;
             const std::string room_soil;
             const std::string room_lava;
 
-            const std::string stairs_down;
-            const std::string stairs_up;
+            float m_correctionX;
+            float m_correctionY;
 
             std::vector<std::unique_ptr<Entity>> enemies;
             GameScene * m_gameScene;
             Model::Model * m_model;
+
+            std::pair<bool,Entity> m_stairs[2];
         };
     }
 }
