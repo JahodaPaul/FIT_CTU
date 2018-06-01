@@ -138,14 +138,14 @@ namespace RG {
 
         void Room::SetDoorScaleTopBot(float x, float y){
             float scaleY = (float)(y / 7.5) / doors[0].sprite.getLocalBounds().height;
-            float scaleX = (x / 12) / doors[0].sprite.getLocalBounds().width;
+            float scaleX = (x / 7) / doors[0].sprite.getLocalBounds().width;
             doors[0].sprite.setScale(scaleX,scaleY);
             doors[2].sprite.setScale(scaleX,scaleY);
         }
 
         void Room::SetDoorScaleLeftRight(float x, float y){
+            float scaleY = (float)(y / 3.5) / doors[1].sprite.getLocalBounds().height;
             float scaleX = (x / 12) / doors[1].sprite.getLocalBounds().width;
-            float scaleY = (float)(y / 7.5) / doors[1].sprite.getLocalBounds().height;
             doors[1].sprite.setScale(scaleX,scaleY);
             doors[3].sprite.setScale(scaleX,scaleY);
         }
@@ -174,7 +174,6 @@ namespace RG {
             m_stairs[0].visible = false;
             m_stairs[1].visible = false;
 
-            std::cout << stairs.size() << std::endl;
             for ( unsigned int i = 0;i<stairs.size();++i ) {
                 if ( stairs[i] != nullptr ) {
                     m_stairs[i].visible = true;
