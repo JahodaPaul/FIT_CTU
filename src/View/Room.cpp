@@ -11,17 +11,19 @@ namespace RG {
             ,room_cobblestone("/usr/share/RG/assets/graphics/backgrounds/rooms/CobbleStoneBG.png")
             ,room_soil("/usr/share/RG/assets/graphics/backgrounds/rooms/SoilBG.png")
             ,room_lava("/usr/share/RG/assets/graphics/backgrounds/rooms/LavaBG.png")
+            ,stairs_down("/usr/share/RG/assets/graphics/objects/obstacles/holes/hole_big.png")
+            ,stairs_up("/usr/share/RG/assets/graphics/objects/obstacles/holes/hole_big.png")
             ,m_gameScene( gameScene )
             ,m_model( model )
             {
                 windowX = gameScene->getWindowSize().x;
                 windowY = gameScene->getWindowSize().y;
                 currentId = -1;
+
                 doors[0].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-top.png");
                 doors[1].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-right.png");
                 doors[2].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-bottom.png");
                 doors[3].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-left.png"); 
-
                 doors[0].sprite.setTexture(doors[0].texture);
                 doors[1].sprite.setTexture(doors[1].texture);
                 doors[2].sprite.setTexture(doors[2].texture);
@@ -30,6 +32,13 @@ namespace RG {
                 doors[1].visible = false;
                 doors[2].visible = false;
                 doors[3].visible = false;
+
+                m_stairs[0].texture.loadFromFile(stairs_up);
+                m_stairs[1].texture.loadFromFile(stairs_down);
+                m_stairs[0].sprite.setTexture(m_stairs[0].texture);
+                m_stairs[1].sprite.setTexture(m_stairs[1].texture);
+                m_stairs[0].visible = false;
+                m_stairs[1].visible = false;
 
                 SubscribeTo( gameScene );
                 SubscribeTo( &model->GetCurrentFloor() );
@@ -84,6 +93,7 @@ namespace RG {
             }
 
             SetDoors( floor->GetRoom().GetDoors() );
+            SetStairs( floor->GetRoom().GetStairs() );
 
             auto it = this->roomHistory.find(std::to_string(id));
             room_texure.loadFromFile(it->second);
@@ -119,18 +129,25 @@ namespace RG {
             background.setScale(x / background.getLocalBounds().width, y / background.getLocalBounds().height);
             SetDoorScaleTopBot(x,y);
             SetDoorScaleLeftRight(x,y);
+
+            float scaleY = (float)(y / 10) / m_stairs[0].sprite.getLocalBounds().height;
+            float scaleX = (float)(y / 10) / m_stairs[0].sprite.getLocalBounds().width;
+            m_stairs[0].sprite.setScale(scaleX,scaleY);
+            m_stairs[1].sprite.setScale(scaleX,scaleY);
         }
 
         void Room::SetDoorScaleTopBot(float x, float y){
             float scaleY = (float)(y / 7.5) / doors[0].sprite.getLocalBounds().height;
-            doors[0].sprite.setScale(scaleY,scaleY);
-            doors[2].sprite.setScale(scaleY,scaleY);
+            float scaleX = (x / 12) / doors[0].sprite.getLocalBounds().width;
+            doors[0].sprite.setScale(scaleX,scaleY);
+            doors[2].sprite.setScale(scaleX,scaleY);
         }
 
         void Room::SetDoorScaleLeftRight(float x, float y){
             float scaleX = (x / 12) / doors[1].sprite.getLocalBounds().width;
-            doors[1].sprite.setScale(scaleX,scaleX);
-            doors[3].sprite.setScale(scaleX,scaleX);
+            float scaleY = (float)(y / 7.5) / doors[1].sprite.getLocalBounds().height;
+            doors[1].sprite.setScale(scaleX,scaleY);
+            doors[3].sprite.setScale(scaleX,scaleY);
         }
 
         void Room::Update(View * view, float timeElapsed) {
@@ -147,8 +164,26 @@ namespace RG {
             target.draw(background);
             for ( auto i = 0; i < 4; ++i )
                 if ( doors[i].visible ) target.draw( doors[i].sprite );
+            for ( auto i = 0; i < 2; ++i )
+                if ( m_stairs[i].visible ) target.draw( m_stairs[i].sprite );
             for ( auto & it : enemies )
                 target.draw( *it );
+        }
+
+        void Room::SetStairs( std::vector<std::shared_ptr<RG::Model::Stairs> > stairs ) {
+            m_stairs[0].visible = false;
+            m_stairs[1].visible = false;
+
+            std::cout << stairs.size() << std::endl;
+            for ( unsigned int i = 0;i<stairs.size();++i ) {
+                if ( stairs[i] != nullptr ) {
+                    m_stairs[i].visible = true;
+                    m_stairs[i].sprite.setPosition(
+                            stairs[i]->GetPosition().x*(windowX/1920) - (m_stairs[i].sprite.getLocalBounds().width * m_stairs[i].sprite.getScale().x/2)
+                            , stairs[i]->GetPosition().y*(windowY/1080) - (m_stairs[i].sprite.getLocalBounds().height * m_stairs[i].sprite.getScale().y/2)
+                            );
+                }
+            }
         }
 
         void Room::SetDoors(std::vector<bool> doors) {
