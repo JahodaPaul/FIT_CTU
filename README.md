@@ -20,6 +20,7 @@ To give students an idea, what is neccessary to obtain maximum points/best marks
 ### 4th semester
   * [BI-OSY](https://github.com/JahodaPaul/FIT_CTU/tree/master/OSY) - _Operating Systems_ - Received more points than 93% of students.
   * [BI-VWM - Semestral project](https://github.com/JahodaPaul/FIT_CTU/tree/master/VWM) - _Information Retrieval and Web Search_ - 50/50 points received.
+  * [BI-BEZ](https://github.com/JahodaPaul/FIT_CTU/tree/master/BEZ) - _Security_ - 20/20 points received.
   
   
   

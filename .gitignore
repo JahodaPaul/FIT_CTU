@@ -3,3 +3,6 @@
 **/airports/
 **/flights/
 **/__pycache__/
+/.idea/
+.png
+.jpg

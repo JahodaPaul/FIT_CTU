@@ -1,0 +1,3 @@
+g++ -std=c++11 encrypt.cpp -lcrypto -g -o encrypt.out && g++ -std=c++11 decrypt.cpp -lcrypto -g -o decrypt.out
+
+./encrypt.out Mad_scientist ecb && ./decrypt.out Mad_scientist ecb
