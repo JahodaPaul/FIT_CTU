@@ -7,6 +7,8 @@
 
 #include "Model/Floor.hpp"
 #include "Model/Model.hpp"
+#include "Model/Stairs.hpp"
+
 #include "RoomHistory.hpp"
 #include "View/Animation.hpp"
 #include "View/Entity.hpp"
@@ -66,6 +68,7 @@ namespace RG{
             ///assign background image to new room
             void AssignBackground(int level, int id);
             void SetDoorPosition();
+            void SetStairs( std::vector<std::shared_ptr<RG::Model::Stairs> > );
 
         private:
             sol::state & m_lua;
@@ -86,11 +89,20 @@ namespace RG{
                 bool visible;
             } doors[4];
 
+            struct {
+                sf::Sprite sprite;
+                sf::Texture texture;
+                bool visible;
+            } m_stairs[2];
+
             const std::string room_bluestone;
             const std::string room_blackstone;
             const std::string room_cobblestone;
             const std::string room_soil;
             const std::string room_lava;
+
+            const std::string stairs_down;
+            const std::string stairs_up;
 
             std::vector<std::unique_ptr<Entity>> enemies;
             GameScene * m_gameScene;
