@@ -16,8 +16,8 @@ zombie = {
     frameCount = 8,
     frameTime = 40,
     rotation = 180,
-    Dead = function() play_sound("hurt1", 50) end,
-    Hurt = function() play_sound("hurt1", 50) end,
+    Dead = function() View.soundManager:PlaySound( "hurt1", 70 ) end,
+    Hurt = function() View.soundManager:PlaySound( "hurt1", 70 ) end,
 }
 
 player = {
@@ -27,8 +27,8 @@ player = {
     frameCount = 12,
     frameTime = 40,
     rotation = 0,
-    Dead = function() play_sound("hurt1", 50) end,
-    Hurt = function() play_sound("hurt1", 50) end,
+    Dead = function() View.soundManager:PlaySound( "hurt1", 70 ) end,
+    Hurt = function() View.soundManager:PlaySound( "hurt1", 70 ) end,
 }
 
 stairs_down = {
