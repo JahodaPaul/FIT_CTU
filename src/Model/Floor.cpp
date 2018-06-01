@@ -217,7 +217,7 @@ namespace RG {
             if (_cnt != cnt - 1) {
               tmp_room->AddDoors(num);
             }
-            for (int j = 0; j < rand()%3; ++j) {
+            for (int j = 0; j < rand() % 3; ++j) {
               b2BodyDef enemy_bodyDef;
               enemy_bodyDef.type = b2_dynamicBody;
               enemy_bodyDef.position.Set((_x + 0.4 + 0.1 * j) * m_RoomWidth,
@@ -261,5 +261,7 @@ namespace RG {
     {
       this->__GetRoom(x, y).AddStairsObserver(obs);
     }
+
+    void Floor::SweepDeadBodies(void) { __GetRoom().SweepDeadEntities(); }
   }
 }

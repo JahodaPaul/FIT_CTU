@@ -82,14 +82,18 @@ namespace RG {
       switch (event) {
         case Util::Event::FLOOR_UP:
           if (m_CurrentFloorIdx > 0) {
+            GetCurrentFloor().SweepDeadBodies();
             m_CurrentFloorIdx--;
+            GetCurrentFloor().SweepDeadBodies();
             m_Player->ChangeFloor(m_CurrentFloorIdx);
             Notify(this, Util::Event::FLOOR_CHANGE);
           }
           break;
         case Util::Event::FLOOR_DOWN:
           if (m_CurrentFloorIdx < MAX_FLOORS - 1) {
+            GetCurrentFloor().SweepDeadBodies();
             m_CurrentFloorIdx++;
+            GetCurrentFloor().SweepDeadBodies();
             mainLog.Info("down to" + std::to_string(m_CurrentFloorIdx));
             m_Player->ChangeFloor(m_CurrentFloorIdx);
             Notify(this, Util::Event::FLOOR_CHANGE);

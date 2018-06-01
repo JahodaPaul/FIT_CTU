@@ -98,14 +98,17 @@ namespace RG {
         void AddStairsObserver(
             RG::Util::Observer* obs, unsigned int x, unsigned int y);
 
+        void SweepDeadBodies(void);
+
         unsigned int m_X;
         unsigned int m_Y;
 
         unsigned int m_RoomHeight;
         unsigned int m_RoomWidth;
-        
+
         std::pair<std::pair<unsigned int, unsigned int>,
-          std::pair<unsigned int, unsigned int>> m_Stairs;
+          std::pair<unsigned int, unsigned int>>
+            m_Stairs;
 
       private:
         /**
