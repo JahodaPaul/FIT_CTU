@@ -10,7 +10,8 @@ namespace RG { namespace View {
                 "setListenerPosition", &SoundManager::setListenerPosition,
                 "PlaySound", &SoundManager::PlaySound,
                 "setSoundPosition", &SoundManager::setSoundPosition,
-                "PlayMusic", static_cast<bool(SoundManager::*)(std::string,int)>(&SoundManager::PlayMusic),
+                "PlayMusicByName", static_cast<bool(SoundManager::*)(std::string,int)>(&SoundManager::PlayMusic),
+                "PlayFirstMusic", static_cast<bool(SoundManager::*)(int,bool)>(&SoundManager::PlayMusic),
                 "PlayNextMusic", &SoundManager::PlayNextMusic,
                 ///*"PlayNextMusic", &SoundManager::PlayNextMusic,*/
                 "SoundStop", &SoundManager::SoundStop,

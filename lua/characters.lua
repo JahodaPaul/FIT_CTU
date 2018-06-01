@@ -1,3 +1,5 @@
+View.soundManager:PlayFirstMusic( 20, true )
+
 default = {
     textureFile = "/usr/share/RG/assets/graphics/objects/characters/zombie.png",
     frameWidth = 100,
@@ -27,8 +29,13 @@ player = {
     frameCount = 12,
     frameTime = 40,
     rotation = 0,
-    Dead = function() View.soundManager:PlaySound( "hurt1", 70 ) end,
-    Hurt = function() View.soundManager:PlaySound( "hurt1", 70 ) end,
+    Dead = function()
+        View.soundManager:PlaySound( "hurt1", 70 )
+        View.soundManager:PlayMusicByName( "duckers", 20 )
+    end,
+    Hurt = function()
+        View.soundManager:PlaySound( "hurt1", 70 )
+    end,
 }
 
 stairs_down = {

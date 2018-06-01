@@ -54,8 +54,6 @@ namespace RG {
                 m_gameControllet->GoToMainMenu();
                 return 0;
             }));
-
-            m_soundManager->PlayMusic(20);
         }
 
         View::~View() {}
