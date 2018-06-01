@@ -1,5 +1,36 @@
 #!/bin/bash
 
+CloneImgui() {
+    rm -rf 'imgui' 'imgui-sfml'
+    echo ""
+    echo ""
+    echo "Cloning imgui..."
+    echo ""
+    git clone https://github.com/ocornut/imgui.git
+
+    echo ""
+    echo ""
+    echo "Cloning imgui SFML binding..."
+    echo ""
+    git clone https://github.com/eliasdaler/imgui-sfml.git
+
+    echo ""
+    echo ""
+    echo "Updating imgui code..."
+    echo ""
+    cat 'imgui-sfml/imconfig-SFML.h' >> 'imgui/imconfig.h'
+}
+
+CloneSol() {
+    rm -rf 'sol2'
+
+    echo ""
+    echo ""
+    echo "Cloning sol2..."
+    echo ""
+    git clone https://github.com/ThePhD/sol2.git
+}
+
 SetupLibraries() {
     echo ""
     echo ""
@@ -8,42 +39,23 @@ SetupLibraries() {
     if [ -d 'imgui' -o -d 'imgui-sfml' ]; then
         echo "'imgui' or 'imgui-sfml' directory found, should I delete it and create new one? [y/n]"
         read -s -n 1 ans; echo "$ans"
-        if [ "$ans" != "n" ]; then
-            rm -rf 'imgui' 'imgui-sfml'
-            echo ""
-            echo ""
-            echo "Cloning imgui..."
-            echo ""
-            git clone https://github.com/ocornut/imgui.git
-
-            echo ""
-            echo ""
-            echo "Cloning imgui SFML binding..."
-            echo ""
-            git clone https://github.com/eliasdaler/imgui-sfml.git
-
-            echo ""
-            echo ""
-            echo "Updating imgui code..."
-            echo ""
-            cat 'imgui-sfml/imconfig-SFML.h' >> 'imgui/imconfig.h'
+        if [[ "$ans" != "n" ]]; then
+            CloneImgui
         fi
+    else
+        CloneImgui
     fi
 
 
     if [ -d 'sol2' ]; then
         echo "'sol2' directory found, should I delete it and create new one? [y/n]"
         read -s -n 1 ans; echo "$ans"
-        if [ "$ans" == "n" ]; then
-            return 0
-        else
-            rm -rf 'sol2'
-        fi fi
-    echo ""
-    echo ""
-    echo "Cloning sol2..."
-    echo ""
-    git clone https://github.com/ThePhD/sol2.git
+        if [[ "$ans" != "n" ]]; then
+            CloneSol
+        fi
+    else
+        CloneSol
+    fi
     return 0
 }
 
