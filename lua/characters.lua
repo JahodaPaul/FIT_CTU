@@ -30,3 +30,20 @@ player = {
     Dead = function() play_sound("hurt1", 50) end,
     Hurt = function() play_sound("hurt1", 50) end,
 }
+
+stairs_down = {
+    textureFile = "/usr/share/RG/assets/graphics/objects/obstacles/holes/hole_big.png",
+    frameWidth = 181,
+    frameHeight = 174,
+    frameCount = 1,
+    frameTime = 999,
+    rotation = 0,
+}
+stairs_up = {
+    textureFile = "/usr/share/RG/assets/graphics/objects/obstacles/holes/hole_big.png",
+    frameWidth = 181,
+    frameHeight = 174,
+    frameCount = 1,
+    frameTime = 999,
+    rotation = 0,
+}
