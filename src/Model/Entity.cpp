@@ -33,11 +33,12 @@ namespace RG {
     void Entity::Move(
         const b2Vec2& v, float linear_damping, float angular_damping)
     {
-      if (v.x == 0 && v.y == 0)
+      if (v.x == 0 && v.y == 0) {
         if (m_First)
           m_First = false;
         else
           return;
+      }
       DynamicObject::Move(v);
       Notify(this, Util::Event::ENTITY_MOVE);
     }

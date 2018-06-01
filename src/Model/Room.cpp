@@ -8,6 +8,7 @@ namespace RG {
         , m_Visited(false)
         {
           m_Doors.resize(4, false);
+          m_Stairs.resize(2, nullptr);
         }
 
     Room::~Room() {}
