@@ -31,9 +31,9 @@ namespace RG {
                 doors[2].visible = false;
                 doors[3].visible = false;
 
-                gameScene->AddObserver( this );
-                model->GetCurrentFloor().AddObserver( this );
-                model->AddObserver( this );
+                SubscribeTo( gameScene );
+                SubscribeTo( &model->GetCurrentFloor() );
+                SubscribeTo( model );
             }
 
         RG::View::Room::~Room() {
@@ -89,15 +89,14 @@ namespace RG {
             room_texure.loadFromFile(it->second);
             background.setTexture(room_texure);
 
-            //TODO(vojta) remove listenres
             enemies.clear();
             float correctionX = floor->m_X * floor->m_RoomWidth;
             float correctionY = floor->m_Y * floor->m_RoomHeight;
             for ( auto it : floor->GetRoom().GetEntities() ) {
                 enemies.push_back(std::make_unique<Entity>(m_gameScene, m_lua, "zombie" ));
                 enemies.back()->setCorrection( correctionX, correctionY );
-                it->AddObserver( enemies.back().get() );
-                floor->AddObserver( enemies.back().get() );
+                enemies.back()->SubscribeTo( &(*it) );
+                enemies.back()->SubscribeTo( &(*floor) );
             }
         }
 
@@ -139,8 +138,6 @@ namespace RG {
                 if ( enemies[i]->Alive() )
                     enemies[i]->Update( view, timeElapsed );
                 else {
-                    m_gameScene->RemoveObserver( enemies[i].get() );
-                    m_model->GetCurrentFloor().RemoveObserver( enemies[i].get() );
                     enemies.erase( enemies.begin() + i-- );
                 }
             }
@@ -169,8 +166,8 @@ namespace RG {
                 case Util::Event::FLOOR_CHANGE:
                     {
                         Model::Floor * floor = &((Model::Model*)subject)->GetCurrentFloor();
-                        floor->AddObserver( this );
-                        floor->AddObserver( m_gameScene->getPlayer().get() );
+                        SubscribeTo( floor );
+                        m_gameScene->getPlayer().get()->SubscribeTo( floor );
                         ChangeRoom( floor );
                         break;
                     }

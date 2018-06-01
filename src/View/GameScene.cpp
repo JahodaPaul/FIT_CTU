@@ -10,10 +10,13 @@ namespace RG {
             ,m_gui( view )
         {
             player = std::make_shared<Player>(this, view->getLuaState());
-            view->getGameController()->getModel().AddObserver( player.get() );
+            player->SubscribeTo( &view->getGameController()->getModel() );
+            //view->getGameController()->getModel().AddObserver( player.get() );
             room = std::make_shared<RG::View::Room>(this, view->getLuaState(), &view->getGameController()->getModel() );
-            view->getGameController()->getModel().GetPlayer().AddObserver( player.get() );
-            view->getGameController()->getModel().GetCurrentFloor().AddObserver( player.get() );
+            player->SubscribeTo( &view->getGameController()->getModel().GetPlayer() );
+            player->SubscribeTo( &view->getGameController()->getModel().GetCurrentFloor() );
+            //view->getGameController()->getModel().GetPlayer().AddObserver( player.get() );
+            //view->getGameController()->getModel().GetCurrentFloor().AddObserver( player.get() );
             room->ChangeRoom(&view->getGameController()->getModel().GetCurrentFloor());
             Notify( this, Util::Event::WINDOW_RESIZE );
         }

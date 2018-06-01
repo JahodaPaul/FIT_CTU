@@ -32,7 +32,7 @@ namespace RG {
          * \function ~Room
          * \brief destructor
          */
-        ~Room();
+        virtual ~Room();
 
         /**
          * \function SetDoors

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <set>
-#include <vector>
+#include <map>
 
 #include "Util/Event.hpp"
 
@@ -17,8 +16,19 @@ namespace RG { namespace Util {
     class Subject {
         public:
             Subject();
+
             /**
-             * \brief Register new Util::Observer
+             *  \brief desstructor
+             *
+             *  This will notify all Observers whitch subscribed to this Subject about it's death.
+             */
+            virtual ~Subject();
+
+            /**
+             * \brief Dont use this method!!!
+             *
+             * Dont call this method manualy, use Observer::SubscribeTo( subject ) instead.
+             * This method registers new Util::Observer to this Subject.
              *
              * @param observer pointer to Util::Observer to be registed
              * 
@@ -42,8 +52,7 @@ namespace RG { namespace Util {
              */
             void Notify( Subject * subject, Event event );
         private:
-            std::set<Observer *> m_observers;
+            std::map<Observer *, bool > m_observers;
             bool m_lock;
-            std::vector<Observer *> m_toDelete;
     };
 } }

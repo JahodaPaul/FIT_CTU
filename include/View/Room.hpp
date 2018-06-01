@@ -30,7 +30,8 @@ namespace RG{
              * @param model pointer to Model used for registering Observers
              */
             Room(GameScene * scene, sol::state & lua, Model::Model * model);
-            ~Room();
+
+            virtual ~Room();
 
             /// assigns background image if the room has never been visited
             /// if it has been visited - changes background image based on room ID

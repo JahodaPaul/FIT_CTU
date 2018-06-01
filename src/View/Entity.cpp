@@ -28,7 +28,7 @@ namespace RG{
             m_rotationCorrection = luaState[name]["rotation"];
             m_rotationCorrection += 90;
             animation = std::make_shared<Animation>(texture.c_str(), frameWidth, frameHeight, frameCount, frameTime);
-            gameScene->AddObserver( this );
+            SubscribeTo( gameScene );
             animation->setPosition(sf::Vector2f(this->x, this->y));
             animation->setRotation(m_rotationCorrection);
             animation->goToFrame(0);
