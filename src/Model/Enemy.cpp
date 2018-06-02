@@ -5,9 +5,13 @@ namespace RG {
     Enemy::Enemy()
       : Entity("Enemy", std::rand() % 18 + 1)
     {
+      m_Speed = 20;
       SetBits(BIT_ENEMY, BIT_PLAYER);
     }
 
-    void Enemy::Move(b2Vec2 pos) { Entity::Move(pos); }
+    void Enemy::Move(const b2Vec2& pos)
+    {
+      Entity::Move(pos - m_Body->GetPosition());
+    }
   }
 }

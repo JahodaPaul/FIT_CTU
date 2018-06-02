@@ -11,7 +11,7 @@ namespace RG {
       public:
         Enemy();
 
-        void Move(b2Vec2 pos);
+        void Move(const b2Vec2& pos);
 
       private:
     };

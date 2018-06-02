@@ -5,6 +5,7 @@ namespace RG {
     Player::Player(std::string name)
       : Entity(name, 100)
     {
+      m_Speed = 40;
       SetBits(BIT_PLAYER, BIT_ENEMY | BIT_STAIRS);
     }
 

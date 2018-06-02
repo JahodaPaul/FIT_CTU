@@ -52,8 +52,7 @@ namespace RG {
          * @param angular_damping how much is the object gradually slowed down when
          * rotating
          */
-        void Move(const b2Vec2& v, float linear_damping = 0.04f,
-            float angular_damping = 2.0f);
+        virtual void Move(const b2Vec2& v);
 
         /**
          * \function GetHP
@@ -66,7 +65,7 @@ namespace RG {
         /// prepared for destruction
         bool Deleted;
 
-      private:
+      protected:
         /// health points
         int m_HP;
 

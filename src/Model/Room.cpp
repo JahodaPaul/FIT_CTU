@@ -93,8 +93,9 @@ namespace RG {
     void Room::Move(b2Vec2 PlayerPos)
     {
       for (auto i : m_Entities) {
-        i->Move(b2Vec2{ PlayerPos.x - i->m_Body->GetPosition().x,
-            PlayerPos.y - i->m_Body->GetPosition().y });
+        if (i->GetType() & BIT_ENEMY) {
+          i->Move(PlayerPos);
+        }
       }
     }
 

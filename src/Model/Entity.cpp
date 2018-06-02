@@ -6,6 +6,7 @@ namespace RG {
       : DynamicObject(name)
         , m_HP(100)
         , m_Defense(0)
+        , m_Speed(0)
         , m_Attack(attack)
     {
       Deleted = false;
@@ -30,8 +31,7 @@ namespace RG {
       }
     }
 
-    void Entity::Move(
-        const b2Vec2& v, float linear_damping, float angular_damping)
+    void Entity::Move(const b2Vec2& v)
     {
       if (v.x == 0 && v.y == 0) {
         if (m_First)
@@ -39,7 +39,10 @@ namespace RG {
         else
           return;
       }
-      DynamicObject::Move(v);
+      b2Vec2 tmp = v;
+      tmp.Normalize();
+      tmp *= m_Speed;
+      DynamicObject::Move(tmp);
       Notify(this, Util::Event::ENTITY_MOVE);
     }
 

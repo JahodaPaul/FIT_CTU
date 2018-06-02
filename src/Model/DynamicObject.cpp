@@ -9,9 +9,10 @@ namespace RG {
 
     DynamicObject::~DynamicObject() {}
 
-    void DynamicObject::Move(
-        const b2Vec2& v, float linear_damping, float angular_damping)
+    void DynamicObject::Move(const b2Vec2& v)
     {
+      float linear_damping = 0.04f;
+      float angular_damping = 2.0f;
       if (v.y != 0) {
         double angle = std::atan(v.x / v.y);
         if (angle < 0)
