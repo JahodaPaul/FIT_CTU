@@ -1,50 +1,52 @@
-Semestral project for subject Programming and Algorithmics 2 ( BI-PA2 ) at Czech Technical University in Prague, FIT [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
---------------------------------------------------------------------------------
-Graded maximum amount of points -> 12 out of 12.
+## Final project for _Programming and Algorithmics 2_ course ( BI-PA2 2017)<br/>
+## [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Semestrální práce na předmět Programování a algoritmizace 2 ( BI-PA2 ) na ČVUT, FIT
---------------------------------------------------------------------------------
-Ohodnoceno maximálním počtem bodů -> 12 z 12.
+## About
+First year final project. Database application which allows you to <br/>
+search for recipes by ingredients they contain, like and unlike them <br/>
+and even add them to your menu. <br/>
+__Maximum amount of points awarded (12 out of 12).__
 
--------------------------------------------------------------------------------
-
-to run this project
-go to project folder and type "make install" which will hopefully install all necessary libraries
-
-if make install does not do the work you
-need to download and install libpq(for database communication) and ncurses (for UI)
---------------------------------------------------------------------------------
-
-sudo apt-get install libpq-dev
-
---------------------------------------------------------------------------------
-for ncurses: 
-
-sudo apt-get install ncurses-dev
-
-or if you have fedora:
-
-yum install ncurses-*
+## Installation
+Go to project folder and type
+```
+ make install
+```
+which will hopefully install all necessary libraries
 
 
---------------------------------------------------------------------------------
-make count -> calculates number of lines in code
+If make install does not do the work, you need to download and install <br/>
+libpq(for database communication) and ncurses (for UI) using following commands:<br/>
+```
+ sudo apt-get install libpq-dev
+```
 
-make install -> installs necessary libraries
+ncurses (ubuntu): 
+```
+ sudo apt-get install ncurses-dev
+```
+ncurses (fedora):
+```
+ yum install ncurses-*
+```
+## How to start
+Go to project folder and type:
+```
+ make compile && make run
+```
 
-make compile -> compiles project
+## Options
+```
+ make count (calculates number of lines in code)
+ make install (installs necessary libraries)
+ make compile (compiles project)
+ make run (runs project)
+ make doc (creates documentation using doxygen)
+ make/make all (compiles project and documentation)
+ make clean (deletes everything that could be created by make all)
+```
 
-make run -> runs project
-
-make doc -> creates documentation using doxygen
-
-make/make all -> compiles project and documentation
-
-make clean -> deletes everything that could be created by make all.
-
---------------------------------------------------------------------------------
-It is now possible to run it on windows. However, I do recommend using
-
-Bash on Ubuntu on Windows and installing libraries as if you were on ubuntu
-
+## Windows support
+It is now possible to run it on windows. However, I do recommend using<br/>
+Bash on Ubuntu on Windows and installing libraries as if you were on ubuntu<br/>
 and running from bash using "make clean && make compile && make run"

@@ -1,5 +1,9 @@
-Homework 1: 12.525/12.525 (2 out of 2 bonuses)
+## Progtest tasks for _Algorithms and Graphs 1_ course (2017/18)
 
-Homework 2: 12.525/12.525 (3 out of 3 bonuses)
+## Results
+Homework 1: __12.525/12.525__ (2 out of 2 bonuses)<br/>
+Homework 2: __12.525/12.525__ (3 out of 3 bonuses)<br/>
+Homework 3: __12.525/12.525__ (2 out of 2 bonuses)
 
-Homework 3: 12.525/12.525 (2 out of 2 bonuses)
+## Overall Result
+Received more (or equal) points than 100% of students.

@@ -4,6 +4,8 @@
 **/flights/
 **/__pycache__/
 /.idea/
-.png
-.jpg
+*.png
+*.jpg
 **/libpqxx/
+*.o
+*.out
