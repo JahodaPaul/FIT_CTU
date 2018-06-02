@@ -105,7 +105,9 @@ namespace RG {
       m_Entities[m_Entities.size() - 1]->m_Body = body;
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
-      circle.m_radius = 3.5;
+      float radius = 3.5;
+      circle.m_radius = radius;
+      m_Entities[m_Entities.size() - 1]->SetDimensions(2 * radius, 2 * radius);
       m_Entities[m_Entities.size() - 1]->AddShape(
           &circle, 30, BIT_ENEMY, BIT_PLAYER | BIT_WALL | BIT_ENEMY);
     }

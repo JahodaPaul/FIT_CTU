@@ -96,18 +96,25 @@ namespace RG {
 
         unsigned int GetType(void) const;
 
-        b2Body* m_Body;
+        float GetWidth(void) const;
 
-        b2BodyDef* m_BodyDef;
+        float GetHeight(void) const;
+    
+        void SetDimensions(float w, float h);
+
+        b2Body* m_Body;
 
       private:
         std::string m_Name;
-      
+
         unsigned int m_TypeBits;
         unsigned int m_AttackBits;
 
       protected:
         bool m_IsDead;
+        float m_Width;
+        float m_Height;
+
     };
   }
 }

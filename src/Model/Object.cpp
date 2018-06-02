@@ -4,10 +4,11 @@ namespace RG {
   namespace Model {
     Object::Object(std::string name)
       : m_Body(NULL)
-        , m_BodyDef(NULL)
         , m_Name(name)
         , m_TypeBits(0)
         , m_AttackBits(0)
+        , m_Width(0)
+        , m_Height(0)
     {
       m_IsDead = false;
     }
@@ -68,5 +69,15 @@ namespace RG {
     unsigned int Object::GetAttack(void) const { return m_AttackBits; }
 
     unsigned int Object::GetType(void) const { return m_TypeBits; }
+
+    float Object::GetWidth(void) const { return m_Width; }
+
+    float Object::GetHeight(void) const { return m_Height; }
+
+    void Object::SetDimensions(float w, float h)
+    {
+      m_Width = w;
+      m_Height = h;
+    }
   }
 }

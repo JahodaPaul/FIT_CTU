@@ -14,13 +14,15 @@ namespace RG {
       // adding the player
       b2BodyDef bodyDef;
       bodyDef.type = b2_dynamicBody;
-      bodyDef.position.Set(m_ScreenWidth/6, m_ScreenHeight/3);
+      bodyDef.position.Set(m_ScreenWidth / 6, m_ScreenHeight / 3);
       m_Player = std::make_shared<RG::Model::Player>("Hrac");
 
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
-      circle.m_radius = 3.5;
-      m_PlayerRadius = 3.5;
+
+      float radius = 3.5;
+      circle.m_radius = radius;
+      m_Player->SetDimensions(2 * radius, 2 * radius);
 
       m_Player->m_Bodies.resize(MAX_FLOORS);
 
@@ -111,8 +113,9 @@ namespace RG {
     {
       for (unsigned int i = 0; i < MAX_FLOORS; ++i) {
         std::srand(time(NULL));
-        RG::Model::Floor* tmp_floor = new RG::Model::Floor(
-            i, 10 + std::rand() % 5, 0, 0, MAX_FLOORS, m_ScreenHeight, m_ScreenWidth);
+        RG::Model::Floor* tmp_floor
+          = new RG::Model::Floor(i, 10 + std::rand() % 5, 0, 0, MAX_FLOORS,
+              m_ScreenHeight, m_ScreenWidth);
 
         tmp_floor->AddStairsObserver(this, tmp_floor->m_Stairs.first.first,
             tmp_floor->m_Stairs.first.second);

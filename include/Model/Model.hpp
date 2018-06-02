@@ -102,8 +102,6 @@ namespace RG {
 
         std::vector<RG::Model::Floor*> m_Floors;
 
-        float m_PlayerRadius;
-
         unsigned int MAX_FLOORS;
         unsigned int m_ScreenWidth;
         unsigned int m_ScreenHeight;
