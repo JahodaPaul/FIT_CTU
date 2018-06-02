@@ -10,7 +10,7 @@ __Maximum amount of points awarded (12 out of 12).__
 ## Installation
 Go to project folder and type
 ```
- make install
+make install
 ```
 which will hopefully install all necessary libraries
 
@@ -18,32 +18,32 @@ which will hopefully install all necessary libraries
 If make install does not do the work, you need to download and install <br/>
 libpq(for database communication) and ncurses (for UI) using following commands:<br/>
 ```
- sudo apt-get install libpq-dev
+sudo apt-get install libpq-dev
 ```
 
 ncurses (ubuntu): 
 ```
- sudo apt-get install ncurses-dev
+sudo apt-get install ncurses-dev
 ```
 ncurses (fedora):
 ```
- yum install ncurses-*
+yum install ncurses-*
 ```
 ## How to start
 Go to project folder and type:
 ```
- make compile && make run
+make compile && make run
 ```
 
 ## Options
 ```
- make count (calculates number of lines in code)
- make install (installs necessary libraries)
- make compile (compiles project)
- make run (runs project)
- make doc (creates documentation using doxygen)
- make/make all (compiles project and documentation)
- make clean (deletes everything that could be created by make all)
+make count (calculates number of lines in code)
+make install (installs necessary libraries)
+make compile (compiles project)
+make run (runs project)
+make doc (creates documentation using doxygen)
+make/make all (compiles project and documentation)
+make clean (deletes everything that could be created by make all)
 ```
 
 ## Windows support
