@@ -4,6 +4,8 @@ namespace RG {
   namespace Model {
     Model::Model()
       : m_CurrentFloorIdx(0)
+        , m_ScreenWidth(192)
+        , m_ScreenHeight(108)
     {
       MAX_FLOORS = 5;
 
@@ -12,19 +14,20 @@ namespace RG {
       // adding the player
       b2BodyDef bodyDef;
       bodyDef.type = b2_dynamicBody;
-      bodyDef.position.Set(300, 300);
+      bodyDef.position.Set(m_ScreenWidth/6, m_ScreenHeight/3);
       m_Player = std::make_shared<RG::Model::Player>("Hrac");
 
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
-      circle.m_radius = 35;
-      m_PlayerRadius = 35;
+      circle.m_radius = 3.5;
+      m_PlayerRadius = 3.5;
 
       m_Player->m_Bodies.resize(MAX_FLOORS);
 
       for (unsigned int i = 0; i < MAX_FLOORS; ++i) {
         m_Player->m_Bodies[i] = m_Floors[i]->GetPlayerBody(&bodyDef);
-        m_Player->AddShape(&circle, 0.01f, BIT_PLAYER,
+        m_Player->m_Bodies[i]->SetLinearVelocity(b2Vec2(0.0001, 0));
+        m_Player->AddShape(&circle, 40, BIT_PLAYER,
             BIT_ENEMY | BIT_WALL | BIT_STAIRS, m_Player->m_Bodies[i]);
       }
       m_Player->m_Body = m_Player->m_Bodies[0];
@@ -107,9 +110,9 @@ namespace RG {
     void Model::GenerateFloors(void)
     {
       for (unsigned int i = 0; i < MAX_FLOORS; ++i) {
-        srand(time(NULL));
-        RG::Model::Floor* tmp_floor
-          = new RG::Model::Floor(i, 10 + rand() % 5, 0, 0, MAX_FLOORS);
+        std::srand(time(NULL));
+        RG::Model::Floor* tmp_floor = new RG::Model::Floor(
+            i, 10 + std::rand() % 5, 0, 0, MAX_FLOORS, m_ScreenHeight, m_ScreenWidth);
 
         tmp_floor->AddStairsObserver(this, tmp_floor->m_Stairs.first.first,
             tmp_floor->m_Stairs.first.second);
@@ -119,5 +122,9 @@ namespace RG {
         m_Floors.push_back(tmp_floor);
       }
     }
+
+    unsigned int Model::GetRoomHeight(void) const { return m_ScreenHeight; }
+
+    unsigned int Model::GetRoomWidth(void) const { return m_ScreenWidth; }
   }
 }

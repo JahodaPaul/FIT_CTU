@@ -90,12 +90,21 @@ namespace RG {
          */
         virtual void RecvAttack(int enemy_attack);
 
+        void SetBits(unsigned int category_bits, unsigned int attack_bits);
+
+        unsigned int GetAttack(void) const;
+
+        unsigned int GetType(void) const;
+
         b2Body* m_Body;
 
         b2BodyDef* m_BodyDef;
 
       private:
         std::string m_Name;
+      
+        unsigned int m_TypeBits;
+        unsigned int m_AttackBits;
 
       protected:
         bool m_IsDead;

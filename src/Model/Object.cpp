@@ -6,6 +6,8 @@ namespace RG {
       : m_Body(NULL)
         , m_BodyDef(NULL)
         , m_Name(name)
+        , m_TypeBits(0)
+        , m_AttackBits(0)
     {
       m_IsDead = false;
     }
@@ -56,5 +58,15 @@ namespace RG {
       mainLog.Warning(
           "RecvAttack in the Object class, this should never be called");
     }
+
+    void Object::SetBits(unsigned int category_bits, unsigned int attack_bits)
+    {
+      m_TypeBits = category_bits;
+      m_AttackBits = attack_bits;
+    }
+
+    unsigned int Object::GetAttack(void) const { return m_AttackBits; }
+
+    unsigned int Object::GetType(void) const { return m_TypeBits; }
   }
 }

@@ -9,15 +9,16 @@ RG::View::DebugDraw debugDraw(&m_window);
 namespace RG {
   namespace Model {
     Floor::Floor(unsigned int level, unsigned int rooms, unsigned int pos_X,
-        unsigned int pos_Y, unsigned int MAX_FLOORS)
+        unsigned int pos_Y, unsigned int MAX_FLOORS, unsigned int screen_h,
+        unsigned int screen_w)
       : m_X(pos_X)
         , m_Y(pos_Y)
         , m_Level(level)
-        , m_ScreenHeight(1080)
-        , m_ScreenWidth(1920)
-        , center_x(-16000)
-        , center_y(-16000)
-        , size(100000)
+        , m_ScreenHeight(screen_h)
+        , m_ScreenWidth(screen_w)
+        , center_x(-1600)
+        , center_y(-1600)
+        , size(10000)
     {
       m_World = std::make_shared<b2World>(b2Vec2{ 0.0f, 0.0f });
 
@@ -32,8 +33,8 @@ namespace RG {
       m_WallWidth = 0.076389 * m_ScreenWidth;
       m_WallHeight = 0.1267 * m_ScreenHeight;
       m_DoorWidth = 0.05 * m_ScreenWidth;
-      m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight + 30;
-      m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth + 20;
+      m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight + 3;
+      m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth + 2;
 
       m_Stairs = __GenerateRooms(rooms);
 
@@ -155,8 +156,8 @@ namespace RG {
       std::pair<unsigned int, unsigned int>>
         Floor::__GenerateRooms(unsigned int cnt)
         {
-          unsigned int up = (m_Level * rand() % 11 + rand() % 37) % cnt;
-          unsigned int down = (m_Level * rand() % 11 + rand() % 37) % cnt;
+          unsigned int up = (m_Level * std::rand() % 11 + std::rand() % 37) % cnt;
+          unsigned int down = (m_Level * std::rand() % 11 + std::rand() % 37) % cnt;
 
           std::pair<std::pair<unsigned int, unsigned int>,
             std::pair<unsigned int, unsigned int>>
@@ -181,7 +182,7 @@ namespace RG {
             }
 
             do
-              num = (m_Level * rand() % 7 + rand()) % 4;
+              num = (m_Level * std::rand() % 7 + std::rand()) % 4;
             while ((num == 3 && _x == 0) || (num == 0 && _y == 0));
 
             _x_next = _x + ((num > 1) ? (-1) : 1) * (num % 2);
@@ -217,7 +218,7 @@ namespace RG {
             if (_cnt != cnt - 1) {
               tmp_room->AddDoors(num);
             }
-            for (int j = 0; j < rand() % 3; ++j) {
+            for (int j = 0; j < std::rand() % 3; ++j) {
               b2BodyDef enemy_bodyDef;
               enemy_bodyDef.type = b2_dynamicBody;
               enemy_bodyDef.position.Set((_x + 0.4 + 0.1 * j) * m_RoomWidth,

@@ -7,6 +7,7 @@ namespace RG {
         , m_GridPosition({ x, y })
         , m_Visited(false)
         {
+          SetBits(BIT_WALL, 0x0);
           m_Doors.resize(4, false);
           m_Stairs.resize(2, nullptr);
         }
@@ -23,10 +24,12 @@ namespace RG {
 
     void Room::SweepDeadEntities(void)
     {
-      for (unsigned int i = 0; i < m_Entities.size(); ++i) {
+      for (unsigned int i = 0; i < m_Entities.size();) {
         if (m_Entities[i]->Deleted) {
           m_Entities[i] = m_Entities.back();
           m_Entities.pop_back();
+        } else {
+          ++i;
         }
       }
     }
@@ -39,13 +42,13 @@ namespace RG {
         float screen_w, float screen_h, float door_w, float wall_w, float wall_h)
     {
       float hw1 = (screen_w - door_w) / 4 - wall_w / 2;
-      float hh1 = 10;
+      float hh1 = 1;
 
       float ow1 = 2 * hw1 + door_w;
       float oh1 = screen_h - 2 * wall_h + hh1;
 
       float hh2 = (screen_h - door_w) / 4 - wall_h / 2;
-      float hw2 = 10;
+      float hw2 = 1;
 
       float ow2 = screen_w - 2 * wall_w + 2 * hw2;
       float oh2 = door_w + 2 * hh2;
@@ -97,14 +100,13 @@ namespace RG {
 
     void Room::AddEnemy(b2Body* body)
     {
-      m_Entities.emplace_back(
-          std::make_shared<RG::Model::Entity>("Enemy", rand() % 18 + 1));
+      m_Entities.emplace_back(std::make_shared<RG::Model::Enemy>());
       m_Entities[m_Entities.size() - 1]->m_Body = body;
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
-      circle.m_radius = 35;
+      circle.m_radius = 3.5;
       m_Entities[m_Entities.size() - 1]->AddShape(
-          &circle, 0.0001f, BIT_ENEMY, BIT_PLAYER | BIT_WALL);
+          &circle, 30, BIT_ENEMY, BIT_PLAYER | BIT_WALL | BIT_ENEMY);
     }
 
     void Room::RecvAttack(int enemy_attack) {}
@@ -133,7 +135,7 @@ namespace RG {
       m_Stairs[up]->m_Body = stairs_body;
 
       b2PolygonShape dynBox;
-      dynBox.SetAsBox(30, 30, { 0, 0 }, 0);
+      dynBox.SetAsBox(3, 3, { 0, 0 }, 0);
       m_Stairs[up]->AddShape(&dynBox, 100000, BIT_STAIRS, BIT_PLAYER);
     }
 

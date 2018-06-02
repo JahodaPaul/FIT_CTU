@@ -5,6 +5,7 @@ namespace RG {
     Player::Player(std::string name)
       : Entity(name, 100)
     {
+      SetBits(BIT_PLAYER, BIT_ENEMY | BIT_STAIRS);
     }
 
     void Player::ChangeFloor(unsigned int floor_idx)

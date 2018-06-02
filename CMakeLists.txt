@@ -73,6 +73,7 @@ ADD_EXECUTABLE(game src/main.cpp
 
     src/Model/ContactListener.cpp
     src/Model/DynamicObject.cpp
+    src/Model/Enemy.cpp
     src/Model/Entity.cpp
     src/Model/Floor.cpp
     src/Model/Model.cpp

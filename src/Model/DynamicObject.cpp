@@ -25,7 +25,7 @@ namespace RG {
         m_Body->SetTransform(m_Body->GetPosition(), v.x > 0 ? 0 : M_PI);
       }
 
-      m_Body->ApplyForce(v, m_Body->GetWorldCenter(), true);
+      m_Body->ApplyLinearImpulse(v, m_Body->GetWorldCenter(), true);
       m_Body->SetLinearDamping(linear_damping);
       m_Body->SetAngularDamping(angular_damping);
     }

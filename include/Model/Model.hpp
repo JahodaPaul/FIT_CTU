@@ -85,6 +85,9 @@ namespace RG {
          */
         virtual void onNotify(Util::Subject* subject, Util::Event event) override;
 
+        unsigned int GetRoomHeight(void) const;
+        unsigned int GetRoomWidth(void) const;
+
       private:
         /**
          * \function GenerateFloors
@@ -102,6 +105,8 @@ namespace RG {
         float m_PlayerRadius;
 
         unsigned int MAX_FLOORS;
+        unsigned int m_ScreenWidth;
+        unsigned int m_ScreenHeight;
     };
   }
 }

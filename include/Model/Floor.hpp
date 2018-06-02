@@ -3,6 +3,7 @@
 #include <exception>
 #include <map>
 #include <string>
+#include <cstdlib>
 
 #include "Model/ContactListener.hpp"
 #include "Model/Object.hpp"
@@ -43,9 +44,12 @@ namespace RG {
          * @param pos_Y vertical postition(in the rooms grid) of the room where the
          * player starts in this floor
          * @param MAX_FLOORS total number of floors in the game
+         * @param screen_h screen height
+         * @param screen_w screen width
          */
         Floor(unsigned int level, unsigned int rooms, unsigned int pos_X,
-            unsigned int pos_Y, unsigned int MAX_FLOORS);
+            unsigned int pos_Y, unsigned int MAX_FLOORS, unsigned int screen_h,
+            unsigned int screen_w);
 
         /**
          * \function ~Floor

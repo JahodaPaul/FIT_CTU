@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+#include "Model/Enemy.hpp"
 #include "Model/Entity.hpp"
 #include "Model/Object.hpp"
 #include "Model/Stairs.hpp"
