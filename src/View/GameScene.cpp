@@ -19,6 +19,7 @@ namespace RG {
             room = std::make_shared<RG::View::Room>(this, view->getLuaState(), &view->getGameController()->getModel() );
             player->SubscribeTo( &view->getGameController()->getModel().GetPlayer() );
             player->SubscribeTo( &view->getGameController()->getModel().GetCurrentFloor() );
+            player->SubscribeTo( this );
             room->ChangeRoom(&view->getGameController()->getModel().GetCurrentFloor());
             Notify( this, Util::Event::WINDOW_RESIZE );
         }

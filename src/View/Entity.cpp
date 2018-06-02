@@ -63,8 +63,8 @@ namespace RG{
         }
 
         void Entity::SetScale(float windowWidth, float windowHeight){
-                float scaleX =  ( (float)windowHeight / m_roomSizeX ) / (float)( animation->getSize().x / sizeX );
-                float scaleY = ( (float)windowWidth / m_roomSizeY ) / (float)( animation->getSize().y / sizeY );
+                float scaleX =  ( (float)windowWidth / m_roomSizeX ) / (float)( animation->getSize().x / sizeX );
+                float scaleY = ( (float)windowHeight / m_roomSizeY ) / (float)( animation->getSize().y / sizeY );
                 animation->setScale(scaleX, scaleY);
                 windowX = windowWidth;
                 windowY = windowHeight;
