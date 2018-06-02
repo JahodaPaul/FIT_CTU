@@ -97,6 +97,9 @@ namespace RG{
             float x;
             float y;
 
+            int m_roomSizeX;
+            int m_roomSizeY;
+
             bool m_moved;
 
             float time;

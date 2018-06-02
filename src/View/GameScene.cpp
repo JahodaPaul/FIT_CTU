@@ -5,18 +5,15 @@ namespace RG {
         GameScene::GameScene(View *view) :
             Scene( view )
             ,m_windowSize{ view->getWindow()->getView().getSize() }
-            ,m_firstFrame{ true }
             ,m_npcLog( &view->getGameController()->getNPCWorldCycle().getMarket().getMatchingEngine() )
             ,m_gui( view )
+            ,m_model{ &view->getGameController()->getModel() }
         {
             player = std::make_shared<Player>(this, view->getLuaState());
             player->SubscribeTo( &view->getGameController()->getModel() );
-            //view->getGameController()->getModel().AddObserver( player.get() );
             room = std::make_shared<RG::View::Room>(this, view->getLuaState(), &view->getGameController()->getModel() );
             player->SubscribeTo( &view->getGameController()->getModel().GetPlayer() );
             player->SubscribeTo( &view->getGameController()->getModel().GetCurrentFloor() );
-            //view->getGameController()->getModel().GetPlayer().AddObserver( player.get() );
-            //view->getGameController()->getModel().GetCurrentFloor().AddObserver( player.get() );
             room->ChangeRoom(&view->getGameController()->getModel().GetCurrentFloor());
             Notify( this, Util::Event::WINDOW_RESIZE );
         }
@@ -105,6 +102,10 @@ namespace RG {
 
         std::shared_ptr<Player> GameScene::getPlayer() {
             return player;
+        }
+
+        RG::Model::Model * GameScene::getModel() {
+            return m_model;
         }
     }
 }

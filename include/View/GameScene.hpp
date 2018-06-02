@@ -2,7 +2,6 @@
 
 #include "View/Scene.hpp"
 #include "View/View.hpp"
-
 #include "View/Player.hpp"
 #include "View/Entity.hpp"
 #include "View/Room.hpp"
@@ -10,6 +9,8 @@
 #include "View/SoundManager.hpp"
 #include "View/NPCLog.hpp"
 #include "View/Gui.hpp"
+
+#include "Model/Model.hpp"
 
 #include <iostream>
 
@@ -64,19 +65,21 @@ namespace RG {
              * \brief Get game window size.
              */
             const sf::Vector2f & getWindowSize() const;
+
+            /*!
+             * \brief Get pointer to game Model.
+             */
+            RG::Model::Model * getModel();
         private:
-            std::shared_ptr<RG::View::Player> GetPlayer();
             sf::Vector2f m_windowSize;
 
             void SetPlayer();
 
-            std::shared_ptr<Entity> test_zombie;
-
             std::shared_ptr<RG::View::Player> player;
             std::shared_ptr<RG::View::Room> room;
-            bool m_firstFrame;
             NPCLog m_npcLog;
             RG::View::Gui m_gui;
+            RG::Model::Model * m_model;
         };
     }
 }

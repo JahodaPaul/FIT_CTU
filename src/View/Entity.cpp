@@ -16,6 +16,8 @@ namespace RG{
             ,m_lua{ &luaState }
             ,m_name{ name }
         {
+            m_roomSizeX = gameScene->getModel()->GetRoomWidth();
+            m_roomSizeY = gameScene->getModel()->GetRoomHeight();
             windowX = gameScene->getWindowSize().x; 
             windowY = gameScene->getWindowSize().y;
             if ( !luaState[name] )
@@ -46,7 +48,7 @@ namespace RG{
         void Entity::SetPosition(float x, float y) {
             this->x = x;
             this->y = y;
-            animation->setPosition({x*(windowX/1920), y*(windowY/1080)});
+            animation->setPosition({x*(windowX/m_roomSizeX), y*(windowY/m_roomSizeY)});
         }
 
         void Entity::Update(View * view, float timeElapsed) {
