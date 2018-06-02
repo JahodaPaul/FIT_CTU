@@ -1,16 +1,28 @@
-# RG - project for BI-SI1/BI-SP1
+![TeamCity CodeBetter](https://img.shields.io/teamcity/codebetter/bt428.svg)<br/>
+# RG - Project for courses _Software Team Project 1/Software Engineering 1_ (BI-SP1/BI-SI1 2018)
+In this game you dive into the role of the dwarf that faces dangers in depths of dungeon that awaits to be explored.
 
-Podrobnosti k prvnímu odevzdání ve složce 1.iterace.
+## Installation
+1. Go to the &lt;root&gt; directory
+2. Run ./setup.sh
 
-## BUILD
-Projekt potřebuje k úspěšné kompilaci staženou knihovnu sfml, box2d, lua5.3 a cmake verze 2.6 a vyšší
-- ubuntu
-    - libsfml-dev 
-    - libbox2d-dev
-    - liblua5.3-dev 
+## How to run project
+1. Go to the &lt;root&gt;/build directory
+2. Run make game
+3. Run ./game
 
-Pro následné stažení grafických souborů a dalších dodatečných souborů spuste soubor 'setup.sh'
+
+## Requirements
+* sfml
+* box2d
+* lua (5.3)
+* cmake (2.6 or higher)
+
+Package names on ubuntu: libsfml-dev, libbox2d-dev, liblua5.3-dev, cmake
 
 ## Changelog
 
 see [CHANGELOG](CHANGELOG.md)
+
+## Results
+This project was awarded X out of 50 points.
