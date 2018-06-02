@@ -34,7 +34,7 @@ namespace RG{
              * @param name name of entity
              * 
              */
-            Entity(GameScene * gameScene, sol::state & luaState, std::string name, float sizeY = 20, float sizeX = 20);
+            Entity(GameScene * gameScene, sol::state & luaState, std::string name, float sizeY = 7, float sizeX = 7);
 
             /**
              * \brief Destructor

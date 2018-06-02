@@ -99,7 +99,7 @@ namespace RG {
 
             enemies.clear();
             for ( auto it : floor->GetRoom().GetEntities() ) {
-                enemies.push_back(std::make_unique<Entity>(m_gameScene, m_lua, "zombie" ));
+                enemies.push_back(std::make_unique<Entity>(m_gameScene, m_lua, "zombie", it->GetWidth(), it->GetHeight() ));
                 enemies.back()->setCorrection( m_correctionX, m_correctionY );
                 enemies.back()->SubscribeTo( &(*it) );
                 enemies.back()->SubscribeTo( &(*floor) );

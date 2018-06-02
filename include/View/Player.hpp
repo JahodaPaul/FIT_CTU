@@ -30,7 +30,7 @@ namespace RG{ namespace View {
              * @param luaState pointer to lua state
              * 
              */
-            Player(GameScene *gameScene, sol::state & luaState);
+            Player(GameScene *gameScene, sol::state & luaState, float width, float height);
 
             /**
              * \brief Destructor

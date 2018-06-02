@@ -9,7 +9,12 @@ namespace RG {
             ,m_gui( view )
             ,m_model{ &view->getGameController()->getModel() }
         {
-            player = std::make_shared<Player>(this, view->getLuaState());
+            player = std::make_shared<Player>(
+                    this
+                    ,view->getLuaState()
+                    ,view->getGameController()->getModel().GetPlayer().GetWidth()
+                    ,view->getGameController()->getModel().GetPlayer().GetHeight()
+                    );
             player->SubscribeTo( &view->getGameController()->getModel() );
             room = std::make_shared<RG::View::Room>(this, view->getLuaState(), &view->getGameController()->getModel() );
             player->SubscribeTo( &view->getGameController()->getModel().GetPlayer() );
