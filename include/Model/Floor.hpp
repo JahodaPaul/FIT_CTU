@@ -120,6 +120,8 @@ namespace RG {
           std::pair<unsigned int, unsigned int>>
             m_Stairs;
 
+        std::shared_ptr<b2World> GetWorld(void) const;
+
       private:
         /**
          * \function __GetRoom

@@ -128,5 +128,12 @@ namespace RG {
     unsigned int Model::GetRoomHeight(void) const { return m_ScreenHeight; }
 
     unsigned int Model::GetRoomWidth(void) const { return m_ScreenWidth; }
+
+    void Model::Shoot(void)
+    {
+      m_Player->Shoot(
+          b2Vec2(std::sin(m_Player->GetAngle()), std::cos(m_Player->GetAngle())),
+          GetCurrentFloor().GetWorld());
+    }
   }
 }

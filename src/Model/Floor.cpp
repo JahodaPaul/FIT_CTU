@@ -267,5 +267,7 @@ namespace RG {
     }
 
     void Floor::SweepDeadBodies(void) { __GetRoom()->SweepDeadEntities(); }
+
+    std::shared_ptr<b2World> Floor::GetWorld(void) const { return m_World; }
   }
 }

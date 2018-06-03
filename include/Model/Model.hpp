@@ -88,6 +88,8 @@ namespace RG {
         unsigned int GetRoomHeight(void) const;
         unsigned int GetRoomWidth(void) const;
 
+        void Shoot(void);
+
       private:
         /**
          * \function GenerateFloors
