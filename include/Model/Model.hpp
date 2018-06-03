@@ -100,7 +100,7 @@ namespace RG {
 
         unsigned int m_CurrentFloorIdx;
 
-        std::vector<RG::Model::Floor*> m_Floors;
+        std::vector<std::shared_ptr<RG::Model::Floor>> m_Floors;
 
         unsigned int MAX_FLOORS;
         unsigned int m_ScreenWidth;
