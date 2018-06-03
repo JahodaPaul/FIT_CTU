@@ -11,9 +11,9 @@ The documentation consists of three different parts:<br/>
 * [Classes](annotated.html)<br/>
 * [Files](files.html)<br/>
 
-Installation
+Compiling from  source
 --------
-For installing the game, follow the instructions below. &lt;root&gt; means game root directory.
+&lt;root&gt; means game root directory of this project.
 1. Go to the &lt;root&gt; directory
 2. Run ./setup.sh
 3. Go to the &lt;root&gt;/build directory
