@@ -87,6 +87,7 @@ namespace RG {
             m_CurrentFloorIdx--;
             GetCurrentFloor().SweepDeadBodies();
             m_Player->ChangeFloor(m_CurrentFloorIdx);
+            m_Player->ChangeRoom(GetCurrentFloor().GetRoomPointer());
             Notify(this, Util::Event::FLOOR_CHANGE);
           }
           break;
@@ -97,6 +98,7 @@ namespace RG {
             GetCurrentFloor().SweepDeadBodies();
             mainLog.Info("down to" + std::to_string(m_CurrentFloorIdx));
             m_Player->ChangeFloor(m_CurrentFloorIdx);
+            m_Player->ChangeRoom(GetCurrentFloor().GetRoomPointer());
             Notify(this, Util::Event::FLOOR_CHANGE);
           }
           break;
