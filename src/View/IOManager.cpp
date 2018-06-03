@@ -78,9 +78,9 @@ namespace RG{ namespace View {
         {
             for (int n = 0; n < IM_ARRAYSIZE(m_Keys); n++)
             {
-                bool is_selected = (currentVal == m_Keys[m_KeyArr[n]]);
-                if (ImGui::Selectable(m_Keys[m_KeyArr[n]], is_selected)){
-                    currentVal = m_Keys[m_KeyArr[n]];
+                bool is_selected = (currentVal == m_Keys[n]);
+                if (ImGui::Selectable(m_Keys[n], is_selected)){
+                    currentVal = m_Keys[n];
                     currentValInx = n;
                 }
                 if (is_selected)
