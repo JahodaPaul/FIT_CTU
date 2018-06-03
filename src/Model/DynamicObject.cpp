@@ -14,7 +14,7 @@ namespace RG {
       b2Vec2 tmp = v;
       tmp.Normalize();
       tmp *= m_Speed;
-      
+
       float linear_damping = 0.04f;
       float angular_damping = 2.0f;
       if (tmp.y != 0) {
@@ -33,7 +33,7 @@ namespace RG {
       m_Body->ApplyLinearImpulse(tmp, m_Body->GetWorldCenter(), true);
       m_Body->SetLinearDamping(linear_damping);
       m_Body->SetAngularDamping(angular_damping);
-      
+
       Notify(this, Util::Event::ENTITY_MOVE);
     }
   }

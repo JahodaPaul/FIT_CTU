@@ -16,7 +16,8 @@ namespace RG {
         FLOOR_UP, /**< Player used stairs to go up */
         FLOOR_DOWN, /**< Player used stairs to go down */
         FLOOR_CHANGE, /**< Player used stairs to change floor */
-        SHOT_CRASHED /**< RG::Model::Shot has collided with another object */
+        SHOT_CRASHED, /**< RG::Model::Shot has collided with another object */
+        NEW_OBJECT /**< New object was created in the Room */
     };
   }
 }

@@ -28,6 +28,7 @@ namespace RG {
       unsigned int i = 0;
       while (i < m_Entities.size()) {
         if (m_Entities[i] == nullptr || m_Entities[i]->Deleted) {
+          m_Entities[i]->m_Body->SetUserData(nullptr);
           m_Entities[i] = m_Entities.back();
           m_Entities.pop_back();
         } else {
@@ -107,6 +108,7 @@ namespace RG {
           m_Entities[i]->Move(PlayerPos);
           if (!(m_Entities[i]->GetType() & BIT_SHOT) && std::rand() % 100 == 0) {
             m_Entities.push_back(m_Entities[i]->Shoot(PlayerPos, world));
+            Notify(this, Util::NEW_OBJECT);
           }
         }
       }

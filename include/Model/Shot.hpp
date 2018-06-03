@@ -15,7 +15,7 @@ namespace RG {
         void Move(const b2Vec2& pos);
 
         void RecvAttack(int enemy_attack);
-        
+
       private:
         b2Vec2 m_Target;
     };

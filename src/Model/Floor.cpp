@@ -95,11 +95,13 @@ namespace RG {
       // clearing dead bodies
       b2Body* _b = this->m_World->GetBodyList();
       while (_b) {
-        Entity* obj = static_cast<Entity*>(_b->GetUserData());
-        if (obj && obj->IsDead()) {
+        Object* obj = static_cast<Object*>(_b->GetUserData());
+        if (_b->GetUserData() == nullptr || obj->IsDead()) {
           this->m_World->DestroyBody(_b);
           _b->SetUserData(nullptr);
-          obj->Deleted = true;
+          if (obj != nullptr) {
+            obj->Deleted = true;
+          }
         }
         _b = _b->GetNext();
       }

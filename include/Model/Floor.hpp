@@ -1,9 +1,9 @@
 #pragma once
 
+#include <cstdlib>
 #include <exception>
 #include <map>
 #include <string>
-#include <cstdlib>
 
 #include "Model/ContactListener.hpp"
 #include "Model/Object.hpp"

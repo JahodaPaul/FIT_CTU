@@ -12,11 +12,7 @@ namespace RG {
       m_Attack = attack;
     }
 
-    void Shot::Move(const b2Vec2& pos)
-    {
-    
-      DynamicObject::Move(m_Target);
-    }
+    void Shot::Move(const b2Vec2& pos) { DynamicObject::Move(m_Target); }
 
     void Shot::RecvAttack(int enemy_attack)
     {
