@@ -4,7 +4,8 @@ namespace RG {
     namespace View {
         GameScene::GameScene(View *view) :
             Scene( view )
-            ,m_windowSize{ view->getWindow()->getView().getSize() }
+            ,m_viewSize{ view->getWindow()->getView().getSize() }
+            ,m_windowSize{ view->getWindow()->getSize() }
             ,m_npcLog( &view->getGameController()->getNPCWorldCycle().getMarket().getMatchingEngine() )
             ,m_gui( view )
             ,m_model{ &view->getGameController()->getModel() }
@@ -40,7 +41,8 @@ namespace RG {
         }
 
         void GameScene::Render(View *view) {
-            m_npcLog.Draw("Trading", NULL, m_windowSize.x - 410, 20);
+            if ( m_windowSize.x > 600 )
+                m_npcLog.Draw("Trading", NULL, m_windowSize.x - 410, 20);
             view->getWindow()->draw( *room );
             view->getWindow()->draw( *player );
             m_gui.Draw();
@@ -96,13 +98,17 @@ namespace RG {
                 }
 
                 if (event.type == sf::Event::Resized) {
-                    m_windowSize = view->getWindow()->getView().getSize();
+                    m_viewSize = view->getWindow()->getView().getSize();
+                    m_windowSize = view->getWindow()->getSize();
                     Notify( this, Util::Event::WINDOW_RESIZE );
                 }
             }
         }
 
-        const sf::Vector2f & GameScene::getWindowSize() const {
+        const sf::Vector2f & GameScene::getViewSize() const {
+            return m_viewSize;
+        }
+        const sf::Vector2u & GameScene::getWindowSize() const {
             return m_windowSize;
         }
 

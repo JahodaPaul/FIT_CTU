@@ -62,16 +62,22 @@ namespace RG {
             std::shared_ptr<Player> getPlayer();
 
             /*!
+             * \brief Get game view size.
+             */
+            const sf::Vector2f & getViewSize() const;
+
+            /*!
              * \brief Get game window size.
              */
-            const sf::Vector2f & getWindowSize() const;
+            const sf::Vector2u & getWindowSize() const;
 
             /*!
              * \brief Get pointer to game Model.
              */
             RG::Model::Model * getModel();
         private:
-            sf::Vector2f m_windowSize;
+            sf::Vector2f m_viewSize;
+            sf::Vector2u m_windowSize;
 
             void SetPlayer();
 

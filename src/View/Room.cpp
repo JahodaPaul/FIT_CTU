@@ -15,8 +15,8 @@ namespace RG {
             ,m_model( model )
             ,m_stairs{ {false, {gameScene, lua, "stairs_up"}}, {false, {gameScene, lua, "stairs_down"}} }
             {
-                windowX = gameScene->getWindowSize().x;
-                windowY = gameScene->getWindowSize().y;
+                windowX = gameScene->getViewSize().x;
+                windowY = gameScene->getViewSize().y;
                 currentId = -1;
 
                 doors[0].texture.loadFromFile("/usr/share/RG/assets/graphics/objects/doors/door-top.png");
@@ -205,8 +205,8 @@ namespace RG {
                 case Util::Event::WINDOW_RESIZE:
                     {
                         GameScene * gameScene = (GameScene*)subject;
-                        float x = gameScene->getWindowSize().x;
-                        float y = gameScene->getWindowSize().y;
+                        float x = gameScene->getViewSize().x;
+                        float y = gameScene->getViewSize().y;
                         SetScale( x, y );
                         break;
                     }

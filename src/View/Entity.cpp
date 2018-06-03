@@ -18,8 +18,8 @@ namespace RG{
         {
             m_roomSizeX = gameScene->getModel()->GetRoomWidth();
             m_roomSizeY = gameScene->getModel()->GetRoomHeight();
-            windowX = gameScene->getWindowSize().x; 
-            windowY = gameScene->getWindowSize().y;
+            windowX = gameScene->getViewSize().x; 
+            windowY = gameScene->getViewSize().y;
             if ( !luaState[name] )
                 name = "default";
             std::string texture = luaState[name]["textureFile"];
@@ -103,7 +103,7 @@ namespace RG{
                 case Util::Event::WINDOW_RESIZE:
                     {
                         GameScene * gameScene = (GameScene*)subject;
-                        SetScale( gameScene->getWindowSize().x, gameScene->getWindowSize().y );
+                        SetScale( gameScene->getViewSize().x, gameScene->getViewSize().y );
                         break;
                     }
                 case Util::Event::ENTITY_DEAD:
