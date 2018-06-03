@@ -170,5 +170,10 @@ namespace RG {
     {
       return m_Stairs;
     }
+
+    std::shared_ptr<RG::Model::Object> Room::GetLastObject(void) const
+    {
+      return m_Entities.size() > 0 ? m_Entities[m_Entities.size() - 1] : nullptr;
+    }
   }
 }

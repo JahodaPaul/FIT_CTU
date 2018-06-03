@@ -129,6 +129,8 @@ namespace RG {
          * result[1] = stairs up, filled with nullptr if stairs are not present
          */
         std::vector<std::shared_ptr<RG::Model::Stairs>> GetStairs(void) const;
+    
+        std::shared_ptr<RG::Model::Object> GetLastObject(void) const;
 
       private:
         /// position in the map grid
