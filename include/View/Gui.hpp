@@ -31,7 +31,12 @@ namespace RG { namespace View {
              * \brief get X compound of player speed ( this was store using SetPlayerSpeedX )
              */
             void onNotify(Util::Subject * subject, Util::Event event) override;
+
+            void ToggleMenu();
         private:
+            void DrawMenu();
+        private:
+            View * m_view;
             std::string playerName;
             std::string attack;
             std::string floor;
@@ -46,5 +51,14 @@ namespace RG { namespace View {
 
             char healthBuf[32];
             char xpBuf[32];
+            bool m_showMenu;
+
+            float m_posX;
+            float m_posY;
+
+            float m_itemWidth;
+            float m_itemHeight;
+            float m_menuWidth;
+            float m_menuHeight;
     };
 }}

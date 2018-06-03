@@ -1,7 +1,10 @@
 #include "Controller/GameController.hpp"
 
 namespace RG { namespace Controller {
-    GameController::GameController() : m_running( false ) {
+    GameController::GameController() 
+        :m_running( false )
+        ,m_updateModel{ true }
+    {
         mainLog.Info("GameController Constructor");
         m_mapOfGameStateHandlers[STATES::MAIN_MENU] = std::shared_ptr<StateHandler>( new MenuStateHandler() );
         m_mapOfGameStateHandlers[STATES::RUNNING] = std::shared_ptr<StateHandler>( new GameStateHandler() );
@@ -27,9 +30,9 @@ namespace RG { namespace Controller {
         m_running = true;
         mainLog.Info("Game running");
         while ( m_running ) {
-            if ( m_GameState == STATES::RUNNING ) {
+            if ( m_GameState == STATES::RUNNING && m_updateModel ) {
                 //TODO(vojta) update game model
-                StepModel(1000.0f/16.0f);
+                StepModel(m_clock.restart().asMilliseconds());
             }
             m_view->ManageInput();
             m_view->Update();
@@ -83,5 +86,11 @@ namespace RG { namespace Controller {
     }
     NPC::NPCWorldCycle & GameController::getNPCWorldCycle() {
         return *m_NPCWorld;
+    }
+    void GameController::StopModelUpdate() {
+        m_updateModel = false;
+    }
+    void GameController::StartModelUpdate() {
+        m_updateModel = true;
     }
 } }

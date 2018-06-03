@@ -4,7 +4,16 @@
 #include "Model/Model.hpp"
 
 namespace RG { namespace View {
-    Gui::Gui( View * view ) {
+    Gui::Gui( View * view )
+        :m_view{ view }
+        ,m_showMenu{ false } 
+        ,m_itemWidth{100}
+        ,m_itemHeight{50}
+        ,m_menuWidth{m_itemWidth + 20}
+        ,m_menuHeight{m_itemHeight * 4 + 30}
+    {
+        m_posX = view->getWindow()->getSize().x;
+        m_posY = view->getWindow()->getSize().y;
         view->getGameController()->getModel().AddObserver( this );
         Model::Entity *player = &view->getGameController()->getModel().GetPlayer();
 
@@ -25,6 +34,14 @@ namespace RG { namespace View {
         sprintf(xpBuf, "%d/%d", (int)(currentXP), XPToNextLevel);
 
         player->AddObserver( this );
+    }
+
+    void Gui::ToggleMenu() {
+        m_showMenu = !m_showMenu;
+        if ( m_showMenu )
+            m_view->getGameController()->StopModelUpdate();
+        else
+            m_view->getGameController()->StartModelUpdate();
     }
     void Gui::Draw() {
         ImGui::GetStyle().WindowBorderSize = 3;
@@ -50,8 +67,11 @@ namespace RG { namespace View {
 
         ImGui::Text(attack.c_str());
 
-        ImGui::End();
         ImGui::GetStyle().WindowBorderSize = 0;
+        ImGui::End();
+
+        if ( m_showMenu )
+            DrawMenu();
     }
     void Gui::onNotify(Util::Subject * subject, Util::Event event) {
         switch(event) {
@@ -79,5 +99,24 @@ namespace RG { namespace View {
             default:
                 break;
         }       
+    }
+
+    void Gui::DrawMenu() {
+        ImGui::GetStyle().WindowBorderSize = 0;
+        ImGui::SetNextWindowBgAlpha(0);
+        ImGui::SetNextWindowPos(ImVec2(m_posX / 2 - m_menuWidth / 2, m_posY / 2 - m_menuHeight / 2));
+        ImGui::SetNextWindowSize({m_menuWidth, m_menuHeight});
+
+        ImGui::Begin("Menu", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        if (ImGui::Button("Resume", ImVec2(m_itemWidth, m_itemHeight))) {
+            ToggleMenu();
+        }
+        if (ImGui::Button("Main menu", ImVec2(m_itemWidth, m_itemHeight))) {
+            m_view->getGameController()->GoToMainMenu();
+        }
+        if (ImGui::Button("Quit", ImVec2(m_itemWidth, m_itemHeight))) {
+            m_view->getGameController()->Quit();
+        }
+        ImGui::End();
     }
 }}

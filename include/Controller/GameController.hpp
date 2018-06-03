@@ -4,6 +4,8 @@
 #include <map>
 #include <vector>
 
+#include <SFML/Graphics.hpp>
+
 #include "Controller/MenuStateHandler.hpp"
 #include "Controller/GameStateHandler.hpp"
 #include "Controller/StateHandler.hpp"
@@ -66,6 +68,9 @@ namespace RG { namespace Controller {
              * @param step how much time has elapsed since the last time the function was called
              */
             void StepModel(float step) const;
+
+            void StopModelUpdate();
+            void StartModelUpdate();
             
             Model::Model & getModel();
             NPC::NPCWorldCycle & getNPCWorldCycle();
@@ -76,6 +81,8 @@ namespace RG { namespace Controller {
             int m_GameState;
             std::shared_ptr<RG::Model::Model> m_model;
             std::shared_ptr<RG::NPC::NPCWorldCycle> m_NPCWorld;
+            sf::Clock m_clock;
+            bool m_updateModel;
 
             int m_howOftenRunNPCWorld;
     };

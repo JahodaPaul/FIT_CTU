@@ -58,6 +58,12 @@ namespace RG {
             while (window->pollEvent(event)) {
                 ImGui::SFML::ProcessEvent(event);
 
+                if(event.key.code == view->m_IOManager.GetMapped(sf::Keyboard::Escape)){
+                    if (event.type == sf::Event::KeyPressed) {
+                        m_gui.ToggleMenu();
+                    }
+                }
+
                 if(event.key.code == view->m_IOManager.GetMapped(sf::Keyboard::Right)){
                     if (event.type == sf::Event::KeyPressed) {
                         player->SetPlayerSpeedX(speed);
