@@ -99,7 +99,7 @@ namespace RG{
             float m_correctionX;
             float m_correctionY;
 
-            std::vector<std::unique_ptr<Entity>> enemies;
+            std::vector<std::unique_ptr<Entity>> objects;
             GameScene * m_gameScene;
             Model::Model * m_model;
 

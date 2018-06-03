@@ -74,6 +74,7 @@ namespace RG {
         }
 
         void RG::View::Room::ChangeRoom(Model::Floor * floor) {
+            SubscribeTo( (RG::Model::Room *)&floor->GetRoom() );
             m_correctionX = floor->m_X * floor->m_RoomWidth;
             m_correctionY = floor->m_Y * floor->m_RoomHeight;
 
@@ -97,12 +98,12 @@ namespace RG {
             room_texure.loadFromFile(it->second);
             background.setTexture(room_texure);
 
-            enemies.clear();
+            objects.clear();
             for ( auto it : floor->GetRoom().GetEntities() ) {
-                enemies.push_back(std::make_unique<Entity>(m_gameScene, m_lua, "zombie", it->GetWidth(), it->GetHeight() ));
-                enemies.back()->setCorrection( m_correctionX, m_correctionY );
-                enemies.back()->SubscribeTo( &(*it) );
-                enemies.back()->SubscribeTo( &(*floor) );
+                objects.push_back(std::make_unique<Entity>(m_gameScene, m_lua, "zombie", it->GetWidth(), it->GetHeight() ));
+                objects.back()->setCorrection( m_correctionX, m_correctionY );
+                objects.back()->SubscribeTo( &(*it) );
+                objects.back()->SubscribeTo( &(*floor) );
             }
         }
 
@@ -142,11 +143,11 @@ namespace RG {
         }
 
         void Room::Update(View * view, float timeElapsed) {
-            for ( size_t i = 0; i<enemies.size(); ++i ) {
-                if ( enemies[i]->Alive() )
-                    enemies[i]->Update( view, timeElapsed );
+            for ( size_t i = 0; i<objects.size(); ++i ) {
+                if ( objects[i]->Alive() )
+                    objects[i]->Update( view, timeElapsed );
                 else {
-                    enemies.erase( enemies.begin() + i-- );
+                    objects.erase( objects.begin() + i-- );
                 }
             }
         }
@@ -157,7 +158,7 @@ namespace RG {
                 if ( doors[i].visible ) target.draw( doors[i].sprite );
             for ( auto i = 0; i < 2; ++i )
                 if ( m_stairs[i].first ) target.draw( m_stairs[i].second );
-            for ( auto & it : enemies )
+            for ( auto & it : objects )
                 target.draw( *it );
         }
 
@@ -208,6 +209,22 @@ namespace RG {
                         float x = gameScene->getViewSize().x;
                         float y = gameScene->getViewSize().y;
                         SetScale( x, y );
+                        break;
+                    }
+                case Util::Event::NEW_OBJECT:
+                    {
+                        std::cout << "new object" << std::endl;
+                        Model::Room * room = (Model::Room*)subject;
+                        objects.push_back( std::make_unique<Entity>(
+                                    m_gameScene
+                                    ,m_lua
+                                    ,"shoot"
+                                    ,room->GetLastObject()->GetWidth()
+                                    ,room->GetLastObject()->GetHeight()
+                                    ));
+                        objects.back()->setCorrection( m_correctionX, m_correctionY );
+                        objects.back()->SubscribeTo( room );
+                        objects.back()->SubscribeTo( &(*room->GetLastObject()) );
                         break;
                     }
                 default:
