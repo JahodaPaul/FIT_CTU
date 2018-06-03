@@ -14,7 +14,7 @@ namespace RG {
                                                           windowTitle, sf::Style::Default,
                                                           sf::ContextSettings{0u, 0u, 4u, 1u, 1u, 0u, false});
 
-            sf::View v( sf::FloatRect( sf::Vector2f( 0, 0 ), sf::Vector2f( 900, 600 ) ) );
+            sf::View v( sf::FloatRect( sf::Vector2f( 0, 0 ), sf::Vector2f( 1280, 720 ) ) );
             sf::FloatRect viewport;
             viewport.width = 1.f;
             viewport.height = 1.f;

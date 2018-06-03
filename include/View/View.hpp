@@ -55,7 +55,7 @@ namespace RG {
              * \param windowSize default size of game window
              * \param windowTitle title of game window
              */
-            View(Controller::GameController *controller, std::pair<int,int> windowSize = {900, 600}, const char *windowTitle = "game");
+            View(Controller::GameController *controller, std::pair<int,int> windowSize = {1280, 720}, const char *windowTitle = "game");
 
             //! destructor
             ~View();
