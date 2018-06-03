@@ -54,7 +54,7 @@ namespace RG{ namespace View {
         static ImGuiComboFlags valFlags = 0;
         static const char * currentKey = m_Keys[0];
         static int currentKeyInx = 0;
-        static const char * currentVal = m_Keys[0];
+        static const char * currentVal = m_Keys[m_KeyArr[0]];
         static int currentValInx = 0;
 
         if (ImGui::BeginCombo("Key", currentKey, keyFlags))
@@ -65,6 +65,8 @@ namespace RG{ namespace View {
                 if (ImGui::Selectable(m_Keys[n], is_selected)){
                     currentKey = m_Keys[n];
                     currentKeyInx = n;
+                    currentVal = m_Keys[m_KeyArr[n]];
+                    currentValInx = n;
                 }
                 if (is_selected)
                     ImGui::SetItemDefaultFocus();
@@ -76,9 +78,9 @@ namespace RG{ namespace View {
         {
             for (int n = 0; n < IM_ARRAYSIZE(m_Keys); n++)
             {
-                bool is_selected = (currentVal == m_Keys[n]);
-                if (ImGui::Selectable(m_Keys[n], is_selected)){
-                    currentVal = m_Keys[n];
+                bool is_selected = (currentVal == m_Keys[m_KeyArr[n]]);
+                if (ImGui::Selectable(m_Keys[m_KeyArr[n]], is_selected)){
+                    currentVal = m_Keys[m_KeyArr[n]];
                     currentValInx = n;
                 }
                 if (is_selected)
