@@ -12,6 +12,8 @@ In this game you dive into the role of the dwarf that faces dangers in depths of
 
 Package names on ubuntu: libsfml-dev, libbox2d-dev, liblua5.3-dev, cmake
 
+### Compiling
+
 1. Go to the &lt;root&gt; directory ( &lt;root&gt; means project root )
 2. Run ``./setup.sh``
 3. Go to the &lt;root&gt;/build directory
