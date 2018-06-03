@@ -80,6 +80,7 @@ ADD_EXECUTABLE(game src/main.cpp
     src/Model/Object.cpp
     src/Model/Player.cpp
     src/Model/Room.cpp
+    src/Model/Shot.cpp
     src/Model/Stairs.cpp
 
     src/NPC/Market.cpp 

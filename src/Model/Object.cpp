@@ -9,6 +9,7 @@ namespace RG {
         , m_AttackBits(0)
         , m_Width(0)
         , m_Height(0)
+        , m_Attack(0)
     {
       m_IsDead = false;
     }
@@ -50,9 +51,11 @@ namespace RG {
       }
     }
 
+    void Object::Move(const b2Vec2& pos) {}
+
     bool Object::IsDead(void) { return m_IsDead; }
 
-    int Object::GetAttackLevel(void) const { return 0; }
+    int Object::GetAttackLevel(void) const { return m_Attack; }
 
     void Object::RecvAttack(int enemy_attack)
     {
@@ -79,5 +82,13 @@ namespace RG {
       m_Width = w;
       m_Height = h;
     }
+
+    std::shared_ptr<RG::Model::Object> Object::Shoot(
+        const b2Vec2& target, std::shared_ptr<b2World> world)
+    {
+      return nullptr;
+    }
+
+    void Object::Contact(void) { Notify(this, Util::Event::ENTITY_MOVE); }
   }
 }

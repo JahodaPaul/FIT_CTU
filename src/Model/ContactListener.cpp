@@ -17,6 +17,9 @@ namespace RG {
       Object* typeB = static_cast<Object*>(
           contact->GetFixtureB()->GetBody()->GetUserData());
 
+      typeA->Contact();
+      typeB->Contact();
+
       if (typeA->GetType() & typeB->GetAttack())
         typeA->RecvAttack(typeB->GetAttackLevel());
 

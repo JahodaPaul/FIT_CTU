@@ -12,7 +12,7 @@ namespace RG {
      * \class Stairs
      * \brief stairs to another floor
      */
-    class Stairs : public Object, public Util::Subject {
+    class Stairs : public Object {
       public:
         Stairs(bool up = true);
 

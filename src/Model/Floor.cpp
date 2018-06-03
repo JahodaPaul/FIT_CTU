@@ -104,7 +104,7 @@ namespace RG {
         _b = _b->GetNext();
       }
 
-      this->__GetRoom().Move(PlayerPos);
+      this->__GetRoom().Move(PlayerPos, m_World);
       this->m_World->Step(time_step, 8, 3);
       this->m_World->ClearForces();
 #ifdef DEBUG_DRAW

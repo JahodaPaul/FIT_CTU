@@ -1,12 +1,11 @@
 #pragma once
 
 #include <Box2D/Box2D.h>
-#include <typeinfo>
 #include <memory>
 #include <string>
+#include <typeinfo>
 
 #include "Model/Entity.hpp"
-
 #include "common.hpp"
 
 namespace RG {

@@ -11,7 +11,9 @@ namespace RG {
 
     void Enemy::Move(const b2Vec2& pos)
     {
-      Entity::Move(pos - m_Body->GetPosition());
+      if (m_Body != nullptr) {
+        Entity::Move(pos - m_Body->GetPosition());
+      }
     }
   }
 }

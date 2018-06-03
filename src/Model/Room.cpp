@@ -7,7 +7,8 @@ namespace RG {
         , m_GridPosition({ x, y })
         , m_Visited(false)
         {
-          SetBits(BIT_WALL, 0x0);
+          m_Entities.reserve(1000);
+          SetBits(BIT_WALL, BIT_SHOT);
           m_Doors.resize(4, false);
           m_Stairs.resize(2, nullptr);
         }
@@ -24,8 +25,9 @@ namespace RG {
 
     void Room::SweepDeadEntities(void)
     {
-      for (unsigned int i = 0; i < m_Entities.size();) {
-        if (m_Entities[i]->Deleted) {
+      unsigned int i = 0;
+      while (i < m_Entities.size()) {
+        if (m_Entities[i] == nullptr || m_Entities[i]->Deleted) {
           m_Entities[i] = m_Entities.back();
           m_Entities.pop_back();
         } else {
@@ -74,27 +76,38 @@ namespace RG {
       }
 
       for (unsigned int i = 0; i < m_Doors.size(); ++i) {
-        if (m_Doors[i])
-          continue;
+        unsigned int bits = BIT_PLAYER | BIT_ENEMY;
+        float door_size_h = hh1;
+        float door_size_w = hw2;
+        if (m_Doors[i]) {
+          bits = BIT_SHOT;
+          door_size_h /= 2;
+          door_size_w /= 2;
+        }
         b2PolygonShape dynBox;
         if (i % 2 == 0) {
           unsigned int cnt = i / 2;
-          dynBox.SetAsBox(
-              door_w / 2, hh1, { screen_w / 2, wall_h - hh1 + cnt * oh1 }, 0);
+          dynBox.SetAsBox(door_w / 2, door_size_h,
+              { screen_w / 2, wall_h - hh1 + cnt * oh1 }, 0);
         } else {
           unsigned int cnt = 1 - (i / 2);
-          dynBox.SetAsBox(
-              hw2, door_w / 2, { wall_w - hw2 + cnt * ow2, screen_h / 2 }, 0);
+          dynBox.SetAsBox(door_size_w, door_w / 2,
+              { wall_w - hw2 + cnt * ow2, screen_h / 2 }, 0);
         }
-        this->AddShape(&dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
+        this->AddShape(&dynBox, wall_density, BIT_WALL, bits);
       }
     }
 
-    void Room::Move(b2Vec2 PlayerPos)
+    void Room::Move(b2Vec2 PlayerPos, std::shared_ptr<b2World> world)
     {
-      for (auto i : m_Entities) {
-        if (i->GetType() & BIT_ENEMY) {
-          i->Move(PlayerPos);
+      unsigned int vec_size = m_Entities.size();
+      for (unsigned int i = 0; i < vec_size; ++i) {
+        if (m_Entities[i] != nullptr
+            && m_Entities[i]->GetType() & (BIT_ENEMY | BIT_SHOT)) {
+          m_Entities[i]->Move(PlayerPos);
+          if (!(m_Entities[i]->GetType() & BIT_SHOT) && std::rand() % 100 == 0) {
+            m_Entities.push_back(m_Entities[i]->Shoot(PlayerPos, world));
+          }
         }
       }
     }
@@ -114,7 +127,7 @@ namespace RG {
 
     void Room::RecvAttack(int enemy_attack) {}
 
-    std::vector<std::shared_ptr<RG::Model::Entity>> Room::GetEntities(void) const
+    std::vector<std::shared_ptr<RG::Model::Object>> Room::GetEntities(void) const
     {
       return m_Entities;
     }
@@ -146,7 +159,7 @@ namespace RG {
     {
       for (unsigned int i = 0; i < 2; ++i) {
         if (m_Stairs.size() > i && m_Stairs[i] != nullptr) {
-          m_Stairs[i]->AddObserver(obs);
+          obs->SubscribeTo(m_Stairs[i].get());
         }
       }
     }

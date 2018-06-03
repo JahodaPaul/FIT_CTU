@@ -79,7 +79,7 @@ namespace RG {
          * \brief moves all entities in the room
          * @param PlayerPos player's current position(entities follow him)
          */
-        void Move(b2Vec2 PlayerPos);
+        void Move(b2Vec2 PlayerPos, std::shared_ptr<b2World> world);
 
         /**
          * \function AddEnemy
@@ -99,7 +99,7 @@ namespace RG {
          * \function GetEntities
          * \brief returns all entities in the room
          */
-        std::vector<std::shared_ptr<RG::Model::Entity>> GetEntities(void) const;
+        std::vector<std::shared_ptr<RG::Model::Object>> GetEntities(void) const;
 
         /**
          * \function SweepDeadEntities
@@ -135,7 +135,7 @@ namespace RG {
         std::pair<unsigned int, unsigned int> m_GridPosition;
 
         /// all entities inside the room
-        std::vector<std::shared_ptr<RG::Model::Entity>> m_Entities;
+        std::vector<std::shared_ptr<RG::Model::Object>> m_Entities;
 
         /// whether the room has been visited by the player or not
         bool m_Visited;
