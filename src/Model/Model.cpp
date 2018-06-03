@@ -116,6 +116,8 @@ namespace RG {
           = std::make_shared<RG::Model::Floor>(i, 10 + std::rand() % 5, 0, 0,
               MAX_FLOORS, m_ScreenHeight, m_ScreenWidth);
 
+        SubscribeTo(tmp_floor.get());
+
         tmp_floor->AddStairsObserver(this, tmp_floor->m_Stairs.first.first,
             tmp_floor->m_Stairs.first.second);
         tmp_floor->AddStairsObserver(this, tmp_floor->m_Stairs.second.first,
@@ -131,8 +133,9 @@ namespace RG {
 
     void Model::Shoot(void)
     {
-      m_Player->Shoot(
-          b2Vec2(std::sin(m_Player->GetAngle()), std::cos(m_Player->GetAngle())),
+      m_Player->Shoot(m_Player->GetPosition()
+          + b2Vec2(std::cos(m_Player->GetAngle()),
+            std::sin(m_Player->GetAngle())),
           GetCurrentFloor().GetWorld());
     }
   }

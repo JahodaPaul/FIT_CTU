@@ -7,8 +7,8 @@ namespace RG {
       : DynamicObject("Shot")
         , m_Target(target)
     {
-      SetBits(BIT_SHOT | category_bits, attack_bits);
-      m_Speed = 10;
+      SetBits(BIT_SHOT | category_bits, (attack_bits | BIT_WALL) & ~BIT_STAIRS);
+      m_Speed = 3;
       m_Attack = attack;
     }
 

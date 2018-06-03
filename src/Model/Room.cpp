@@ -7,7 +7,6 @@ namespace RG {
         , m_GridPosition({ x, y })
         , m_Visited(false)
         {
-          m_Entities.reserve(1000);
           SetBits(BIT_WALL, BIT_SHOT);
           m_Doors.resize(4, false);
           m_Stairs.resize(2, nullptr);
@@ -63,7 +62,8 @@ namespace RG {
           b2PolygonShape dynBox;
           dynBox.SetAsBox(
               hw1, hh1, { wall_w + hw1 + i * ow1, (wall_h - hh1) + j * oh1 }, 0);
-          this->AddShape(&dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
+          this->AddShape(
+              &dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY | BIT_SHOT);
         }
       }
 
@@ -72,7 +72,8 @@ namespace RG {
           b2PolygonShape dynBox;
           dynBox.SetAsBox(
               hw2, hh2, { (wall_w - hw2) + i * ow2, wall_h + hh2 + j * oh2 }, 0);
-          this->AddShape(&dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY);
+          this->AddShape(
+              &dynBox, wall_density, BIT_WALL, BIT_PLAYER | BIT_ENEMY | BIT_SHOT);
         }
       }
 
@@ -104,10 +105,14 @@ namespace RG {
       unsigned int vec_size = m_Entities.size();
       for (unsigned int i = 0; i < vec_size; ++i) {
         if (m_Entities[i] != nullptr
-            && m_Entities[i]->GetType() & (BIT_ENEMY | BIT_SHOT)) {
+            && m_Entities[i]->GetType() & (BIT_ENEMY | BIT_SHOT)
+            && m_Entities[i]->IsDead() == false) {
           m_Entities[i]->Move(PlayerPos);
           if (!(m_Entities[i]->GetType() & BIT_SHOT) && std::rand() % 100 == 0) {
-            AddObject(m_Entities[i]->Shoot(PlayerPos, world));
+            std::shared_ptr<RG::Model::Object> obj
+              = m_Entities[i]->Shoot(PlayerPos, world);
+            if (obj != nullptr)
+              AddObject(obj);
           }
         }
       }
@@ -155,6 +160,7 @@ namespace RG {
       b2PolygonShape dynBox;
       dynBox.SetAsBox(3, 3, { 0, 0 }, 0);
       m_Stairs[up]->AddShape(&dynBox, 100000, BIT_STAIRS, BIT_PLAYER);
+      m_Stairs[up]->GetType();
     }
 
     void Room::AddStairsObserver(RG::Util::Observer* obs)

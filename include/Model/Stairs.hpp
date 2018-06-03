@@ -16,7 +16,7 @@ namespace RG {
       public:
         Stairs(bool up = true);
 
-        ~Stairs();
+        virtual ~Stairs();
 
         void RecvAttack(int enemy_attack);
 

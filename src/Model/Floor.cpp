@@ -32,9 +32,9 @@ namespace RG {
 
       m_WallWidth = 0.076389 * m_ScreenWidth;
       m_WallHeight = 0.1267 * m_ScreenHeight;
-      m_DoorWidth = 0.05 * m_ScreenWidth;
-      m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight + 3;
-      m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth + 2;
+      m_DoorWidth = 0.06 * m_ScreenWidth;
+      m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight;
+      m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth;
 
       m_Stairs = __GenerateRooms(rooms);
 

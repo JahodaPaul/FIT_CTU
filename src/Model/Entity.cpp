@@ -60,7 +60,7 @@ namespace RG {
       float radius = 1;
       circle.m_radius = radius;
       shot->SetDimensions(2 * radius, 2 * radius);
-      shot->AddShape(&circle, 30, shot->GetType(), BIT_PLAYER | BIT_WALL);
+      shot->AddShape(&circle, 40, shot->GetType(), shot->GetAttack());
       return shot;
     }
   }

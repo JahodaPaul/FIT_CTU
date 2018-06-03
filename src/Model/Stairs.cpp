@@ -6,7 +6,7 @@ namespace RG {
       : Object("Schody")
         , m_UP(up)
     {
-      SetBits(BIT_STAIRS | BIT_SHOT, 0x0);
+      SetBits(BIT_STAIRS, 0x0);
     }
 
     Stairs::~Stairs() {}
