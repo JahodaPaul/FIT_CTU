@@ -55,7 +55,7 @@ namespace RG {
          */
         unsigned int GetHP(void) const;
 
-        std::shared_ptr<RG::Model::Object> Shoot(
+        virtual std::shared_ptr<RG::Model::Object> Shoot(
             const b2Vec2& target, std::shared_ptr<b2World> world);
 
         virtual void onNotify(Util::Subject* subject, Util::Event event) override;

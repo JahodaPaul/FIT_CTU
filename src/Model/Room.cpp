@@ -107,8 +107,7 @@ namespace RG {
             && m_Entities[i]->GetType() & (BIT_ENEMY | BIT_SHOT)) {
           m_Entities[i]->Move(PlayerPos);
           if (!(m_Entities[i]->GetType() & BIT_SHOT) && std::rand() % 100 == 0) {
-            m_Entities.push_back(m_Entities[i]->Shoot(PlayerPos, world));
-            Notify(this, Util::NEW_OBJECT);
+            AddObject(m_Entities[i]->Shoot(PlayerPos, world));
           }
         }
       }
@@ -116,15 +115,16 @@ namespace RG {
 
     void Room::AddEnemy(b2Body* body)
     {
-      m_Entities.emplace_back(std::make_shared<RG::Model::Enemy>());
-      m_Entities[m_Entities.size() - 1]->m_Body = body;
+      std::shared_ptr<RG::Model::Object> enemy
+        = std::make_shared<RG::Model::Enemy>();
+      enemy->m_Body = body;
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
       float radius = 3.5;
       circle.m_radius = radius;
-      m_Entities[m_Entities.size() - 1]->SetDimensions(2 * radius, 2 * radius);
-      m_Entities[m_Entities.size() - 1]->AddShape(
-          &circle, 30, BIT_ENEMY, BIT_PLAYER | BIT_WALL | BIT_ENEMY);
+      enemy->SetDimensions(2 * radius, 2 * radius);
+      enemy->AddShape(&circle, 30, BIT_ENEMY, BIT_PLAYER | BIT_WALL | BIT_ENEMY);
+      AddObject(enemy);
     }
 
     void Room::RecvAttack(int enemy_attack) {}
@@ -174,6 +174,12 @@ namespace RG {
     std::shared_ptr<RG::Model::Object> Room::GetLastObject(void) const
     {
       return m_Entities.size() > 0 ? m_Entities[m_Entities.size() - 1] : nullptr;
+    }
+
+    void Room::AddObject(std::shared_ptr<RG::Model::Object> object)
+    {
+      m_Entities.push_back(object);
+      Notify(this, Util::NEW_OBJECT);
     }
   }
 }

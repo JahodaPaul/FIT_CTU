@@ -104,6 +104,9 @@ namespace RG {
             Notify(this, Util::Event::FLOOR_CHANGE);
           }
           break;
+        case Util::Event::ROOM_CHANGE:
+          m_Player->ChangeRoom(GetCurrentFloor().GetRoomPointer());
+          break;
         default:
           break;
       }
