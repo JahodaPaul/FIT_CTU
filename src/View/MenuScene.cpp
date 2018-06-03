@@ -58,11 +58,6 @@ namespace RG {
                 if ( ImGui::CollapsingHeader("Keybindings") ) {
                     view->m_IOManager.Draw();
                 }
-                if ( ImGui::CollapsingHeader("test1") ) {
-                    ImGui::BeginChild("Test1");
-                    ImGui::Text("Test1");
-                    ImGui::EndChild();
-                }
                 ImGui::End();
             }
         }

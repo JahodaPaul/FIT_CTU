@@ -56,7 +56,7 @@ namespace RG {
             while (window->pollEvent(event)) {
                 ImGui::SFML::ProcessEvent(event);
 
-                if(event.key.code == sf::Keyboard::Right){
+                if(event.key.code == view->m_IOManager.GetMapped(sf::Keyboard::Right)){
                     if (event.type == sf::Event::KeyPressed) {
                         player->SetPlayerSpeedX(speed);
                     }
@@ -64,7 +64,7 @@ namespace RG {
                         player->SetPlayerSpeedX(speed * -1);
                     }
                 }
-                if(event.key.code == sf::Keyboard::Left){
+                if(event.key.code == view->m_IOManager.GetMapped(sf::Keyboard::Left)){
                     if (event.type == sf::Event::KeyPressed) {
                         player->SetPlayerSpeedX(speed * -1);
                     }
@@ -72,7 +72,7 @@ namespace RG {
                         player->SetPlayerSpeedX(speed);
                     }
                 }
-                if(event.key.code == sf::Keyboard::Up){
+                if(event.key.code == view->m_IOManager.GetMapped(sf::Keyboard::Up)){
                     if (event.type == sf::Event::KeyPressed) {
                         player->SetPlayerSpeedY(speed * -1);
                     }
@@ -80,7 +80,7 @@ namespace RG {
                         player->SetPlayerSpeedY(speed);
                     }
                 }
-                if(event.key.code == sf::Keyboard::Down){
+                if(event.key.code == view->m_IOManager.GetMapped(sf::Keyboard::Down)){
                     if (event.type == sf::Event::KeyPressed) {
                         player->SetPlayerSpeedY(speed);
                     }

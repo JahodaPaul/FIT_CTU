@@ -34,7 +34,7 @@ namespace RG{ namespace View {
              * @param dir Storage directory.
              * @param fileName Storage file name.
              */
-            IOManager(std::string dir = "./keys", std::string fileName = "mapping.txt");
+            IOManager(std::string dir = ".", std::string fileName = "mapping.txt");
 
             /// IOManager class destructor.
             ~IOManager();
