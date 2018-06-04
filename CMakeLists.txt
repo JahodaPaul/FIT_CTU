@@ -70,6 +70,7 @@ ADD_EXECUTABLE(game src/main.cpp
     src/View/Entity.cpp
     src/View/NPCLog.cpp
     src/View/Gui.cpp
+    src/View/LuaExport.cpp
 
     src/Model/ContactListener.cpp
     src/Model/DynamicObject.cpp

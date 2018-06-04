@@ -31,7 +31,6 @@ namespace RG {
         void GameScene::Update(View *view, float timeElapsed) {
             if ( ! player->Alive() ) {
                 view->setActiveView( SCENE::GAME_OVER_SCENE );
-                view->getSoundManager().PlayMusic("duckers");
             }
 
             view->getGameController()->RunNPCWorld();

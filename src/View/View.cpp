@@ -1,13 +1,17 @@
 #include "View/View.hpp"
+#include "View/LuaExport.hpp"
 
 namespace RG {
     namespace View {
         View::View(Controller::GameController *controller, std::pair<int,int> windowSize, const char *windowTitle)
                 : m_gameControllet(controller),
                   m_ImguiDemo(false) {
+
+            m_soundManager = std::make_shared<SoundManager>();
             //TODO(vojta) move to correct location
             m_lua.open_libraries(sol::lib::base);
-            m_lua.set_function("play_sound", &SoundManager::PlaySound, &m_soundManager);
+            LuaExport::ExportSoundManager( m_lua, m_soundManager );
+            //m_lua.set_function("play_sound", &SoundManager::PlaySound, &m_soundManager);
             m_lua.script_file("/usr/share/RG/lua/characters.lua");
 
             m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize.first, windowSize.second),
@@ -58,8 +62,6 @@ namespace RG {
                 m_gameControllet->GoToMainMenu();
                 return 0;
             }));
-
-            m_soundManager.PlayMusic(20);
         }
 
         View::~View() {}
@@ -118,7 +120,7 @@ namespace RG {
         sol::state & View::getLuaState() {
             return m_lua;
         }
-        SoundManager & View::getSoundManager() {
+        std::shared_ptr<SoundManager> View::getSoundManager() {
             return m_soundManager;
         }
     }

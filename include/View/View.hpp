@@ -95,9 +95,9 @@ namespace RG {
 
             //! Get reference to soundManager
             /*!
-             * \return reference to soundManager
+             * \return shared pointer to soundManager
              */
-            SoundManager & getSoundManager();
+            std::shared_ptr<SoundManager> getSoundManager();
 
             IOManager m_IOManager;
 
@@ -109,7 +109,7 @@ namespace RG {
             std::map<SCENE, std::shared_ptr<Scene> > m_mapOfGameScenes;
             sf::Clock m_clock;
 
-            SoundManager m_soundManager;
+            std::shared_ptr<SoundManager> m_soundManager;
 
             bool m_ImguiDemo;
             Console m_console;
