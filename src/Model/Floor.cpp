@@ -32,9 +32,9 @@ namespace RG {
 
       m_WallWidth = 0.076389 * m_ScreenWidth;
       m_WallHeight = 0.1267 * m_ScreenHeight;
-      m_DoorWidth = 0.05 * m_ScreenWidth;
-      m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight + 3;
-      m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth + 2;
+      m_DoorWidth = 0.06 * m_ScreenWidth;
+      m_RoomHeight = m_ScreenHeight - 2 * m_WallHeight;
+      m_RoomWidth = m_ScreenWidth - 2 * m_WallWidth;
 
       m_Stairs = __GenerateRooms(rooms);
 
@@ -45,32 +45,29 @@ namespace RG {
 
       if (level > 0) {
         __GetRoom(m_Stairs.first.first, m_Stairs.first.second)
-          .AddStairs(true, m_World, m_RoomWidth, m_RoomHeight);
+          ->AddStairs(true, m_World, m_RoomWidth, m_RoomHeight);
       }
 
       if (level < MAX_FLOORS - 1) {
         __GetRoom(m_Stairs.second.first, m_Stairs.second.second)
-          .AddStairs(false, m_World, m_RoomWidth, m_RoomHeight);
+          ->AddStairs(false, m_World, m_RoomWidth, m_RoomHeight);
       }
 
       m_ContactListener = new ContactListener(m_World);
     }
 
-    Floor::~Floor()
-    {
-      delete m_ContactListener;
-      for (auto i : m_Rooms) {
-        for (auto j : i.second) {
-          delete j.second;
-        }
-      }
-    }
+    Floor::~Floor() { delete m_ContactListener; }
 
     unsigned int Floor::GetLevel(void) const { return m_Level; }
 
-    const RG::Model::Room& Floor::GetRoom(void) const { return __GetRoom(); }
+    const RG::Model::Room& Floor::GetRoom(void) const { return *__GetRoom(); }
+    std::shared_ptr<RG::Model::Room> Floor::GetRoomPointer(void) const
+    {
+      return __GetRoom();
+    }
 
-    RG::Model::Room& Floor::__GetRoom(unsigned int x, unsigned int y) const
+    std::shared_ptr<RG::Model::Room> Floor::__GetRoom(
+        unsigned int x, unsigned int y) const
     {
       auto it_row = m_Rooms.find(x);
       if (it_row == m_Rooms.end()) {
@@ -80,10 +77,13 @@ namespace RG {
       if (it_col == it_row->second.end()) {
         throw RG::Model::RoomNotFound();
       }
-      return *(it_col->second);
+      return it_col->second;
     }
 
-    RG::Model::Room& Floor::__GetRoom(void) const { return __GetRoom(m_X, m_Y); }
+    std::shared_ptr<RG::Model::Room> Floor::__GetRoom(void) const
+    {
+      return __GetRoom(m_X, m_Y);
+    }
 
     b2Body* Floor::GetPlayerBody(b2BodyDef* bodyDef)
     {
@@ -95,16 +95,18 @@ namespace RG {
       // clearing dead bodies
       b2Body* _b = this->m_World->GetBodyList();
       while (_b) {
-        Entity* obj = static_cast<Entity*>(_b->GetUserData());
-        if (obj && obj->IsDead()) {
+        Object* obj = static_cast<Object*>(_b->GetUserData());
+        if (_b->GetUserData() == nullptr || obj->IsDead()) {
           this->m_World->DestroyBody(_b);
           _b->SetUserData(nullptr);
-          obj->Deleted = true;
+          if (obj != nullptr) {
+            obj->Deleted = true;
+          }
         }
         _b = _b->GetNext();
       }
 
-      this->__GetRoom().Move(PlayerPos);
+      this->__GetRoom()->Move(PlayerPos, m_World);
       this->m_World->Step(time_step, 8, 3);
       this->m_World->ClearForces();
 #ifdef DEBUG_DRAW
@@ -205,7 +207,8 @@ namespace RG {
             }
 
             // if it does not exist, create it
-            RG::Model::Room* tmp_room = new RG::Model::Room(_x, _y);
+            std::shared_ptr<RG::Model::Room> tmp_room
+              = std::make_shared<RG::Model::Room>(_x, _y);
             b2BodyDef room_bodyDef;
             room_bodyDef.type = b2_dynamicBody;
             room_bodyDef.position.Set(_x * m_RoomWidth, _y * m_RoomHeight);
@@ -260,9 +263,11 @@ namespace RG {
     void Floor::AddStairsObserver(
         RG::Util::Observer* obs, unsigned int x, unsigned int y)
     {
-      this->__GetRoom(x, y).AddStairsObserver(obs);
+      this->__GetRoom(x, y)->AddStairsObserver(obs);
     }
 
-    void Floor::SweepDeadBodies(void) { __GetRoom().SweepDeadEntities(); }
+    void Floor::SweepDeadBodies(void) { __GetRoom()->SweepDeadEntities(); }
+
+    std::shared_ptr<b2World> Floor::GetWorld(void) const { return m_World; }
   }
 }

@@ -11,24 +11,30 @@ namespace RG {
 
     void DynamicObject::Move(const b2Vec2& v)
     {
+      b2Vec2 tmp = v;
+      tmp.Normalize();
+      tmp *= m_Speed;
+
       float linear_damping = 0.04f;
       float angular_damping = 2.0f;
-      if (v.y != 0) {
-        double angle = std::atan(v.x / v.y);
+      if (tmp.y != 0) {
+        double angle = std::atan(tmp.x / tmp.y);
         if (angle < 0)
           angle += M_PI;
         else if (angle == 0)
           angle += M_PI / 2;
-        if (v.y < 0)
+        if (tmp.y < 0)
           angle += M_PI;
         m_Body->SetTransform(m_Body->GetPosition(), angle);
       } else {
-        m_Body->SetTransform(m_Body->GetPosition(), v.x > 0 ? 0 : M_PI);
+        m_Body->SetTransform(m_Body->GetPosition(), tmp.x > 0 ? 0 : M_PI);
       }
 
-      m_Body->ApplyLinearImpulse(v, m_Body->GetWorldCenter(), true);
+      m_Body->ApplyLinearImpulse(tmp, m_Body->GetWorldCenter(), true);
       m_Body->SetLinearDamping(linear_damping);
       m_Body->SetAngularDamping(angular_damping);
+
+      Notify(this, Util::Event::ENTITY_MOVE);
     }
   }
 }

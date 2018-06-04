@@ -16,6 +16,7 @@ namespace RG {
       bodyDef.type = b2_dynamicBody;
       bodyDef.position.Set(m_ScreenWidth / 6, m_ScreenHeight / 3);
       m_Player = std::make_shared<RG::Model::Player>("Hrac");
+      m_Player->ChangeRoom(GetCurrentFloor().GetRoomPointer());
 
       b2CircleShape circle;
       circle.m_p.Set(0, 0);
@@ -35,12 +36,7 @@ namespace RG {
       m_Player->m_Body = m_Player->m_Bodies[0];
     }
 
-    Model::~Model()
-    {
-      for (auto i : m_Floors) {
-        delete i;
-      }
-    }
+    Model::~Model() {}
 
     void Model::Move(float x, float y)
     {
@@ -91,6 +87,7 @@ namespace RG {
             m_CurrentFloorIdx--;
             GetCurrentFloor().SweepDeadBodies();
             m_Player->ChangeFloor(m_CurrentFloorIdx);
+            m_Player->ChangeRoom(GetCurrentFloor().GetRoomPointer());
             Notify(this, Util::Event::FLOOR_CHANGE);
           }
           break;
@@ -101,8 +98,12 @@ namespace RG {
             GetCurrentFloor().SweepDeadBodies();
             mainLog.Info("down to" + std::to_string(m_CurrentFloorIdx));
             m_Player->ChangeFloor(m_CurrentFloorIdx);
+            m_Player->ChangeRoom(GetCurrentFloor().GetRoomPointer());
             Notify(this, Util::Event::FLOOR_CHANGE);
           }
+          break;
+        case Util::Event::ROOM_CHANGE:
+          m_Player->ChangeRoom(GetCurrentFloor().GetRoomPointer());
           break;
         default:
           break;
@@ -113,9 +114,11 @@ namespace RG {
     {
       for (unsigned int i = 0; i < MAX_FLOORS; ++i) {
         std::srand(time(NULL));
-        RG::Model::Floor* tmp_floor
-          = new RG::Model::Floor(i, 10 + std::rand() % 5, 0, 0, MAX_FLOORS,
-              m_ScreenHeight, m_ScreenWidth);
+        std::shared_ptr<RG::Model::Floor> tmp_floor
+          = std::make_shared<RG::Model::Floor>(i, 10 + std::rand() % 5, 0, 0,
+              MAX_FLOORS, m_ScreenHeight, m_ScreenWidth);
+
+        SubscribeTo(tmp_floor.get());
 
         tmp_floor->AddStairsObserver(this, tmp_floor->m_Stairs.first.first,
             tmp_floor->m_Stairs.first.second);
@@ -129,5 +132,13 @@ namespace RG {
     unsigned int Model::GetRoomHeight(void) const { return m_ScreenHeight; }
 
     unsigned int Model::GetRoomWidth(void) const { return m_ScreenWidth; }
+
+    void Model::Shoot(void)
+    {
+      m_Player->Shoot(m_Player->GetPosition()
+          + b2Vec2(std::cos(m_Player->GetAngle()),
+            std::sin(m_Player->GetAngle())),
+          GetCurrentFloor().GetWorld());
+    }
   }
 }

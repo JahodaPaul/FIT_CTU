@@ -6,6 +6,8 @@
 #include <string>  // std::string
 #include <utility> // std::pair
 
+#include "Util/Event.hpp"
+#include "Util/Subject.hpp"
 #include "common.hpp"
 
 namespace RG {
@@ -14,14 +16,15 @@ namespace RG {
       BIT_WALL = 0x01,
       BIT_PLAYER = 0x02,
       BIT_ENEMY = 0x04,
-      BIT_STAIRS = 0x08
+      BIT_STAIRS = 0x08,
+      BIT_SHOT = 0x10
     };
 
     /**
      * \class Object
      * \brief base class for all objects in the game
      */
-    class Object {
+    class Object : public Util::Subject {
       public:
         /**
          * \function Object
@@ -99,10 +102,21 @@ namespace RG {
         float GetWidth(void) const;
 
         float GetHeight(void) const;
-    
+
         void SetDimensions(float w, float h);
 
+        virtual void Move(const b2Vec2& pos);
+
+        virtual std::shared_ptr<RG::Model::Object> Shoot(
+            const b2Vec2& target, std::shared_ptr<b2World> world);
+
+        void Contact(void);
+
         b2Body* m_Body;
+
+        /// whether the body is deleted from the Box2D world which makes the obejct
+        /// prepared for destruction
+        bool Deleted;
 
       private:
         std::string m_Name;
@@ -112,9 +126,16 @@ namespace RG {
 
       protected:
         bool m_IsDead;
+
         float m_Width;
+
         float m_Height;
 
+        /// current movement speed
+        float m_Speed;
+
+        /// attack level -- how much does the entity damage enemies during an attack
+        int m_Attack;
     };
   }
 }

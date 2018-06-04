@@ -4,8 +4,8 @@
 #include <utility>
 
 #include "Model/DynamicObject.hpp"
-#include "Util/Event.hpp"
-#include "Util/Subject.hpp"
+#include "Model/Shot.hpp"
+#include "Util/Observer.hpp"
 
 namespace RG {
   namespace Model {
@@ -13,7 +13,7 @@ namespace RG {
      * \class Entity
      * \brief generic entity object with basic attributes
      */
-    class Entity : public DynamicObject, public Util::Subject {
+    class Entity : public DynamicObject, public Util::Observer {
       public:
         /**
          * \function Entity
@@ -28,12 +28,6 @@ namespace RG {
          * \brief destructor
          */
         virtual ~Entity();
-
-        /**
-         * \function GetAttackLevel
-         * \brief returns the attack level
-         */
-        int GetAttackLevel(void) const;
 
         /**
          * \function RecvAttack
@@ -61,9 +55,10 @@ namespace RG {
          */
         unsigned int GetHP(void) const;
 
-        /// whether the body is deleted from the Box2D world which makes the obejct
-        /// prepared for destruction
-        bool Deleted;
+        virtual std::shared_ptr<RG::Model::Object> Shoot(
+            const b2Vec2& target, std::shared_ptr<b2World> world);
+
+        virtual void onNotify(Util::Subject* subject, Util::Event event) override;
 
       protected:
         /// health points
@@ -74,12 +69,6 @@ namespace RG {
 
         /// defense level -- higher defense means higher ability to resist attack
         int m_Defense;
-
-        /// current movement speed
-        float m_Speed;
-
-        /// attack level -- how much does the entity damage enemies during an attack
-        int m_Attack;
 
         /// whether the first zero movement of the game has already been made or not
         bool m_First;

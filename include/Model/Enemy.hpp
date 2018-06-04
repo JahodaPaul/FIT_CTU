@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 #include "Model/Entity.hpp"
+#include "Util/Observer.hpp"
 
 namespace RG {
   namespace Model {

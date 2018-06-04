@@ -107,6 +107,12 @@ namespace RG {
                     m_windowSize = view->getWindow()->getSize();
                     Notify( this, Util::Event::WINDOW_RESIZE );
                 }
+
+                if(event.key.code == view->m_IOManager.GetMapped(sf::Keyboard::Space)){
+                    if (event.type == sf::Event::KeyPressed) {
+                        view->getGameController()->getModel().Shoot();
+                    }
+                }
             }
         }
 

@@ -1,9 +1,9 @@
 #pragma once
 
+#include <cstdlib>
 #include <exception>
 #include <map>
 #include <string>
-#include <cstdlib>
 
 #include "Model/ContactListener.hpp"
 #include "Model/Object.hpp"
@@ -58,16 +58,22 @@ namespace RG {
         virtual ~Floor();
 
         /**
-         * \function GetRoom
+         * \function GetLevel
          * \brief returns how many floors under ground this floor is
          */
         unsigned int GetLevel(void) const;
 
         /**
          * \function GetRoom
-         * \brief returns a const reference to the current floor
+         * \brief returns a const reference to the current room
          */
         const RG::Model::Room& GetRoom(void) const;
+
+        /**
+         * \function GetRoomPointer
+         * \brief returns a pointer to the current room
+         */
+        std::shared_ptr<RG::Model::Room> GetRoomPointer(void) const;
 
         /**
          * \function GetPlayerBody
@@ -114,20 +120,23 @@ namespace RG {
           std::pair<unsigned int, unsigned int>>
             m_Stairs;
 
+        std::shared_ptr<b2World> GetWorld(void) const;
+
       private:
         /**
          * \function __GetRoom
-         * \brief returns a (NOT const) reference to the current floor
+         * \brief returns a pointer to the current room
          */
-        RG::Model::Room& __GetRoom(void) const;
+        std::shared_ptr<RG::Model::Room> __GetRoom(void) const;
 
         /**
          * \function __GetRoom
-         * \brief returns a (NOT const) reference to the current floor
+         * \brief returns a pointer to the room on given coordinates
          * @param x horizontal coordinate of the room
          * @param y vertical coordinate of the room
          */
-        RG::Model::Room& __GetRoom(unsigned int x, unsigned int y) const;
+        std::shared_ptr<RG::Model::Room> __GetRoom(
+            unsigned int x, unsigned int y) const;
 
         /**
          * \function __GenerateRooms
@@ -139,7 +148,9 @@ namespace RG {
             __GenerateRooms(unsigned int cnt);
 
         /// array of rooms present at this floor
-        std::map<unsigned int, std::map<unsigned int, RG::Model::Room*>> m_Rooms;
+        std::map<unsigned int,
+          std::map<unsigned int, std::shared_ptr<RG::Model::Room>>>
+            m_Rooms;
 
         /// how deep under ground the floor is
         unsigned int m_Level;
