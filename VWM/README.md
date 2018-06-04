@@ -1,6 +1,8 @@
 ## Semestral project for _Information Retrieval and Web Search_ course (2018)
 
-## How to start
+![Application photo](https://www.dropbox.com/s/kubyw4qxahez2by/output1.png?dl=1)
+
+## How to run project
 ```
 python3 src/main.py
 ```
