@@ -106,6 +106,11 @@ namespace RG{
                         SetScale( gameScene->getViewSize().x, gameScene->getViewSize().y );
                         break;
                     }
+                case Util::Event::SHOT_CRASHED:
+                    {
+                        m_alive = false;
+                        break;
+                    }
                 case Util::Event::ENTITY_DEAD:
                     {
                         subject->RemoveObserver( this );

@@ -47,3 +47,12 @@ stairs_up = {
     frameTime = 999,
     rotation = 0,
 }
+
+shoot = {
+    textureFile = "/usr/share/RG/assets/graphics/objects/shot1.png",
+    frameWidth = 50,
+    frameHeight = 50,
+    frameCount = 4,
+    frameTime = 50,
+    rotation = 0,
+}

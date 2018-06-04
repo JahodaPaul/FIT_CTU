@@ -213,7 +213,6 @@ namespace RG {
                     }
                 case Util::Event::NEW_OBJECT:
                     {
-                        std::cout << "new object" << std::endl;
                         Model::Room * room = (Model::Room*)subject;
                         objects.push_back( std::make_unique<Entity>(
                                     m_gameScene
