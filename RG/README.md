@@ -1,8 +1,8 @@
 ![TeamCity CodeBetter](https://img.shields.io/teamcity/codebetter/bt428.svg)<br/>
 # RG - Project for courses _Software Team Project 1/Software Engineering 1_ (BI-SP1/BI-SI1 2018)
-In this game you dive into the role of the dwarf that faces dangers in depths of dungeon that awaits to be explored.
+Dive into the role of a dwarf that faces dangers in depths of dungeon that awaits to be explored.
 
-## Compiling from source
+![RG preview](https://www.dropbox.com/s/6cjo3gt4bpsvcc4/2018-06-04-121210_1920x1080_scrot.png?dl=1)
 
 ### Requirements
 * sfml
@@ -12,33 +12,35 @@ In this game you dive into the role of the dwarf that faces dangers in depths of
 
 Package names on ubuntu: libsfml-dev, libbox2d-dev, liblua5.3-dev, cmake
 
-### Compiling
+### Installation
 
 1. Go to the &lt;root&gt; directory ( &lt;root&gt; means project root )
 2. Run ``./setup.sh``
 3. Go to the &lt;root&gt;/build directory
-4. Run ``make game``
-3. Run ``./game``
+4. Run ``make game`
 
-## Instalation
+### How to run project
+1. Go to the &lt;root&gt;/build directory
+2. Run ``./game``
 
-You can use debian package witch will comes with all necessary files and dependencies.
+### Controls
+You can move using arrow keys. Pause game with Escape and shoot with space bar. These key bindings can be changed in settings.
 
-## Project architecture
+### Project architecture
 
-Project uses MVC architecture and is divided int 4 main folders:
-* Model         ( game data and physical simulation (box2D) )
-* Controller    ( communication between Model and View )
-* View          ( game graphics (sfml) and user input 
-* Util          ( There stored classes used across all project ex.: Logger, Observer, Subject... )
-* NPC           ( Basically part of Model, NPC manages market and trading data )
+Project uses MVC architecture and is divided into 5 main directories:
+* Model         ( Game data and physical simulation (box2D) )
+* Controller    ( Communication between Model and View )
+* View          ( Game graphics (sfml) and user input )
+* Util          ( Classes used across the application ex.: Logger, Observer, Subject... )
+* NPC           ( Manages market, trading and non-combat NPC's. Basically part of the Model. )
 
-We use observer pattern for fast communication between model and View.
-Lua is used for user scripting ( playing sound on entity hurt... ) and default configuration of some game objects ( for example animations )
+We use observer pattern for fast communication between Model and View.<br/>
+Lua is used for user scripting ( playing sound when is entity damaged ect. ) and default configuration of some game objects ( for example animations )
 
-## Changelog
+### Changelog
 
 see [CHANGELOG](CHANGELOG.md)
 
-## Results
+### Results
 Project was graded 50 out of 50 points obtainable.
