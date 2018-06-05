@@ -1,8 +1,8 @@
-![TeamCity CodeBetter](https://img.shields.io/teamcity/codebetter/bt428.svg)<br/>
+![Build Passing](https://img.shields.io/wercker/ci/wercker/docs.svg)<br/>
 # RG - Project for courses _Software Team Project 1/Software Engineering 1_ (BI-SP1/BI-SI1 2018)
 Dive into the role of a dwarf that faces dangers in depths of dungeon that awaits to be explored.
 
-![RG preview](https://www.dropbox.com/s/6cjo3gt4bpsvcc4/2018-06-04-121210_1920x1080_scrot.png?dl=1)
+![RG preview](https://i.imgur.com/MNx1RXu.png)
 
 ### Requirements
 * sfml

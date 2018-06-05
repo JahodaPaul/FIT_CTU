@@ -1,6 +1,6 @@
 ## FlightsTree - Semestral project for _Information Retrieval and Web Search_ course (2018)
 
-![Application photo](https://www.dropbox.com/s/kubyw4qxahez2by/output1.png?dl=1)
+![Application photo](https://i.imgur.com/EeNwPgX.png)
 
 ## How to run project
 ```
