@@ -1,0 +1,176 @@
+%% ZAKLADNI VLASTNOSTI STRANKY -- VELIKOST PISMA, STRANKY, OKRAJU
+\documentclass[12pt,a4paper]{article}
+\usepackage[marginparsep=18pt,left=2.5cm,right=2.5cm,top=3.2cm,bottom=4.5cm]{geometry}
+
+\setlength{\parskip}{8pt}
+\setlength{\parindent}{25pt}
+
+%% CESTINA
+\usepackage[czech]{babel}
+
+%% FONTY
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% VKLADANI ZDROJOVEHO KODU
+%\usepackage{listings}
+
+%% ZAHLAVI A ZAPATI
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+% prostredni cast zapati
+\cfoot{\thepage}
+
+% leva cast zahlavi -- nazev sekce/subsekce
+\lhead{\fancyplain{}{\rightmark}}
+
+\def\picturesfolder{obrazky}
+
+% prava cast zahlavi -- logo fitu
+\rhead{\includegraphics[width=5cm]{\picturesfolder/logo}}
+
+%% TABULKY
+\usepackage{tabularx}
+
+% podbarveni radku tabulek
+\usepackage[table]{xcolor}
+
+%% KRESLENI DIAGRAMU
+\usepackage{tikz}
+
+\usepackage{floatrow}
+\floatsetup[figure]{capposition=top}
+
+%% PROKLIKAVATELNE ODKAZY
+\usepackage[pdftex,pdfpagelabels,bookmarks,hyperindex,hyperfigures]{hyperref}
+
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=blue,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+
+\begin{document}
+%%%%% TITLEPAGE
+
+% alternuj bilou a svetle sedou pro radky vsech tabulek
+\rowcolors{1}{gray!25}{white}
+
+% bez cislovani stranek
+\pagenumbering{gobble}
+
+% bez cary oddelujici zahlavi a zapati
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\begin{titlepage}
+  % pro zobrazeni loga v zahlavi
+  \thispagestyle{fancy}
+
+  % vertikalni zarovnani
+	\vspace*{\fill}
+	\begin{center}
+    {\fontsize{28.83}{100}\selectfont Rogue-like hra}\\[0.6cm]
+		{\fontsize{15.74}{40}\selectfont Návrhová dokumentace -- detailní design}\\[1.5cm]
+    {\fontsize{10}{10} \selectfont Dokument vytvořen pro potřeby předmětů
+    BI-SI1 a BI-SP1}\\
+	\end{center}
+
+  % vertikalni zarovnani
+	\vspace*{\fill}
+
+  % seznam clenu tymu razeny abecedne podle krestniho jmena
+  {\fontsize{10}{10} \selectfont \noindent
+\textbf{Autoři:}\\
+  Jakub Drbohlav\\
+  Jiří Kasl\\
+  Pavel Jahoda\\
+  Petr Pondělík\\
+  Vanda Hendrychová\\
+  Vojtěch Pejša\\
+  }
+\end{titlepage}
+
+\newpage
+
+% cara nahore a dole oddelujici zahlavi a zapati od obsahu stranky
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+
+
+%%%%% OBSAH
+
+% rimska cisla pro cislovani stranek v obsahu
+\pagenumbering{roman}
+
+% samotne vlozeni obsahu
+\tableofcontents
+
+\newpage
+
+% zapnout bezne cislovani stranek pomoci arabskych cislic
+\pagenumbering{arabic}
+
+
+
+%%%%% TEXT
+
+\section{Realizace případů užití (model komunikace)}
+
+Kapitola popisuje komunikaci tříd v rámci vybraných případů užití.  Tato
+kapitola zahrnuje pouze popis spolupráce tříd, které jsou důležité z hlediska
+objektově orientovaného návrhu.
+
+\subsection{Realizace případu užití: Start hry}
+
+Tato sekce obsahuje popis spolupráce tříd pro realizaci případu užití
+\textbf{Start hry}. Následující diagram zachycuje spolupráci tříd při spuštění
+hry. Spuštění hry představuje odchycení události stisku tlačítka New game v
+nabídce hry a následný přechod do herní scény.
+
+\begin{center}
+\includegraphics[width=\textwidth]{\picturesfolder/Flow_diagram01_starthry.pdf}
+\end{center}
+
+\subsection{Realizace případu užití: Konec hry}
+
+Tato sekce obsahuje popis spolupráce tříd pro realizaci případu užití
+\textbf{Konec hry}. Následující diagram zachycuje spolupráci tříd při ukončení.
+Ukončení hry představuje odchycení události stisku tlačítka Exit v nabídce hry a
+následné ukončení programu.
+
+\begin{center}
+\includegraphics[width=\textwidth]{\picturesfolder/Flow_diagram02_konechry.pdf}
+\end{center}
+
+\subsection{Realizace případu užití: Pohyb}
+
+Tato sekce obsahuje popis spolupráce tříd pro realizaci případu užití
+\textbf{Pohyb}. Následující diagram zachycuje spolupráci tříd při pohybu. Pohyb
+představuje odchycení události stisku tlačítek pro pohyb, uvedení entity hráče
+do pohybu, propagaci změn pozice hráče při pohybu do modelu a následné
+vykreslení hráče na aktualizované pozici.
+
+\begin{center}
+\includegraphics[width=\textwidth]{\picturesfolder/Flow_diagram03_pohyb.pdf}
+\end{center}
+
+\subsection{Realizace případu užití: Nastavení}
+
+Tato sekce obsahuje popis spolupráce tříd pro realizaci případu užití
+\textbf{Nastavení}.  Následující diagram zachycuje spolupráci tříd při
+Nastavení. Přechod do nastavení ovládání představuje odchycení události stisku
+tlačítka Settings v nabídce hry a následné zobrazení nabídky pro nastavení.
+
+\begin{center}
+\includegraphics[width=\textwidth]{\picturesfolder/Flow_diagram04_nastaveni.pdf}
+\end{center}
+
+\end{document}
