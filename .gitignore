@@ -1,11 +1,36 @@
+# files
+
 *.html
+*.png
+*.jpg
+*.o
+*.out
+*.aux
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.toc
+*.swp
+
+
+# archives
+
+*.zip
+*.tar
+
+
+## directories
+
+**/libpqxx/
 **/airlines/
 **/airports/
 **/flights/
 **/__pycache__/
-/.idea/
-*.png
-*.jpg
-**/libpqxx/
-*.o
-*.out
+**/.idea/
+**/assets/
+**/build/
+**/imgui/
+**/imgui-sfml/
+**/sol2/
+**/cmake-build-debug/

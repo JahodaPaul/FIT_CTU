@@ -41,4 +41,4 @@ Lua is used for user scripting ( playing sound on entity hurt... ) and default c
 see [CHANGELOG](CHANGELOG.md)
 
 ## Results
-This project was awarded X out of 50 points.
+Project was graded 50 out of 50 points obtainable.
