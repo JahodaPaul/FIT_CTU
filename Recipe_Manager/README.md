@@ -12,7 +12,7 @@ Go to project folder and type
 ```
 make install
 ```
-which will hopefully install all necessary libraries
+which downloads files into lib folder and hopefully installs all necessary libraries.
 
 
 If make install does not do the work, you need to download and install <br/>
@@ -29,11 +29,12 @@ ncurses (fedora):
 ```
 yum install ncurses-*
 ```
-## How to start
+## How to run project
 Go to project folder and type:
 ```
 make compile && make run
 ```
+For testing purposes, logging in using username and password "heslo" (without quotes) is recommended.
 
 ## Options
 ```
@@ -47,6 +48,6 @@ make clean (deletes everything that could be created by make all)
 ```
 
 ## Windows support
-It is now possible to run it on windows. However, I do recommend using<br/>
-Bash on Ubuntu on Windows and installing libraries as if you were on ubuntu<br/>
-and running from bash using "make clean && make compile && make run"
+It is now possible to run it on windows. I do recommend using<br/>
+Bash on Ubuntu on Windows and installing libraries as if you were on ubuntu.<br/>
+To run project type "make clean && make compile && make run" into bash.
