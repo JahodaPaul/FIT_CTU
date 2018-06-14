@@ -1,0 +1,10 @@
+# Pavel (Paul) Jahoda
+
+UDP_SERVER_IP_ADDRESS = "127.0.0.1"
+UDP_SERVER_PORT_NUMBER = 4000
+
+RST = 1
+FIN = 2
+SYN = 4
+
+W = 2040

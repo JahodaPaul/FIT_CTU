@@ -1,8 +1,9 @@
+# Pavel (Paul) Jahoda
+
 import socket
 import sys
-
-UDP_SERVER_IP_ADDRESS = "127.0.0.1"
-UDP_SERVER_PORT_NUMBER = 10000
+from Config import *
+from UDP_Communication import UDP_Communication
 
 arguments = []
 
@@ -13,14 +14,20 @@ def main():
     #  AF_INET refers to addresses from the internet, IP addresses specifically. SOCK_DGRAM states that we will use UDP
     my_socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
-    try:
-        # Send data
-        sent = my_socket.sendto("MESSAGE", UDP_SERVER_IP_ADDRESS)
+    communication = UDP_Communication(my_socket)
 
-        # Receive response
-        data, server = my_socket.recvfrom(4096)
-    except Exception as exc:
-        pass
+    success = communication.EstablishConnection(1)
+
+    if not success:
+        print('Connection not established')
+        return
+
+    success = communication.DownloadPicture()
+
+    if not success:
+        print('Picture not downloaded')
+        return
+
 
 if __name__ == '__main__':
     main()
