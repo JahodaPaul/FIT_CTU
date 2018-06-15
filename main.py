@@ -27,6 +27,7 @@ def main():
     if not success:
         print('Picture not downloaded')
         return
+    print('Success, picture downloaded.')
 
 
 if __name__ == '__main__':

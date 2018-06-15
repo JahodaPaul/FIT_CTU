@@ -34,3 +34,22 @@ def CheckForInvalidPacket(data, identifier, sequenceNumber):
 
         return True
     return True
+
+
+def IsNotInTheSequence(sequence,number):
+    for item in sequence:
+        if item[0] == number:
+            return False
+    return True
+
+
+def OverFlowDiff(firstNumber,secondNumber):
+    return secondNumber - firstNumber if secondNumber >= firstNumber else 65536-firstNumber+secondNumber
+
+def CreatePacket(connectionIdentifier,sequenceNumber,flag,confirmationNumber = 0):
+    packet = []
+    packet.extend(ConvertNumberIntoArrayOfBytes(connectionIdentifier, 4))
+    packet.extend(ConvertNumberIntoArrayOfBytes(confirmationNumber, 2))
+    packet.extend(ConvertNumberIntoArrayOfBytes(sequenceNumber, 2))
+    packet.extend(ConvertNumberIntoArrayOfBytes(flag, 1))
+    return packet
