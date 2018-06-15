@@ -30,6 +30,7 @@ def CheckForInvalidPacket(data, identifier, sequenceNumber):
             return False
         if data[8] & FIN and len(data) >= 10:
             return False
+        #TODO check for invalid sequence number (consider overflow)
 
         return True
     return True
