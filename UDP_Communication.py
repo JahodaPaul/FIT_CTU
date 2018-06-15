@@ -11,7 +11,7 @@ from HelperFunctions import *
 # data				        0-255B
 
 class UDP_Communication:
-    def __init__(self,socket):
+    def __init__(self,socket,ip):
         self.connectionIdentifier = -1
         self.my_socket = socket
         self.my_socket.settimeout(0.1)
@@ -21,11 +21,13 @@ class UDP_Communication:
 
         self.sequenceNumber = 0
 
+        self.ipAddress = ip
+
     def EstablishConnection(self,type): #not a TCP connection
         while True:
             try:
                 # Send data
-                sent = self.my_socket.sendto(bytes([0, 0, 0, 0, 0, 0, 0, 0, 0 | SYN, type]),(UDP_SERVER_IP_ADDRESS, UDP_SERVER_PORT_NUMBER))
+                self.my_socket.sendto(bytes([0, 0, 0, 0, 0, 0, 0, 0, 0 | SYN, type]),(self.ipAddress, UDP_SERVER_PORT_NUMBER))
 
                 # Receive response
                 data, server = self.my_socket.recvfrom(4096)
@@ -50,14 +52,14 @@ class UDP_Communication:
                 break
 
     def DownloadPicture(self):
-        with open('resultPhoto.png','ab') as photoFile:
+        with open('resultPhoto.png','wb') as photoFile:
             while True:
                 try:
                     # Receive response
                     data, server = self.my_socket.recvfrom(4096)
                     if not CheckForInvalidPacket(data,self.connectionIdentifier,self.sequenceNumber):
                         packet = CreatePacket(self.connectionIdentifier,self.sequenceNumber,RST)
-                        sent = self.my_socket.sendto(bytes(packet),(UDP_SERVER_IP_ADDRESS, UDP_SERVER_PORT_NUMBER)) # send maybe more than once
+                        self.my_socket.sendto(bytes(packet),(self.ipAddress, UDP_SERVER_PORT_NUMBER)) # send maybe more than once
                         return False
 
                     currentSequenceNumber = ConvertBytesToNumber([data[4], data[5]])
@@ -81,7 +83,7 @@ class UDP_Communication:
                             for counter, item in enumerate(self.SequenceNumbers):
                                 if item[0] == newSequenceNumber:
                                     myRange = OverFlowDiff(item[0],item[1])
-                                    for j in range(myRange):                            #range(item[0]-self.sequenceNumber,item[1]-self.sequenceNumber):
+                                    for j in range(myRange):
                                         tmp = j+ OverFlowDiff(self.sequenceNumber,item[0])
                                         photoFile.write(bytes([self.WBytes[tmp]]))
                                     newSequenceNumber = item[1]
@@ -111,7 +113,7 @@ class UDP_Communication:
 
                     print('Sending confirmation of sequence number:',self.sequenceNumber)
                     # Send data
-                    sent = self.my_socket.sendto(bytes(packet),(UDP_SERVER_IP_ADDRESS, UDP_SERVER_PORT_NUMBER))
+                    self.my_socket.sendto(bytes(packet),(self.ipAddress, UDP_SERVER_PORT_NUMBER))
                 except socket.timeout as timout:
                     print('timeout')
                 except Exception as exc:
