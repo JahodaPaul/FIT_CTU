@@ -26,11 +26,10 @@ def CheckForInvalidPacket(data, identifier, sequenceNumber):
             return False
         if data[8] == SYN and (len(data) != 10 or data[9] != 1 or data[9] != 2):
             return False
-        if data[8] | SYN & 7 == 7 or data[8] | RST & 7 == 7 or data[8] | FIN & 7 == 7: # vice priznaku najednou
+        if data[8] | SYN & 7 == 7 or data[8] | RST & 7 == 7 or data[8] | FIN & 7 == 7: # more than on tag at once
             return False
         if data[8] & FIN and len(data) >= 10:
             return False
-        #TODO check for invalid sequence number (consider overflow)
 
         return True
     return True
@@ -46,11 +45,11 @@ def IsNotInTheSequence(sequence,number):
 def OverFlowDiff(firstNumber,secondNumber):
     return secondNumber - firstNumber if secondNumber >= firstNumber else 65536-firstNumber+secondNumber
 
-def CreatePacket(connectionIdentifier,sequenceNumber,flag,confirmationNumber = 0):
+def CreatePacket(connectionIdentifier,confirmationNumber,flag,sequenceNumber = 0):
     packet = []
     packet.extend(ConvertNumberIntoArrayOfBytes(connectionIdentifier, 4))
-    packet.extend(ConvertNumberIntoArrayOfBytes(confirmationNumber, 2))
     packet.extend(ConvertNumberIntoArrayOfBytes(sequenceNumber, 2))
+    packet.extend(ConvertNumberIntoArrayOfBytes(confirmationNumber, 2))
     packet.extend(ConvertNumberIntoArrayOfBytes(flag, 1))
     return packet
 

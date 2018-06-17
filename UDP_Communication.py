@@ -26,7 +26,7 @@ class UDP_Communication:
 
         self.waitingForConfimation = [[-1] for i in range(W//255 + (W%255 > 0) )]
 
-    def EstablishConnection(self,type): #not a TCP connection
+    def EstablishConnection(self,type): # UDP 'connection'
         while True:
             try:
                 # Send data
@@ -144,7 +144,7 @@ class UDP_Communication:
                                 packet = CreatePacket(self.connectionIdentifier, 0, FIN, currentCounter)
                                 while finalSending != 20:
                                     finalSending += 1
-                                    self.my_socket.sendto(bytes(packet), (self.ipAddress, UDP_SERVER_PORT_NUMBER))  # send maybe more than once
+                                    self.my_socket.sendto(bytes(packet), (self.ipAddress, UDP_SERVER_PORT_NUMBER))
                                     data, server = self.my_socket.recvfrom(4096)
                                     if ConvertBytesToNumber([data[8]]) == FIN:
                                         return True
@@ -169,7 +169,7 @@ class UDP_Communication:
                             print('problem')
 
                         # send data
-                        packet = CreatePacket(self.connectionIdentifier, 0, 0,confirmationNumber=currentCounter)
+                        packet = CreatePacket(self.connectionIdentifier, 0, 0,currentCounter)
                         for i in range(2,len(dataToSend)):
                             packet.append(dataToSend[i])
 
@@ -182,7 +182,7 @@ class UDP_Communication:
                         self.waitingForConfimation.sort()
                         for i in range(len(self.waitingForConfimation)):
                             if self.waitingForConfimation[i][0] != -1:
-                                packet = CreatePacket(self.connectionIdentifier, 0, 0,confirmationNumber=self.waitingForConfimation[i][1])
+                                packet = CreatePacket(self.connectionIdentifier, 0, 0,self.waitingForConfimation[i][1])
                                 print('Sending again', self.waitingForConfimation[i][1])
                                 for j in range(2, len(self.waitingForConfimation[i])):
                                     packet.append(self.waitingForConfimation[i][j])
@@ -194,7 +194,7 @@ class UDP_Communication:
                     data, server = self.my_socket.recvfrom(4096)
                     if not CheckForInvalidPacket(data,self.connectionIdentifier,currentCounter):
                         packet = CreatePacket(self.connectionIdentifier,self.sequenceNumber,RST)
-                        self.my_socket.sendto(bytes(packet),(self.ipAddress, UDP_SERVER_PORT_NUMBER)) # send maybe more than once
+                        self.my_socket.sendto(bytes(packet),(self.ipAddress, UDP_SERVER_PORT_NUMBER))
                         return False
 
                     confirmationNumber = ConvertBytesToNumber([data[6],data[7]])
