@@ -53,3 +53,10 @@ def CreatePacket(connectionIdentifier,sequenceNumber,flag,confirmationNumber = 0
     packet.extend(ConvertNumberIntoArrayOfBytes(sequenceNumber, 2))
     packet.extend(ConvertNumberIntoArrayOfBytes(flag, 1))
     return packet
+
+def HowManyWaitingForConfirmation(array):
+    counter = 0
+    for item in array:
+        if item[0] != -1:
+            counter += 1
+    return counter

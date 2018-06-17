@@ -3,6 +3,7 @@
 import socket
 from Config import *
 from HelperFunctions import *
+from copy import deepcopy
 
 # identifikátor 'spojení'	4B
 # sekvenční číslo	        2B
@@ -22,6 +23,8 @@ class UDP_Communication:
         self.sequenceNumber = 0
 
         self.ipAddress = ip
+
+        self.waitingForConfimation = [[-1] for i in range(W//255 + (W%255 > 0) )]
 
     def EstablishConnection(self,type): #not a TCP connection
         while True:
@@ -120,3 +123,92 @@ class UDP_Communication:
                     if exc != 'timed out':
                         print(exc)
                         return False
+
+    def UploadFirmware(self, pathToFirmware):
+        currentCounter = 0
+        whenRead = 0
+
+        with open(pathToFirmware,'rb') as firmwareFile:
+            while True:
+                try:
+
+                    sendSomething = False
+                    while HowManyWaitingForConfirmation(self.waitingForConfimation) != W//255 + (W%255 > 0):
+                        byte = firmwareFile.read(255)
+                        print(len(byte))
+                        whenRead += 1
+
+                        if len(byte) == 0:
+                            print('End of firmware file.')
+                            if HowManyWaitingForConfirmation(self.waitingForConfimation) == 0:
+                                packet = CreatePacket(self.connectionIdentifier, 0, FIN, currentCounter)
+                                self.my_socket.sendto(bytes(packet), (self.ipAddress, UDP_SERVER_PORT_NUMBER))  # send maybe more than once
+                                return True
+                            break
+
+                        sendSomething = True
+
+                        dataToSend = []
+                        # write it into waiting for confirmation array
+                        for i in range(len(self.waitingForConfimation)):
+                            if self.waitingForConfimation[i][0] == -1:
+                                self.waitingForConfimation[i][0] = whenRead
+                                self.waitingForConfimation[i].append(currentCounter)
+                                for j in range(len(byte)):
+                                    self.waitingForConfimation[i].append(int(byte[j]))
+
+                                dataToSend = deepcopy(self.waitingForConfimation[i])
+                                break
+
+                        if dataToSend == []:
+                            print('problem')
+
+                        for item in self.waitingForConfimation:
+                            if len(item) >= 2:
+                                print(item[0],item [1], len(item))
+                            else:
+                                print(item[0], len(item))
+
+                        # send data
+                        packet = CreatePacket(self.connectionIdentifier, 0, 0,confirmationNumber=currentCounter)
+                        for i in range(2,len(dataToSend)):
+                            packet.append(dataToSend[i])
+
+                        print('Send', currentCounter, len(packet))
+                        self.my_socket.sendto(bytes(packet), (self.ipAddress, UDP_SERVER_PORT_NUMBER))
+                        currentCounter = (currentCounter+ len(byte) ) % 65536
+
+                    # send something waiting for confirmation
+                    if not sendSomething:
+                        self.waitingForConfimation.sort()
+                        for i in range(len(self.waitingForConfimation)):
+                            if self.waitingForConfimation[i][0] != -1:
+                                packet = CreatePacket(self.connectionIdentifier, 0, 0,confirmationNumber=self.waitingForConfimation[i][1])
+                                print('Send again', self.waitingForConfimation[i][1])
+                                for j in range(2, len(self.waitingForConfimation[i])):
+                                    packet.append(self.waitingForConfimation[i][j])
+                                self.my_socket.sendto(bytes(packet), (self.ipAddress, UDP_SERVER_PORT_NUMBER))
+                                break #TODO maybe leave this out
+
+
+                    # Receive data
+                    data, server = self.my_socket.recvfrom(4096)
+                    # if not CheckForInvalidPacket(data,self.connectionIdentifier,self.sequenceNumber):
+                    #     packet = CreatePacket(self.connectionIdentifier,self.sequenceNumber,RST)
+                    #     self.my_socket.sendto(bytes(packet),(self.ipAddress, UDP_SERVER_PORT_NUMBER)) # send maybe more than once
+                    #     return False
+
+                    confirmationNumber = ConvertBytesToNumber([data[6],data[7]])
+                    print('Received confirmation', confirmationNumber)
+                    for i in range(len(self.waitingForConfimation)):
+                        if self.waitingForConfimation[i][0] != -1:
+                            if self.waitingForConfimation[i][1] < confirmationNumber or \
+                                    (confirmationNumber < W and W+self.waitingForConfimation[i][1] > 65535):
+                                self.waitingForConfimation[i] = [-1]
+
+                except socket.timeout as timeout:
+                    print('timeout')
+                # except Exception as exc:
+                #     if exc != 'timed out':
+                #         print(exc)
+                #         return False
