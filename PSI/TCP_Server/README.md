@@ -37,15 +37,11 @@
 
 <div id="sidebar">
 
-<div class="funding">
-
 ## BI-PSI
 
-[Oppa](https://i.imgur.com/gKVE2cl.png)
+![Oppa](https://i.imgur.com/gKVE2cl.png)
 
 Praha & EU: Investujeme do vaší budoucnosti
-
-</div>
 
 # <a name="domaci_uloha_c_1_-_tcp_server" id="domaci_uloha_c_1_-_tcp_server">Domácí úloha č. 1 - TCP server</a>
 
