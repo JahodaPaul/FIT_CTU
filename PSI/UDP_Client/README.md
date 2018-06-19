@@ -1,8 +1,8 @@
 <div class="funding">
 
-[!['OPPA/PRAHA/EU'](Dom%C3%A1c%C3%AD%20%C3%BAloha%20%C4%8D.%202%20-%20UDP%20Klient%20[BI-PSI%20Po%C4%8D%C3%ADta%C4%8Dov%C3%A9%20s%C3%ADt%C4%9B]_files/fetch.png "'OPPA/PRAHA/EU'")](https://edux.fit.cvut.cz/courses/BI-PSI/lib/exe/fetch.php?hash=79c566&media=http%3A%2F%2Fedux.fit.cvut.cz%2F_media%2Foppa.png "http://edux.fit.cvut.cz/_media/oppa.png")
+## BI-PSI
 
-Příprava studijního programu Informatika je podporována projektem financovaným z [Evropského sociálního fondu](http://www.esfcr.cz/ "http://www.esfcr.cz/") a rozpočtu [hlavního města Prahy](http://www.praha.eu/ "http://www.praha.eu/").
+[Oppa](https://i.imgur.com/gKVE2cl.png)
 
 Praha & EU: Investujeme do vaší budoucnosti
 
