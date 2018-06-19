@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./kareludp-server_64bit 1000 - foto.png firmware.bin
+
+
