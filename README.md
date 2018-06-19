@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ## Motivation
-To give students an idea, what is neccessary to obtain maximum points/best marks. To give an inspiration and maybe even help people.
+To give students an idea, what is neccessary to obtain maximum points/best marks. To give an inspiration and hopefully help people.
 
 ### 1st semester
   * [BI-PA1](/PA1) - _Programming and Algorithmics 1_ - Received more points than 98% of students.
@@ -21,6 +21,7 @@ To give students an idea, what is neccessary to obtain maximum points/best marks
   * [BI-OSY](/OSY) - _Operating Systems_ - Received more points than 93% of students.
   * [BI-VWM - Semestral project](/FlightsTree) - _Information Retrieval and Web Search_ - 50/50 points received.
   * [BI-SP1/BI-SI1 - Semestral project](/RG) - _Software Team Project 1_ - 50/50 points received.
+  * [BI-PSI - Semestral projects](/PSI) - _Computer Networks_ - 16/16 points received.
   * [BI-BEZ](/BEZ) - _Security_ - 20/20 points received.
   
   
