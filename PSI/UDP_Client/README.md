@@ -581,10 +581,6 @@ Za úlohu můžete dostat max. 8 bodů. Penalizace:
 
 <div class="meta">
 
-<div class="user">Přihlášen(a) jako: jahodpa1 (jahodpa1)</div>
-
-<div class="doc">/mnt/www/courses/BI-PSI/data/pages/labs/task2.txt · Poslední úprava: 2018/04/05 19:10 autor: cernyvi2</div>
-
 </div>
 
 <div class="bar" id="bar__bottom">

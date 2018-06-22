@@ -749,10 +749,6 @@ Je na každém studentovi, aby zajistil hladký průběh všech těchto kroků. 
 
 <div class="meta">
 
-<div class="user">Přihlášen(a) jako: jahodpa1 (jahodpa1)</div>
-
-<div class="doc">/mnt/www/courses/BI-PSI/data/pages/labs/task1.txt · Poslední úprava: 2018/05/05 15:22 autor: cernyvi2</div>
-
 </div>
 
 <div class="bar" id="bar__bottom">
