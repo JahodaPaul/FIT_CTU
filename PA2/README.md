@@ -1,4 +1,4 @@
-## Progtest taks for _Programming and Algorithmics 2_ course (2017)
+## Progtest tasks for _Programming and Algorithmics 2_ course (2017)
 
 ## Results
 homework 1 - [Rotace obrázku](/PA2/DU_1): __5.5/6.6__<br/>
