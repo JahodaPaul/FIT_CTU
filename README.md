@@ -4,7 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ## Motivation
-To give students an idea, what is neccessary to obtain maximum points/best marks. To give an inspiration and hopefully help people.
+To give students an idea, what is neccessary to obtain maximum points/best marks. To hopefully help people. If you found this repository useful you can give it a star.
+
 ## Table of content
 * ### 1st semester
   * [BI-PA1](/PA1) - _Programming and Algorithmics 1_ - Received more points than 98% of students.
