@@ -2,9 +2,9 @@
 
 ## About
 I have picked some interesting or useful (in terms of preparation for ACM-ICPC) problems and will be expanding this collection continuously. All the solutions here have been accepted by the judges.<br />
-All the files are in format ```<name>_<algorithm>.<suffix>```.
-```<name>``` represents name of the problem.
-```<algorithm>``` represents name of the algorithm used to solved the problem.
+All the files are in format ```<name>_<algorithm>.<suffix>```.<br />
+```<name>``` represents name of the problem.<br />
+```<algorithm>``` represents name of the algorithm used to solved the problem.<br />
 ```<suffix>``` files that have ".txt" suffix contain problem statement and original link to the problem. Files that have other suffix contain the problem solution.
 
 ## Results
