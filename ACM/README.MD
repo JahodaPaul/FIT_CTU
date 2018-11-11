@@ -10,5 +10,8 @@ All the files are in format ```<name>_<algorithm>.<suffix>```.<br />
 ## Results
 Always recieved an A.
 
+2nd semester - Out of 17 teams our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [johno16](http://codeforces.com/profile/johno16)) finished 10th with 105 points. First team ([DXHPeter](http://codeforces.com/profile/DXHPeter), [songman](http://codeforces.com/profile/songman), [schovkla](http://codeforces.com/profile/schovkla)) finished with 348 points.<br />
+3rd semester - Out of 16 teams our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [7vojta7](http://codeforces.com/profile/7vojta7)) finished 6th with 141 points. First team ([kristja6](http://codeforces.com/profile/kristja6), [slonichobot](http://codeforces.com/profile/slonichobot), [vu.tunganh96](http://codeforces.com/profile/vu.tunganh96)) finished with 353 points.
+
 ## Links
 [FIT CTU ACM-ICPC](https://turing.cz/tom/acm.html) - training website in Czech.
