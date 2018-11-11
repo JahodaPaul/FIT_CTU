@@ -15,3 +15,6 @@ Always recieved an A.
 
 ## Links
 [FIT CTU ACM-ICPC](https://turing.cz/tom/acm.html) - training website in Czech.
+
+## Acknowledgement
+I would like to thank the organizing team ([valla](http://codeforces.com/profile/valla), [Morass](http://codeforces.com/profile/-Morass-), [blazeva1](http://codeforces.com/profile/blazeva1), [Josik](http://codeforces.com/profile/Josik), [ondrasuchy](http://codeforces.com/profile/ondrasuchy) and others) for selecting problemsets, doing tutorials and putting effort to help us improve.
