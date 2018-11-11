@@ -24,6 +24,8 @@ To give students an idea, what is neccessary to obtain maximum points/best marks
   * [BI-SP1/BI-SI1 - Semestral project](/RG) - _Software Team Project 1_ - 50/50 points received.
   * [BI-PSI - Semestral projects](/PSI) - _Computer Networks_ - 16/16 points received.
   * [BI-BEZ](/BEZ) - _Security_ - 20/20 points received.
+
+[BI-ACM](/ACM) - _Competitive programming_ - Course taken during 1st,2nd,3rd and 5th semester in preparation for [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest) 
   
   
   

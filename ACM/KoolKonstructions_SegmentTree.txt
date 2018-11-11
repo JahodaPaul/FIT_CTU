@@ -1,0 +1,57 @@
+https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=4622
+
+uva - 12769 - Kool Konstructions
+
+
+The city council of the capitol city is interested in increasing
+the size of the buildings along their main street
+to attract more businesses, but they are worried that
+if they build too fast, they may run out of money, so
+they want to build their city in multiple phases.
+Assume that the street is n units long and the buildings
+are one unit wide. In each phase, the council will
+choose two endpoints (1 ≤ a ≤ b ≤ 100, 000) and increase
+the height of every building in between a and b
+(inclusively) by y units. 
+Keeping track of the heights of the buildings can be rather tricky over time, so we need your help.
+Input
+Input file contains at most 8 (eight) test cases. Each test case starts with a positive integer T on the
+first line, the number of instructions. Each of the following T (T ≤ 100, 000) lines will be in one of the
+following two formats:
+• ‘B a b y’ : Building instruction — Increase the height of the buildings between a and b by y
+units.
+• ‘Q a’: Query line — Output the height of building a at this point.
+Input lines are always valid, i.e., 1 ≤ a ≤ b ≤ 100, 000. The value of y is a positive integer, at most
+1,000. You can assume that the main street is completely flat before the first phase, i.e., height is zero
+for every building i in [1, 100000]. Input is terminated by a case where the value of T is zero.
+Output
+For each query line of each test case, output the height of the specified building on a separate line.
+Sample Input
+9
+B 5 5 2
+B 8 8 2
+B 10 13 1
+Q 8
+B 8 13 1
+Q 8
+B 15 16 1
+B 2 10 1
+Q 8
+9
+B 5 5 2
+B 8 8 2
+B 10 13 1
+Q 8
+B 8 13 1
+Q 8
+B 15 16 1
+B 2 10 1
+Q 8
+0
+Sample Output
+2
+3
+4
+2
+3
+4
