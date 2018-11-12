@@ -1,0 +1,29 @@
+https://www.spoj.com/problems/LCASQ/
+
+You are given a rooted tree and an ordered list of queries. Each query is specified by two nodes u and v and the answer to a query is the lowest common ancestor of u and v.
+
+Recall that the Lowest Common Ancestor of two nodes is the node that is furthest from the root and also an ancestor of the two nodes. In this problem we use the convention that a node is in fact an ancestor of itself.
+
+Input
+The first line contains an integer N, the number of nodes in the tree (N <= 10000). Each of the next N lines will start with a number M the number of child nodes of the Nth node, (0 <= M <= 999) followed by M numbers the child nodes of the Nth node. Nodes will be labeled from 0 to N-1. Following will be a number Q, the number of queries that will be asked (Q <= 10000).  Each of the next Q lines will have two numbers u and v (0 <= u, v < N) which specify the parameters of that specific query.
+
+The root of the tree will always be node 0.
+
+Output
+
+For each query output the answer on its own line. Answers should follow the same order as given in the input.
+
+Example
+Input:
+3
+2 1 2
+0
+0 
+3
+1 2
+1 1
+2 2 
+Output:
+0
+1
+2 
