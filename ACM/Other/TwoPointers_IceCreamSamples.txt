@@ -1,0 +1,24 @@
+https://contest.felk.cvut.cz/17prg/solved/i/
+
+To encourage visitors active movement among the attractions, a circular path with ice creamstands was built in the park some time ago. A discount system common for all stands wasalso introduced. When a customer buys ice cream at some stand, he is automatically granted adiscount for one day at the next stand on the path. When visitors start at any stand and followsystematically the discount directions to the next stands, they eventually traverse the wholecircular path and return back to the stand they started at.Ice creams of various brands are sold at the stands. Additionally, each stand sells a nice samplebox which contains small samples of popular ice cream brands. The number of samples in thebox depends on the stand and various stands may put different brands into their sample boxes.Each box contains samples of one or more brands. A brand may be represented by one or moresamples in the box, or it may be completely missing. Each stand sells only one type of samplebox (the brands of the samples in the box are always the same for that particular stand).Quido and Hugo are going to exploit the discount system for their own benefit. They decidedto start at some stand and then continue in the direction of the discounts buying one ice creamsample box at each stand they visit in a consecutive sequence. Their goal is to collect at leastone sample of each ice cream brand sold in the park. Simultaneously, to respect their stomachcapacities, they want to minimize the total number of ice cream samples they buy.
+
+Input Specification
+There are more test cases. Each case starts with a line containing two integers N , K separatedby space (1 ≤ N, K ≤ 106 ). N is the number of ice cream stands, K is the total number ofdifferent ice cream brands sold at all stands. The brands are labeled by numbers 1, 2, . . . , K .Next, there are N lines describing stands in their visiting order. Each such line contains thelist of brands of all ice cream samples sold in the sample box at that particular stand. Each liststarts with one positive integer L, describing its length, followed by L integers. Each list itemrepresents the brand of one ice cream sample in the sample box sold at this stand. You mayassume that even if a visitor buys one sample box at each stand, he/she will collect at most 107ice cream samples.
+Output Specification
+For each test case, print a single line with one integer denoting the minimum number of icecream samples Quido and Hugo have to buy in order to obtain a sample of each ice cream brandsold in the park. If it is impossible to obtain samples of all brands output -1
+
+Sample Input
+5 3
+1 2
+1 3
+2 1 1
+2 2 2
+1 1
+3 2
+2 1 1
+1 1
+3 1 11
+
+Output
+3
+-1
