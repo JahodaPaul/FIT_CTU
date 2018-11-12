@@ -5,7 +5,7 @@ I have picked some interesting or useful (in terms of preparation for ACM-ICPC) 
 All the files are in format ```<algorithm>_<name>.<suffix>```.<br />
 ```<algorithm>``` represents name of the algorithm used to solved the problem.<br />
 ```<name>``` represents name of the problem.<br />
-```<suffix>``` files that have ".txt" suffix contain problem statement and original link to the problem. Files that have other suffix contain the problem solution.
+```<suffix>``` files that have ".txt" or ".pdf" suffix contain problem statement and original link to the problem. Files that have other suffix contain the problem solution.
 
 ## Results
 Always recieved an A.
