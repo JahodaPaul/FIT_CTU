@@ -1,0 +1,45 @@
+https://www.spoj.com/problems/ADAINDEX/
+
+SPOJ - ADAINDEX
+
+Ada the Ladybug has many things to do and almost no time. She wants to to save time while searching for something so she have decided to make a search engine.
+
+She has many words in her TODO list. It costs her precious time to find out, whether a word is in it so she seeks your help. You will get list and some queries. You will be asked, to find out how many words in TODO list have a word as prefix.
+
+Input
+The first line contains N, Q: the number words in TODO list and number of queries.
+
+N lines follow, with words (of TODO list) consisting of lowercase letters. The sum of their lengths won't be greater than 10^6
+
+Q lines follow, with words (queries) consisting of lowercase letters. The sum of their lengths won't be greater than 10^6
+
+Output
+For each query print the number of words in TODO list which have actual word as prefix.
+
+Example Input
+12 6
+bulldog
+dog
+dogged
+doggedly
+doggerel
+dogma
+dogmatic
+dogmatism
+dogs
+catastroph
+catastroph
+doctor
+cat
+dog
+dogg
+do
+doctrinography
+dogge
+Example Output
+2
+8
+3
+9
+0
+3

@@ -1,0 +1,20 @@
+http://acmicpc-pacnw.org/results.htm
+
+Pacific Northwest Region Programming Contest Division 1 - 2018
+
+The Goldbach Conjecture states that any even number x ≥ 4 can be expressed as the sum of two
+primes. It can be verified that the conjecture is true for all x ≤ 10^6
+.
+Define a Goldbach step as taking x (4 ≤ x ≤ 10^6), finding primes p and q (with p ≤ q) that sum
+to x, and replacing x with q − p. If there are multiple pairs of primes which sum to x, we take the
+pair with the largest difference. That difference must be even and less than x. Therefore, we can
+repeat more Goldbach steps, until we can reach a number less than 4.
+Given x, find how many Goldbach steps it takes until reaching a number less than 4.
+Input
+The input will consist of a single integer x (4 ≤ x ≤ 10^6).
+Output
+Print, on a single line, the number of Goldbach steps it takes to reach a number less than 4.
+Sample Input and Output
+20 3
+30 4
+40 5
