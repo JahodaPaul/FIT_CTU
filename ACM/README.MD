@@ -1,5 +1,5 @@
 ## Problems solved in preparation for [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest)
-
+![ACM ICPC logo](https://i.imgur.com/cTEzTy6.jpg)
 ## About
 I have picked some interesting or useful (in terms of preparation for ACM-ICPC) problems and will be expanding this collection continuously. All the solutions here have been accepted by the judges.<br />
 All the files are in format ```<algorithm>_<name>.<suffix>```.<br />
