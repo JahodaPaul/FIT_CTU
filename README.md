@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ## Motivation
-To give students an idea, what is neccessary to obtain maximum points/best marks. To hopefully help people. If you found this repository useful you can give it a star.
+To give students an idea, what is neccessary to obtain maximum points/best marks. To hopefully help people.<br>If you found this repository interesting or useful don't forget to leave a star.
 
 ## Table of content
 * ### 1st semester
