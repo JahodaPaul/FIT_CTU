@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ## Motivation
-To share code [I](https://www.bit.ly/2Kudpj5) have written during my studies at [FIT CTU](https://fit.cvut.cz/en). Hopefully, it will help someone.<br>If you found this repository interesting or useful don't forget to leave a star.
+To share code [I](https://www.bit.ly/2Kudpj5) have written during [my](https://www.bit.ly/2Kudpj5) studies at [FIT CTU](https://fit.cvut.cz/en). Hopefully, it will help someone.<br>If you found this repository interesting or useful don't forget to leave a star.
 
 ## Table of content
 * ### 1st semester
