@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ## Motivation
-To give students an idea, what is neccessary to obtain maximum points/best marks. To hopefully help people.<br>If you found this repository interesting or useful don't forget to leave a star.
+To share code [I](https://www.bit.ly/2Kudpj5) have written during my studies at [FIT CTU](https://fit.cvut.cz/en). Hopefully, it will help someone.<br>If you found this repository interesting or useful don't forget to leave a star.
 
 ## Table of content
 * ### 1st semester
@@ -33,5 +33,4 @@ To give students an idea, what is neccessary to obtain maximum points/best marks
 I strongly recommend against copying the code from this repository. The goal of university education is to obtain knowledge, simply copying the code would not only harm you as a person, but it could also prevent you from successfully finishing these courses as most of them have anti-cheating mechanism in use.
 
 ## Links
-* FIT CTU - [webpage](https://fit.cvut.cz/en), [facebook](https://www.facebook.com/fitcvut/), [twitter](https://twitter.com/fit_ctu?lang=en), [youtube](https://www.youtube.com/user/FITCTU), [instagram](https://www.instagram.com/fit_ctu/), [linkedin](https://www.linkedin.com/school/fit-ctu-in-prague/)
-* me - [linkedin](https://www.bit.ly/2Kudpj5), [facebook](https://www.bit.ly/2tHoAeN)
+If you have any questions about [FIT](https://www.facebook.com/fitcvut/) or any questions in general. Feel free to leave [me](https://www.bit.ly/2tHoAeN) a message.<br>You can also follow [me](https://www.bit.ly/2Kvxh2S), or [FIT](https://www.instagram.com/fit_ctu/) on social media.
