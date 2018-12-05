@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 %\setlength{\parindent}{0pt}% Remove paragraph indent
+\graphicspath{ {./images/} }
 
 \begin{document}
 
@@ -14,8 +15,22 @@
 \section{1)}
 Data jsou z pozorování 59 vrabců během zimy. První veličina {\bf X} reprezentuje váhy vrabců v gramech. Druhá veličina {\bf Y} nabývá dvou hodnot 'survived', pokud vrabec přežil a 'perished' pokud nepřežil. Prežítí reprezentujeme hodnotou 1 a hodnota 0 reprezentuje, že vrabec nepřežil.\\
 EX=25.793, var(X)=1.918 a medián je 25.7.\\
-EY=0.593, var(Y)=0.241 a medián je 1.
+EY=0.593, var(Y)=0.241 a medián je 1.\\
 \par \bigskip
+
+\section{Generovaný výběr}
+Jako nejbližší rozdělení pro váhu vrabců se nabízí normální rozdělení. Přežití vrabců zato vypadá na Bernoulliho rozdělení.\\
+Na následujících grafech je zobrazeno 100 vygenerovaných hodnot dle normálního rozdělení s parametry $\lambda$ = EX = 25.793 a $\sigma ^2$ = varX = 1.918. Bernoulliho rozdělení s p = 0.593.
+
+\includegraphics[scale=0.31]{gen_weight_graph2}
+\includegraphics[scale=0.31]{gen_survival_graph2}
+
+Data mají 59 záznamů, přišlo nám tedy příhodné vygenerovat i stejný počet, aby byla lépe vidět podobnost námi vybraných rozdělení a původní datové množiny.
+
+\includegraphics[scale=0.31]{gen_weight_graph1}
+\includegraphics[scale=0.31]{gen_survival_graph1}
+\par \bigskip
+
 
 \end{document}
 
