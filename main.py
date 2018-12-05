@@ -24,7 +24,7 @@ def SolutionTask4(mi=25.793220423035702,sig=1.9175809969270372, EV=0.59322033898
     plt.xlabel('Weight')
     plt.ylabel('No. of birbs')
 
-    plt.hist(w_gen, bins, color='red', alpha=0.5, label='generated')
+    plt.hist(W_gen, bins, color='red', alpha=0.5, label='generated')
     plt.hist(weights, bins, color='blue', alpha=0.5, label='given')
     plt.legend(loc='upper right')
     plt.show()
@@ -32,7 +32,7 @@ def SolutionTask4(mi=25.793220423035702,sig=1.9175809969270372, EV=0.59322033898
     plt.xlabel('Survival')
     plt.ylabel('No. of birbs')
 
-    plt.hist(s_gen, color='red', alpha=0.5, label='generated')
+    plt.hist(S_gen, color='red', alpha=0.5, label='generated')
     plt.hist(survive, color='blue', alpha=0.5, label='given')
     plt.legend(loc='upper center')
     plt.show()
