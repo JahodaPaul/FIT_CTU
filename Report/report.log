@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.10)  8 DEC 2018 15:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.10)  8 DEC 2018 16:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -533,16 +533,35 @@ Overfull \hbox (21.91507pt too wide) in paragraph at lines 22--25
 [] [] 
  []
 
+<./images/diedHist.pdf, id=3, pagebox=cropbox, 870.25125pt x 953.5625pt>
+File: ./images/diedHist.pdf Graphic file (type pdf)
+<use ./images/diedHist.pdf>
+Package pdftex.def Info: ./images/diedHist.pdf  used on input line 29. on input
+ line 29.
+Package pdftex.def Info: Requested size: 230.84122pt x 252.94499pt on input lin
+e 29.
+<./images/diedDist.pdf, id=4, pagebox=cropbox, 887.315pt x 965.6075pt>
+File: ./images/diedDist.pdf Graphic file (type pdf)
+<use ./images/diedDist.pdf>
+Package pdftex.def Info: ./images/diedDist.pdf  used on input line 30. on input
+ line 30.
+Package pdftex.def Info: Requested size: 232.42949pt x 252.94499pt on input lin
+e 30.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 26.
+(Font)              <12> on input line 31.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 26.
+(Font)              <8> on input line 31.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 26.
+(Font)              <6> on input line 31.
 
-Overfull \hbox (0.77754pt too wide) in paragraph at lines 29--30
-\OT1/cmr/m/n/12 Na n^^Sasleduj^^S^^Pc^^S^^Pch grafech je zo-brazeno 100 vy-gen-
-erovan^^Sych hod-not dle norm^^Saln^^S^^Pho rozd^^Telen^^S^^P
+Overfull \hbox (3.68446pt too wide) in paragraph at lines 28--31
+[]\OT1/cmr/m/n/12 Pot^^Se vykresl^^S^^Pme his-togram a graf em-pir-ick^^Se dis-
+tribu^^Tcn^^S^^P funkce pro vrabce kte^^Tr^^S^^P nep^^Tre^^Tzili.
+ []
+
+
+Overfull \hbox (10.63768pt too wide) in paragraph at lines 28--31
+[] []
  []
 
 [1
@@ -553,64 +572,73 @@ erovan^^Sych hod-not dle norm^^Saln^^S^^Pho rozd^^Telen^^S^^P
 pdfTeX warning: pdflatex (file ./images/survivedDist.pdf): PDF inclusion: multi
 ple pdfs with page group included in a single page
 >]
-<./images/gen_weight_graph2.png, id=24, 724.7075pt x 481.8pt>
+Overfull \hbox (0.77754pt too wide) in paragraph at lines 34--35
+\OT1/cmr/m/n/12 Na n^^Sasleduj^^S^^Pc^^S^^Pch grafech je zo-brazeno 100 vy-gen-
+erovan^^Sych hod-not dle norm^^Saln^^S^^Pho rozd^^Telen^^S^^P
+ []
+
+<./images/gen_weight_graph2.png, id=25, 724.7075pt x 481.8pt>
 File: ./images/gen_weight_graph2.png Graphic file (type png)
 <use ./images/gen_weight_graph2.png>
-Package pdftex.def Info: ./images/gen_weight_graph2.png  used on input line 31.
- on input line 31.
+Package pdftex.def Info: ./images/gen_weight_graph2.png  used on input line 36.
+ on input line 36.
 Package pdftex.def Info: Requested size: 224.657pt x 149.35645pt on input line 
-31.
-<./images/gen_survival_graph2.png, id=25, 709.65125pt x 476.78125pt>
+36.
+<./images/gen_survival_graph2.png, id=26, 709.65125pt x 476.78125pt>
 File: ./images/gen_survival_graph2.png Graphic file (type png)
 <use ./images/gen_survival_graph2.png>
 Package pdftex.def Info: ./images/gen_survival_graph2.png  used on input line 3
-2. on input line 32.
-Package pdftex.def Info: Requested size: 219.98961pt x 147.80066pt on input lin
-e 32.
-
-Overfull \hbox (9.6384pt too wide) in paragraph at lines 31--33
-[][] [] 
- []
-
-<./images/gen_weight_graph1.png, id=26, 709.65125pt x 481.8pt>
-File: ./images/gen_weight_graph1.png Graphic file (type png)
-<use ./images/gen_weight_graph1.png>
-Package pdftex.def Info: ./images/gen_weight_graph1.png  used on input line 36.
- on input line 36.
-Package pdftex.def Info: Requested size: 219.98961pt x 149.35645pt on input lin
-e 36.
-<./images/gen_survival_graph1.png, id=27, 711.65875pt x 479.7925pt>
-File: ./images/gen_survival_graph1.png Graphic file (type png)
-<use ./images/gen_survival_graph1.png>
-Package pdftex.def Info: ./images/gen_survival_graph1.png  used on input line 3
 7. on input line 37.
-Package pdftex.def Info: Requested size: 220.61192pt x 148.73413pt on input lin
+Package pdftex.def Info: Requested size: 219.98961pt x 147.80066pt on input lin
 e 37.
 
-Overfull \hbox (5.59332pt too wide) in paragraph at lines 36--38
+Overfull \hbox (9.6384pt too wide) in paragraph at lines 36--38
 [][] [] 
  []
 
-[2 <./images/gen_weight_graph2.png (PNG copy)> <./images/gen_survival_graph2.pn
-g (PNG copy)> <./images/gen_weight_graph1.png (PNG copy)> <./images/gen_surviva
-l_graph1.png (PNG copy)>] (./report.aux) ) 
+<./images/gen_weight_graph1.png, id=27, 709.65125pt x 481.8pt>
+File: ./images/gen_weight_graph1.png Graphic file (type png)
+<use ./images/gen_weight_graph1.png>
+Package pdftex.def Info: ./images/gen_weight_graph1.png  used on input line 41.
+ on input line 41.
+Package pdftex.def Info: Requested size: 219.98961pt x 149.35645pt on input lin
+e 41.
+<./images/gen_survival_graph1.png, id=28, 711.65875pt x 479.7925pt>
+File: ./images/gen_survival_graph1.png Graphic file (type png)
+<use ./images/gen_survival_graph1.png>
+Package pdftex.def Info: ./images/gen_survival_graph1.png  used on input line 4
+2. on input line 42.
+Package pdftex.def Info: Requested size: 220.61192pt x 148.73413pt on input lin
+e 42.
+
+Overfull \hbox (5.59332pt too wide) in paragraph at lines 41--43
+[][] [] 
+ []
+
+[2 <./images/diedHist.pdf> <./images/diedDist.pdf
+
+pdfTeX warning: pdflatex (file ./images/diedDist.pdf): PDF inclusion: multiple 
+pdfs with page group included in a single page
+> <./images/gen_weight_graph2.png (PNG copy)> <./images/gen_survival_graph2.png
+ (PNG copy)>] [3 <./images/gen_weight_graph1.png (PNG copy)> <./images/gen_surv
+ival_graph1.png (PNG copy)>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 2260 strings out of 492990
- 31110 string characters out of 6135004
+ 2270 strings out of 492990
+ 31388 string characters out of 6135004
  94442 words of memory out of 5000000
- 5795 multiletter control sequences out of 15000+600000
+ 5803 multiletter control sequences out of 15000+600000
  8808 words of font info for 31 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,7n,25p,388b,199s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr8.pfb>
-Output written on report.pdf (2 pages, 219881 bytes).
+</usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr8.pfb>
+Output written on report.pdf (3 pages, 270209 bytes).
 PDF statistics:
- 46 PDF objects out of 1000 (max. 8388607)
- 27 compressed objects within 1 object stream
+ 64 PDF objects out of 1000 (max. 8388607)
+ 38 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

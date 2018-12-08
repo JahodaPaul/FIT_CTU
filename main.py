@@ -31,30 +31,33 @@ def SolutionTask1(weightsSurvived, weightsDied):
     print('Median:', np.median(weightsDied))
 
 def SolutionTask2(weightsSurvived,weightsDied):
+    titleSize = 24
+    labelSize = 20
+
     plt.hist(weightsSurvived, color='g')
-    plt.title('Sparrows that survived',size=28)
-    plt.xlabel('Weights',size=24)
-    plt.ylabel('No. of sparrows',size=24)
+    plt.title('Sparrows that survived',size=titleSize)
+    plt.xlabel('Weights',size=labelSize)
+    plt.ylabel('No. of sparrows',size=labelSize)
     plt.show()
 
     plt.hist(weightsDied, color='firebrick')
-    plt.title('Sparrows that perished',size=28)
-    plt.xlabel('Weights',size=24)
-    plt.ylabel('No. of sparrows',size=24)
+    plt.title('Sparrows that perished',size=titleSize)
+    plt.xlabel('Weights',size=labelSize)
+    plt.ylabel('No. of sparrows',size=labelSize)
     plt.show()
 
     ecdf = ECDF(weightsSurvived)
     plt.plot(ecdf.x, ecdf.y, color='g')
-    plt.title('Sparrows that survived',size=28)
-    plt.ylabel('Cumulative Distribution Function',size=24)
-    plt.xlabel('Weights',size=24)
+    plt.title('Sparrows that survived',size=titleSize)
+    plt.ylabel('Cumulative Distribution Function',size=labelSize)
+    plt.xlabel('Weights',size=labelSize)
     plt.show()
 
     ecdf = ECDF(weightsDied)
     plt.plot(ecdf.x, ecdf.y, color='firebrick')
-    plt.title('Sparrows that perished',size=28)
-    plt.ylabel('Cumulative Distribution Function',size=24)
-    plt.xlabel('Weights',size=24)
+    plt.title('Sparrows that perished',size=titleSize)
+    plt.ylabel('Cumulative Distribution Function',size=labelSize)
+    plt.xlabel('Weights',size=labelSize)
     plt.show()
 
 def SolutionTask4(mi=25.793220423035702,sig=1.9175809969270372, EV=0.5932203389830508):
