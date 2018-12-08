@@ -1,14 +1,61 @@
-%matplotlib inline
+#%matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import stats
+from statsmodels.distributions.empirical_distribution import ECDF
 
 dataPath = 'data.csv'
 
 def importData(dataPath):
     data = pd.read_csv(dataPath, sep=';').replace({'perished' : 0, 'survived' : 1}).reset_index()
-    return np.array(data.Weight), np.array(data.Status)
+    weightsSurvived = []; weightsDied = []
+
+    for i in range(len(data)):
+        if data.Status[i] == 1:
+            weightsSurvived.append(data.Weight[i])
+        else:
+            weightsDied.append(data.Weight[i])
+
+    return np.array(weightsSurvived), np.array(weightsDied)
+
+def SolutionTask1(weightsSurvived, weightsDied):
+    print('Weight of birds that survived')
+    print('Expected value:',np.mean(weightsSurvived))
+    print('Variance:',np.var(weightsSurvived))
+    print('Median:',np.median(weightsSurvived))
+    print('==================================')
+    print('Survival of birds that perished')
+    print('Expected value:', np.mean(weightsDied))
+    print('Variance:', np.var(weightsDied))
+    print('Median:', np.median(weightsDied))
+
+def SolutionTask2(weightsSurvived,weightsDied):
+    plt.hist(weightsSurvived, color='g')
+    plt.title('Sparrows that survived')
+    plt.xlabel('Weights of birds')
+    plt.ylabel('No. of sparrows')
+    plt.show()
+
+    plt.hist(weightsDied, color='firebrick')
+    plt.title('Sparrows that perished')
+    plt.xlabel('Weights of birds')
+    plt.ylabel('No. of sparrows')
+    plt.show()
+
+    ecdf = ECDF(weightsSurvived)
+    plt.plot(ecdf.x, ecdf.y, color='g')
+    plt.title('Sparrows that survived')
+    plt.ylabel('Cumulative Distribution Function')
+    plt.xlabel('Weights')
+    plt.show()
+
+    ecdf = ECDF(weightsDied)
+    plt.plot(ecdf.x, ecdf.y, color='firebrick')
+    plt.title('Sparrows that perished')
+    plt.ylabel('Cumulative Distribution Function')
+    plt.xlabel('Weights')
+    plt.show()
 
 def SolutionTask4(mi=25.793220423035702,sig=1.9175809969270372, EV=0.5932203389830508):
 #     np.random.seed(42)
@@ -38,17 +85,9 @@ def SolutionTask4(mi=25.793220423035702,sig=1.9175809969270372, EV=0.59322033898
     plt.show()
 
     
-def SolutionTask1(weights, survive):
-    print('Weight of birbs')
-    print('Expected value:',np.mean(weights)) # assuming it's an uniform distribution
-    print('Variance:',np.var(weights))
-    print('Median:',np.median(weights))
-    print('==================================')
-    print('Survival of birbs')
-    print('Expected value:', np.mean(survive))  # assuming it's an uniform distribution
-    print('Variance:', np.var(survive))
-    print('Median:', np.median(survive))
 
-weights, survive = importData('data.csv')
-SolutionTask1(weights=weights,survive=survive)
-SolutionTask4()
+
+weightsSurvived, weightsDied = importData('data.csv')
+SolutionTask1(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+# SolutionTask4()
