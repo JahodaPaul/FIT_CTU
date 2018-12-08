@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a7cf7d99-3306-4e96-a4c7-e3bbb3976c33" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/report.pdf" afterPath="$PROJECT_DIR$/Report/report.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/report.aux" afterPath="$PROJECT_DIR$/Report/report.aux" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/report.log" afterPath="$PROJECT_DIR$/Report/report.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/report.tex" afterPath="$PROJECT_DIR$/Report/report.tex" />
@@ -22,8 +21,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="746">
-              <caret line="53" column="45" lean-forward="false" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+            <state relative-caret-position="812">
+              <caret line="56" column="32" lean-forward="false" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
               <folding>
                 <element signature="e#20#51#0" expanded="true" />
               </folding>
@@ -321,8 +320,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="746">
-          <caret line="53" column="45" lean-forward="false" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+        <state relative-caret-position="812">
+          <caret line="56" column="32" lean-forward="false" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
           <folding>
             <element signature="e#20#51#0" expanded="true" />
           </folding>
