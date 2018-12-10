@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import stats
+from scipy.stats import expon
 from statsmodels.distributions.empirical_distribution import ECDF
+import math
 
 dataPath = 'data.csv'
 
@@ -60,6 +62,41 @@ def SolutionTask2(weightsSurvived,weightsDied):
     plt.xlabel('Weights',size=labelSize)
     plt.show()
 
+def SolutionTask3(weightsSurvived, weightsDied):
+    titleSize = 20
+    labelSize = 16
+
+    EX1 = 25.462857273646772
+    x1 = np.linspace(min(weightsSurvived),max(weightsSurvived),100)
+    exponencialX1 = expon.pdf(x1,scale=1,loc=min(weightsSurvived))
+    normalDistributionX1 = stats.norm.pdf(x1,loc=EX1)
+
+
+    plt.hist(weightsSurvived,density=True, color='lightgray')
+    pl1 = plt.plot(x1,exponencialX1,color='blue')
+    pl2 = plt.plot(x1,normalDistributionX1,color='green')
+    pl3 = plt.plot([min(weightsSurvived),max(weightsSurvived)],[1/float(max(weightsSurvived)-min(weightsSurvived)) for i in range(2)],color='red')
+    plt.title('Sparrows that survived',size=titleSize)
+    plt.xlabel('Weights',size=labelSize)
+    plt.ylabel('Density',size=labelSize)
+    plt.legend([pl1[0],pl2[0],pl3[0]],['Exponencial','Normal','Uniform'],fontsize='x-large')
+    plt.show()
+
+    EX2 = 26.275
+    x2 = np.linspace(min(weightsDied),max(weightsDied),100)
+    exponencialX2 = expon.pdf(x2,scale=1,loc=min(weightsDied))
+    normalDistributionX2 = stats.norm.pdf(x2,loc=EX2)
+
+    plt.hist(weightsDied, density=True, color='lightgray')
+    pl1 = plt.plot(x2,exponencialX2,color='blue')
+    pl2 = plt.plot(x2,normalDistributionX2,color='green')
+    pl3 = plt.plot([min(weightsDied),max(weightsDied)],[1/float(max(weightsDied)-min(weightsDied)) for i in range(2)],color='red')
+    plt.title('Sparrows that perished',size=titleSize)
+    plt.xlabel('Weights',size=labelSize)
+    plt.ylabel('Density',size=labelSize)
+    plt.legend([pl1[0], pl2[0], pl3[0]], ['Exponencial', 'Normal', 'Uniform'], fontsize='x-large')
+    plt.show()
+
 def SolutionTask4(mi=25.793220423035702,sig=1.9175809969270372, EV=0.5932203389830508):
 #     np.random.seed(42)
     W_gen = []
@@ -92,5 +129,6 @@ def SolutionTask4(mi=25.793220423035702,sig=1.9175809969270372, EV=0.59322033898
 
 weightsSurvived, weightsDied = importData('data.csv')
 SolutionTask1(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
-SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+# SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+SolutionTask3(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
 # SolutionTask4()
