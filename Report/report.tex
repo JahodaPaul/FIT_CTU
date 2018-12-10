@@ -38,18 +38,22 @@ Graf empirické distribuční funkce se podobá grafu exponenciálního rozděle
 \includegraphics[width=5in]{3_died}
 \end{center}
 
-\section{Generovaný výběr}
-Na následujících grafech je zobrazeno 100 vygenerovaných hodnot dle normálního rozdělení s parametry $\lambda$ = EX = 25.793 a $\sigma ^2$ = varX = 1.918. Bernoulliho rozdělení s p = 0.593.
+\section{Úkol 4}
+Na následujících grafech je zobrazeno 100 vygenerovaných hodnot spolu s načtenými daty z datasetu. Histogram přeživších opeřenců vypadá jako normálního rozdělení s parametry $\lambda$ = EX = 25.793 a $\sigma ^2$ = varX = 1.918, hodnoty byli tedy generovány s těmito parametry. 
 
-\includegraphics[scale=0.31]{gen_weight_graph2}
-\includegraphics[scale=0.31]{gen_survival_graph2}
+První graf vygenerovaných dat poměrně silně připomíná získaná data, věříme tedy že toto rozdělení bylo zvoleno správně.
 
-Data mají 59 záznamů, přišlo nám tedy příhodné vygenerovat i stejný počet, aby byla lépe vidět podobnost námi vybraných rozdělení a původní datové množiny.
+\includegraphics[width=3.2in]{4_Survived_Gen}
+\includegraphics[width=3.2in]{4_Survived_Data}
 
-\includegraphics[scale=0.31]{gen_weight_graph1}
-\includegraphics[scale=0.31]{gen_survival_graph1}
+Data vygenerovaná pro mrtvé opeřence už na tom nejsou tak dobře, část dat "utíká" do strany, zde by se hodilo mít větší dataset aby se dala lépe odhadnout distribuční funkce, popřípadě lépe vystihnout parametry rozdělení.
+
+Pro opeřence jež nepřežili byla data generována s normální distribuční funkcí s parametry $\lambda$ = EX = 26.275 a $\sigma ^2$ = varX = 2.078.
+
+\includegraphics[width=3.2in]{4_Died_Gen}
+\includegraphics[width=3.2in]{4_Died_Data}
+
 \par \bigskip
-
 
 \end{document}
 

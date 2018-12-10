@@ -3,23 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import stats
-from scipy.stats import expon
 from statsmodels.distributions.empirical_distribution import ECDF
-import math
-
-dataPath = 'data.csv'
 
 def importData(dataPath):
-    data = pd.read_csv(dataPath, sep=';').replace({'perished' : 0, 'survived' : 1}).reset_index()
-    weightsSurvived = []; weightsDied = []
-
-    for i in range(len(data)):
-        if data.Status[i] == 1:
-            weightsSurvived.append(data.Weight[i])
-        else:
-            weightsDied.append(data.Weight[i])
-
-    return np.array(weightsSurvived), np.array(weightsDied)
+    data = pd.read_csv(dataPath, sep=';').replace({'perished' : 0, 'survived' : 1})
+    return np.array(data.loc[data.Status == 1].Weight), np.array(data.loc[data.Status == 0].Weight)
 
 def SolutionTask1(weightsSurvived, weightsDied):
     print('Weight of birds that survived')
@@ -31,6 +19,8 @@ def SolutionTask1(weightsSurvived, weightsDied):
     print('Expected value:', np.mean(weightsDied))
     print('Variance:', np.var(weightsDied))
     print('Median:', np.median(weightsDied))
+    
+    return np.mean(weightsSurvived), np.var(weightsSurvived), np.mean(weightsDied), np.var(weightsDied)
 
 def SolutionTask2(weightsSurvived,weightsDied):
     titleSize = 24
@@ -97,38 +87,54 @@ def SolutionTask3(weightsSurvived, weightsDied):
     plt.legend([pl1[0], pl2[0], pl3[0]], ['Exponencial', 'Normal', 'Uniform'], fontsize='x-large')
     plt.show()
 
-def SolutionTask4(mi=25.793220423035702,sig=1.9175809969270372, EV=0.5932203389830508):
-#     np.random.seed(42)
-    W_gen = []
+def SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD):
     S_gen = []
+    D_gen = []
     
-    for i in range(0,100): #59 is sample size, so 100 values might feel a bit off
-        W_gen.append(np.random.normal(loc=mi,scale=np.sqrt(sig)))
-        S_gen.append(np.random.choice(a=[0, 1], p=[1-EV,EV]))
+    for i in range(0,100): #35 survived, 24 died
+        S_gen.append(np.random.normal(loc=meanS,scale=np.sqrt(varS)))
+
+    for i in range(0,100): #35 survived, 24 died
+        D_gen.append(np.random.normal(loc=meanD,scale=np.sqrt(varD)))
     
-    bins = np.linspace(21, 32, 25)
-    plt.grid(axis='y', alpha=0.75)
+    bins = np.linspace(21, 33, 13, endpoint=True)
+    plt.figure(figsize=(6,4))
+    plt.xlim(21, 33)
+    plt.title('Generated X1')
+    plt.hist(S_gen, bins, color='red', alpha=0.5)
     plt.xlabel('Weight')
-    plt.ylabel('No. of birbs')
-
-    plt.hist(W_gen, bins, color='red', alpha=0.5, label='generated')
-    plt.hist(weights, bins, color='blue', alpha=0.5, label='given')
-    plt.legend(loc='upper right')
+    plt.ylabel('No. of birds')
+#     plt.savefig('pst/Report/images/4_Survived_Gen.png', bbox_inches='tight')
     plt.show()
 
-    plt.xlabel('Survival')
-    plt.ylabel('No. of birbs')
-
-    plt.hist(S_gen, color='red', alpha=0.5, label='generated')
-    plt.hist(survive, color='blue', alpha=0.5, label='given')
-    plt.legend(loc='upper center')
+    plt.figure(figsize=(6,4))
+    plt.xlim(21, 33)
+    plt.title('X1')
+    plt.hist(weightsSurvived, bins, color='blue', alpha=0.5)
+    plt.xlabel('Weight')
+    plt.ylabel('No. of birds')
+#     plt.savefig('pst/Report/images/4_Survived_Data.png', bbox_inches='tight')
     plt.show()
 
-    
+    plt.figure(figsize=(6,4))
+    plt.xlim(21, 33)
+    plt.title('Generated X2')
+    plt.hist(D_gen, bins, color='red',alpha=0.5)
+    plt.xlabel('Weight')
+    plt.ylabel('No. of birds')
+#     plt.savefig('pst/Report/images/4_Died_Gen.png', bbox_inches='tight')
+    plt.show()
 
+    plt.figure(figsize=(6,4))
+    plt.xlim(21, 33)
+    plt.title('X2')
+    plt.hist(weightsDied, bins, color='blue', alpha=0.5)
+    plt.xlabel('Weight')
+    plt.ylabel('No. of birds')
+#     plt.savefig('pst/Report/images/4_Died_Data.png', bbox_inches='tight')
+    plt.show()
 
-weightsSurvived, weightsDied = importData('data.csv')
-SolutionTask1(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+weightsSurvived, weightsDied = importData('pst/data.csv')
+meanS, varS, meanD, varD = SolutionTask1(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
 # SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
-SolutionTask3(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
-# SolutionTask4()
+SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD)
