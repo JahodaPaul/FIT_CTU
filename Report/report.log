@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.12.5)  10 DEC 2018 22:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.12.5)  10 DEC 2018 23:35
 entering extended mode
 **./report.tex
 (report.tex
@@ -75,21 +75,79 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 Package: inputenc 2018/04/06 v1.3b Input encoding file
 \inpenc@prehook=\toks16
 \inpenc@posthook=\toks17
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2017/09/02 v2.17a AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks18
+\ex@=\dimen113
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen114
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count91
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count92
+\leftroot@=\count93
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count94
+\DOTSCASE@=\count95
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen115
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count96
+\c@MaxMatrixCols=\count97
+\dotsspace@=\muskip10
+\c@parentequation=\count98
+\dspbrk@lvl=\count99
+\tag@help=\toks19
+\row@=\count100
+\column@=\count101
+\maxfields@=\count102
+\andhelp@=\toks20
+\eqnshift@=\dimen116
+\alignsep@=\dimen117
+\tagshift@=\dimen118
+\tagwidth@=\dimen119
+\totwidth@=\dimen120
+\lineht@=\dimen121
+\@envbody=\toks21
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
 ) (report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -127,17 +185,17 @@ LaTeX Font Info:    ... okay on input line 8.
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count91
-\scratchdimen=\dimen113
-\scratchbox=\box26
-\nofMPsegments=\count92
-\nofMParguments=\count93
-\everyMPshowfont=\toks18
-\MPscratchCnt=\count94
-\MPscratchDim=\dimen114
-\MPnumerator=\count95
-\makeMPintoPDFobject=\count96
-\everyMPtoPDFconversion=\toks19
+\scratchcounter=\count103
+\scratchdimen=\dimen122
+\scratchbox=\box28
+\nofMPsegments=\count104
+\nofMParguments=\count105
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count106
+\MPscratchDim=\dimen123
+\MPnumerator=\count107
+\makeMPintoPDFobject=\count108
+\everyMPtoPDFconversion=\toks24
 ) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -186,54 +244,43 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 13.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 13.
-
-Underfull \hbox (badness 10000) in paragraph at lines 16--19
+Underfull \hbox (badness 10000) in paragraph at lines 20--23
 
  []
 
 <./images/survivedHist.pdf, id=1, 896.34875pt x 954.56625pt>
 File: ./images/survivedHist.pdf Graphic file (type pdf)
 <use ./images/survivedHist.pdf>
-Package pdftex.def Info: ./images/survivedHist.pdf  used on input line 23.
+Package pdftex.def Info: ./images/survivedHist.pdf  used on input line 27.
 (pdftex.def)             Requested size: 237.51761pt x 252.94499pt.
 <./images/survivedDist.pdf, id=2, 897.3525pt x 957.5775pt>
 File: ./images/survivedDist.pdf Graphic file (type pdf)
 <use ./images/survivedDist.pdf>
-Package pdftex.def Info: ./images/survivedDist.pdf  used on input line 24.
+Package pdftex.def Info: ./images/survivedDist.pdf  used on input line 28.
 (pdftex.def)             Requested size: 237.03049pt x 252.94499pt.
 
-Overfull \hbox (21.91507pt too wide) in paragraph at lines 22--25
+Overfull \hbox (21.91507pt too wide) in paragraph at lines 26--29
 [] [] 
  []
 
 <./images/diedHist.pdf, id=3, 870.25125pt x 953.5625pt>
 File: ./images/diedHist.pdf Graphic file (type pdf)
 <use ./images/diedHist.pdf>
-Package pdftex.def Info: ./images/diedHist.pdf  used on input line 29.
+Package pdftex.def Info: ./images/diedHist.pdf  used on input line 33.
 (pdftex.def)             Requested size: 230.84122pt x 252.94499pt.
 <./images/diedDist.pdf, id=4, 887.315pt x 965.6075pt>
 File: ./images/diedDist.pdf Graphic file (type pdf)
 <use ./images/diedDist.pdf>
-Package pdftex.def Info: ./images/diedDist.pdf  used on input line 30.
+Package pdftex.def Info: ./images/diedDist.pdf  used on input line 34.
 (pdftex.def)             Requested size: 232.42949pt x 252.94499pt.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 31.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 31.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 31.
 
-Overfull \hbox (3.68446pt too wide) in paragraph at lines 28--31
+Overfull \hbox (3.68446pt too wide) in paragraph at lines 32--35
 []\OT1/cmr/m/n/12 Pote vykreslme his-togram a graf em-pir-icke dis-tribucn
  funkce pro vrabce kter neprezili.
  []
 
 
-Overfull \hbox (10.63768pt too wide) in paragraph at lines 28--31
+Overfull \hbox (10.63768pt too wide) in paragraph at lines 32--35
 [] []
  []
 
@@ -248,7 +295,7 @@ ple pdfs with page group included in a single page
 <./images/3_survived.pdf, id=24, 849.1725pt x 922.44624pt>
 File: ./images/3_survived.pdf Graphic file (type pdf)
 <use ./images/3_survived.pdf>
-Package pdftex.def Info: ./images/3_survived.pdf  used on input line 35.
+Package pdftex.def Info: ./images/3_survived.pdf  used on input line 39.
 (pdftex.def)             Requested size: 361.34999pt x 392.53413pt.
  [2 <./images/diedHist.pdf> <./images/diedDist.pdf
 
@@ -258,21 +305,21 @@ pdfs with page group included in a single page
 <./images/3_died.pdf, id=42, 847.165pt x 939.51pt>
 File: ./images/3_died.pdf Graphic file (type pdf)
 <use ./images/3_died.pdf>
-Package pdftex.def Info: ./images/3_died.pdf  used on input line 38.
+Package pdftex.def Info: ./images/3_died.pdf  used on input line 42.
 (pdftex.def)             Requested size: 361.34999pt x 400.74155pt.
  [3 <./images/3_survived.pdf>]
 <./images/4_Survived_Gen.png, id=53, 387.4475pt x 279.0425pt>
 File: ./images/4_Survived_Gen.png Graphic file (type png)
 <use ./images/4_Survived_Gen.png>
-Package pdftex.def Info: ./images/4_Survived_Gen.png  used on input line 46.
+Package pdftex.def Info: ./images/4_Survived_Gen.png  used on input line 50.
 (pdftex.def)             Requested size: 231.26378pt x 166.55818pt.
 <./images/4_Survived_Data.png, id=55, 387.4475pt x 279.0425pt>
 File: ./images/4_Survived_Data.png Graphic file (type png)
 <use ./images/4_Survived_Data.png>
-Package pdftex.def Info: ./images/4_Survived_Data.png  used on input line 47.
+Package pdftex.def Info: ./images/4_Survived_Data.png  used on input line 51.
 (pdftex.def)             Requested size: 231.26378pt x 166.55818pt.
 
-Overfull \hbox (27.51935pt too wide) in paragraph at lines 46--48
+Overfull \hbox (27.51935pt too wide) in paragraph at lines 50--52
 [][] [] 
  []
 
@@ -280,36 +327,38 @@ Overfull \hbox (27.51935pt too wide) in paragraph at lines 46--48
 <./images/4_Died_Gen.png, id=67, 387.4475pt x 279.0425pt>
 File: ./images/4_Died_Gen.png Graphic file (type png)
 <use ./images/4_Died_Gen.png>
-Package pdftex.def Info: ./images/4_Died_Gen.png  used on input line 53.
+Package pdftex.def Info: ./images/4_Died_Gen.png  used on input line 57.
 (pdftex.def)             Requested size: 231.26378pt x 166.55818pt.
 <./images/4_Died_Data.png, id=68, 381.425pt x 279.0425pt>
 File: ./images/4_Died_Data.png Graphic file (type png)
 <use ./images/4_Died_Data.png>
-Package pdftex.def Info: ./images/4_Died_Data.png  used on input line 54.
+Package pdftex.def Info: ./images/4_Died_Data.png  used on input line 58.
 (pdftex.def)             Requested size: 231.26378pt x 169.18527pt.
 
-Overfull \hbox (27.51935pt too wide) in paragraph at lines 53--55
+Overfull \hbox (27.51935pt too wide) in paragraph at lines 57--59
 [][] [] 
  []
 
 [5 <./images/4_Survived_Gen.png> <./images/4_Survived_Data.png> <./images/4_Die
-d_Gen.png> <./images/4_Died_Data.png>] (report.aux) ) 
+d_Gen.png> <./images/4_Died_Data.png>] [6] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 2006 strings out of 492970
- 29583 string characters out of 3135855
- 98004 words of memory out of 3000000
- 5864 multiletter control sequences out of 15000+200000
- 8808 words of font info for 31 fonts, out of 3000000 for 9000
+ 2618 strings out of 492970
+ 36502 string characters out of 3135855
+ 110638 words of memory out of 3000000
+ 6458 multiletter control sequences out of 15000+200000
+ 9933 words of font info for 36 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,7n,25p,390b,199s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmr8.pfb>
-Output written on report.pdf (5 pages, 276402 bytes).
+ 41i,9n,25p,390b,199s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on report.pdf (6 pages, 307581 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
+ 104 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

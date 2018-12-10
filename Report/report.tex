@@ -2,8 +2,12 @@
 \usepackage[marginparsep=8pt,left=2.5cm,right=2.5cm,top=2.5cm,bottom=3cm]{geometry}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 %\setlength{\parindent}{0pt}% Remove paragraph indent
 \graphicspath{ {./images/} }
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+\newcommand{\overbar}[1]{\mkern 2.5mu\overline{\mkern-2.5mu#1\mkern-2.5mu}\mkern 2.5mu}
 
 \begin{document}
 
@@ -54,6 +58,28 @@ Pro opeřence jež nepřežili byla data generována s normální distribuční 
 \includegraphics[width=3.2in]{4_Died_Data}
 
 \par \bigskip
+
+\section{Úkol 5}
+
+$\bar{X}_n$ je výběrový průměr veličiny, $\sigma$ je směrodatná odchylka, n je počet prvků v rozdělení. Spolehlivost má být 95\%, tedy 
+\begin{align*}
+\alpha = 0.05 \Rightarrow \alpha/2 = 0.025 \\
+z_{a/2} = z_{0,025} = \Phi^{-1}(0.975) \doteq 1.96
+\end{align*}
+
+Oboustranný 95\% konfidenční interval spočteme jako:
+
+\begin{align}
+(S_{X1},U_{X1}) = (\overbar{X1}_n - z_{a/2}.\frac{\sigma_1}{\sqrt{n_1}}, \overbar{X1}_n + z_{a/2}.\frac{\sigma_1}{\sqrt{n_1}}) \nonumber\\
+= (25,463 - 1,96.\frac{1,24}{5,9}, 25,463 + 1,96.\frac{1,24}{5,9}) = (25.052, 25.874)
+\end{align}
+
+\begin{align}
+(S_{X2},U_{X2}) = (\overbar{X2}_n - z_{a/2}.\frac{\sigma_2}{\sqrt{n_2}}, \overbar{X2}_n + z_{a/2}.\frac{\sigma_2}{\sqrt{n_2}}) \nonumber\\
+= (26.275 - 1,96.\frac{1,44}{4,9}, 26.275 + 1,96.\frac{1,44}{4,9}) = (25.698, 26.852)
+\end{align}
+
+
 
 \end{document}
 
