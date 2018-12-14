@@ -9,15 +9,46 @@
 
 \newcommand{\overbar}[1]{\mkern 2.5mu\overline{\mkern-2.5mu#1\mkern-2.5mu}\mkern 2.5mu}
 
+%% ZAHLAVI A ZAPATI
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+% prostredni cast zapati
+\cfoot{\thepage}
+
+% leva cast zahlavi -- nazev sekce/subsekce
+\lhead{\fancyplain{}{\rightmark}}
+
+% prava cast zahlavi -- logo fitu
+
+\rhead{\includegraphics[width=4cm]{logo}}
+
 \begin{document}
 
-\title{\LARGE \bf Domácí úkol na BI-PST 2018}
- \author{Pavel Jahoda a Jan Lidák}
+\begin{titlepage}
+  % pro zobrazeni loga v zahlavi
+  \thispagestyle{fancy}
 
-\maketitle
+  % vertikalni zarovnani
+  \vspace*{\fill}
+  \begin{center}
+    {\fontsize{20}{30}\selectfont BI-PST 2018}\\[1cm]
+    {\fontsize{30}{100}\selectfont \textbf{Domácí Úkol}}\\[4.2cm]
+  \end{center}
+
+  % vertikalni zarovnani
+  \vspace*{\fill}
+
+  % seznam clenu tymu razeny abecedne podle krestniho jmena
+  {\fontsize{10}{10} \selectfont \noindent
+  \textbf{Autoři:}\\
+  Pavel Jahoda a Jan Lidák
+  }
+\end{titlepage}
 
 \section{Úkol 1}
-Data jsou z pozorování 59 vrabců během zimy. První veličina {\bf X} reprezentuje váhy vrabců v gramech. Druhá veličina {\bf Y} nabývá dvou hodnot 'survived', pokud vrabec přežil a 'perished' pokud nepřežil. Sledovanou proměnnou X jsme rozdělili na dvě pozorované skupiny {\bf X1} (vrabci co přežili) a {\bf X2} (vrabci co nepřežili).\\
+Data jsou z pozorování 59 vrabců během zimy. První veličina {\bf X} reprezentuje váhy vrabců v gramech. Druhá veličina {\bf Y} nabývá dvou hodnot 'survived', pokud vrabec přežil a 'perished' pokud nepřežil. Sledovanou proměnnou X jsme rozdělili na dvě pozorované skupiny takzvaných \textit{independent and identically distributed random variables}. Tedy v každé skupině jsou náhodné veličiny reprezentující výsledky pokusu prováděného za stejných podmínek.  {\bf X1} jsou vrabci co přežili a je jich 35. {\bf X2} jsou vrabci co nepřežili a je jich 24.\\
 EX1=25.463, var(X1)=1.539 a medián je 25.7.\\
 EX1=26.275, var(X2)=2.078 a medián je 26.\\
 \par \bigskip
@@ -33,15 +64,18 @@ Poté vykreslíme histogram a graf empirické distribuční funkce pro vrabce kt
 \includegraphics[height=3.5in]{diedHist}
 \includegraphics[height=3.5in]{diedDist}
 Graf empirické distribuční funkce se podobá grafu exponenciálního rozdělení s parametrem $\lambda$ = 1.\par \bigskip
+\pagebreak
 
 \section{Úkol 3}
+Histogram přeživších vrabců byl nejprve znormován, tak aby obsah histogramu byl roven 1 pro lepší porovnání s grafy rozdělení jejich obsah pod křivkou je také roven 1. Po zanesení normálního, exponenciálního a rovnoměrného rozdělení s odhadnutými parametry do grafů histogramu vidíme, že histogram nejvíce odpovídá normálnímu rozdělení.
 \begin{center}
 \includegraphics[width=5in]{3_survived}
 \end{center}
+\pagebreak
+Určení, které rozdělení odpovídá nejlepé grafu vrabců, kteří zimu nepřežili je obtížnější, jelikož to není visuálně patrné. První způsob, který jsem použil na zjištění nejbližšího rozdělení bylo spočítat součet rozdílu mezi výškami sloupců histogramů a hodnotami funkcí pro x rovno středu daného sloupce. V tomto způsobu vyšlo normální rozdělení jako rozdělení které histogramu více odpovídá ( 0.73 normalání a 0.94 exponenciální). Dále mi co se zjištění podobnosti přišlo přirozené penalizovat extrémní rozdíli  mezi mezi výškami sloupců histogramů a hodnotami funkcí. Umocnění rozdílu zapříčiní požadovanou penalizaci. V tomto případě vyšla výsledná suma normálního rozdělení 0.13 oproti 0.20 u exponenciálního rozdělení, tudíž si myslíme, že normální rozdelení je nejvíce podobné histogramu zemřelých vrabců. Statistická významnost tohoto tvrzení se stejně jako u vrabců kteří přežili odvíjí od počtu náhodných veličin, kterých je 24 (nepřežili) a 35 (přežili).
 \begin{center}
 \includegraphics[width=5in]{3_died}
 \end{center}
-
 \section{Úkol 4}
 Na následujících grafech je zobrazeno 100 vygenerovaných hodnot spolu s načtenými daty z datasetu. Histogram přeživších opeřenců vypadá jako normálního rozdělení s parametry $\lambda$ = EX = 25.793 a $\sigma ^2$ = varX = 1.918, hodnoty byli tedy generovány s těmito parametry. 
 

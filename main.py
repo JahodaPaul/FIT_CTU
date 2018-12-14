@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import stats
+from scipy.stats import expon
 from statsmodels.distributions.empirical_distribution import ECDF
 
 def importData(dataPath):
@@ -19,13 +20,13 @@ def SolutionTask1(weightsSurvived, weightsDied):
     print('Expected value:', np.mean(weightsDied))
     print('Variance:', np.var(weightsDied))
     print('Median:', np.median(weightsDied))
-    
+    print(len(weightsSurvived),len(weightsDied))
     return np.mean(weightsSurvived), np.var(weightsSurvived), np.mean(weightsDied), np.var(weightsDied)
 
 def SolutionTask2(weightsSurvived,weightsDied):
     titleSize = 24
     labelSize = 20
-
+    
     plt.hist(weightsSurvived, color='g')
     plt.title('Sparrows that survived',size=titleSize)
     plt.xlabel('Weights',size=labelSize)
@@ -77,7 +78,7 @@ def SolutionTask3(weightsSurvived, weightsDied):
     exponencialX2 = expon.pdf(x2,scale=1,loc=min(weightsDied))
     normalDistributionX2 = stats.norm.pdf(x2,loc=EX2)
 
-    plt.hist(weightsDied, density=True, color='lightgray')
+    n,bins,_ = plt.hist(weightsDied, density=True, color='lightgray')
     pl1 = plt.plot(x2,exponencialX2,color='blue')
     pl2 = plt.plot(x2,normalDistributionX2,color='green')
     pl3 = plt.plot([min(weightsDied),max(weightsDied)],[1/float(max(weightsDied)-min(weightsDied)) for i in range(2)],color='red')
@@ -86,6 +87,20 @@ def SolutionTask3(weightsSurvived, weightsDied):
     plt.ylabel('Density',size=labelSize)
     plt.legend([pl1[0], pl2[0], pl3[0]], ['Exponencial', 'Normal', 'Uniform'], fontsize='x-large')
     plt.show()
+
+    sumExpon = 0
+    sumNormal = 0
+    for cnt in range(len(bins)-1):
+        closestVal = 10000000
+        closestIndex = 0
+        for i in range(len(x2)):
+            if abs((bins[cnt]+bins[cnt+1])/2 - x2[i]) < closestVal:
+                closestVal = abs((bins[cnt]+bins[cnt+1])/2 - x2[i])
+                closestIndex = i
+        sumExpon += abs(n[cnt] - exponencialX2[closestIndex])*abs(n[cnt] - exponencialX2[closestIndex])
+        sumNormal += abs(n[cnt] - normalDistributionX2[closestIndex])*abs(n[cnt] - normalDistributionX2[closestIndex])
+    print('The sum of differences between exponencial distribution and histogram is:', sumExpon)
+    print('The sum of differences between normal distribution and histogram is:', sumNormal)
 
 def SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD):
     S_gen = []
@@ -134,7 +149,8 @@ def SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD):
 #     plt.savefig('pst/Report/images/4_Died_Data.png', bbox_inches='tight')
     plt.show()
 
-weightsSurvived, weightsDied = importData('pst/data.csv')
+weightsSurvived, weightsDied = importData('data.csv')
 meanS, varS, meanD, varD = SolutionTask1(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
-# SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
-SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD)
+#SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+SolutionTask3(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+#SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD)
