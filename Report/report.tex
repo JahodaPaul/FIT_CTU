@@ -77,16 +77,16 @@ Určení, které rozdělení odpovídá nejlepé grafu vrabců, kteří zimu nep
 \includegraphics[width=5in]{3_died}
 \end{center}
 \section{Úkol 4}
-Na následujících grafech je zobrazeno 100 vygenerovaných hodnot spolu s načtenými daty z datasetu. Histogram přeživších opeřenců vypadá jako normálního rozdělení s parametry $\lambda$ = EX = 25.793 a $\sigma ^2$ = varX = 1.918, hodnoty byli tedy generovány s těmito parametry. 
+Na následujících grafech je zobrazeno 100 vygenerovaných hodnot spolu s načtenými daty z datasetu. Histogram přeživších vrabců připomíná normálního rozdělení s parametry $\lambda$ = EX = 25.793 a $\sigma ^2$ = varX = 1.918, hodnoty byli tedy generovány s těmito parametry. 
 
 První graf vygenerovaných dat poměrně silně připomíná získaná data, věříme tedy že toto rozdělení bylo zvoleno správně.
 
 \includegraphics[width=3.2in]{4_Survived_Gen}
 \includegraphics[width=3.2in]{4_Survived_Data}
 
-Data vygenerovaná pro mrtvé opeřence už na tom nejsou tak dobře, část dat "utíká" do strany, zde by se hodilo mít větší dataset aby se dala lépe odhadnout distribuční funkce, popřípadě lépe vystihnout parametry rozdělení.
+Histogram vrabců jež nepřežili se také podobá normálnímu rozdelení, a to s parametry $\lambda$ = EX = 26.275 a $\sigma ^2$ = varX = 2.078. Data byla generována jako normální normální rozdělení s těmito parametry.
 
-Pro opeřence jež nepřežili byla data generována s normální distribuční funkcí s parametry $\lambda$ = EX = 26.275 a $\sigma ^2$ = varX = 2.078.
+Data vygenerovaná pro mrtvé opeřence už na tom jsou hůře. Generovaná data jsou oproti naměřeným datům poněkud rozlezlé, zde by se hodilo mít větší dataset aby se dala lépe odhadnout distribuční funkce, popřípadě parametry rozdělení.
 
 \includegraphics[width=3.2in]{4_Died_Gen}
 \includegraphics[width=3.2in]{4_Died_Data}
@@ -95,22 +95,33 @@ Pro opeřence jež nepřežili byla data generována s normální distribuční 
 
 \section{Úkol 5}
 
-$\bar{X}_n$ je výběrový průměr veličiny, $\sigma$ je směrodatná odchylka, n je počet prvků v rozdělení. Spolehlivost má být 95\%, tedy 
+Jelikož neznáme rozptyl našich rozdělení (pouze je dokážeme odhadnout) použijeme pro výpočet konfidenčních intervalů namísto rozptylu $\sigma$ výběrový rozptyl $s_n$. Dále $\bar{X}_n$ je výběrový průměr veličiny, $t_{\alpha/2,n-1}$ je kritická hodnota Studentova t-rozdělení, n je počet prvků v rozdělení. Veličina X1 jsou vrabci jež přežili, X2 vrabci co nepřežili.  Spolehlivost má být 95\%, tedy 
 \begin{align*}
-\alpha = 0.05 \Rightarrow \alpha/2 = 0.025 \\
-z_{a/2} = z_{0,025} = \Phi^{-1}(0.975) \doteq 1.96
+\alpha = 0.05 \Rightarrow \alpha/2 = 0.025
 \end{align*}
 
-Oboustranný 95\% konfidenční interval spočteme jako:
+Oboustranný 95\% konfidenční interval pro X1 spočteme jako:
 
+\begin{gather}
 \begin{align}
-(S_{X1},U_{X1}) = (\overbar{X1}_n - z_{a/2}.\frac{\sigma_1}{\sqrt{n_1}}, \overbar{X1}_n + z_{a/2}.\frac{\sigma_1}{\sqrt{n_1}}) \nonumber\\
-= (25,463 - 1,96.\frac{1,24}{5,9}, 25,463 + 1,96.\frac{1,24}{5,9}) = (25.052, 25.874)
+(S_{X1},U_{X1})
+= (\overbar{X1}_{n_1} - t_{\alpha/2,n_1-1}.\frac{s_{n_1}}{\sqrt{n_1}},
+  \overbar{X1}_{n_1} + t_{\alpha/2,n_1-1}.\frac{s_{n_1}}{\sqrt{n_1}}) \nonumber\\
+= (25,46 - 2,03.\frac{1,59}{5,9},
+   25,46 + 2,03.\frac{1,59}{5,9})
+= (25.031, 25.895)
 \end{align}
+\end{gather}
+
+Oboustranný 95\% konfidenční interval pro X2:
 
 \begin{align}
-(S_{X2},U_{X2}) = (\overbar{X2}_n - z_{a/2}.\frac{\sigma_2}{\sqrt{n_2}}, \overbar{X2}_n + z_{a/2}.\frac{\sigma_2}{\sqrt{n_2}}) \nonumber\\
-= (26.275 - 1,96.\frac{1,44}{4,9}, 26.275 + 1,96.\frac{1,44}{4,9}) = (25.698, 26.852)
+(S_{X2},U_{X2}) = 
+(\overbar{X2}_{n_2} - t_{\alpha/2,n_2-1}.\frac{s_{n_2}}{\sqrt{n_2}},
+ \overbar{X2}_{n_2} + t_{\alpha/2,n_2-1}.\frac{s_{n_2}	}{\sqrt{n_2}}) \nonumber\\
+= (26.275 - 2,06.\frac{2,17}{4,9},
+   26.275 + 2,06.\frac{2,17}{4,9})
+= (25.656, 26.894)
 \end{align}
 
 
