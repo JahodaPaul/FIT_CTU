@@ -1,6 +1,7 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[marginparsep=8pt,left=2.5cm,right=2.5cm,top=2.5cm,bottom=3cm]{geometry}
 \usepackage{graphicx}
+\usepackage[czech]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 %\setlength{\parindent}{0pt}% Remove paragraph indent
@@ -8,6 +9,14 @@
 \newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
 
 \newcommand{\overbar}[1]{\mkern 2.5mu\overline{\mkern-2.5mu#1\mkern-2.5mu}\mkern 2.5mu}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
 
 %% ZAHLAVI A ZAPATI
 \usepackage{fancyhdr}
@@ -23,6 +32,17 @@
 % prava cast zahlavi -- logo fitu
 
 \rhead{\includegraphics[width=4cm]{logo}}
+
+%% PROKLIKAVATELNE ODKAZY -- nastaveni xetex/pdftex
+\usepackage[pdftex,pdfpagelabels,bookmarks,hyperindex,hyperfigures]{hyperref}
+
+\hypersetup{
+  colorlinks,
+  citecolor=blue,
+  filecolor=blue,
+  linkcolor=blue,
+  urlcolor=blue
+}
 
 \begin{document}
 
@@ -47,26 +67,41 @@
   }
 \end{titlepage}
 
-\section{Úkol 1}
+%%%%% 
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% rimska cisla pro cislovani stranek v obsahu
+\pagenumbering{roman}
+
+% samotne vlozeni obsahu
+\tableofcontents
+
+\newpage
+
+% zapnout bezne cislovani stranek pomoci arabskych cislic
+\pagenumbering{arabic}
+
+\section{Úkol 1 - Načtení a popis datasetu}
 Data jsou z pozorování 59 vrabců během zimy. První veličina {\bf X} reprezentuje váhy vrabců v gramech. Druhá veličina {\bf Y} nabývá dvou hodnot 'survived', pokud vrabec přežil a 'perished' pokud nepřežil. Sledovanou proměnnou X jsme rozdělili na dvě pozorované skupiny takzvaných \textit{independent and identically distributed random variables}. Tedy v každé skupině jsou náhodné veličiny reprezentující výsledky pokusu prováděného za stejných podmínek.  {\bf X1} jsou vrabci co přežili a je jich 35. {\bf X2} jsou vrabci co nepřežili a je jich 24.\\
 EX1=25.463, var(X1)=1.539 a medián je 25.7.\\
 EX1=26.275, var(X2)=2.078 a medián je 26.\\
 \par \bigskip
 
-\section{Úkol 2}
-Nejprve vykreslíme histogram a graf empirické distribuční funkce pro vrabce kteří přežili. 
+\section{Úkol 2 - Hustota a distribuční funkce}
+Nejprve vykreslíme histogram a poté graf distribuční funkce odhadnutý z grafu empirické distribuční funkce pro vrabce kteří přežili.\\
 \includegraphics[height=3.5in]{survivedHist}
 \includegraphics[height=3.5in]{survivedDist}
 
-TODO.\par \bigskip
+\pagebreak
 
-Poté vykreslíme histogram a graf empirické distribuční funkce pro vrabce kteří nepřežili.
+Poté vykreslíme histogram a poté graf distribuční funkce odhadnutý z grafu empirické distribuční funkce pro vrabce kteří nepřežili.\\
 \includegraphics[height=3.5in]{diedHist}
 \includegraphics[height=3.5in]{diedDist}
 Graf empirické distribuční funkce se podobá grafu exponenciálního rozdělení s parametrem $\lambda$ = 1.\par \bigskip
 \pagebreak
 
-\section{Úkol 3}
+\section{Úkol 3 - Nejbližší rozdělení}
 Histogram přeživších vrabců byl nejprve znormován, tak aby obsah histogramu byl roven 1 pro lepší porovnání s grafy rozdělení jejich obsah pod křivkou je také roven 1. Po zanesení normálního, exponenciálního a rovnoměrného rozdělení s odhadnutými parametry do grafů histogramu vidíme, že histogram nejvíce odpovídá normálnímu rozdělení.
 \begin{center}
 \includegraphics[width=5in]{3_survived}
@@ -76,7 +111,7 @@ Určení, které rozdělení odpovídá nejlepé grafu vrabců, kteří zimu nep
 \begin{center}
 \includegraphics[width=5in]{3_died}
 \end{center}
-\section{Úkol 4}
+\section{Úkol 4 - Generování náhodného výběru}
 Na následujících grafech je zobrazeno 100 vygenerovaných hodnot spolu s načtenými daty z datasetu. Histogram přeživších vrabců připomíná normálního rozdělení s parametry $\lambda$ = EX = 25.793 a $\sigma ^2$ = varX = 1.918, hodnoty byli tedy generovány s těmito parametry. 
 
 První graf vygenerovaných dat poměrně silně připomíná získaná data, věříme tedy že toto rozdělení bylo zvoleno správně.
@@ -93,7 +128,7 @@ Data vygenerovaná pro mrtvé opeřence už na tom jsou hůře. Generovaná data
 
 \par \bigskip
 
-\section{Úkol 5}
+\section{Úkol 5 - Konfidenční interval}
 
 Jelikož neznáme rozptyl našich rozdělení (pouze je dokážeme odhadnout) použijeme pro výpočet konfidenčních intervalů namísto rozptylu $\sigma$ výběrový rozptyl $s_n$. Dále $\bar{X}_n$ je výběrový průměr veličiny, $t_{\alpha/2,n-1}$ je kritická hodnota Studentova t-rozdělení, n je počet prvků v rozdělení. Veličina X1 jsou vrabci jež přežili, X2 vrabci co nepřežili.  Spolehlivost má být 95\%, tedy 
 \begin{align*}
@@ -124,7 +159,7 @@ Oboustranný 95\% konfidenční interval pro X2:
 = \textbf{(25.656, 26.894)}
 \end{align}
 
-\section{Úkol 6}
+\section{Úkol 6 - Testování hypotézy}
 Testujeme hypotézu, zda je střední hodnota rovna hodnotě K (parametr úlohy).\\[0.4cm]
 $H_0$ : $\mu = K$\\
 $H_A$ : $\mu \neq K$\\
