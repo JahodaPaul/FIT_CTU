@@ -31,12 +31,14 @@ def SolutionTask2(weightsSurvived,weightsDied):
     plt.title('Sparrows that survived',size=titleSize)
     plt.xlabel('Weights',size=labelSize)
     plt.ylabel('No. of sparrows',size=labelSize)
+    #plt.savefig('./Report/images/survivedHist.png', bbox_inches='tight')
     plt.show()
 
     plt.hist(weightsDied, color='firebrick')
     plt.title('Sparrows that perished',size=titleSize)
     plt.xlabel('Weights',size=labelSize)
     plt.ylabel('No. of sparrows',size=labelSize)
+    #plt.savefig('./Report/images/survivedDist.png', bbox_inches='tight')
     plt.show()
 
     ecdf = ECDF(weightsSurvived)
@@ -44,6 +46,7 @@ def SolutionTask2(weightsSurvived,weightsDied):
     plt.title('Sparrows that survived',size=titleSize)
     plt.ylabel('Cumulative Distribution Function',size=labelSize)
     plt.xlabel('Weights',size=labelSize)
+    #plt.savefig('./Report/images/diedHist.png', bbox_inches='tight')
     plt.show()
 
     ecdf = ECDF(weightsDied)
@@ -51,6 +54,7 @@ def SolutionTask2(weightsSurvived,weightsDied):
     plt.title('Sparrows that perished',size=titleSize)
     plt.ylabel('Cumulative Distribution Function',size=labelSize)
     plt.xlabel('Weights',size=labelSize)
+    #plt.savefig('./Report/images/diedDist.png', bbox_inches='tight')
     plt.show()
 
 def SolutionTask3(weightsSurvived, weightsDied):
@@ -189,8 +193,8 @@ def SolutionTask7(weightsSurvived, weightsDied):
 
 weightsSurvived, weightsDied = importData('data.csv')
 meanS, varS, meanD, varD = SolutionTask1(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
-#SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
-SolutionTask3(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
+#SolutionTask3(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
 #SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD)
 #SolutionTask5(weightsSurvived, weightsDied, meanS, varS, meanD, varD)
 #SolutionTask7(weightsSurvived, weightsDied)
