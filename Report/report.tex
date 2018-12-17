@@ -15,6 +15,8 @@
 \titleformat{\section}{\bf\Large}{#1}{1em}{}
 \titleformat{\subsection}{\bf\large}{#1}{1em}{}
 
+\pagenumbering{gobble} % da pryc cislo stranky na uvodni strance..
+
 \usepackage{listings}
 \lstset{
   language=Python,
@@ -119,7 +121,7 @@ return numpy.array(data.loc[data.Status == 1].Weight), np.array(data.loc[data.St
 
 \section{Úkol 2 - Hustota a distribuční funkce}
 Nejprve vykreslíme histogram a poté graf distribuční funkce odhadnutý z grafu empirické distribuční funkce pro vrabce kteří přežili.\\
-Graf distribuční funkce byl odhanutý následujícím příkazem:\par \medskip
+Graf distribuční funkce byl odhadnutý následujícím příkazem:\par \medskip
 \begin{lstlisting}
 from statsmodels.distributions.empirical_distribution import ECDF
 ecdf = ECDF(weightsSurvived)
@@ -136,7 +138,7 @@ Graf empirické distribuční funkce se podobá grafu exponenciálního rozděle
 \pagebreak
 
 \section{Úkol 3 - Nejbližší rozdělení}
-Histogram přeživších vrabců byl nejprve znormován, tak aby obsah histogramu byl roven 1 pro lepší porovnání s grafy rozdělení jejich obsah pod křivkou je také roven 1. Po zanesení normálního, exponenciálního a rovnoměrného rozdělení s odhadnutými parametry do grafů histogramu vidíme, že histogram nejvíce odpovídá normálnímu rozdělení.
+Histogram přeživších vrabců byl nejprve znormován, tak aby obsah histogramu byl roven 1 pro lepší porovnání s grafy rozdělení, jejichž obsah pod křivkou je také roven 1. Po zanesení normálního, exponenciálního a rovnoměrného rozdělení s odhadnutými parametry do grafů histogramu vidíme, že histogram nejvíce odpovídá normálnímu rozdělení.
 \begin{center}
 \includegraphics[width=5in]{3_survived}
 \end{center}

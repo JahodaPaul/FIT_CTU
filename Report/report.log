@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.10)  17 DEC 2018 22:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.10)  17 DEC 2018 23:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -660,25 +660,25 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip57
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 56.
+Package hyperref Info: Option `colorlinks' set `true' on input line 58.
 
 (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 58.
-LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 60.
+LaTeX Font Info:    ... okay on input line 60.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 60.
+LaTeX Font Info:    ... okay on input line 60.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 60.
+LaTeX Font Info:    ... okay on input line 60.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 60.
+LaTeX Font Info:    ... okay on input line 60.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 60.
+LaTeX Font Info:    ... okay on input line 60.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 60.
+LaTeX Font Info:    ... okay on input line 60.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 60.
+LaTeX Font Info:    ... okay on input line 60.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -746,7 +746,7 @@ e
 ))
 \c@lstlisting=\count128
 \AtBeginShipoutBox=\box32
-Package hyperref Info: Link coloring ON on input line 58.
+Package hyperref Info: Link coloring ON on input line 60.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -756,9 +756,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count129
 )
-LaTeX Info: Redefining \ref on input line 58.
-LaTeX Info: Redefining \pageref on input line 58.
-LaTeX Info: Redefining \nameref on input line 58.
+LaTeX Info: Redefining \ref on input line 60.
+LaTeX Info: Redefining \pageref on input line 60.
+LaTeX Info: Redefining \nameref on input line 60.
 
 (./report.out) (./report.out)
 \@outlinefile=\write3
@@ -767,23 +767,23 @@ LaTeX Info: Redefining \nameref on input line 58.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <20> not available
-(Font)              size <20.74> substituted on input line 67.
+(Font)              size <20.74> substituted on input line 69.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <30> not available
-(Font)              size <24.88> substituted on input line 68.
+(Font)              size <24.88> substituted on input line 70.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <30> not available
-(Font)              size <24.88> substituted on input line 68.
+(Font)              size <24.88> substituted on input line 70.
 
 <./images/logo.pdf, id=48, pagebox=cropbox, 554.07pt x 193.29715pt>
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 79. on input lin
-e 79.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 81. on input lin
+e 81.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 79.
+ 81.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 44.05289pt.
@@ -799,188 +799,183 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 91. on input lin
-e 91.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 93. on input lin
+e 93.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 91.
+ 93.
  [1]
 
 Package hyperref Warning: Composite letter `\textasciicaron+e'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 97.
+(hyperref)                removing `\textasciicaron' on input line 99.
 
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 108. on input li
-ne 108.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 110. on input li
+ne 110.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 108.
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.108 
-       [1]
+ 110.
+[1]
 
 Package hyperref Warning: Composite letter `\textasciicaron+c'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 109.
+(hyperref)                removing `\textasciicaron' on input line 111.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 110--113
+Underfull \hbox (badness 10000) in paragraph at lines 112--115
 
  []
 
 
 Package hyperref Warning: Composite letter `\textasciicaron+c'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 120.
+(hyperref)                removing `\textasciicaron' on input line 122.
 
-<./images/survivedHist.png, id=83, 412.6617pt x 347.6187pt>
+<./images/survivedHist.png, id=84, 412.6617pt x 347.6187pt>
 File: ./images/survivedHist.png Graphic file (type png)
 <use ./images/survivedHist.png>
-Package pdftex.def Info: ./images/survivedHist.png  used on input line 128. on 
-input line 128.
+Package pdftex.def Info: ./images/survivedHist.png  used on input line 130. on 
+input line 130.
 Package pdftex.def Info: Requested size: 224.03743pt x 188.7244pt on input line
- 128.
-<./images/survivedDist.png, id=85, 422.0568pt x 354.8457pt>
+ 130.
+<./images/survivedDist.png, id=86, 422.0568pt x 354.8457pt>
 File: ./images/survivedDist.png Graphic file (type png)
 <use ./images/survivedDist.png>
-Package pdftex.def Info: ./images/survivedDist.png  used on input line 129. on 
-input line 129.
+Package pdftex.def Info: ./images/survivedDist.png  used on input line 131. on 
+input line 131.
 Package pdftex.def Info: Requested size: 224.03743pt x 188.3597pt on input line
- 129.
+ 131.
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 131. on input li
-ne 131.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 133. on input li
+ne 133.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 131.
+ 133.
 [2 <./images/survivedHist.png> <./images/survivedDist.png>]
-<./images/diedHist.png, id=99, 412.6617pt x 347.6187pt>
+<./images/diedHist.png, id=100, 412.6617pt x 347.6187pt>
 File: ./images/diedHist.png Graphic file (type png)
 <use ./images/diedHist.png>
-Package pdftex.def Info: ./images/diedHist.png  used on input line 133. on inpu
-t line 133.
+Package pdftex.def Info: ./images/diedHist.png  used on input line 135. on inpu
+t line 135.
 Package pdftex.def Info: Requested size: 224.03743pt x 188.7244pt on input line
- 133.
-<./images/diedDist.png, id=100, 422.0568pt x 354.8457pt>
+ 135.
+<./images/diedDist.png, id=101, 422.0568pt x 354.8457pt>
 File: ./images/diedDist.png Graphic file (type png)
 <use ./images/diedDist.png>
-Package pdftex.def Info: ./images/diedDist.png  used on input line 134. on inpu
-t line 134.
+Package pdftex.def Info: ./images/diedDist.png  used on input line 136. on inpu
+t line 136.
 Package pdftex.def Info: Requested size: 224.03743pt x 188.3597pt on input line
- 134.
+ 136.
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 137. on input li
-ne 137.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 139. on input li
+ne 139.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 137.
+ 139.
  [3 <./images/diedHist.png> <./images/diedDist.png>]
 
 Package hyperref Warning: Composite letter `\textasciicaron+e'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 138.
+(hyperref)                removing `\textasciicaron' on input line 140.
 
-<./images/3_survived.pdf, id=107, pagebox=cropbox, 849.1725pt x 922.44624pt>
+<./images/3_survived.pdf, id=108, pagebox=cropbox, 849.1725pt x 922.44624pt>
 File: ./images/3_survived.pdf Graphic file (type pdf)
 <use ./images/3_survived.pdf>
-Package pdftex.def Info: ./images/3_survived.pdf  used on input line 141. on in
-put line 141.
+Package pdftex.def Info: ./images/3_survived.pdf  used on input line 143. on in
+put line 143.
 Package pdftex.def Info: Requested size: 361.34999pt x 392.53413pt on input lin
-e 141.
+e 143.
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 151. on input li
-ne 151.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 153. on input li
+ne 153.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 151.
+ 153.
 [4 <./images/3_survived.pdf>]
-<./images/3_died.pdf, id=124, pagebox=cropbox, 847.165pt x 939.51pt>
+<./images/3_died.pdf, id=125, pagebox=cropbox, 847.165pt x 939.51pt>
 File: ./images/3_died.pdf Graphic file (type pdf)
 <use ./images/3_died.pdf>
-Package pdftex.def Info: ./images/3_died.pdf  used on input line 153. on input 
-line 153.
+Package pdftex.def Info: ./images/3_died.pdf  used on input line 155. on input 
+line 155.
 Package pdftex.def Info: Requested size: 361.34999pt x 400.74155pt on input lin
-e 153.
+e 155.
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 156. on input li
-ne 156.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 158. on input li
+ne 158.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 156.
+ 158.
  [5 <./images/3_died.pdf>]
 
 Package hyperref Warning: Composite letter `\textasciicaron+e'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 157.
+(hyperref)                removing `\textasciicaron' on input line 159.
 
-<./images/4_Survived_Gen.png, id=137, 387.4475pt x 279.0425pt>
+<./images/4_Survived_Gen.png, id=138, 387.4475pt x 279.0425pt>
 File: ./images/4_Survived_Gen.png Graphic file (type png)
 <use ./images/4_Survived_Gen.png>
-Package pdftex.def Info: ./images/4_Survived_Gen.png  used on input line 162. o
-n input line 162.
+Package pdftex.def Info: ./images/4_Survived_Gen.png  used on input line 164. o
+n input line 164.
 Package pdftex.def Info: Requested size: 224.03743pt x 161.3551pt on input line
- 162.
-<./images/4_Survived_Data.png, id=138, 387.4475pt x 279.0425pt>
+ 164.
+<./images/4_Survived_Data.png, id=139, 387.4475pt x 279.0425pt>
 File: ./images/4_Survived_Data.png Graphic file (type png)
 <use ./images/4_Survived_Data.png>
-Package pdftex.def Info: ./images/4_Survived_Data.png  used on input line 163. 
-on input line 163.
+Package pdftex.def Info: ./images/4_Survived_Data.png  used on input line 165. 
+on input line 165.
 Package pdftex.def Info: Requested size: 224.03743pt x 161.3551pt on input line
- 163.
-<./images/4_Died_Gen.png, id=139, 387.4475pt x 279.0425pt>
+ 165.
+<./images/4_Died_Gen.png, id=140, 387.4475pt x 279.0425pt>
 File: ./images/4_Died_Gen.png Graphic file (type png)
 <use ./images/4_Died_Gen.png>
-Package pdftex.def Info: ./images/4_Died_Gen.png  used on input line 169. on in
-put line 169.
+Package pdftex.def Info: ./images/4_Died_Gen.png  used on input line 171. on in
+put line 171.
 Package pdftex.def Info: Requested size: 224.03743pt x 161.3551pt on input line
- 169.
-<./images/4_Died_Data.png, id=140, 381.425pt x 279.0425pt>
+ 171.
+<./images/4_Died_Data.png, id=141, 381.425pt x 279.0425pt>
 File: ./images/4_Died_Data.png Graphic file (type png)
 <use ./images/4_Died_Data.png>
-Package pdftex.def Info: ./images/4_Died_Data.png  used on input line 170. on i
-nput line 170.
+Package pdftex.def Info: ./images/4_Died_Data.png  used on input line 172. on i
+nput line 172.
 Package pdftex.def Info: Requested size: 224.03743pt x 163.90129pt on input lin
-e 170.
+e 172.
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 173. on input li
-ne 173.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 175. on input li
+ne 175.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 173.
+ 175.
 [6 <./images/4_Survived_Gen.png> <./images/4_Survived_Data.png> <./images/4_Die
 d_Gen.png> <./images/4_Died_Data.png>]
 
 Package hyperref Warning: Composite letter `\textasciicaron+c'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 174.
+(hyperref)                removing `\textasciicaron' on input line 176.
 
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 214. on input li
-ne 214.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 216. on input li
+ne 216.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 214.
+ 216.
 [7]
 
 Package hyperref Warning: Composite letter `\textasciicaron+r'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 215.
+(hyperref)                removing `\textasciicaron' on input line 217.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 235.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 237.
 File: ./images/logo.pdf Graphic file (type pdf)
 <use ./images/logo.pdf>
-Package pdftex.def Info: ./images/logo.pdf  used on input line 235. on input li
-ne 235.
+Package pdftex.def Info: ./images/logo.pdf  used on input line 237. on input li
+ne 237.
 Package pdftex.def Info: Requested size: 113.81102pt x 39.70285pt on input line
- 235.
+ 237.
 [8]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 235.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 237.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 235.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 235.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 237.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 237.
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 956788C9016A7F2B8A572F7CB8097875;786.
 
@@ -988,13 +983,13 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 5.12pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 235.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 237.
  ) 
 Here is how much of TeX's memory you used:
- 9800 strings out of 492990
- 134549 string characters out of 6135004
+ 9802 strings out of 492990
+ 134565 string characters out of 6135004
  270008 words of memory out of 5000000
- 13198 multiletter control sequences out of 15000+600000
+ 13199 multiletter control sequences out of 15000+600000
  10321 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  28i,18n,43p,1142b,1279s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1010,10 +1005,10 @@ sfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
 m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (10 pages, 365510 bytes).
+Output written on report.pdf (10 pages, 365507 bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
- 172 compressed objects within 2 object streams
- 38 named destinations out of 1000 (max. 500000)
+ 223 PDF objects out of 1000 (max. 8388607)
+ 173 compressed objects within 2 object streams
+ 39 named destinations out of 1000 (max. 500000)
  144 words of extra memory for PDF output out of 10000 (max. 10000000)
 
