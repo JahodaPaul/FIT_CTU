@@ -1,7 +1,8 @@
-\select@language {czech}
+\babel@toc {czech}{}
 \contentsline {section}{\numberline {1}\IeC {\'U}kol 1 - Na\IeC {\v c}ten\IeC {\'\i } a popis datasetu}{1}{section.1}
 \contentsline {section}{\numberline {2}\IeC {\'U}kol 2 - Hustota a distribu\IeC {\v c}n\IeC {\'\i } funkce}{1}{section.2}
 \contentsline {section}{\numberline {3}\IeC {\'U}kol 3 - Nejbli\IeC {\v z}\IeC {\v s}\IeC {\'\i } rozd\IeC {\v e}len\IeC {\'\i }}{3}{section.3}
 \contentsline {section}{\numberline {4}\IeC {\'U}kol 4 - Generov\IeC {\'a}n\IeC {\'\i } n\IeC {\'a}hodn\IeC {\'e}ho v\IeC {\'y}b\IeC {\v e}ru}{4}{section.4}
 \contentsline {section}{\numberline {5}\IeC {\'U}kol 5 - Konfiden\IeC {\v c}n\IeC {\'\i } interval}{5}{section.5}
 \contentsline {section}{\numberline {6}\IeC {\'U}kol 6 - Testov\IeC {\'a}n\IeC {\'\i } hypot\IeC {\'e}zy}{6}{section.6}
+\contentsline {section}{\numberline {7}\IeC {\'U}kol 7 - Testov\IeC {\'a}n\IeC {\'\i } st\IeC {\v r}edn\IeC {\'\i }ch hodnot}{6}{section.7}

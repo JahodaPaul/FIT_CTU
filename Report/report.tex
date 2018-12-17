@@ -130,10 +130,7 @@ Data vygenerovaná pro mrtvé opeřence už na tom jsou hůře. Generovaná data
 
 \section{Úkol 5 - Konfidenční interval}
 
-Jelikož neznáme rozptyl našich rozdělení (pouze je dokážeme odhadnout) použijeme pro výpočet konfidenčních intervalů namísto rozptylu $\sigma$ výběrový rozptyl $s_n$. Dále $\bar{X}_n$ je výběrový průměr veličiny, $t_{\alpha/2,n-1}$ je kritická hodnota Studentova t-rozdělení, n je počet prvků v rozdělení. Veličina X1 jsou vrabci jež přežili, X2 vrabci co nepřežili.  Spolehlivost má být 95\%, tedy 
-\begin{align*}
-\alpha = 0.05 \Rightarrow \alpha/2 = 0.025
-\end{align*}
+Jelikož neznáme rozptyl našich rozdělení (pouze je dokážeme odhadnout) použijeme pro výpočet konfidenčních intervalů namísto rozptylu $\sigma$ výběrový rozptyl $s_n$. Dále $\bar{X}_n$ je výběrový průměr veličiny, $t_{\alpha/2,n-1}$ je kritická hodnota Studentova t-rozdělení, n je počet prvků v rozdělení. Veličina X1 jsou vrabci jež přežili, X2 vrabci co nepřežili.  Spolehlivost má být 95\%, tedy $\alpha = 0.05$.
 
 Oboustranný 95\% konfidenční interval pro X1 spočteme jako:
 
@@ -141,7 +138,7 @@ Oboustranný 95\% konfidenční interval pro X1 spočteme jako:
 \begin{align}
 (S_{X1},U_{X1})
 = (\overbar{X1}_{n_1} - t_{\alpha/2,n_1-1}.\frac{s_{n_1}}{\sqrt{n_1}},
-  \overbar{X1}_{n_1} + t_{\alpha/2,n_1-1}.\frac{s_{n_1}}{\sqrt{n_1}}) \nonumber\\
+   \overbar{X1}_{n_1} + t_{\alpha/2,n_1-1}.\frac{s_{n_1}}{\sqrt{n_1}}) \nonumber\\
 = (25,46 - 2,03.\frac{1,59}{5,9},
    25,46 + 2,03.\frac{1,59}{5,9})
 = \textbf{(25.031, 25.895)}
@@ -154,8 +151,8 @@ Oboustranný 95\% konfidenční interval pro X2:
 (S_{X2},U_{X2}) = 
 (\overbar{X2}_{n_2} - t_{\alpha/2,n_2-1}.\frac{s_{n_2}}{\sqrt{n_2}},
  \overbar{X2}_{n_2} + t_{\alpha/2,n_2-1}.\frac{s_{n_2}	}{\sqrt{n_2}}) \nonumber\\
-= (26.275 - 2,06.\frac{2,17}{4,9},
-   26.275 + 2,06.\frac{2,17}{4,9})
+= (26,275 - 2,06.\frac{2,17}{4,9},
+   26,275 + 2,06.\frac{2,17}{4,9})
 = \textbf{(25.656, 26.894)}
 \end{align}
 
@@ -170,6 +167,20 @@ Jelikož $K \notin (25.031, 25.895)$ přijímáme alternatívní hypotézu $H_A$
 \par \medskip
 \textbf{Vrabci co neprežili}\\
 Jelikož $K \notin (25.656, 26.894)$ přijímáme alternatívní hypotézu $H_A$, která říká, že střední hodnota vah vrabců kteří nepřežili se nerovná K.
+
+\section{Úkol 7 - Testování středních hodnot}
+Testujeme hypotézu, zda se rovnají střední hodnoty vah vrabců jež přežili a zahynuli. Alternativa k této hypotéze bude, že střední hodnota se u přeživších a mrtvých vrabců liší.
+
+$H_0: \mu_p = \mu_z$
+
+$H_A: \mu_p \neq \mu_z$
+
+$\alpha = 0,05$\\
+
+Pro srovnání použijeme dvouvýběrový t-test s předpokladem, že rozptyl obou veličin je stejný. p-hodnota nám vyšla 0.027 $<$ 0.05. Hypotézu $H_0$ lze tedy zamítnout ve prospěch alternaticní hypotézy $H_A$, že \textbf{vrabci mají rozdílnou střední hodnotu vah v závislosti na tom zda přežili či nikoliv.} \\
+
+Abychom si byli jisti že jsme zvolili správnou variantu t-testu, otestujeme ještě rozptyl veličin pomocí Bartlettova testu. p-hodnota = 0.41 $>$ 0.05, takže shodu rozptylů výšek na hladině významnosti 5\% nezamítáme, a potvrzuje naši volbu.
+
 
 \end{document}
 
