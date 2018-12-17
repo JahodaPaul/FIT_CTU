@@ -106,10 +106,10 @@ def SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD):
     S_gen = []
     D_gen = []
     
-    for i in range(0,100): #35 survived, 24 died
+    for i in range(0,100): 
         S_gen.append(np.random.normal(loc=meanS,scale=np.sqrt(varS)))
 
-    for i in range(0,100): #35 survived, 24 died
+    for i in range(0,100):
         D_gen.append(np.random.normal(loc=meanD,scale=np.sqrt(varD)))
     
     bins = np.linspace(21, 33, 13, endpoint=True)
@@ -149,8 +149,48 @@ def SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD):
 #     plt.savefig('pst/Report/images/4_Died_Data.png', bbox_inches='tight')
     plt.show()
 
+def SolutionTask5(weightsSurvived, weightsDied, meanS, varS, meanD, varD):
+    n1 = len(weightsSurvived)
+    n2 = len(weightsDied)
+    
+    res1 = 0
+    for i in range(0,n1):
+        res1 += (weightsSurvived[i] - meanS) ** 2
+    res1 = res1/(n1-1)
+
+    t1 = 2.03
+    L1 = meanS - t1 * np.sqrt(res1) / np.sqrt(n1)
+    U1 = meanS + t1 * np.sqrt(res1) / np.sqrt(n1)
+    
+    res2 = 0
+    for i in range(0,n2):
+        res2 += (weightsDied[i] - meanD) ** 2
+    res2 = res2/(n2-1)
+    
+    t2 = 2.06
+    L2 = meanD - t2 * np.sqrt(res2) / np.sqrt(n2)
+    U2 = meanD + t2 * np.sqrt(res2) / np.sqrt(n2)
+    
+    print('Lower for X1: %0.3f' % L1)
+    print('Upper for X1: %0.3f' % U1)
+    print('=================')
+    print('Lower for X2: %0.3f' % L2)
+    print('Lower for X2: %0.3f' % U2)    
+    print('=================')
+    print('sn1: %0.3f' % res1)
+    print('sn2: %0.3f' % res2)
+
+def SolutionTask7(weightsSurvived, weightsDied):
+    p_value1 = stats.ttest_ind(weightsSurvived, weightsDied, equal_var=True)
+    print(p_value1[1])
+ 
+    p_value2 = stats.bartlett(weightsSurvived, weightsDied)
+    print(p_value2[1])
+
 weightsSurvived, weightsDied = importData('data.csv')
 meanS, varS, meanD, varD = SolutionTask1(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
 #SolutionTask2(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
 SolutionTask3(weightsSurvived=weightsSurvived,weightsDied=weightsDied)
 #SolutionTask4(weightsSurvived, weightsDied, meanS, varS, meanD, varD)
+#SolutionTask5(weightsSurvived, weightsDied, meanS, varS, meanD, varD)
+#SolutionTask7(weightsSurvived, weightsDied)
