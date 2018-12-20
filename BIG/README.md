@@ -1,5 +1,7 @@
 ## Semestral project for _Database Technologies for Big Data_ course (2018/19)
 
+![Visualisations](https://i.imgur.com/82BfJeV.png)
+
 ## About project
 Analysis and visualisations of millions of data points from nonprofit organization DonorsChoose that allows individuals to donate directly to public school classroom projects. <br/>
 The main focus of my analysis are Donors and their donations. Used technologies include Spark, Hadoop, Elasticsearch, Logstash and Kibana. 
