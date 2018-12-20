@@ -25,6 +25,9 @@ To share code [I](https://www.bit.ly/2Kudpj5) have written during [my](https://w
   * [BI-PSI - Semestral projects](/PSI) - _Computer Networks_ - 16/16 points received.
   * [BI-BEZ](/BEZ) - _Security_ - 20/20 points received.
 
+* ### 5th semester
+  * [BI-BIG - Semestral project](/BIG) - _Database Technologies for Big Data_ - 25/25 points received.
+
 [BI-ACM](/ACM) - _Competitive programming_ - Course taken during 1st,2nd,3rd and 5th semester in preparation for [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest) 
   
   

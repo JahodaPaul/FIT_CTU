@@ -1,0 +1,2 @@
+- pipeline.id: google-pipeline
+  path.config: /usr/share/logstash/pipeline
