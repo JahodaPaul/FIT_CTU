@@ -13,11 +13,15 @@ Always recieved an A.
 
 * ### 2nd semester: 
 	* Our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [johno16](http://codeforces.com/profile/johno16)) finished 10th (out of 17) with 105 points.<br> First team ([DXHPeter](http://codeforces.com/profile/DXHPeter), [songman](http://codeforces.com/profile/songman), [schovkla](http://codeforces.com/profile/schovkla)) finished with 348 points.
+
 * ### 3rd semester 
 	* Our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [7vojta7](http://codeforces.com/profile/7vojta7)) finished 6th (out of 16) with 141 points.<br> First team ([kristja6](http://codeforces.com/profile/kristja6), [slonichobot](http://codeforces.com/profile/slonichobot), [vu.tunganh96](http://codeforces.com/profile/vu.tunganh96)) finished with 353 points.
+
+* ### 5th semester 
+	* Our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [mkucera](http://codeforces.com/profile/mkucera)) finished 1th (out of 13) with 245 points.
 
 ## Links
 [FIT CTU ACM-ICPC](https://turing.cz/tom/acm.html) - training website in Czech.
 
 ## Acknowledgement
-I would like to thank the organizing team ([valla](http://codeforces.com/profile/valla), [Morass](http://codeforces.com/profile/-Morass-), [blazeva1](http://codeforces.com/profile/blazeva1), [ondrasuchy](http://codeforces.com/profile/ondrasuchy), [Josik](http://codeforces.com/profile/Josik) and others) for selecting problemsets, doing tutorials and putting effort to help us improve.
+I would like to thank the organizing team ([valla](http://codeforces.com/profile/valla), [ondrasuchy](http://codeforces.com/profile/ondrasuchy), [Morass](http://codeforces.com/profile/-Morass-), [blazeva1](http://codeforces.com/profile/blazeva1), [Josik](http://codeforces.com/profile/Josik) and others) for selecting problemsets, doing tutorials and putting effort to help us improve.
