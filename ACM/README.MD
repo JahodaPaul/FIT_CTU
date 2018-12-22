@@ -14,6 +14,7 @@ All the files are in format ```<algorithm>_<name>.<suffix>```.<br />
 The course focuses mainly on gifted students, but everybody is welcome. Every week there is a training where you try to solve as many algorithmic problems as possible. You can solve problems in a team of up to three people. At the end of training, there is an editorial, where the correct solutions are presented. For solving a problem during the training you get more point. You can also get some points if you submit correct solution before the next training.
 
 The table below shows how many points we received for solving a single problem.
+
 |              | During training | After training |
 |--------------|:---------------:|:--------------:|
 | 1st semester |        12       |        6       |
