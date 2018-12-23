@@ -1,3 +1,0 @@
-/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/pjahoda/Desktop/Recipe_Manager/cmake-build-debug/CMakeFiles/jahodpa1.dir

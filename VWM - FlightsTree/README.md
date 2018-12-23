@@ -11,7 +11,7 @@ python3 src/main.py
 Gained maximum points obtainable.
 
 ## About
-Using R-tree to manipulate flight data from flightradar24 API.
+Retrieving closest commercial planes in the air to some position (longitude and latitude) using R-tree. Flight data are retrived from flightradar24 API.
 
 ## Requirements:
 * flightradar24 (pip3 install flightradar24)

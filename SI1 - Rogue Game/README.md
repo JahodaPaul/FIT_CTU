@@ -1,8 +1,7 @@
-![Build Passing](https://img.shields.io/wercker/ci/wercker/docs.svg)<br/>
-# RG - Project for courses _Software Team Project 1/Software Engineering 1_ (BI-SP1/BI-SI1 2018)
+# Rogue Game - Project for courses _Software Team Project 1/Software Engineering 1_ (BI-SP1/BI-SI1 2018)
 Dive into the role of a dwarf that faces dangers in depths of dungeon that awaits to be explored.
 
-![RG preview](https://i.imgur.com/MNx1RXu.png)
+![Rogue Game preview](https://i.imgur.com/MNx1RXu.png)
 
 ### Requirements
 * sfml

@@ -1,2 +1,0 @@
-Options: 
-CMake: 3.7.1@/home/pjahoda/Documents/CLion-2017.1/clion-2017.1/bin/cmake/bin/cmake
