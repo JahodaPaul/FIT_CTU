@@ -27,6 +27,10 @@ To share code [I](https://www.bit.ly/2Kudpj5) have written during [my](https://w
 
 * ### 5th semester
   * [BI-BIG - Semestral project](/BIG) - _Database Technologies for Big Data_ - 25/25 points received.
+  * [BI-EP1](/EP1) - _Efficient Programming 1_ - Solved more problems than any other student in the course.
+
+* ### 6th semester
+  * Was selected for an exchange programme with [Nanyang Technological University](https://en.wikipedia.org/wiki/Nanyang_Technological_University) in [Singapore](https://en.wikipedia.org/wiki/Singapore).
 
 [BI-ACM](/ACM) - _Competitive programming_ - Course taken during 1st,2nd,3rd and 5th semester in preparation for [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest) 
   

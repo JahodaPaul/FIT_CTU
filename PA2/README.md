@@ -13,6 +13,6 @@ homework 7 - [Prázdniny se blíží I](/PA2/DU_7): __5.5/7.7__ (0 out of 1 bonu
 Gained more [points](/PA2/results.pdf) from homework than about 95% of students.
 
 ## Warning
-Do not try to copy these, these are meant only as a guide to get<br/> as much points as possible. Copying them will only hurt you.
+Do not copy these codes, they are meant only as a guide to get<br/> as much points as possible. Copying them will only hurt you.
 
 It was writen in a way to get as much points in as little time as possible. Code is not always pretty.

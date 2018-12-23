@@ -14,6 +14,6 @@ homework 8 - [Pořadová cvičení](/PA1/DU_8): __3.3/3.3__ (easier task)
 Gained more [points](/PA1/results.pdf) from homework than 98% of students.
 
 ## Warning
-Do not try to copy these, these are meant only as a guide to get <br/> as much points as possible. Copying them will only hurt you.
+Do not copy these codes, they are meant only as a guide to get <br/> as much points as possible. Copying them will only hurt you.
 
 It was writen in a way to get as much points in as little time as possible. Code is not always pretty.

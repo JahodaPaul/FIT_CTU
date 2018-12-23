@@ -8,4 +8,4 @@ homework 2 - [Memory manager](/OSY/OSY_2): __30/41.25__ (0 out of 1 bonus)
 Gained more [points](/OSY/results.pdf) from homework than 93% of students.
 
 ## Advice
-Do not try to copy these, these are meant only as a guide to get<br/> as much points as possible. Copying them will only hurt you.
+Do not copy these codes, they are meant only as a guide to get<br/> as much points as possible. Copying them will only hurt you.

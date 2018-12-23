@@ -12,4 +12,4 @@ Homework 6: __2/2__
 Gained maximum points obtainable.
 
 ## Warning
-Do not try to copy these, these are meant only as a guide to get<br/> as much points as possible. Copying them will only hurt you.
+Do not copy these codes, they are meant only as a guide to get<br/> as much points as possible. Copying them will only hurt you.
