@@ -12,7 +12,7 @@ To share code [I](https://www.bit.ly/2Kudpj5) have written during [my](https://w
   
 * ### 2nd semester
   * [BI-PA2](/PA2) - _Programming and Algorithmics 2_ - Received more points than 95% of students.
-  * [BI-PA2 - Semestral project](/PA2%20-%20Recipe Manager) - _Programming and Algorithmics 2_ - 12/12 points received. 
+  * [BI-PA2 - Semestral project](/PA2%20-%20Recipe%20Manager) - _Programming and Algorithmics 2_ - 12/12 points received. 
   
 * ### 3th semester
   * [BI-AG1](/AG1) - _Algorithms and Graphs 1_ - Received more (or equal) points than 100% of students.
@@ -21,7 +21,7 @@ To share code [I](https://www.bit.ly/2Kudpj5) have written during [my](https://w
 * ### 4th semester
   * [BI-OSY](/OSY) - _Operating Systems_ - Received more points than 93% of students.
   * [BI-VWM - Semestral project](/VWM%20-%20FlightsTree) - _Information Retrieval and Web Search_ - 50/50 points received.
-  * [BI-SP1/BI-SI1 - Semestral project](/SI1%20-%20Rogue Game) - _Software Team Project 1_ - 50/50 points received.
+  * [BI-SP1/BI-SI1 - Semestral project](/SI1%20-%20Rogue%20Game) - _Software Team Project 1_ - 50/50 points received.
   * [BI-PSI - Semestral projects](/PSI) - _Computer Networks_ - 16/16 points received.
   * [BI-BEZ](/BEZ) - _Security_ - 20/20 points received.
 
