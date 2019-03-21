@@ -15,7 +15,7 @@ class Server:
             print('waiting for a connection')
             data, address = self.mySocket.recvfrom(4096)
             print('Received {!r}'.format(data))
-            print(Unpack(data))
+            print(Unpack(data).Get_string())
 
             #connection, client_address = self.mySocket.accept()
             #connection.settimeout(1)

@@ -1,5 +1,7 @@
 import socket
 from Marshalling import *
+from DateTime import DateTime
+from Flight import Flight
 
 class Communication_UDP:
     def __init__(self, socket, ip, port):
@@ -11,7 +13,7 @@ class Communication_UDP:
         while True:
             try:
                 # Send data
-                self.my_socket.sendto(Pack(1), (self.ipAddress, self.port))
+                self.my_socket.sendto(Pack(Flight(20,'rim','Praha',DateTime('cas'),400,100)), (self.ipAddress, self.port))
 
                 # Receive response
                 data, server = self.my_socket.recvfrom(4096)
