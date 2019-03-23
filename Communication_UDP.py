@@ -13,7 +13,11 @@ class Communication_UDP:
         while True:
             try:
                 # Send data
-                self.my_socket.sendto(Pack(Flight(20,'rim','Praha',DateTime('cas'),400,100)), (self.ipAddress, self.port))
+                str = 'neco'
+                intt = 14
+                let = Flight(20,'rim','Praha',DateTime('cas'),400,100)
+                # [1,3,INT,STR,FLI,intt,str,let]
+                self.my_socket.sendto(Pack([1,5,INT,FLI,STR,INT,FLI,intt,let,str,intt,let]), (self.ipAddress, self.port))
 
                 # Receive response
                 data, server = self.my_socket.recvfrom(4096)

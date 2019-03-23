@@ -1,51 +1,69 @@
-# 0 - initial sequence
-# 1 - int
-# 2 - string
-# 3 - date-time
-# 4 - floating point
-# 5 - flight
-
 import math
 from Flight import Flight
 from DateTime import DateTime
+from Config import *
 
+# packed object is list of objects; index 0: service ID, index 1: number of objects (n),
+# index 2 to (1+n): type of each object, rest of indexes: objects
 def Pack(obj):
-    packed = None
-    if obj is None:
-        packed = Pack_Initial_Sequence(obj)
-    elif type(obj) is int:
-        packed = Pack_int(obj)
-    elif type(obj) is str:
-        packed = Pack_string(obj)
-    elif type(obj) is DateTime:
-        packed = Pack_datetime(obj)
-    elif type(obj) is float:
-        packed = Pack_floating_point(obj)
-    elif type(obj) is Flight:
-        packed = Pack_Flight(obj)
+    packed = []
 
+    if obj[0] == 0:
+        packed = Pack_Initial_Sequence()
+    else:
+        packed.append(obj[0])
+        n_of_objects = obj[1]
+        print(n_of_objects)
+        packed.append(n_of_objects)
+
+        for i in range(2,2+n_of_objects):
+            packed.append(obj[i])
+            if obj[i] == INT:
+                packed.extend(Pack_int(obj[n_of_objects+i]))
+            elif obj[i] == STR:
+                packed.extend(Pack_string(obj[n_of_objects+i]))
+            elif obj[i] == DATE:
+                packed.extend(Pack_datetime(obj[n_of_objects+i]))
+            elif obj[i] == FP:
+                packed.extend(Pack_floating_point(obj[n_of_objects+i]))
+            elif obj[i] == FLI:
+                packed.extend(Pack_Flight(obj[n_of_objects+i]))
+
+    print(packed)
     return bytes(packed)
 
 def Unpack(obj):
     if obj[0] == 0:
-        return Unpack_Initial_Sequence(obj[1:])
-    elif obj[0] == 1:
-        return Unpack_int(obj[1:])
-    elif obj[0] == 2:
-        return Unpack_string(obj[1:])
-    elif obj[0] == 3:
-        return Unpack_datetime(obj[1:])
-    elif obj[0] == 4:
-        return Unpack_floating_point(obj[1:])
-    elif obj[0] == 5:
-        return Unpack_Flight(obj[1:])
+        return Unpack_Initial_Sequence()
+    else:
+        unpacked = []
+        unpacked.append(obj[0])
+        n_of_objects = obj[1]
+        unpacked.append(n_of_objects)
+        currentIndex = 2
+        print(obj)
+        for i in range(n_of_objects):
+            length_of_current_object = obj[currentIndex + 1] + 1
+            print(length_of_current_object)
+            if obj[currentIndex] == INT:
+                unpacked.append(Unpack_int(obj[currentIndex + 1:currentIndex+length_of_current_object]))
+            elif obj[currentIndex] == STR:
+                unpacked.append(Unpack_string(obj[currentIndex + 1:currentIndex + length_of_current_object]))
+            elif obj[currentIndex] == DATE:
+                unpacked.append(Unpack_datetime(obj[currentIndex + 1:currentIndex + length_of_current_object]))
+            elif obj[currentIndex] == FP:
+                unpacked.append(Unpack_floating_point(obj[currentIndex + 1:currentIndex + length_of_current_object]))
+            elif obj[currentIndex] == FLI:
+                unpacked.append(Unpack_Flight(obj[currentIndex+1:currentIndex + length_of_current_object]))
 
+            currentIndex += length_of_current_object
+    return unpacked
 
-def Pack_Initial_Sequence(obj):
+def Pack_Initial_Sequence():
     return [0]
 
-def Unpack_Initial_Sequence(obj):
-    return None
+def Unpack_Initial_Sequence():
+    return [0]
 
 def Pack_int(number):
     resultList = []
@@ -53,15 +71,16 @@ def Pack_int(number):
         resultList.append(number % 256)
         number = number // 256
 
-    resultList.append(1)
+    resultList.append(4+1)
     resultList = resultList[::-1]
     return resultList
 
 
 def Unpack_int(obj):
+    length_of_int = obj[0]
     resultNumber = 0
-    for counter, number in enumerate(obj):
-        resultNumber += (number * int(math.pow(256, len(obj) - counter - 1)))
+    for i in range(1,length_of_int):
+        resultNumber += (obj[i] * int(math.pow(256, len(obj) - i - 1)))
 
     return resultNumber
 
@@ -70,10 +89,9 @@ def Pack_string(obj):
     arr[0] = len(obj) + 1
     for i in range(len(obj)):
         arr[i+1] = ord(obj[i])
-    return [2] + arr
+    return arr
 
 def Unpack_string(obj):
-    print(obj)
     length_of_string = obj[0]
     str = ''
     for i in range(1,length_of_string):
@@ -82,14 +100,14 @@ def Unpack_string(obj):
 
 def Pack_datetime(obj):
     str = obj.Get_string()
-    return [3] + Pack_string(str)[1:]
+    return Pack_string(str)
 
 def Unpack_datetime(obj):
     str = Unpack_string(obj)
     return DateTime(str)
 
 def Pack_floating_point(obj):#TODO implement packing of floating points
-    return [4] + Pack_int(obj)[1:]
+    return Pack_int(obj)
 
 def Unpack_floating_point(obj):#TODO implement unpacking of floating points
     return Unpack_int(obj)
@@ -104,21 +122,27 @@ def Pack_Flight(obj):
     arr += Pack_floating_point(obj.airfare)
     arr += Pack_int(obj.number_of_seats_available)
 
-    return [5] + [len(arr) + 1] + arr
+    return [len(arr) + 1] + arr
 
 def Unpack_Flight(obj):
-    print(obj)
     current = 1
-    id = Unpack(obj[current:5+current])
-    current += 5
-    source = Unpack(obj[current:obj[current+1]+current+1])
-    current += obj[current+1] + 1
-    destination = Unpack(obj[current:obj[current+1]+current+1])
-    current += obj[current+1] + 1
-    departure_time = Unpack(obj[current:obj[current+1]+current+1])
-    current += obj[current+1] + 1
-    airfare = Unpack(obj[current:5+current])
-    current += 5
-    number_of_seats_available = Unpack(obj[current:5+current])
-    current += 5
+
+    id = Unpack_int(obj[current:obj[current]+current])
+    current += obj[current]
+
+    source = Unpack_string(obj[current:obj[current]+current])
+    current += obj[current]
+
+    destination = Unpack_string(obj[current:obj[current]+current])
+    current += obj[current]
+
+    departure_time = Unpack_datetime(obj[current:obj[current]+current])
+    current += obj[current]
+
+    airfare = Unpack_floating_point(obj[current:obj[current]+current])
+    current += obj[current]
+
+    number_of_seats_available = Unpack_int(obj[current:obj[current]+current])
+    current += obj[current]
+
     return Flight(id,source,destination,departure_time,airfare,number_of_seats_available)

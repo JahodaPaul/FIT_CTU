@@ -9,13 +9,15 @@ class Server:
         self.port = 10000
         self.Run()
 
+        self.cache = [] # store the 10 last requests and responses for at-most-once invocation semantics
+
     def Communicate(self):
         while True:
             # Wait for a connection
             print('waiting for a connection')
             data, address = self.mySocket.recvfrom(4096)
             print('Received {!r}'.format(data))
-            print(Unpack(data).Get_string())
+            print(Unpack(data))
 
             #connection, client_address = self.mySocket.accept()
             #connection.settimeout(1)
