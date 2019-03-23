@@ -1,0 +1,123 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[marginparsep=8pt,left=2.5cm,right=2.5cm,top=2.5cm,bottom=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+%\setlength{\parindent}{0pt}% Remove paragraph indent
+\graphicspath{ {./images/} }
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+\newcommand{\overbar}[1]{\mkern 2.5mu\overline{\mkern-2.5mu#1\mkern-2.5mu}\mkern 2.5mu}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\section}{\bf\Large}{#1}{1em}{}
+\titleformat{\subsection}{\bf\large}{#1}{1em}{}
+
+\pagenumbering{gobble} % da pryc cislo stranky na uvodni strance..
+
+\usepackage{listings}
+\lstset{
+  language=Python,
+  keywordstyle=\ttfamily\color{MidnightBlue},
+  emph={MyClass,__init__},
+  emphstyle=\ttfamily\color{Mahogany},  
+  stringstyle=\color{OliveGreen},
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  frame=tb,      
+}
+
+%% ZAHLAVI A ZAPATI
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+% prostredni cast zapati
+\cfoot{\thepage}
+
+% leva cast zahlavi -- nazev sekce/subsekce
+\lhead{\fancyplain{}{\rightmark}}
+
+% prava cast zahlavi -- logo fitu
+
+%\rhead{\includegraphics[width=4cm]{logo}}
+
+%% PROKLIKAVATELNE ODKAZY -- nastaveni xetex/pdftex
+\usepackage[pdftex,pdfpagelabels,bookmarks,hyperindex,hyperfigures]{hyperref}
+
+\hypersetup{
+  colorlinks,
+  citecolor=blue,
+  filecolor=blue,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\begin{document}
+
+\begin{titlepage}
+  % pro zobrazeni loga v zahlavi
+  \thispagestyle{fancy}
+
+  % vertikalni zarovnani
+  \vspace*{\fill}
+  \begin{center}
+    {\fontsize{20}{30}\selectfont CZ4015}\\[1cm]
+    {\fontsize{30}{100}\selectfont \textbf{Final Report}}\\[4.2cm]
+  \end{center}
+
+  % vertikalni zarovnani
+  \vspace*{\fill}
+
+  % seznam clenu tymu razeny abecedne podle krestniho jmena
+  {\fontsize{10}{10} \selectfont \noindent
+  \textbf{Author:}\\
+  Pavel Jahoda (N1800740K)
+  }
+\end{titlepage}
+
+%%%%% 
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% rimska cisla pro cislovani stranek v obsahu
+\pagenumbering{roman}
+
+% samotne vlozeni obsahu
+\tableofcontents
+
+\newpage
+
+% zapnout bezne cislovani stranek pomoci arabskych cislic
+\pagenumbering{arabic}
+
+\section{Input Analysis}
+From the histograms below we can see similary between the distributions of inter-arrival times and call durations. Both of these histograms resemble probability density function of exponential distribution.\par
+%\begin{lstlisting}
+%from statsmodels.distributions.empirical_distribution import ECDF
+%ecdf = ECDF(weightsSurvived)
+%\end{lstlisting}
+\smallskip
+\noindent \includegraphics[width=3.4in]{Figure_1}
+\includegraphics[width=3.4in]{Figure_3}
+First, we will estimate the parameter of the exponential functions using maximum likelihood estimation.
+The exponential function is denoted as:
+\begin{equation} \lambda\cdot\mathrm{e}^{-\lambda\cdot x} \end{equation}
+The likelihood function for the parameter lambda given $x_1$, $x_2$,..,$x_n$ is denoted as:
+\begin{equation} \mathcal{L}(\lambda|x_1, x_2,..,x_n) = \lambda^{n}\cdot\mathrm{e}^{-\lambda\cdot \sum_{i=1}^{n} x_i} \end{equation}
+To find the lambda for which the likelihood function is maximal, we differentiate by lambda and solve for lambda when the derivate is equal to 0, which results in the following formula:
+\begin{equation} \lambda=\dfrac{n}{\sum_{i=1}^{n} x_i} \end{equation}
+Using maximum likelihood function of an exponential distribution we have calculated lambda for the inter-arrival times to be $0.73$ and lambda for the call duration times to be $0.009$.
+
+\pagebreak
+On the other hand, the two histograms below show two different distributions. The histogram on the left shows that the stations where the cars are located when the call begins are uniformly distributed from 1 to 20. The histogram of the car velocities (on the right) resembles normal distribution.\par
+\noindent \includegraphics[width=3.4in]{Figure_2}
+\includegraphics[width=3.4in]{Figure_4}
+Similarly as with the exponential distributions above, we will use maximum likelihood method to calculate the parameters of the normal distribution (car velocities). We get $\mu=120.07$ and $\sigma^2=81.33$.
+
+\end{document}
+
