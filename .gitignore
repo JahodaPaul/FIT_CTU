@@ -1,2 +1,7 @@
 /.idea/
 /__pycache__/
+*.log
+*.aux
+*.out
+*.toc
+*.xls

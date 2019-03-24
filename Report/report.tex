@@ -1,0 +1,115 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[marginparsep=8pt,left=2.5cm,right=2.5cm,top=2.5cm,bottom=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}% Remove paragraph indent
+\graphicspath{ {./images/} }
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+\newcommand{\overbar}[1]{\mkern 2.5mu\overline{\mkern-2.5mu#1\mkern-2.5mu}\mkern 2.5mu}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\section}{\bf\Large}{#1}{1em}{}
+\titleformat{\subsection}{\bf\large}{#1}{1em}{}
+
+\pagenumbering{gobble} % da pryc cislo stranky na uvodni strance..
+
+\usepackage{listings}
+\lstset{
+  language=Python,
+  keywordstyle=\ttfamily\color{MidnightBlue},
+  emph={MyClass,__init__},
+  emphstyle=\ttfamily\color{Mahogany},  
+  stringstyle=\color{OliveGreen},
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  frame=tb,      
+}
+
+%% ZAHLAVI A ZAPATI
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+% prostredni cast zapati
+\cfoot{\thepage}
+
+% leva cast zahlavi -- nazev sekce/subsekce
+\lhead{\fancyplain{}{\rightmark}}
+
+% prava cast zahlavi -- logo fitu
+
+%\rhead{\includegraphics[width=4cm]{logo}}
+
+%% PROKLIKAVATELNE ODKAZY -- nastaveni xetex/pdftex
+\usepackage[pdftex,pdfpagelabels,bookmarks,hyperindex,hyperfigures]{hyperref}
+
+\hypersetup{
+  colorlinks,
+  citecolor=blue,
+  filecolor=blue,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\begin{document}
+
+\begin{titlepage}
+  % pro zobrazeni loga v zahlavi
+  \thispagestyle{fancy}
+
+  % vertikalni zarovnani
+  \vspace*{\fill}
+  \begin{center}
+    {\fontsize{20}{30}\selectfont CZ4013}\\[1cm]
+    {\fontsize{30}{100}\selectfont \textbf{Distributed Flight Information System}}\\[4.2cm]
+  \end{center}
+
+  % vertikalni zarovnani
+  \vspace*{\fill}
+
+  % seznam clenu tymu razeny abecedne podle krestniho jmena
+  {\fontsize{10}{10} \selectfont \noindent
+  \textbf{Author:}\\
+  Pavel Jahoda (N1800740K)
+  }
+\end{titlepage}
+
+%%%%% 
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% rimska cisla pro cislovani stranek v obsahu
+\pagenumbering{roman}
+
+% samotne vlozeni obsahu
+\tableofcontents
+
+\newpage
+
+% zapnout bezne cislovani stranek pomoci arabskych cislic
+\pagenumbering{arabic}
+
+\section{General overview}
+The Distributed Flight Information System is based on client-server architecutre. Both of these programs are written in Python. At the start of the server, the server binds a socket and waits for new connection from the client. A separete method is called to establish connection. This allows us to develop a secure client-server handshake. After the connection is established, client can send requests to the server which performs the requested service, such as looking up flights based on their source and destination. Multiple invocation semantics (at-least-once and at-most-once) are implemented.
+%\begin{lstlisting}
+%from statsmodels.distributions.empirical_distribution import ECDF
+%ecdf = ECDF(weightsSurvived)
+%\end{lstlisting}
+\section{Request and reply design}
+Each request from the client is at the beginning represented as an array of objects. The array consists of identifier of the requested service, number of objects, unique numbers representing each object's type (including the error message) and the objects itself. This array is then send to the marshalling methods where they are converted into an array of bytes. After the server receives the request (array of bytes), unmarshalling method is called. The unmarshalling method converts the array of bytes back to the array of objects.\par \medskip Based on the identifier of the requested service, the server then performes the service and reply is send back in a similar way. When the server needs to send an error message (for example, when no flight with queried ID exists), it does so by sending an array that consists of the requested service id and special number that indicates that an error message is being send.  
+
+\section{Marshalling}
+Our goal in the marshalling process is to convert objects into array of bytes. First, we convert more "complex" objects (instances of classes such as flight object) into array of data types such as strings and integers. These integers and string are then converted into numbers between 0 and 127 indicating their ascii code and then converted into an array of bytes. At the beggining of such array there is an indication of the objects type (unique number) and number of bytes which is used to represent this object in an array.\par \medskip
+In our array of bytes, we have indication of number of objects, unique numbers indicating their type and we also have number of bytes needed to represent a particular object. All these information give us the ability to perform unmarshalling and reconstruct all the objects. 
+
+\section{Invocation semantics}
+\section{Services}
+
+\end{document}
+
