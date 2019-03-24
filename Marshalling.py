@@ -8,8 +8,10 @@ from Config import *
 def Pack(obj):
     packed = []
 
-    if obj[0] == 0:
-        packed = Pack_Initial_Sequence()
+    if len(obj) > 2 and obj[2] == 126:
+        packed = obj
+    elif obj[0] == 0:
+        packed = Pack_Initial_Sequence(obj)
     else:
         packed.append(obj[0])
         n_of_objects = obj[1]
@@ -33,8 +35,10 @@ def Pack(obj):
     return bytes(packed)
 
 def Unpack(obj):
-    if obj[0] == 0:
-        return Unpack_Initial_Sequence()
+    if len(obj) > 2 and obj[2] == 126:
+        return [int(obj[0]),int(obj[1]),int(obj[2])]
+    elif obj[0] == 0:
+        return Unpack_Initial_Sequence(obj)
     else:
         unpacked = []
         unpacked.append(obj[0])
@@ -59,11 +63,11 @@ def Unpack(obj):
             currentIndex += length_of_current_object
     return unpacked
 
-def Pack_Initial_Sequence():
-    return [0]
+def Pack_Initial_Sequence(obj):
+    return [0, obj[1]]
 
-def Unpack_Initial_Sequence():
-    return [0]
+def Unpack_Initial_Sequence(obj):
+    return [0, int(obj[1])]
 
 def Pack_int(number):
     resultList = []

@@ -2,6 +2,7 @@ import os
 import sys
 import socket
 from Communication_UDP import Communication_UDP
+from Config import *
 
 class Client:
     def __init__(self):
@@ -25,7 +26,7 @@ class Client:
         #  AF_INET refers to addresses from the internet, IP addresses specifically. SOCK_DGRAM states that we will use UDP
         my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-        communication = Communication_UDP(my_socket, self.UDP_SERVER_IP_ADDRESS, self.UDP_SERVER_PORT_NUMBER)
+        communication = Communication_UDP(my_socket, self.UDP_SERVER_IP_ADDRESS, self.UDP_SERVER_PORT_NUMBER, AT_LEAST_ONCE)
 
         success = self.EstablishConnection(communication, my_socket)
 
@@ -40,9 +41,9 @@ class Client:
             user_choice = input()
             print(user_choice)
             if user_choice == "1":
-                pass
+                communication.QueryBySourceAndDest('PRG', 'SIN')
             elif user_choice == "2":
-                pass
+                communication.QueryByID(1)
             elif user_choice == "3":
                 pass
             elif user_choice == "4":
