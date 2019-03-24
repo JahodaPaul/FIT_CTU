@@ -9,7 +9,6 @@ class Server:
     def __init__(self):
         self.ipAddress = "localhost" #"127.0.0.1"
         self.port = 10000
-        self.Run()
         self.invocation_semantics = AT_LEAST_ONCE
         self.flightSystem = FlightSystem()
 
@@ -17,15 +16,18 @@ class Server:
         #([ip,port,request],reply)
         self.cache = [] # store the last LIMIT requests and responses for at-most-once invocation semantics
 
+        self.Run()
+
     def Execute_Reply_Method(self, request):
         obj = Unpack(request)
         if obj[0] == 0:
             return obj
         if obj[0] == 2:#TODO
             print('ID used to query fligths:',obj[2])
-            return self.flightSystem.QueryFlightByID(obj[2])
-
-        return None #TODO
+            result = self.flightSystem.QueryFlightByID(obj[2])
+            if result == False:
+                return [obj[0],1,ERROR]
+            return [obj[0], 1, FLI, result]
 
     def Reply_To_Request_At_Most_Once(self, request, address):
         for item in self.cache:
@@ -41,6 +43,7 @@ class Server:
 
     def Reply_To_Request_At_Least_Once(self, request, address):
         reply = self.Execute_Reply_Method(request)
+        print(reply)
         # Send data
         self.mySocket.sendto(Pack(reply), address)
 
@@ -61,20 +64,8 @@ class Server:
             data, address = self.mySocket.recvfrom(4096)
             print('Received data from address:',address)
             print('Received {!r}'.format(data))
+            self.Reply_To_Request(data,address)
 
-
-
-            # print(Unpack(data))
-
-            #connection, client_address = self.mySocket.accept()
-            #connection.settimeout(1)
-
-            # print("NEW CONNECTION'")
-
-            # t1 = Thread(target=self.CommunicateSingleThread, args=(mySocket, connection, client_address))
-            # t1.start()
-
-            # self.listOfThreads.append(t1)
 
     def Run(self):
         # AF_INET refers to addresses from the internet, IP addresses specifically. SOCK_DGRAM states that we will use UDP

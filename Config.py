@@ -16,7 +16,8 @@ DATE = 13
 FP = 14
 FLI = 15
 
-# 126 - error message
-
 AT_LEAST_ONCE = 100
 AT_MOST_ONCE = 101
+
+# 126 - error message
+ERROR = 126

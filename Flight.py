@@ -18,3 +18,10 @@ class Flight:
     def Get_string(self):
         self.UpdateStringValue()
         return self.stringValue
+
+    def Get_printable_string(self):
+        result = '----------------------------------------------------------------------------------------------------\n'
+        result += 'Flight ' + str(self.iD) + ' from ' + self.source + ' to '  + self.destination + ' will be departing on ' + self.departure_time.Get_printable_string() + '\n'
+        result += 'Airfare: ' + str(self.airfare) + '\n'
+        result += 'Number of seats available: ' + str(self.number_of_seats_available) + '\n'
+        return result

@@ -29,21 +29,27 @@ class Client:
         communication = Communication_UDP(my_socket, self.UDP_SERVER_IP_ADDRESS, self.UDP_SERVER_PORT_NUMBER, AT_LEAST_ONCE)
 
         success = self.EstablishConnection(communication, my_socket)
+        if success:
+            print('Communication successfully established')
 
+        print("Welcome to flight information system.")
 
         while(1):
             # os.system("clear")
             # print(self.UDP_SERVER_IP_ADDRESS)
-            print("Welcome to flight information system.")
+
             print("Press:\n1 - query flights by source and destination of the flight\n2 - query flights by ID\n"
               "3 - make an reservation\n4 - monitor flight updates\n5 - Exit")
 
             user_choice = input()
-            print(user_choice)
+            # print(user_choice)
             if user_choice == "1":
                 communication.QueryBySourceAndDest('PRG', 'SIN')
             elif user_choice == "2":
-                communication.QueryByID(1)
+                # os.system('clear')
+                print('Choose your flight ID:')
+                user_id = input()
+                communication.QueryByID(int(user_id))
             elif user_choice == "3":
                 pass
             elif user_choice == "4":

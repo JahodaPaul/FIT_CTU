@@ -6,3 +6,6 @@ class DateTime:
 
     def Get_string(self):
         return self.string_format
+
+    def Get_printable_string(self):
+        return self.string_format
