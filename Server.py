@@ -86,7 +86,7 @@ class Server:
     def Communicate(self):
         while True:
             # Wait for a connection
-            print('waiting for a connection')
+            print('waiting for data')
             data, address = self.mySocket.recvfrom(4096)
             print('Received data from address:',address)
             print('Received {!r}'.format(data))
