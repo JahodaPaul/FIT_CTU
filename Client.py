@@ -3,11 +3,14 @@ import sys
 import socket
 from Communication_UDP import Communication_UDP
 from Config import *
+import optparse
 
 class Client:
     def __init__(self):
         self.UDP_SERVER_IP_ADDRESS = "localhost" #"127.0.0.1"
         self.UDP_SERVER_PORT_NUMBER = 10000
+        self.number_of_likes_given = 0
+        self.semantics_invocation = AT_LEAST_ONCE
 
 
     def EstablishConnection(self, communication, my_socket):
@@ -20,13 +23,15 @@ class Client:
         return success
 
     def Run(self):
-        self.UDP_SERVER_IP_ADDRESS = self.UDP_SERVER_IP_ADDRESS if len(sys.argv) < 2 else sys.argv[1]
-        self.UDP_SERVER_PORT_NUMBER = self.UDP_SERVER_PORT_NUMBER if len(sys.argv) < 3 else sys.argv[2]
+        if self.semantics_invocation == AT_LEAST_ONCE:
+            print('Invocation semantics used: at least once')
+        else:
+            print('Invocation semantics used: at most once')
 
         #  AF_INET refers to addresses from the internet, IP addresses specifically. SOCK_DGRAM states that we will use UDP
         my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-        communication = Communication_UDP(my_socket, self.UDP_SERVER_IP_ADDRESS, self.UDP_SERVER_PORT_NUMBER, AT_LEAST_ONCE)
+        communication = Communication_UDP(my_socket, self.UDP_SERVER_IP_ADDRESS, self.UDP_SERVER_PORT_NUMBER, self.semantics_invocation)
 
         success = self.EstablishConnection(communication, my_socket)
         if success:
@@ -39,7 +44,7 @@ class Client:
             # print(self.UDP_SERVER_IP_ADDRESS)
 
             print("Press:\n1 - query flights by source and destination of the flight\n2 - query flights by ID\n"
-              "3 - make an reservation\n4 - monitor flight updates\n5 - Exit")
+              "3 - make an reservation\n4 - monitor flight updates\n5 - Check number of flights\n6 - Give a like\n9 - Exit")
 
             user_choice = input()
             # print(user_choice)
@@ -55,9 +60,39 @@ class Client:
             elif user_choice == "4":
                 pass
             elif user_choice == "5":
+                communication.QueryNumberOfFlights()
+            elif user_choice == "6":
+                communication.GiveLike(self.number_of_likes_given)
+                self.number_of_likes_given += 1
+            elif user_choice == "9":
                 return
             else:
-                print("You have entered incorrect request, please write a number between 1 and 5")
+                print("You have entered incorrect request, please write a number between 1 and 6 or number 9")
+
+
+parser = optparse.OptionParser()
+
+parser.add_option('-i', '--ip_server',
+    action="store", dest="ip",
+    help="Set the ip address of the server, where the client sends data to", default="localhost")
+
+parser.add_option('-p', '--port',
+    action="store", dest="port",
+    help="Set the port number of the server, where the client sends data to", default="10000")
+
+parser.add_option('-s', '--semantics_invocation',
+    action="store", dest="invo",
+    help="Set the semantics invocation used by the client and server", default="1")
+
+options, args = parser.parse_args()
 
 client = Client()
+
+client.UDP_SERVER_IP_ADDRESS = str(options.ip)
+client.UDP_SERVER_PORT_NUMBER = int(options.port)
+if options.invo == "1":
+    client.semantics_invocation = AT_LEAST_ONCE
+elif options.invo == "2":
+    client.semantics_invocation = AT_MOST_ONCE
+
 client.Run()

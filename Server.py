@@ -3,6 +3,7 @@ from threading import Thread
 from Marshalling import *
 from Config import *
 from FlightSystem import FlightSystem
+import random
 
 
 class Server:
@@ -16,6 +17,8 @@ class Server:
         #([ip,port,request],reply)
         self.cache = [] # store the last LIMIT requests and responses for at-most-once invocation semantics
 
+        self.simulate_loss_of_packets = True
+
         self.Run()
 
     def Execute_Reply_Method(self, request):
@@ -23,34 +26,57 @@ class Server:
         if obj[0] == 0:
             return obj
         if obj[0] == 2:#TODO
-            print('ID used to query fligths:',obj[2])
+            print('Service 2; ID used to query fligths:',obj[2])
             result = self.flightSystem.QueryFlightByID(obj[2])
             if result == False:
                 return [obj[0],1,ERROR]
             return [obj[0], 1, FLI, result]
+        if obj[0] == 5:
+            print('Service 5; User asked to query number of flights')
+            result = self.flightSystem.QueryNumberOfFlights()
+            print(result)
+            return [obj[0],1,INT,result]
+        if obj[0] == 6:
+            result = self.flightSystem.GiveUsALike()
+            print('Service 6; User gave us a like number',result)
+            return [obj[0],1,INT,result]
 
     def Reply_To_Request_At_Most_Once(self, request, address):
         for item in self.cache:
             if item[0] == [address[0],address[1],request]:
-                self.mySocket.sendto(Pack(item[1]), address)
+                if self.simulate_loss_of_packets and random.randrange(0, 2) == 0:
+                    self.mySocket.sendto(Pack(item[1]), address)
+                elif self.simulate_loss_of_packets == False:
+                    self.mySocket.sendto(Pack(item[1]), address)
                 return
 
         reply = self.Execute_Reply_Method(request)
         if len(self.cache) == self.LIMIT:
             self.cache = self.cache[1:]
         self.cache.append(([address[0],address[1],request],reply))
-        self.mySocket.sendto(Pack(reply), address)
+
+        if self.simulate_loss_of_packets and random.randrange(0, 2) == 0:
+            self.mySocket.sendto(Pack(reply), address)
+        elif self.simulate_loss_of_packets == False:
+            self.mySocket.sendto(Pack(reply), address)
 
     def Reply_To_Request_At_Least_Once(self, request, address):
         reply = self.Execute_Reply_Method(request)
         print(reply)
         # Send data
-        self.mySocket.sendto(Pack(reply), address)
+        if self.simulate_loss_of_packets and random.randrange(0, 2) == 0:
+            self.mySocket.sendto(Pack(reply), address)
+        elif self.simulate_loss_of_packets == False:
+            self.mySocket.sendto(Pack(reply), address)
 
     def Reply_To_Request(self,request, address):
 
-        if len(request) > 2 and request[0] == 0 and request[2] == AT_MOST_ONCE:
+        if len(request) > 1 and request[0] == 0 and request[1] == AT_MOST_ONCE:
             self.invocation_semantics = AT_MOST_ONCE
+            print('Starting using At-most-once invocation semantics')
+        elif len(request) > 1 and request[0] == 0 and request[1] == AT_LEAST_ONCE:
+            self.invocation_semantics = AT_LEAST_ONCE
+            print('Starting using At-least-once invocation semantics')
 
         if self.invocation_semantics == AT_LEAST_ONCE:
             self.Reply_To_Request_At_Least_Once(request,address)

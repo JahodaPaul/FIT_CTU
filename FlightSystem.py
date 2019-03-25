@@ -5,6 +5,7 @@ class FlightSystem:
     def __init__(self):
         self.Flights = []
         self.GenerateFlights()
+        self.NumberOfLikes = 0
 
     def GenerateFlights(self):
         self.Flights.append(Flight(1,'PRG','SIN',DateTime('cas'),600,50))
@@ -20,3 +21,10 @@ class FlightSystem:
                 return item
 
         return False
+
+    def QueryNumberOfFlights(self):
+        return len(self.Flights)
+
+    def GiveUsALike(self):
+        self.NumberOfLikes += 1
+        return self.NumberOfLikes

@@ -3,6 +3,8 @@
 # 2 - service number 2
 # 3 - service number 3
 # 4 - service number 4
+# 5 - non-idempotent service - check number of flights
+# 6 - idempotent service - give this information service a like and retrieve how many likes this system has
 
 # 11 - int
 # 12 - string
