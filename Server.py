@@ -4,7 +4,7 @@ from Marshalling import *
 from Config import *
 from FlightSystem import FlightSystem
 import random
-
+import time
 
 class Server:
     def __init__(self):
@@ -19,9 +19,21 @@ class Server:
 
         self.simulate_loss_of_packets = False
 
+        # [flight id, ip, port, interval]
+        self.monitoring = []
+        self.time = time.process_time()
+
         self.Run()
 
-    def Execute_Reply_Method(self, request):
+    def CheckMonitoringTimes(self):
+        timeNow = time.process_time()
+        result = []
+        for i in range(len(self.monitoring)):
+            if self.monitoring[i][3] > timeNow-self.time:
+                result.append([self.monitoring[i][0],self.monitoring[i][1],self.monitoring[i][2],self.monitoring[i][3]-(timeNow-self.time)])
+        self.monitoring = result
+
+    def Execute_Reply_Method(self, request, address):
         obj = Unpack(request)
         if obj[0] == 0:
             return obj
@@ -48,9 +60,20 @@ class Server:
 
         if obj[0] == 3:
             print('Service 3; User tries to make an reservation of',obj[3],'seats on a flight ID:',obj[2])
+            self.CheckMonitoringTimes()
             result = self.flightSystem.MakeAnReservation(obj[2],obj[3])
             if result == False:
                 return [obj[0],1,ERROR]
+            for item in self.monitoring:
+                if item[0] == obj[2]:
+                    print('Service 4; Sending update to a user',(item[1],item[2]))
+                    self.mySocket.sendto(Pack([4,1,FLI,self.flightSystem.QueryFlightByID(obj[2])]), (item[1],item[2]))
+            return [obj[0],1,INT,0]
+
+        if obj[0] == 4:
+            print('Service 4; User',address,'wants to monitor seats availability on flight with ID',obj[2],'for',obj[3],'seconds')
+            self.monitoring.append([obj[2],address[0],address[1],obj[3]])
+            self.CheckMonitoringTimes()
             return [obj[0],1,INT,0]
 
         if obj[0] == 5:
@@ -73,7 +96,7 @@ class Server:
                     self.mySocket.sendto(Pack(item[1]), address)
                 return
 
-        reply = self.Execute_Reply_Method(request)
+        reply = self.Execute_Reply_Method(request, address)
         if len(self.cache) == self.LIMIT:
             self.cache = self.cache[1:]
         self.cache.append(([address[0],address[1],request],reply))
@@ -84,7 +107,7 @@ class Server:
             self.mySocket.sendto(Pack(reply), address)
 
     def Reply_To_Request_At_Least_Once(self, request, address):
-        reply = self.Execute_Reply_Method(request)
+        reply = self.Execute_Reply_Method(request, address)
         print(reply)
         # Send data
         if self.simulate_loss_of_packets and random.randrange(0, 2) == 0:

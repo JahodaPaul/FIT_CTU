@@ -66,7 +66,11 @@ class Client:
                 n_of_seats = input()
                 communication.MakeAReservation(int(flight_id),int(n_of_seats))
             elif user_choice == "4":
-                pass
+                print('Input Flight ID:')
+                flight_id = input()
+                print('Input listening interval in seconds:')
+                seconds = input()
+                communication.MonitorFlightUpdate(int(flight_id),int(seconds))
             elif user_choice == "5":
                 communication.QueryNumberOfFlights()
             elif user_choice == "6":
