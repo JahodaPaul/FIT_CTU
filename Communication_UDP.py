@@ -13,7 +13,7 @@ class Communication_UDP:
         self.my_socket.settimeout(1)
         self.invocation_semantics = invocation_semantics
 
-        self.simulate_loss_of_packets = True
+        self.simulate_loss_of_packets = False
 
     def EstablishConnection(self):
         if self.Send([0,self.invocation_semantics]) != False:
@@ -45,7 +45,21 @@ class Communication_UDP:
     def QueryBySourceAndDest(self,source,dest):
         item = self.Send([1,2,STR,STR,source,dest])
         if item != False:
-            return item
+            item = Unpack(item)
+            print('There are',item[1],'flights from',source,'to',dest)
+            printable_result = 'These flights have ID numbers:'
+            for i in range(item[1]):
+                printable_result += (' '+str(item[2+i]))
+            print(printable_result)
+        else:
+            print('There are no flight from',source,'to',dest)
+
+    def MakeAReservation(self, flightID, numberOfSeatsToReserve):
+        item = self.Send([3,2,INT,INT,flightID,numberOfSeatsToReserve])
+        if item != False:
+            print('Reservation successfully made')
+        else:
+            print('Unable to perform reservation')
 
     def CheckResponse(self, request, reply):
         if len(reply) >= 3 and reply[2] == ERROR:

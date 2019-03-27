@@ -17,7 +17,7 @@ class Server:
         #([ip,port,request],reply)
         self.cache = [] # store the last LIMIT requests and responses for at-most-once invocation semantics
 
-        self.simulate_loss_of_packets = True
+        self.simulate_loss_of_packets = False
 
         self.Run()
 
@@ -25,17 +25,40 @@ class Server:
         obj = Unpack(request)
         if obj[0] == 0:
             return obj
-        if obj[0] == 2:#TODO
+
+        if obj[0] == 1:
+            print('Service 1; Search for flight from',obj[2],'to',obj[3])
+            result = self.flightSystem.QueryFlightsBySourceAndDest(obj[2],obj[3])
+            if result == False:
+                return [obj[0],1,ERROR]
+            return_result = [obj[0],result[0]]
+            for i in range(result[0]):
+                return_result.append(INT)
+            for i in range(result[0]):
+                return_result.append(result[1+i])
+
+            return return_result
+
+        if obj[0] == 2:
             print('Service 2; ID used to query fligths:',obj[2])
             result = self.flightSystem.QueryFlightByID(obj[2])
             if result == False:
                 return [obj[0],1,ERROR]
             return [obj[0], 1, FLI, result]
+
+        if obj[0] == 3:
+            print('Service 3; User tries to make an reservation of',obj[3],'seats on a flight ID:',obj[2])
+            result = self.flightSystem.MakeAnReservation(obj[2],obj[3])
+            if result == False:
+                return [obj[0],1,ERROR]
+            return [obj[0],1,INT,0]
+
         if obj[0] == 5:
             print('Service 5; User asked to query number of flights')
             result = self.flightSystem.QueryNumberOfFlights()
             print(result)
             return [obj[0],1,INT,result]
+
         if obj[0] == 6:
             result = self.flightSystem.GiveUsALike()
             print('Service 6; User gave us a like number',result)

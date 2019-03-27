@@ -49,14 +49,22 @@ class Client:
             user_choice = input()
             # print(user_choice)
             if user_choice == "1":
-                communication.QueryBySourceAndDest('PRG', 'SIN')
+                print('Source:')
+                source = input()
+                print('Destination:')
+                dest = input()
+                communication.QueryBySourceAndDest(source, dest)
             elif user_choice == "2":
                 # os.system('clear')
                 print('Choose your flight ID:')
                 user_id = input()
                 communication.QueryByID(int(user_id))
             elif user_choice == "3":
-                pass
+                print('Input Flight ID:')
+                flight_id = input()
+                print('Number of seats you want to reserve:')
+                n_of_seats = input()
+                communication.MakeAReservation(int(flight_id),int(n_of_seats))
             elif user_choice == "4":
                 pass
             elif user_choice == "5":

@@ -25,3 +25,12 @@ class Flight:
         result += 'Airfare: ' + str(self.airfare) + '\n'
         result += 'Number of seats available: ' + str(self.number_of_seats_available) + '\n'
         return result
+
+    def CheckSeatAvailabilityReservation(self, n_of_seats_to_reserve):
+        if n_of_seats_to_reserve <= self.number_of_seats_available:
+            return True
+        else:
+            return False
+
+    def UpdateAvailabilityReservation(self,n_of_seats_to_reserve):
+        self.number_of_seats_available -= n_of_seats_to_reserve
