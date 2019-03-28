@@ -63,7 +63,7 @@ class Communication_UDP:
             print('Unable to perform reservation')
 
     def MonitorFlightUpdate(self,flightID,interval):
-        item = self.CallBack([4,2,INT,INT,flightID,interval],interval)
+        self.CallBack([4,2,INT,INT,flightID,interval],interval)
 
 
     def CheckResponse(self, request, reply):
@@ -81,7 +81,7 @@ class Communication_UDP:
             try:
                 self.my_socket.settimeout(interval)
                 data, server = self.my_socket.recvfrom(4096)
-                print('New seat availability:',Unpack(data)[2].Get_printable_string())
+                print('New seat availability:\n',Unpack(data)[2].Get_printable_string())
                 time_now = time.process_time()
                 interval -= (time_now - start_time)
             except socket.timeout as timeout:

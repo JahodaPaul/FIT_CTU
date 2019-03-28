@@ -8,10 +8,10 @@ class FlightSystem:
         self.NumberOfLikes = 0
 
     def GenerateFlights(self):
-        self.Flights.append(Flight(1,'PRG','SIN',DateTime('cas'),600,50))
-        self.Flights.append(Flight(2, 'SIN', 'FRA', DateTime('cas'), 500, 45))
-        self.Flights.append(Flight(3, 'SIN', 'DXB', DateTime('cas'), 500, 45))
-        self.Flights.append(Flight(4, 'PRG', 'SIN', DateTime('cas'), 555, 100))
+        self.Flights.append(Flight(1,'PRG','SIN',DateTime('20-05-2019-10-40'),600.55,50))
+        self.Flights.append(Flight(2, 'SIN', 'FRA', DateTime('22-05-2019-06-00'), 500, 45))
+        self.Flights.append(Flight(3, 'SIN', 'DXB', DateTime('20-05-2019-18-40'), 500, 45))
+        self.Flights.append(Flight(4, 'PRG', 'SIN', DateTime('13-05-2019-11-20'), 555.40, 100))
 
     def QueryFlightsBySourceAndDest(self, source, dest):
         result = []

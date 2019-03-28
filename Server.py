@@ -1,5 +1,5 @@
 import socket
-from threading import Thread
+import optparse
 from Marshalling import *
 from Config import *
 from FlightSystem import FlightSystem
@@ -22,8 +22,6 @@ class Server:
         # [flight id, ip, port, interval]
         self.monitoring = []
         self.time = time.process_time()
-
-        self.Run()
 
     def CheckMonitoringTimes(self):
         timeNow = time.process_time()
@@ -109,6 +107,7 @@ class Server:
     def Reply_To_Request_At_Least_Once(self, request, address):
         reply = self.Execute_Reply_Method(request, address)
         print(reply)
+
         # Send data
         if self.simulate_loss_of_packets and random.randrange(0, 2) == 0:
             self.mySocket.sendto(Pack(reply), address)
@@ -148,10 +147,24 @@ class Server:
         print('starting up on {} port {}'.format(*server_address))
         self.mySocket.bind(server_address)
 
-        # Listen for incoming connections
-        # self.mySocket.listen(1)
-        # mySocket.setblocking(0)
-
         self.Communicate()
 
+
+parser = optparse.OptionParser()
+
+parser.add_option('-i', '--ip_server',
+    action="store", dest="ip",
+    help="Set the ip address of the server, where the client sends data to", default="localhost")
+
+parser.add_option('-p', '--port',
+    action="store", dest="port",
+    help="Set the port number of the server, where the client sends data to", default="10000")
+
 server = Server()
+
+options, args = parser.parse_args()
+
+server.ipAddress = str(options.ip)
+server.port = int(options.port)
+
+server.Run()

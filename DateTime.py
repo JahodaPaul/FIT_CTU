@@ -8,4 +8,6 @@ class DateTime:
         return self.string_format
 
     def Get_printable_string(self):
-        return self.string_format
+        items = self.string_format.split('-')
+        result_str = items[0]+'.'+items[1]+'.'+items[2]+' at '+items[3]+':'+items[4]
+        return result_str

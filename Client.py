@@ -40,14 +40,11 @@ class Client:
         print("Welcome to flight information system.")
 
         while(1):
-            # os.system("clear")
-            # print(self.UDP_SERVER_IP_ADDRESS)
 
             print("Press:\n1 - query flights by source and destination of the flight\n2 - query flights by ID\n"
               "3 - make an reservation\n4 - monitor flight updates\n5 - Check number of flights\n6 - Give a like\n9 - Exit")
 
             user_choice = input()
-            # print(user_choice)
             if user_choice == "1":
                 print('Source:')
                 source = input()
@@ -55,7 +52,6 @@ class Client:
                 dest = input()
                 communication.QueryBySourceAndDest(source, dest)
             elif user_choice == "2":
-                # os.system('clear')
                 print('Choose your flight ID:')
                 user_id = input()
                 communication.QueryByID(int(user_id))

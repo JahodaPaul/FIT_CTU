@@ -15,7 +15,6 @@ def Pack(obj):
     else:
         packed.append(obj[0])
         n_of_objects = obj[1]
-        #print(n_of_objects)
         packed.append(n_of_objects)
 
         for i in range(2,2+n_of_objects):
@@ -31,11 +30,9 @@ def Pack(obj):
             elif obj[i] == FLI:
                 packed.extend(Pack_Flight(obj[n_of_objects+i]))
 
-    #print(packed)
     return bytes(packed)
 
 def Unpack(obj):
-    # print(obj)
     if len(obj) > 2 and obj[2] == 126:
         return [int(obj[0]),int(obj[1]),int(obj[2])]
     elif obj[0] == 0:
@@ -46,10 +43,10 @@ def Unpack(obj):
         n_of_objects = obj[1]
         unpacked.append(n_of_objects)
         currentIndex = 2
-        #print(obj)
+
         for i in range(n_of_objects):
             length_of_current_object = obj[currentIndex + 1] + 1
-            #print(length_of_current_object)
+
             if obj[currentIndex] == INT:
                 unpacked.append(Unpack_int(obj[currentIndex + 1:currentIndex+length_of_current_object]))
             elif obj[currentIndex] == STR:
@@ -111,11 +108,11 @@ def Unpack_datetime(obj):
     str = Unpack_string(obj)
     return DateTime(str)
 
-def Pack_floating_point(obj):#TODO implement packing of floating points
-    return Pack_int(obj)
+def Pack_floating_point(obj):
+    return Pack_string(str(obj))
 
-def Unpack_floating_point(obj):#TODO implement unpacking of floating points
-    return Unpack_int(obj)
+def Unpack_floating_point(obj):
+    return float(Unpack_string(obj))
 
 # id, source, destination, departure_time, airfare, number_of_seats_available
 def Pack_Flight(obj):
