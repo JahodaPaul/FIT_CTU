@@ -93,6 +93,7 @@ class Communication_UDP:
                 time_now = time.process_time()
                 interval -= (time_now - start_time)
             except socket.timeout as timeout:
+                self.my_socket.settimeout(1) # set the interval back after monitoring is done
                 break
         print('Stopped listening for flight updates')
 
