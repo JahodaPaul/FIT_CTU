@@ -1,7 +1,6 @@
 from DateTime import DateTime
 
 class Flight:
-
     def __init__(self, id, source, destination, departure_time, airfare, number_of_seats_available):
         self.iD = id
         self.source = source

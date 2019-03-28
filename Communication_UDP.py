@@ -6,6 +6,8 @@ from Config import *
 import random
 import time
 
+# Class used to send request from the client to the server
+# Marshall the data before sending the requests
 class Communication_UDP:
     def __init__(self, socket, ip, port, invocation_semantics):
         self.my_socket = socket
@@ -75,29 +77,32 @@ class Communication_UDP:
         return True
 
     def CallBack(self, message, interval):
+        # First, register the callback on the server
         start = self.Send(message)
         start_time = time.process_time()
+
+        # Wait for the updates for the interval duration
         while True:
             try:
                 self.my_socket.settimeout(interval)
                 data, server = self.my_socket.recvfrom(4096)
                 print('New seat availability:\n',Unpack(data)[2].Get_printable_string())
+
+                # If we receive update, reduce the interval timeout for the socket
+                # Continue receiving updates from the server until the time interval passed
                 time_now = time.process_time()
                 interval -= (time_now - start_time)
             except socket.timeout as timeout:
                 break
         print('Stopped listening for flight updates')
 
+    # Function that sending the request and waits for response from the server
+    # If it doesn't receive any data for a duration used as a socket timeout,
+    # it retransmits the request again
     def Send(self, message):
         if not self.CheckSendingMessage(message):
             return False
 
-        if self.invocation_semantics == AT_LEAST_ONCE:
-            return self.Send_at_least(message)
-        else:
-            return self.Send_at_most(message)
-
-    def Send_at_least(self,message):
         while True:
             try:
                 # Send data
@@ -117,7 +122,3 @@ class Communication_UDP:
             except Exception as exc:
                 if exc != socket.timeout:
                     print(exc)
-
-
-    def Send_at_most(self,message):
-        return self.Send_at_least(message)

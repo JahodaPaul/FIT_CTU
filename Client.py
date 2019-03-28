@@ -5,6 +5,7 @@ from Communication_UDP import Communication_UDP
 from Config import *
 import optparse
 
+# Class used for reading input from the user calling the appropriate request functions from Communication_UDP class
 class Client:
     def __init__(self):
         self.UDP_SERVER_IP_ADDRESS = "localhost" #"127.0.0.1"
@@ -28,7 +29,7 @@ class Client:
         else:
             print('Invocation semantics used: at most once')
 
-        #  AF_INET refers to addresses from the internet, IP addresses specifically. SOCK_DGRAM states that we will use UDP
+        # AF_INET refers to addresses from the internet, IP addresses specifically. SOCK_DGRAM states that we will use UDP
         my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         communication = Communication_UDP(my_socket, self.UDP_SERVER_IP_ADDRESS, self.UDP_SERVER_PORT_NUMBER, self.semantics_invocation)
@@ -42,7 +43,7 @@ class Client:
         while(1):
 
             print("Press:\n1 - query flights by source and destination of the flight\n2 - query flights by ID\n"
-              "3 - make an reservation\n4 - monitor flight updates\n5 - Check number of flights\n6 - Give a like\n9 - Exit")
+              "3 - make a reservation\n4 - monitor flight updates\n5 - Check number of flights\n6 - Give a like\n9 - Exit")
 
             user_choice = input()
             if user_choice == "1":

@@ -8,29 +8,39 @@ import time
 
 class Server:
     def __init__(self):
-        self.ipAddress = "localhost" #"127.0.0.1"
+        self.ipAddress = "localhost"
         self.port = 10000
         self.invocation_semantics = AT_LEAST_ONCE
         self.flightSystem = FlightSystem()
 
         self.LIMIT = 10
-        #([ip,port,request],reply)
+
+        # ([ip,port,request],reply)
         self.cache = [] # store the last LIMIT requests and responses for at-most-once invocation semantics
 
         self.simulate_loss_of_packets = False
 
+        # list used to keeping track of user who want to monitor seat availability updates of a certain flight
         # [flight id, ip, port, interval]
         self.monitoring = []
+
+
         self.time = time.process_time()
 
+    # Function that either updates the monitor interval of the user or
+    # indicates that the monitor interval has ended by deleting the entry from the monitoring list
     def CheckMonitoringTimes(self):
         timeNow = time.process_time()
         result = []
         for i in range(len(self.monitoring)):
             if self.monitoring[i][3] > timeNow-self.time:
                 result.append([self.monitoring[i][0],self.monitoring[i][1],self.monitoring[i][2],self.monitoring[i][3]-(timeNow-self.time)])
+
+        self.time = time.process_time()
         self.monitoring = result
 
+    # Function used to perform services requested by the user
+    # The function performs the services by calling function in FlightSystem class
     def Execute_Reply_Method(self, request, address):
         obj = Unpack(request)
         if obj[0] == 0:
@@ -58,6 +68,8 @@ class Server:
 
         if obj[0] == 3:
             print('Service 3; User tries to make an reservation of',obj[3],'seats on a flight ID:',obj[2])
+
+            # update the monitor list before sending a seat availability update to users
             self.CheckMonitoringTimes()
             result = self.flightSystem.MakeAnReservation(obj[2],obj[3])
             if result == False:
@@ -70,8 +82,9 @@ class Server:
 
         if obj[0] == 4:
             print('Service 4; User',address,'wants to monitor seats availability on flight with ID',obj[2],'for',obj[3],'seconds')
-            self.monitoring.append([obj[2],address[0],address[1],obj[3]])
+
             self.CheckMonitoringTimes()
+            self.monitoring.append([obj[2],address[0],address[1],obj[3]])
             return [obj[0],1,INT,0]
 
         if obj[0] == 5:
@@ -85,7 +98,9 @@ class Server:
             print('Service 6; User gave us a like number',result)
             return [obj[0],1,INT,result]
 
+    # At-most-once invocation semantics
     def Reply_To_Request_At_Most_Once(self, request, address):
+        # Check for duplicates
         for item in self.cache:
             if item[0] == [address[0],address[1],request]:
                 if self.simulate_loss_of_packets and random.randrange(0, 2) == 0:
@@ -95,6 +110,8 @@ class Server:
                 return
 
         reply = self.Execute_Reply_Method(request, address)
+
+        # Keep the last LIMIT number of request from the client in the cache
         if len(self.cache) == self.LIMIT:
             self.cache = self.cache[1:]
         self.cache.append(([address[0],address[1],request],reply))
@@ -104,6 +121,7 @@ class Server:
         elif self.simulate_loss_of_packets == False:
             self.mySocket.sendto(Pack(reply), address)
 
+    # At-least-once invocation semantics
     def Reply_To_Request_At_Least_Once(self, request, address):
         reply = self.Execute_Reply_Method(request, address)
         print(reply)
@@ -130,7 +148,7 @@ class Server:
 
     def Communicate(self):
         while True:
-            # Wait for a connection
+            # Wait for a data from a client
             print('waiting for data')
             data, address = self.mySocket.recvfrom(4096)
             print('Received data from address:',address)

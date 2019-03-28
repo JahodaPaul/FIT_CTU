@@ -1,6 +1,8 @@
 from DateTime import DateTime
 from Flight import Flight
 
+# Simple class to create and modify flights
+# In a real-life project this would be a controller used to access and modify data in a database
 class FlightSystem:
     def __init__(self):
         self.Flights = []
@@ -44,4 +46,5 @@ class FlightSystem:
                 self.Flights[i].UpdateAvailabilityReservation(numberOfSeats)
                 success = True
                 break
+
         return success

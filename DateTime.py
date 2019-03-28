@@ -1,5 +1,4 @@
-
-
+# Data structure used to show the time of departure of a flights
 class DateTime:
     def __init__(self, string):
         self.string_format = string

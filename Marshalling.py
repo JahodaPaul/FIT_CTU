@@ -4,7 +4,7 @@ from DateTime import DateTime
 from Config import *
 
 # packed object is list of objects; index 0: service ID, index 1: number of objects (n),
-# index 2 to (1+n): type of each object, rest of indexes: objects
+# index 2 to (n+1): type of each object, rest of indexes: objects
 def Pack(obj):
     packed = []
 
@@ -32,6 +32,8 @@ def Pack(obj):
 
     return bytes(packed)
 
+# unpacks the array of bytes into an array with the following format
+# index 0: service ID, index 1: number of objects (n), index 2 to (n+1): objects
 def Unpack(obj):
     if len(obj) > 2 and obj[2] == 126:
         return [int(obj[0]),int(obj[1]),int(obj[2])]
