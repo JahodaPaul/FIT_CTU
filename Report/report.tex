@@ -96,6 +96,15 @@
 \pagenumbering{arabic}
 
 \section{Input Analysis}
+\subsection{Cleaning data}
+First we need to clean our data from mistakes made during data gathering. To do so, we will visualize our data using scatter plot. The scatter plot below visualizes how long each call lasted and how fast was the person driving when making the call.
+\begin{center}
+\includegraphics[width=6.5in]{Figure_0}
+\end{center}
+The most extreme value we can see is from a call that lasted more than 20 minutes, which is entirely possibly, so we won't delete any values. It was also checked that each call started from station between 1-20.
+\pagebreak
+
+\subsection{Distribution identification}
 From the histograms below we can see similary between the distributions of inter-arrival times and call durations. Both of these histograms resemble probability density function of exponential distribution.\par
 %\begin{lstlisting}
 %from statsmodels.distributions.empirical_distribution import ECDF
@@ -118,6 +127,23 @@ On the other hand, the two histograms below show two different distributions. Th
 \noindent \includegraphics[width=3.4in]{Figure_2}
 \includegraphics[width=3.4in]{Figure_4}
 Similarly as with the exponential distributions above, we will use maximum likelihood method to calculate the parameters of the normal distribution (car velocities). We get $\mu=120.07$ and $\sigma^2=81.33$.
+
+\subsection{Hypothesis Testing}
+After we made distribution identification hypotheses, it is time to do hyptohesis testing. First, let's focus on testing our hypothesis about inter-arrivel times having exponential distribution with $\lambda=0.73$ using Pearson's chi-squared test, which has the following formula.
+\begin{equation} {\chi}^2=\sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}\ \end{equation}
+
+First we will divide the observations into $k$ mutually exclusive classes that all have the same probability that an observation falls into said class. In the formula above $E_i$ the expected value of observation's that fall into a $ith$ class and $O_i$ is the number of observed values that actually fall into $ith$ class. We define our class as an interval from $r_{i-1}$ to $r_i$ by solving the following formula.
+
+\begin{equation} \int_{0}^{r_i}\lambda\cdot\mathrm{e}^{-\lambda\cdot x}dx = \frac{i}{k} \end{equation}
+For i = 1,2,…,k. By integrating probability density function we get cumulative distribution function.
+\begin{equation} 1 - \mathrm{e}^{-\lambda\cdot r_i} = \frac{i}{k} \end{equation}
+Solving it for $r_i$, we get
+\begin{equation} r_i = \frac{\ln(-\frac{i}{k} + 1)}{-\lambda} \end{equation}
+
+Now that we have our classes we can compare the number of observed values in a class compared to expected number of values in the class to get our $\chi^2$ value. For the inter-arrival times, we got $\chi^2=100$, which is less than $\chi^2_{0.05}$, so we cannot reject our null hypothesis that the inter-arrival time has an exponential distribution with $\lambda=0.73$. If the result of our chi-square test was higher than $\chi^2_{0.05}$, we could reject our null hypothesis and be $95\%$ sure our rejection was correct.
+\par \medskip
+Then, we perfomed chi-squared test for our other hypotheses. When performing chi-squared test for a hypothesis that call duration times have exponential distribution we got very high $\chi^2$ value, which meant we should reject our hypothesis, but after shifting the values by their lowest value the hypothesis could not have been rejected.
+
 
 \end{document}
 
