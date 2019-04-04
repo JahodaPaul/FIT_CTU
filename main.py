@@ -106,7 +106,10 @@ class Simualation():
             self.n_of_calls_created += 1
 
     def Termination(self, obj):
-        self.free_channels_by_station[obj.station] -= 1
+        if obj.direction == 'RIGHT':
+            self.free_channels_by_station[obj.station - 1] -= 1
+        else:
+            self.free_channels_by_station[obj.station + 1] -= 1
 
     def Handover(self, obj):
         # in the parameter station we use the new station that driver drives towards
@@ -143,7 +146,7 @@ def main():
     # We will run each simulation multiple times and evaluate the results at the end of the program run
     for i in range(n_of_iteratins):
         simulation = Simualation()
-        simulation.Simulate(0)
+        print(simulation.Simulate(0))
         # evaluation.Evaluate(simulation.Simulate(0))
 
     # for i in range(n_of_iteratins):
