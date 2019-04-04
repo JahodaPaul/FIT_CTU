@@ -59,7 +59,8 @@ class Simualation():
 
         self.n_of_dropped_calls = 0
         self.n_of_blocked_calls = 0
-        self.n_of_calls = 0
+        # desired number of calls in the simulation
+        self.n_of_calls = 10000
         self.n_of_channels_reverved = 0
 
         # we will update this number until we reach our
@@ -80,7 +81,7 @@ class Simualation():
 
     # parameter - number of channels reserved for handovers
     # when other channels are not available
-    def simulate(self, n_of_channels_reverved):
+    def Simulate(self, n_of_channels_reverved):
         self.n_of_channels_reverved = n_of_channels_reverved
 
         # generate first initiation
@@ -94,32 +95,28 @@ class Simualation():
             # depending on the type of the object in the event list,
             # call function initiation, termination or handover
             if self.eventList[0][1] == 0: # if the event is new call, generate another call
-                self.eventList.append(self.generator.generate_next_initiation())
-                self.initiation()
+                self.Initiation(self.eventList[0][2])
             elif self.eventList[0][1] == 1: # handover
-                self.handover()
+                self.Handover(self.eventList[0][2])
             else: # termination
-                self.termination()
+                self.Termination(self.eventList[0][2])
 
             # after we make the call we update the event list and remove the first item
             self.eventList = self.eventList[1:]
             self.eventList.sort()
 
-            if self.n_of_calls_created == 10000: #some desired number of calls
-                break
-
         return self.n_of_blocked_calls, self.n_of_dropped_calls, self.n_of_calls, self.n_of_channels_reverved
 
-    def CalculateHowLongTillNextEvent(self,position, speed, direction):
-        kmTillNextEvent = position % 2  # position modulo 2
+    def CalculateHowLongTillNextEvent(self, obj):
+        kmTillNextEvent = obj.position % 2  # position modulo 2
         kmTillNextEvent = kmTillNextEvent + 2 if kmTillNextEvent == 0 else kmTillNextEvent
 
-        if direction == 'RIGHT' and kmTillNextEvent != 2:
+        if obj.direction == 'RIGHT' and kmTillNextEvent != 2:
             kmTillNextEvent = 2 - kmTillNextEvent
 
-        return kmTillNextEvent/speed * 3600 # in seconds
+        return kmTillNextEvent/obj.speed * 3600 # in seconds
 
-    def initiation(self, obj):
+    def Initiation(self, obj):
         if self.free_channels_by_station[obj.station] - self.n_of_channels_reverved > 0:
             self.free_channels_by_station[obj.station] -= 1
         else:
@@ -137,10 +134,10 @@ class Simualation():
             self.eventList.append(self.generator.generate_next_initiation())
             self.n_of_calls_created += 1
 
-    def termination(self, time, station):
-        self.free_channels_by_station[station] -= 1
+    def Termination(self, obj):
+        self.free_channels_by_station[obj.station] -= 1
 
-    def handover(self, obj):
+    def Handover(self, obj):
         # in the parameter station we use the new station that driver drives towards
 
         # first let's free the channel used of the previous station
