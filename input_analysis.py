@@ -101,6 +101,7 @@ class Input_analysis:
         self.rangesCallDuration = []
         prevInt = 0
         prevDur = 0
+        print(min(self.call_durations))
         for i in range(1,100):
             x1 = math.log(-1*(i/100)+1,math.e)/self.lambda_interarrival*(-1)
             x2 = math.log(-1 * (i / 100) + 1, math.e) / self.lambda_callDuration * (-1)  + min(self.call_durations)
@@ -108,7 +109,7 @@ class Input_analysis:
             self.rangesCallDuration.append((prevDur,x2))
             prevInt = x1
             prevDur = x2
-            print(x1,x2)
+            # print(x1,x2)
         self.rangesInterArrival.append((prevInt,max(self.arrivel_times_processed)+1)) # bigger number than all of them..
         self.rangesCallDuration.append((prevDur,max(self.call_durations)+1))
 
@@ -141,7 +142,7 @@ analysis = Input_analysis()
 analysis.ReadData()
 analysis.CheckData()
 analysis.CalculateParameters()
-analysis.HypothesisTesting()
+# analysis.HypothesisTesting()
 # analysis.Scatter()
 # analysis.ShowHistograms()
 analysis.CalculateChiSquareTestRanges()
