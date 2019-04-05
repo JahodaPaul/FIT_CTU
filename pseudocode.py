@@ -60,7 +60,7 @@ class Simualation():
         self.n_of_dropped_calls = 0
         self.n_of_blocked_calls = 0
         # desired number of calls in the simulation
-        self.n_of_calls = 10000
+        self.n_of_calls = 100
         self.n_of_channels_reverved = 0
 
         # we will update this number until we reach our
@@ -117,17 +117,19 @@ class Simualation():
         return kmTillNextEvent/obj.speed * 3600 # in seconds
 
     def Initiation(self, obj):
+        blocked = False
         if self.free_channels_by_station[obj.station] - self.n_of_channels_reverved > 0:
             self.free_channels_by_station[obj.station] -= 1
         else:
             self.n_of_blocked_calls += 1
-
-        # Car leaving the highway, no other handover can occur
-        if (obj.station == 0 and obj.direction == 'LEFT') or \
-                (obj.station == 19 and obj.direction == 'RIGHT'):
-            self.eventList.append(self.generator.generate_next_termination(obj))
-        else: # handover
-            self.eventList.append(self.generator.generate_next_handover(obj))
+            blocked = True
+        if not blocked:
+            # Car leaving the highway, no other handover can occur
+            if (obj.station == 0 and obj.direction == 'LEFT') or \
+                    (obj.station == 19 and obj.direction == 'RIGHT'):
+                self.eventList.append(self.generator.generate_next_termination(obj))
+            else: # handover
+                self.eventList.append(self.generator.generate_next_handover(obj))
 
         if self.n_of_calls_created != self.n_of_calls:
             # generate next initiation
@@ -135,19 +137,19 @@ class Simualation():
             self.n_of_calls_created += 1
 
     def Termination(self, obj):
-        self.free_channels_by_station[obj.station] -= 1
+        self.free_channels_by_station[obj.station] += 1
 
     def Handover(self, obj):
         # in the parameter station we use the new station that driver drives towards
 
         # first let's free the channel used of the previous station
         if obj.direction:
-            self.free_channels_by_station[obj.station - 1] -= 1
+            self.free_channels_by_station[obj.station - 1] += 1
         else:
-            self.free_channels_by_station[obj.station + 1] -= 1
+            self.free_channels_by_station[obj.station + 1] += 1
 
         if self.free_channels_by_station[obj.station] > 0:
-            self.free_channels_by_station[obj.station] += 1
+            self.free_channels_by_station[obj.station] -= 1
             # Car leaving the highway, no other handover can occur
             if (obj.station == 0 and obj.direction == 'LEFT') or \
                     (obj.station == 19 and obj.direction == 'RIGHT'):

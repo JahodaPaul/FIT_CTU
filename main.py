@@ -12,7 +12,7 @@ class Simualation():
         self.n_of_dropped_calls = 0
         self.n_of_blocked_calls = 0
         # desired number of calls in the simulation
-        self.n_of_calls = 100
+        self.n_of_calls = 10000
         self.n_of_channels_reverved = 0
 
         # we will update this number until we reach our
@@ -36,6 +36,7 @@ class Simualation():
         for item in self.eventList:
             print(item)
         print()
+        print(self.free_channels_by_station)
         print('Current clock:',self.clock)
 
     # parameter - number of channels reserved for handovers
@@ -52,7 +53,7 @@ class Simualation():
             self.clock = self.eventList[0][0]
 
             self.PrintCurrentState()
-            time.sleep(0.5)
+            #time.sleep(0.5)
 
             # depending on the type of the object in the event list,
             # call function initiation, termination or handover
@@ -67,36 +68,37 @@ class Simualation():
             self.eventList = self.eventList[1:]
             self.eventList.sort()
 
-            if self.n_of_calls_created == 10000: #some desired number of calls
-                break
-
         return self.n_of_blocked_calls, self.n_of_dropped_calls, self.n_of_calls, self.n_of_channels_reverved
 
     def CalculateHowLongTillNextEvent(self, obj):
-        kmTillNextEvent = obj.position % 2  # position modulo 2
-        kmTillNextEvent = kmTillNextEvent + 2 if kmTillNextEvent == 0 else kmTillNextEvent
-
-        if obj.direction == 'RIGHT' and kmTillNextEvent != 2:
-            kmTillNextEvent = 2 - kmTillNextEvent
+        if obj.direction == 'RIGHT':
+            kmTillNextEvent = (obj.position // 2)*2 + 2 - obj.position
+        else:
+            kmTillNextEvent = abs((obj.position // 2)*2 - obj.position)
+            if kmTillNextEvent == 0:
+                kmTillNextEvent = 2
 
         return kmTillNextEvent/obj.speed * 3600 # in seconds
 
     def Initiation(self, obj):
+        blocked = False
         if self.free_channels_by_station[obj.station] - self.n_of_channels_reverved > 0:
             self.free_channels_by_station[obj.station] -= 1
         else:
             self.n_of_blocked_calls += 1
+            blocked = True
 
-        # Car leaving the highway, no other handover can occur
-        if (obj.station == 0 and obj.direction == 'LEFT') or \
-                (obj.station == 19 and obj.direction == 'RIGHT'):
-            item = self.generator.Generate_next_termination(obj)
-            item[0] = item[0] + self.clock
-            self.eventList.append(item)
-        else: # handover
-            item = self.generator.Generate_next_handover(obj)
-            item[0] = item[0] + self.clock
-            self.eventList.append(item)
+        if not blocked:
+            # Car leaving the highway, no other handover can occur
+            if (obj.station == 0 and obj.direction == 'LEFT') or \
+                    (obj.station == 19 and obj.direction == 'RIGHT'):
+                item = self.generator.Generate_next_termination(obj)
+                item[0] = item[0] + self.clock
+                self.eventList.append(item)
+            else: # handover
+                item = self.generator.Generate_next_handover(obj)
+                item[0] = item[0] + self.clock
+                self.eventList.append(item)
 
         if self.n_of_calls_created != self.n_of_calls:
             # generate next initiation
@@ -107,29 +109,31 @@ class Simualation():
 
     def Termination(self, obj):
         if obj.direction == 'RIGHT':
-            self.free_channels_by_station[obj.station - 1] -= 1
+            self.free_channels_by_station[obj.station - 1] += 1
         else:
-            self.free_channels_by_station[obj.station + 1] -= 1
+            self.free_channels_by_station[obj.station + 1] += 1
 
     def Handover(self, obj):
         # in the parameter station we use the new station that driver drives towards
 
         # first let's free the channel used of the previous station
         if obj.direction == 'RIGHT':
-            self.free_channels_by_station[obj.station - 1] -= 1
+            self.free_channels_by_station[obj.station - 1] += 1
         else:
-            self.free_channels_by_station[obj.station + 1] -= 1
+            self.free_channels_by_station[obj.station + 1] += 1
 
         if self.free_channels_by_station[obj.station] > 0:
-            self.free_channels_by_station[obj.station] += 1
+            self.free_channels_by_station[obj.station] -= 1
             # Car leaving the highway, no other handover can occur
             if (obj.station == 0 and obj.direction == 'LEFT') or \
                     (obj.station == 19 and obj.direction == 'RIGHT'):
                 item = self.generator.Generate_next_termination(obj)
+                # print('ITEM',item[0])
                 item[0] = item[0] + self.clock
                 self.eventList.append(item)
             else:  # handover
                 item = self.generator.Generate_next_handover(obj)
+                # print('ITEM',item[0])
                 item[0] = item[0] + self.clock
                 self.eventList.append(item)
         else:
@@ -146,7 +150,7 @@ def main():
     # We will run each simulation multiple times and evaluate the results at the end of the program run
     for i in range(n_of_iteratins):
         simulation = Simualation()
-        print(simulation.Simulate(0))
+        print(simulation.Simulate(1))
         # evaluation.Evaluate(simulation.Simulate(0))
 
     # for i in range(n_of_iteratins):

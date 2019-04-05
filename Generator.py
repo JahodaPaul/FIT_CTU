@@ -18,7 +18,8 @@ class Generator(): #TODO create
         return numpy.random.uniform(0,2)
 
     def Generate_duration(self):
-        return numpy.random.exponential(1/0.009104491560429017) + 10.004 #shifting the exponential function
+        dur = numpy.random.exponential(1/0.009104491560429017) + 10.004
+        return dur #shifting the exponential function
 
     def Generate_direction(self):
         if random.randrange(0,2) == 0:
@@ -29,22 +30,27 @@ class Generator(): #TODO create
         return numpy.random.exponential(1/0.730024584576294)
 
     def Generate_Obj(self):
-        return Object(self.Generate_duration(),self.Generate_speed(),self.Generate_station(),self.Generate_position(),self.Generate_direction())
+        station = self.Generate_station()
+        return Object(self.Generate_duration(),self.Generate_speed(),station,self.Generate_position()+station*2,self.Generate_direction())
 
     def CalculateHowLongTillNextEvent(self,obj):
-        kmTillNextEvent = obj.position % 2  # position modulo 2
-        kmTillNextEvent = kmTillNextEvent + 2 if kmTillNextEvent == 0 else kmTillNextEvent
+        if obj.direction == 'RIGHT':
+            kmTillNextEvent = (obj.position // 2)*2 + 2 - obj.position
+        else:
+            kmTillNextEvent = abs((obj.position // 2)*2 - obj.position)
+            if kmTillNextEvent == 0:
+                kmTillNextEvent = 2
 
-        if obj.direction == 'RIGHT' and kmTillNextEvent != 2:
-            kmTillNextEvent = 2 - kmTillNextEvent
-
+        # print('ITEM3',obj.position,obj.position//2, (obj.position // 2)*2 + 2 - obj.position, abs((obj.position // 2)*2 - obj.position))
         return kmTillNextEvent/obj.speed * 3600 # in seconds
 
     def NextPosition(self,obj):
-        kmTillNextEvent = obj.position % 2  # position modulo 2
-        kmTillNextEvent = kmTillNextEvent + 2 if kmTillNextEvent == 0 else kmTillNextEvent
-        if obj.direction == 'RIGHT' and kmTillNextEvent != 2:
-            kmTillNextEvent = 2 - kmTillNextEvent
+        if obj.direction == 'RIGHT':
+            kmTillNextEvent = (obj.position // 2)*2 + 2 - obj.position
+        else:
+            kmTillNextEvent = abs((obj.position // 2)*2 - obj.position)
+            if kmTillNextEvent == 0:
+                kmTillNextEvent = 2
 
         if obj.direction == 'RIGHT':
             obj.position += kmTillNextEvent
@@ -59,9 +65,21 @@ class Generator(): #TODO create
     def Generate_next_handover(self,obj):
         time_untill_next_handover = self.CalculateHowLongTillNextEvent(obj)
         self.NextPosition(obj)
+        if obj.duration == min(time_untill_next_handover,obj.duration):
+            # print('ITEM1',obj.duration)
+            return [obj.duration,2,obj]
+
+        obj.duration -= time_untill_next_handover
+        # print('ITEM2_a',time_untill_next_handover)
         return [time_untill_next_handover,1,obj]
 
     def Generate_next_termination(self,obj):
         time_untill_termination = self.CalculateHowLongTillNextEvent(obj)
         self.NextPosition(obj)
+        if obj.duration == min(time_untill_termination,obj.duration):
+            # print('ITEM1', obj.duration)
+            return [obj.duration,2,obj]
+
+        obj.duration -= time_untill_termination
+        # print('ITEM2_b', time_untill_termination)
         return [time_untill_termination,2,obj]
