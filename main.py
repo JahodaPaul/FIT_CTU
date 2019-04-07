@@ -221,21 +221,21 @@ def main():
     print('start')
 
     # We will run each simulation multiple times and evaluate the results at the end of the program run
-    # for i in range(n_of_iteratins):
-    #     simulation = Simualation()
-    #     x, y, z, l = simulation.Simulate(0)
-    #     evaluation.ProcessResults(x,y,z,l)
-    #     print('Simulation',i,'finished')
-    #     # print(simulation.Simulate(1))
-    #     # print(simulation.warmup_period_n_of_calls)
-    #     # simulation.Plot()
-    #     # evaluation.Evaluate(simulation.Simulate(0))
-    #
-    # for i in range(n_of_iteratins):
-    #     simulation = Simualation()
-    #     x,y,z,l = simulation.Simulate(1)
-    #     evaluation.ProcessResults(x,y,z,l)
-    #     print('Simulation', i, 'finished')
+    for i in range(n_of_iteratins):
+        simulation = Simualation()
+        x, y, z, l = simulation.Simulate(0)
+        evaluation.ProcessResults(x,y,z,l)
+        print('Simulation',i,'finished')
+        # print(simulation.Simulate(1))
+        # print(simulation.warmup_period_n_of_calls)
+        # simulation.Plot()
+        # evaluation.Evaluate(simulation.Simulate(0))
+
+    for i in range(n_of_iteratins):
+        simulation = Simualation()
+        x,y,z,l = simulation.Simulate(1)
+        evaluation.ProcessResults(x,y,z,l)
+        print('Simulation', i, 'finished')
 
     evaluation.Evaluate()
 
