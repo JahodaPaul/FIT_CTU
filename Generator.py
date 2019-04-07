@@ -41,7 +41,6 @@ class Generator(): #TODO create
             if kmTillNextEvent == 0:
                 kmTillNextEvent = 2
 
-        # print('ITEM3',obj.position,obj.position//2, (obj.position // 2)*2 + 2 - obj.position, abs((obj.position // 2)*2 - obj.position))
         return kmTillNextEvent/obj.speed * 3600 # in seconds
 
     def NextPosition(self,obj):
@@ -66,20 +65,16 @@ class Generator(): #TODO create
         time_untill_next_handover = self.CalculateHowLongTillNextEvent(obj)
         self.NextPosition(obj)
         if obj.duration == min(time_untill_next_handover,obj.duration):
-            # print('ITEM1',obj.duration)
             return [obj.duration,2,obj]
 
         obj.duration -= time_untill_next_handover
-        # print('ITEM2_a',time_untill_next_handover)
         return [time_untill_next_handover,1,obj]
 
     def Generate_next_termination(self,obj):
         time_untill_termination = self.CalculateHowLongTillNextEvent(obj)
         self.NextPosition(obj)
         if obj.duration == min(time_untill_termination,obj.duration):
-            # print('ITEM1', obj.duration)
             return [obj.duration,2,obj]
 
         obj.duration -= time_untill_termination
-        # print('ITEM2_b', time_untill_termination)
         return [time_untill_termination,2,obj]

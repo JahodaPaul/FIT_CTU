@@ -60,7 +60,6 @@ class Evaluation:
         plt.xlabel('Number of calls out of 10 000', size=labelSize)
         plt.ylabel('Number of occurrences', size=labelSize)
         plt.legend()
-        #plt.show()
 
         plt.subplot(212,sharex=ax1)
         plt.hist(y_d_0, color='blue',label='Dropped calls')

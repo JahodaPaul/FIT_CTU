@@ -65,8 +65,6 @@ class Simualation():
             # update the system clock time to the time of next event
             self.clock = self.eventList[0][0]
 
-            # if self.n_of_calls_finished % 1000 == 0:
-            #     print('Number of calls finished',self.n_of_calls_finished)
             # self.PrintCurrentState()
             #time.sleep(0.5)
 
@@ -181,12 +179,10 @@ class Simualation():
             if (obj.station == 0 and obj.direction == 'LEFT') or \
                     (obj.station == 19 and obj.direction == 'RIGHT'):
                 item = self.generator.Generate_next_termination(obj)
-                # print('ITEM',item[0])
                 item[0] = item[0] + self.clock
                 self.eventList.append(item)
             else:  # handover
                 item = self.generator.Generate_next_handover(obj)
-                # print('ITEM',item[0])
                 item[0] = item[0] + self.clock
                 self.eventList.append(item)
         else:
@@ -226,10 +222,6 @@ def main():
         x, y, z, l = simulation.Simulate(0)
         evaluation.ProcessResults(x,y,z,l)
         print('Simulation',i,'finished')
-        # print(simulation.Simulate(1))
-        # print(simulation.warmup_period_n_of_calls)
-        # simulation.Plot()
-        # evaluation.Evaluate(simulation.Simulate(0))
 
     for i in range(n_of_iteratins):
         simulation = Simualation()

@@ -1,11 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from scipy.stats import chisquare
 from numpy.random import normal
 import math
 from scipy.stats import normaltest
-from scipy.special import erf
 
 
 class Input_analysis:
@@ -53,28 +51,24 @@ class Input_analysis:
         plt.title('Inter-arrival times', size=titleSize)
         plt.xlabel('seconds', size=labelSize)
         plt.ylabel('No. of occurrences', size=labelSize)
-        # plt.savefig('./Report/images/survivedHist.png', bbox_inches='tight')
         plt.show()
 
         plt.hist(self.base_stations, color='skyblue')
         plt.title('Base station', size=titleSize)
         plt.xlabel('Station number', size=labelSize)
         plt.ylabel('No. of occurrences', size=labelSize)
-        # plt.savefig('./Report/images/survivedDist.png', bbox_inches='tight')
         plt.show()
 
         plt.hist(self.call_durations, color='skyblue')
         plt.title('Call durations', size=titleSize)
         plt.xlabel('seconds', size=labelSize)
         plt.ylabel('No. of occurrences', size=labelSize)
-        # plt.savefig('./Report/images/survivedHist.png', bbox_inches='tight')
         plt.show()
 
         plt.hist(self.velocities, color='skyblue')
         plt.title('Car velocity', size=titleSize)
         plt.xlabel('km/h', size=labelSize)
         plt.ylabel('No. of occurrences', size=labelSize)
-        # plt.savefig('./Report/images/survivedDist.png', bbox_inches='tight')
         plt.show()
 
 
@@ -109,7 +103,7 @@ class Input_analysis:
             self.rangesCallDuration.append((prevDur,x2))
             prevInt = x1
             prevDur = x2
-            # print(x1,x2)
+
         self.rangesInterArrival.append((prevInt,max(self.arrivel_times_processed)+1)) # bigger number than all of them..
         self.rangesCallDuration.append((prevDur,max(self.call_durations)+1))
 
@@ -131,9 +125,9 @@ class Input_analysis:
         sumInter = 0
         sumDur = 0
         for i in range(100):
-            # print(sumInter,sumDur)
             sumInter += math.pow((self.interArrivalFrequencies[i]-100),2)/100
             sumDur += math.pow((self.durationFrequencies[i]-100),2)/100
+            
         print(sumInter)
         print(sumDur)
 
