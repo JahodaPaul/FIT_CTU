@@ -43,7 +43,7 @@ class Generator(): #TODO create
 
 
 # The driving and calling object
-class Object(): #TODO
+class Object():
     def __init__(self, duration, speed, station, position, direction):
         self.duration = duration
         self.speed = speed
@@ -170,11 +170,11 @@ def main():
     # We will run each simulation multiple times and evaluate the results at the end of the program run
     for i in range(n_of_iteratins):
         simulation = Simualation()
-        evaluation.evaluate(simulation.simulate(0))
+        evaluation.evaluate(simulation.Simulate(0))
 
     for i in range(n_of_iteratins):
         simulation = Simualation()
-        evaluation.evaluate(simulation.simulate(1))
+        evaluation.evaluate(simulation.Simulate(1))
 
     evaluation.evaluate()
 

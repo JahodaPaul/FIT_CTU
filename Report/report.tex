@@ -108,7 +108,7 @@ The most extreme value we can see is from a call that lasted more than 20 minute
 \pagebreak
 
 \subsection{Distribution identification}
-From the histograms below we can see similary between the distributions of inter-arrival times and call durations. Both of these histograms resemble probability density function of exponential distribution.\par
+From the histograms below we can see similarity between the distributions of inter-arrival times and call durations. Both of these histograms resemble probability density function of exponential distribution.\par
 %\begin{lstlisting}
 %from statsmodels.distributions.empirical_distribution import ECDF
 %ecdf = ECDF(weightsSurvived)
@@ -121,7 +121,7 @@ The exponential function is denoted as:
 \begin{equation} \lambda\cdot\mathrm{e}^{-\lambda\cdot x} \end{equation}
 The likelihood function for the parameter lambda given $x_1$, $x_2$,..,$x_n$ is denoted as:
 \begin{equation} \mathcal{L}(\lambda|x_1, x_2,..,x_n) = \lambda^{n}\cdot\mathrm{e}^{-\lambda\cdot \sum_{i=1}^{n} x_i} \end{equation}
-To find the lambda for which the likelihood function is maximal, we differentiate by lambda and solve for lambda when the derivate is equal to 0, which results in the following formula:
+To find the lambda for which the likelihood function is maximal, we differentiate by lambda and solve for lambda when the derivative is equal to 0, which results in the following formula:
 \begin{equation} \lambda=\dfrac{n}{\sum_{i=1}^{n} x_i} \end{equation}
 Using maximum likelihood function of an exponential distribution we have calculated lambda for the inter-arrival times to be $0.73$ and lambda for the call duration times to be $0.009$.
 
@@ -132,7 +132,7 @@ On the other hand, the two histograms below show two different distributions. Th
 Similarly as with the exponential distributions above, we will use maximum likelihood method to calculate the parameters of the normal distribution (car velocities). We get $\mu=120.07$ and $\sigma^2=81.33$.
 
 \subsection{Hypothesis Testing}
-After we made distribution identification hypotheses, it is time to do hyptohesis testing. First, let's focus on testing our hypothesis about inter-arrivel times having exponential distribution with $\lambda=0.73$ using Pearson's chi-squared test, which has the following formula.
+After we made distribution identification hypotheses, it is time to do hypothesis testing. First, let's focus on testing our hypothesis about inter-arrival times having exponential distribution with $\lambda=0.73$ using Pearson's chi-squared test, which has the following formula.
 \begin{equation} {\chi}^2=\sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}\ \end{equation}
 
 First we will divide the observations into $k$ mutually exclusive classes that all have the same probability that an observation falls into said class. In the formula above $E_i$ the expected value of observation's that fall into a $ith$ class and $O_i$ is the number of observed values that actually fall into $ith$ class. We define our class as an interval from $r_{i-1}$ to $r_i$ by solving the following formula.
@@ -145,13 +145,13 @@ Solving it for $r_i$, we get
 
 Now that we have our classes we can compare the number of observed values in a class compared to expected number of values in the class to get our $\chi^2$ value. For the inter-arrival times, we got $\chi^2=110.53$, which is less than $\chi^2_{99, 0.05}$, so we cannot reject our null hypothesis that the inter-arrival time has an exponential distribution with $\lambda=0.73$. If the result of our chi-square test was higher than $\chi^2_{0.05}$, we could reject our null hypothesis and be $95\%$ sure our rejection was correct.
 \par \medskip
-Then, we perfomed chi-squared test for our other hypotheses. When performing chi-squared test for a hypothesis that call duration times have exponential distribution we got very high $\chi^2$ value, which meant we should reject our hypothesis, but after shifting the values by their lowest value the hypothesis could not have been rejected.
+Then, we performed chi-squared test for our other hypotheses. When performing chi-squared test for a hypothesis that call duration times have exponential distribution we got very high $\chi^2$ value, which meant we should reject our hypothesis, but after shifting the values by their lowest value the hypothesis could not have been rejected.
 
 \section{Pseudocode}
-In my first submission of the simulation pseudocode, I have made two mistakes. The first mistake was blocking the main thread while waiting for another event to happen. The issue was resolved by updating the system clock time to the time of the next event (call initiation, handover or termination). Another issue with my previous version of the pseucode was that it wasn't detailed enough to show the full functionality of the simulation system. After the issues were resolved, here is how the pseudocode looks like.
+In my first submission of the simulation pseudocode, I have made two mistakes. The first mistake was blocking the main thread while waiting for another event to happen. The issue was resolved by updating the system clock time to the time of the next event (call initiation, handover or termination). Another issue with my previous version of the pseudocode was that it wasn't detailed enough to show the full functionality of the simulation system. After the issues were resolved, here is how the pseudocode looks like.
 \begin{lstlisting}
 # The driving and calling object
-class Object(): #TODO
+class Object():
     def __init__(self, duration, speed, station, position, direction):
         self.duration = duration
         self.speed = speed
@@ -267,6 +267,29 @@ class Simualation():
         else:
             self.n_of_dropped_calls += 1
 \end{lstlisting}
+\pagebreak
+\section{Warm-Up Period}
+Whenever we start our simulation software, it starts with possibly unusual state where no people are calling on the highway. At a certain point, the simulation should reach a more representative point and at that point, we want to start gathering data for our result evaluation.
+\begin{center}
+\includegraphics[width=6.5in]{Figure_10}
+\includegraphics[width=6.5in]{Figure_11}
+\end{center}
+The first graph shows percentage of dropped/blocked calls calculated from the beginning of the simulation. The second graph shows volatility of the percentage of dropped/blocked calls. The volatility is calculated as a mean squared error (MSE) between the average percentage and last ten percentages. The Warm-Up Period in our simulation is over, when the following three conditions are met. At least one call was dropped, at least one call was blocked and the volatility of both analyzed variables (percentage dropped and blocked calls) gets below a certain threshold. First two conditions were devised by intuition after running the simulation multiple times for a shorter period of time and analyzing the resulting graphs. The third condition is used as a safety margin. The safety margin gives us the freedom to change the Warm-Up period only when making significant changes to the simulation, instead of changing it every time we make a minor change.
+
+\section{Results}
+In the figures below we can see visualization of the results after running both (with and without channel reservation) simulations 100 times. Each simulation had a 10 000 calls after the warm-up period. The graphs below help us illustrate this problem. In all the graphs, red represents blocked calls and blue represents dropped calls.
+\begin{center}
+\includegraphics[width=6.5in]{Figure_14}
+\end{center}
+In the scatter plot above, we can see that channel reservation results in lower number of calls being dropped during the handover. That being said it also results in a significant jump in the number of blocked calls. We can also visualize this using histograms, to get even better look at the results.
+\pagebreak
+\begin{center}
+\includegraphics[width=6.5in]{Figure_17}
+\end{center}
+To be precise, the average number of dropped calls is 95.82 without channel reservation and 58.72 without channel reservation. On the other hand the number of blocked calls is 53.28 without channel reservation and 160.29 with one channel being reserved for handover.
+
+\section{Conclusion}
+The simulation shows that having one channel reserved (instead of zero) for handover reduces the number of calls being dropped, but increases the number of calls being blocked. The optimal number of channels being reserved depends how much we value reducing the number of dropped calls compared to the number blocked calls.
 
 \end{document}
 
