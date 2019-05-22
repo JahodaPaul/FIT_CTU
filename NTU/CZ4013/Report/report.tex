@@ -1,0 +1,282 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[marginparsep=8pt,left=2.5cm,right=2.5cm,top=2.5cm,bottom=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{caption}
+\setlength{\parindent}{0pt}% Remove paragraph indent
+\graphicspath{ {./images/} }
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+\newcommand{\overbar}[1]{\mkern 2.5mu\overline{\mkern-2.5mu#1\mkern-2.5mu}\mkern 2.5mu}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\section}{\bf\Large}{#1}{1em}{}
+\titleformat{\subsection}{\bf\large}{#1}{1em}{}
+
+\pagenumbering{gobble} % da pryc cislo stranky na uvodni strance..
+
+\usepackage{listings}
+\lstset{
+  %language=Python,
+  keywordstyle=\ttfamily\color{MidnightBlue},
+  emph={MyClass,__init__},
+  emphstyle=\ttfamily\color{Mahogany},  
+  stringstyle=\color{OliveGreen},
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  %frame=tb,      
+}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
+%% ZAHLAVI A ZAPATI
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+% prostredni cast zapati
+\cfoot{\thepage}
+
+% leva cast zahlavi -- nazev sekce/subsekce
+\lhead{\fancyplain{}{\rightmark}}
+
+% prava cast zahlavi -- logo fitu
+
+%\rhead{\includegraphics[width=4cm]{logo}}
+
+%% PROKLIKAVATELNE ODKAZY -- nastaveni xetex/pdftex
+\usepackage[pdftex,pdfpagelabels,bookmarks,hyperindex,hyperfigures]{hyperref}
+
+\hypersetup{
+  colorlinks,
+  citecolor=blue,
+  filecolor=blue,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\begin{document}
+
+\begin{titlepage}
+  % pro zobrazeni loga v zahlavi
+  \thispagestyle{fancy}
+
+  % vertikalni zarovnani
+  \vspace*{\fill}
+  \begin{center}
+    {\fontsize{20}{30}\selectfont CZ4013}\\[1cm]
+    {\fontsize{30}{100}\selectfont \textbf{Distributed Flight Information System}}\\[4.2cm]
+  \end{center}
+
+  % vertikalni zarovnani
+  \vspace*{\fill}
+
+  % seznam clenu tymu razeny abecedne podle krestniho jmena
+  {\fontsize{10}{10} \selectfont \noindent
+  \textbf{Author:}\\
+  Pavel Jahoda (N1800740K)
+  }
+
+  {\fontsize{10}{10} \selectfont \noindent
+  \textbf{Demonstration time slot:}\\
+    10:15 - 10:30
+  }
+\end{titlepage}
+
+%%%%% 
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% rimska cisla pro cislovani stranek v obsahu
+\pagenumbering{roman}
+
+% samotne vlozeni obsahu
+\tableofcontents
+
+\newpage
+
+% zapnout bezne cislovani stranek pomoci arabskych cislic
+\pagenumbering{arabic}
+
+\section{General overview}
+The Distributed Flight Information System is based on client-server architecture. Both of these programs are written in Python. At the start of the server, the server binds a socket and waits for new connection from the client. A separate method is called to establish connection. This allows us to develop a secure client-server handshake. After the connection is established, client can send requests to the server which performs the requested service, such as looking up flights based on their source and destination. Multiple invocation semantics (at-least-once and at-most-once) are implemented.
+
+\section{User input}
+To start the server, type "python3 Server.py" into the terminal while in the project's folder. Similarly type "python3 Client.py" to start the client.\par \medskip
+The program has also several options when starting the client/server:
+
+\begin{lstlisting}[caption={Options},xleftmargin=.03\textwidth]
+-i, --ip_server                     set ip address of the server. Localhost by default
+-p, --port                          set port number of the server. 10000 by default
+-s, --semantics_invocation          set the semantics invocation used by the server and the client. At-least-once by default
+\end{lstlisting}
+\medskip
+
+Note that when changing the ip address or port number of the server, the change must be specified when starting both the server and the client. However, the change of invocation semantics has to be specified only when starting the client. The client sets up the invocation semantics when establishing connection. To change the invocation semantics from At-least-once to At-most-once, type "2" with the option -s used. For example:
+
+\begin{lstlisting}[caption={Example how to run the program},xleftmargin=.03\textwidth]
+python3 Server.py -i 172.0.0.1 -p 10004
+python3 Client.py -i 172.0.0.1 -p 10004 -s 2
+\end{lstlisting}
+\medskip
+
+\begin{lstlisting}[caption={Example how to run the program, with all options set to default},xleftmargin=.03\textwidth]
+python3 Server.py
+python3 Client.py
+\end{lstlisting}
+\medskip
+
+To search for flights using source and destination places, input the IATA airport codes (for examples: PRG, SIN, DXB etc.)
+
+\section{Request and reply design}
+Each request from the client is at the beginning represented as an array of objects. The array consists of identifier of the requested service, number of objects, unique numbers representing each object's type (including the error message) and the objects itself. This array is then send to the marshalling methods where they are converted into an array of bytes. After the server receives the request (array of bytes), unmarshalling method is called. The unmarshalling method converts the array of bytes back to the array of objects.\par \medskip Based on the identifier of the requested service, the server then performs the service and a reply is send back in a similar way. When the server needs to send an error message (for example, when no flight with a specified ID exists), it does so by sending an array that consists of the requested service id and special number that indicates that an error message is being send.  
+
+\section{Marshalling}
+Our goal in the marshalling process is to convert objects into array of bytes. First, we convert more "complex" objects (instances of classes such as flight object) into array of data types such as strings and integers. These integer and string objects are then converted into numbers between 0 and 255 (for strings: ascii code of each of their character, for integers: Numeral system with base 256) and then converted into an array of bytes.\par \medskip
+In our array of bytes, we have a number representing the number of objects, unique numbers indicating their type and we also have number of bytes needed to represent a particular object. If the objects consists of multiple objects, each of these objects will have numbers representing their type and length in bytes. All this information gives us the ability to perform unmarshalling and to reconstruct all the objects. 
+\pagebreak
+\section{Services}
+The flight information system has 7 services available.
+\renewcommand\labelitemi{\tiny$\bullet$}
+\begin{itemize}
+    \setlength\itemsep{0.15em}
+	\item A service that establishes connection between the client and the server
+	\item A service that allows a user to query the flights by specifying the source and destination places
+	\item A service that allows a user to query the flights by specifying the flight identifier
+    \item A service that allows a user to make seat reservation on a flight
+    \item A service that allows a user to monitor seat availability changes on a flight
+    \item A service that allows a user to query number of flights
+    \item A service that allows a user to praise the information system by giving a "like"
+\end{itemize}
+Last two services are idempotent and non-idempotent respectively. Giving a like is an non-idempotent operation, because in our case a user can give multiple likes to the information system and the server always replies with the current number of likes it received. Therefore, if we perform the operation twice, the server will reply with two different numbers.
+
+\section{Invocation semantics}
+Two invocation semantics have been implemented (At-least-once and At-most-once). The following experiment observes the differences between these two invocation semantics and if any of them can lead to wrong results.
+
+\subsection{Experiment}
+The main goal of the experiment is to observe how different invocation semantics behave when using idempotent and non-idempotent service. The two invocation semantics are at-least-once and at-most-once. In the experiment, the loss of messages between a server and a client is simulated by simple simply not sending any messages with a probability 50\%. \par \medskip In the text below (Listing 4), we can see the output of the client's console, after we were using an at-least-once invocation semantics on a non-idempotent service. The non-idempotent service used allows the user to praise the information service by giving a "like". A single user can give multiple likes to the information system. We can see that after client has given like number 1 and like number 2, the reply from the server states that the user has given like number 1 and like number 3. So what has happened?
+
+\begin{lstlisting}[caption={Client console output},xleftmargin=.03\textwidth]
+Invocation semantics used: at least once
+timeout
+Communication successfully established
+Welcome to flight information system.
+Press:
+1 - query flights by source and destination of the flight
+2 - query flights by ID
+3 - make a reservation
+4 - monitor flight updates
+5 - Check number of flights
+6 - Give a like
+9 - Exit
+6
+You have given a like number 1
+Press:
+1 - query flights by source and destination of the flight
+2 - query flights by ID
+3 - make a reservation
+4 - monitor flight updates
+5 - Check number of flights
+6 - Give a like
+9 - Exit
+6
+timeout
+timeout
+timeout
+You have given a like number 3
+Press:
+1 - query flights by source and destination of the flight
+2 - query flights by ID
+3 - make a reservation
+4 - monitor flight updates
+5 - Check number of flights
+6 - Give a like
+9 - Exit
+\end{lstlisting}
+\medskip
+
+From the server log below (Listing 5), we can observe that the server has indeed received three requests from the client to give a like. This has happened, because when the reply from the server got lost, the client simply retransmitted request message to give a like. Then, by the rules of at-least-once invocation semantics the server did not filter the message and simply re-executed the method to give a like, which led to the wrong result.
+\begin{lstlisting}[caption={Server console output},xleftmargin=.03\textwidth]
+starting up on localhost port 10000
+waiting for data
+Received data from address: ('127.0.0.1', 34299)
+Received b'\x00d'
+Starting using At-least-once invocation semantics
+[0, 100]
+waiting for data
+Received data from address: ('127.0.0.1', 34299)
+Received b'\x06\x01\x0b\x05\x00\x00\x00\x00'
+Service 6; User gave us a like number 1
+[6, 1, 11, 1]
+waiting for data
+Received data from address: ('127.0.0.1', 34299)
+Received b'\x06\x01\x0b\x05\x00\x00\x00\x01'
+Service 6; User gave us a like number 2
+[6, 1, 11, 2]
+waiting for data
+Received data from address: ('127.0.0.1', 34299)
+Received b'\x06\x01\x0b\x05\x00\x00\x00\x01'
+Service 6; User gave us a like number 3
+[6, 1, 11, 3]
+waiting for data
+\end{lstlisting}
+\medskip
+
+The following text (listings 6 and 7) shows the result of performing same action as above when using the at-most-once invocation semantics. From the server log below we can see that after the service was performed ("Service 6; User gave us a like number 1"), it did receive another request. However, because at-most-once invocation semantics was used, the server recognized the duplicate request and retransmitted the reply instead of re-executing the request.
+\begin{lstlisting}[caption={Client console output},xleftmargin=.03\textwidth]
+Invocation semantics used: at most once
+Communication successfully established
+Welcome to flight information system.
+Press:
+1 - query flights by source and destination of the flight
+2 - query flights by ID
+3 - make a reservation
+4 - monitor flight updates
+5 - Check number of flights
+6 - Give a like
+9 - Exit
+6
+timeout
+timeout
+You have given a like number 1
+Press:
+1 - query flights by source and destination of the flight
+2 - query flights by ID
+3 - make a reservation
+4 - monitor flight updates
+5 - Check number of flights
+6 - Give a like
+9 - Exit
+\end{lstlisting}
+\medskip
+\pagebreak
+\begin{lstlisting}[caption={Server console output},xleftmargin=.03\textwidth]
+starting up on localhost port 10000
+waiting for data
+Received data from address: ('127.0.0.1', 43936)
+Received b'\x00e'
+Starting using At-most-once invocation semantics
+waiting for data
+Received data from address: ('127.0.0.1', 43936)
+Received b'\x06\x01\x0b\x05\x00\x00\x00\x00'
+Service 6; User gave us a like number 1
+waiting for data
+Received data from address: ('127.0.0.1', 43936)
+Received b'\x06\x01\x0b\x05\x00\x00\x00\x00'
+waiting for data
+\end{lstlisting}
+\medskip
+
+Using different invocation semantics on idempotent operation did not lead to different results. However, the at-most-once invocation semantics did not re-executed the methods which could lead to significant server optimization if we deal with more time consuming  operations. 
+
+\section{Conclusion}
+The results of the experiment show the advantages of using At-most-once invocation semantics over At-least-once invocation semantics. 
+
+\end{document}
+
