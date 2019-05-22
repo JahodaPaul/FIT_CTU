@@ -31,6 +31,8 @@ To share code [I](https://www.bit.ly/2Kudpj5) have written during [my](https://w
 
 * ### 6th semester
   * Selected for an exchange programme with one of the best universities in the world, [Nanyang Technological University](https://en.wikipedia.org/wiki/Nanyang_Technological_University) in [Singapore](https://en.wikipedia.org/wiki/Singapore).
+  * [NTU](/NTU) - Code written during exchange programme, plus notes and tips
+
 
 [BI-ACM](/ACM) - _Competitive programming_ - Course taken during 1st,2nd,3rd and 5th semester in preparation for [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest) 
   
