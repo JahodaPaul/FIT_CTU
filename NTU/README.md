@@ -25,3 +25,16 @@ Every course has lectures available online which is great. Most lecturers assume
 The difficulty of study is comparable to Faculty of Information Technology, Czech Technical University in Prague. However, there are differences. Overall students from NTU prepare more for lectures and tutorials during the semester and they also stress more about the exams. They stress more about the exams, because they have only one exam date for each course. That said, the students pay high tuition and the university doesn't want to fail too many students. Therefore, students who show some understanding pass the exams. This is in contrasts with FIT CTU, where students fail exams constantly. At FIT CTU, you have multiple (up to 3) exam attempts for each course and if the professor believes your understanding is only so-so he/she is not afraid to fail you and you need to try again. I believe that the way exams are set up at FIT CTU leads to better understanding of the subject as there are less students who understand it only a little and pass.
 
 Another difference is in assessment criteria. At FIT CTU you know more about how the projects/exams are evaluated in advance, which makes it easier for students who just started at the university. Additionally, students at NTU have to wait weeks before they know the examination results, whereas at CTU you know the results in a few days (sometimes even the same day). Lastly, I have to mention the love of FIT CTU for Linux and open-source projects, which is not the case for NTU.
+
+## Tips
+* Take a sweater or a hoodie to lecture room (the air-con makes it always too cold)
+* You can borrow a calculator at the college of engineering for your exams
+* For SCSE, MAE and mathematics students, you can buy past papers with answers (by students) at northspine printing place.
+* Exams are time intensive, you need to optimize and chose questions that have high points/(time it takes to answer) ratio.
+* For food I can recommend: 
+  * Indian food at hall 9
+  * Korean food, Indian food  and Ma La hotpot at tamarind hall
+  * Ramen at hall 16
+  * Chicken rice at hall 2
+  * Waffles at hall 11.
+  * Duck Rice/Duck Noodle at North Spine
