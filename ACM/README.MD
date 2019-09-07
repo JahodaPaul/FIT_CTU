@@ -37,6 +37,10 @@ Always recieved an A.
 * ### 5th semester 
 	* Our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [mkucera](http://codeforces.com/profile/mkucera)) finished 1st (out of 13) with 248 points.
 
+## Petrozavodsk Programming Camp
+Thanks to our results, our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [mkucera](http://codeforces.com/profile/mkucera)) was selected to be sent to [Petrozavodsk Programming Camp](https://camp.acm.petrsu.ru
+) in Russia where we have competed against the best sports programmers in the world such as [Gennady Korotkevich](https://en.wikipedia.org/wiki/Gennady_Korotkevich). We ended up 50th out of 52 teams and solved 16 out of 97 problems in total.
+
 ## Links
 [FIT CTU ACM-ICPC](https://turing.cz/tom/acm.html) - training website in Czech.
 
