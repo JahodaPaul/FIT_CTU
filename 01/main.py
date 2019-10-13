@@ -283,7 +283,7 @@ def PartTwo(): #Load data from csv files and work with them
     plt.show()
 
 
-    # Časový vývoj volební účasti a volebních výsledků jednotlivých stran.
+    # Časový vývoj volebních výsledků jednotlivých stran.
     patchesList = []
     for cnt, key in enumerate(partyObjects.keys()):
         if len(partyObjects[key].yearsInElections) > 1:
@@ -291,6 +291,19 @@ def PartTwo(): #Load data from csv files and work with them
             patchesList.append(mpatches.Patch(color=list(mcolors.cnames.keys())[cnt], label=partyObjects[key].partyName))
     plt.legend(handles=patchesList)
     plt.title('Časový vývoj volebních výsledků jednotlivých stran')
+    plt.show()
+
+    # Časový vývoj volební účasti
+    nOfPeople = [0 for i in range(len(yearsAll))]
+    for key in partyObjects.keys():
+        for i in range(len(partyObjects[key].yearsInElections)):
+            nOfPeople[yearsDict[partyObjects[key].yearsInElections[i]]] += partyObjects[key].numberOfVotes[i]
+
+    plt.bar(yearsAll,nOfPeople)
+    plt.xticks(yearsAll)
+    plt.xlabel('Roky')
+    plt.ylabel('Pocet hlasu')
+    plt.title('Časový vývoj volební účasti')
     plt.show()
 
     # Časový vývoj podílu kandidujících s titulem a bez titulu
