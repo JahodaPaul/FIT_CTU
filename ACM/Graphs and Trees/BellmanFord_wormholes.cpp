@@ -17,7 +17,6 @@ using namespace std;
 vector<vector<pair<int,int>>> graph;
 int T,nOfEdges,nOfVertices;
 int arr[1002];
-int arr2[1002];
 
 int main() {
     int a,b,cost;
@@ -25,9 +24,7 @@ int main() {
     cin >> T;
     while(T--){
         memset(arr,63,sizeof(arr));
-        memset(arr2,63,sizeof(arr2));
         cin>>nOfVertices>>nOfEdges;
-        int kMinusOne = nOfVertices-1,k = nOfVertices;
         for(int i =0;i<=nOfVertices;i++){
             vector<pair<int,int>> vector1;
             graph.push_back(vector1);
@@ -37,45 +34,30 @@ int main() {
             cin>>a>>b>>cost;
             graph[a].push_back(make_pair(b,cost));
         }
-        //cena, kam, round
-        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>> q;
-        q.push(make_pair(0,make_pair(0,0)));
-        arr[0] = 0;
-        while(!q.empty()){
-            pair<int,pair<int,int>> q2 = q.top();
-            q.pop();
-            for(int i=0;i<graph[q2.second.first].size();i++){
-                int length = arr[q2.second.first] + graph[q2.second.first][i].second;
-                if(length < arr[graph[q2.second.first][i].first] && q2.second.second < kMinusOne)
-                {
-                    arr[graph[q2.second.first][i].first] = length;
-                    q.push(make_pair(length,make_pair(graph[q2.second.first][i].first,q2.second.second+1)));
-                }
-            }
 
-        }
-        while(!q.empty()){q.pop();}
-        q.push(make_pair(0,make_pair(0,0)));
-        arr2[0] = 0;
-        while(!q.empty()){
-            pair<int,pair<int,int>> q2 = q.top();
-            q.pop();
-            for(int i=0;i<graph[q2.second.first].size();i++){
-                int length = arr2[q2.second.first] + graph[q2.second.first][i].second;
-                if(length < arr2[graph[q2.second.first][i].first] && q2.second.second < k)
-                {
-                    arr2[graph[q2.second.first][i].first] = length;
-                    q.push(make_pair(length,make_pair(graph[q2.second.first][i].first,q2.second.second+1)));
+        bool b = false;
+        arr[0] = 0;
+        for(int i=0;i<nOfVertices;i++){
+            for(int j=0;j<nOfVertices;j++){
+                for(int k=0;k<graph[j].size();k++){
+                    if(graph[j][k].second + arr[j] < arr[graph[j][k].first]){
+                        arr[graph[j][k].first] = graph[j][k].second + arr[j];
+                    }
                 }
             }
         }
-        bool b = false;
-        for(int i=0;i<1001;i++){
-            if(arr[i] != arr2[i]){
-                cout << "possible" << endl;
-                b = true;
-                break;
+
+        for(int j=0;j<nOfVertices;j++){
+            for(int k=0;k<graph[j].size();k++){
+                if(graph[j][k].second + arr[j] < arr[graph[j][k].first]){
+                    b = true;
+                }
             }
+        }
+
+
+        if(b){
+            cout << "possible" << endl;
         }
         if(!b){
             cout << "not possible" << endl;
