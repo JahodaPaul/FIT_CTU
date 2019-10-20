@@ -1,4 +1,4 @@
-
+from sklearn.model_selection import cross_val_score
 
 def ConvertNameToVector(name):
     titles = ['Sir.','Master.','Mr.','Mrs.','Miss.']
@@ -39,6 +39,7 @@ def ConvertFile(path): #Write missing values as -1
             Y.append(int(tmpArr[1]))
         else:
             cnt -= 1
+            Y.append(int(tmpArr[0]))
         tmpX = []
         
         pClass = -1 if tmpArr[2+cnt] == '' else (int(tmpArr[2+cnt]))
@@ -69,22 +70,20 @@ def ConvertFile(path): #Write missing values as -1
         
     return X, Y
 
-def FixMissingAges1(X):
-    suma = 0
-    counter = 0
+# This one achieved higher accuracy
+def FixMissingAges1(X): # Predict missing ages using distribution of current ages
+    import random
+    currentAges = []
     for i in range(len(X)):
         if X[i][4] != -1:
-            suma += X[i][4]
-            counter += 1
-            
-    mean = suma/counter
+            currentAges.append(X[i][4])
+
     for i in range(len(X)):
         if X[i][4] == -1:
-            X[i][4] = mean
+            X[i][4] = currentAges[random.randrange(0,len(currentAges))]
+    return X
     
-    return mean 
-    
-def FixMissingAges2(X):
+def FixMissingAges2(X): # Predict missing ages using regression
     from sklearn.ensemble import RandomForestRegressor
     regressionArr, y = [],[]
     regressionTestArr = []
@@ -119,7 +118,7 @@ def FixMissingAges2(X):
     
     
 def myNorm(X):
-    FixMissingAges2(X)
+    FixMissingAges1(X)
     myMaxes = [0 for i in range(len(X[0]))]
     for item in X:
         for i in range(len(item)):
@@ -132,33 +131,63 @@ def myNorm(X):
 
     return X
 
+
+
 x_train, y_train = ConvertFile('data.csv')
 x_train = myNorm(x_train)
 x_test, y_test = ConvertFile('evaluation.csv')
-#for i in range(len(x_train)):
-#    print(x_train[i],y_train[i])
-
-x_val = x_train[800:]
-y_val = y_train[800:]
-x_train = x_train[:800]
-y_train = y_train[:800]
 
 # SVM
 from sklearn import svm
-clf = svm.SVC(max_iter=1000)
-clf.fit(x_train, y_train)
-print(clf.score(x_val, y_val))
+clf = svm.SVC(max_iter=1000,gamma='auto')
+print('SVM accuracy:',cross_val_score(clf, x_train, y_train,cv=10).mean())
 
 
-# Extrmeely randomised trees
+# Extremely randomised trees
 from sklearn.ensemble import ExtraTreesClassifier
 trees = ExtraTreesClassifier(100,class_weight='balanced')
-trees.fit(x_train, y_train)
-print(trees.score(x_val, y_val))
+print('Extremely randomised trees accuracy:',cross_val_score(trees, x_train, y_train,cv=10).mean())
 
 # Random forest
 from sklearn.ensemble import RandomForestClassifier
 forest = RandomForestClassifier(100)
-forest.fit(x_train, y_train)
-print(forest.score(x_val, y_val))
+print('Random Forest accuracy:',cross_val_score(forest, x_train, y_train,cv=10).mean())
 
+# Knn
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=5)
+print('kNN accuracy:',cross_val_score(knn, x_train, y_train,cv=10).mean())
+
+
+# Find optimal hyper parameters for Random Forest
+nOfEstimators = [10,50,100,150]
+bestIndexEst = 0
+max_depth = [4,8,16,32,64]
+bestIndexDepth = 0
+max_features = ['log2','sqrt']
+bestIndexFeat = 0
+bestCurrentVal = 0
+
+for i in range(len(nOfEstimators)):
+    for j in range(len(max_depth)):
+        for k in range(len(max_features)):
+            forest = RandomForestClassifier(n_estimators=nOfEstimators[i],max_depth=max_depth[j],max_features=max_features[k])
+            val = cross_val_score(forest, x_train, y_train,cv=10).mean()
+            print(str(i*(len(max_depth)*len(max_features)) + j*len(max_features) + k) +'/'+str(len(nOfEstimators)*len(max_depth)*len(max_features))+ ' searching hyperparameters')
+            if val > bestCurrentVal:
+                bestCurrentVal = val
+                bestIndexEst = i
+                bestIndexDepth = j
+                bestIndexFeat = k
+print('Best cross-validation accuracy:',bestCurrentVal)
+print('Best parameters:')
+print('Estimators:',nOfEstimators[bestIndexEst])
+print('Max depth:',max_depth[bestIndexDepth])
+print('Max features:',max_features[bestIndexFeat])
+forest = RandomForestClassifier(n_estimators=nOfEstimators[bestIndexEst],max_depth=max_depth[bestIndexDepth],max_features=max_features[bestIndexFeat])
+forest.fit(x_train, y_train)
+predictions = forest.predict(x_test)
+with open('results.csv','w') as f:
+    for i in range(len(predictions)):
+        line = str(y_test[i]) + ',' + str(predictions[i]) + '\n'
+        f.write(line)
