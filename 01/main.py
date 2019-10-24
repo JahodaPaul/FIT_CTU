@@ -1,3 +1,6 @@
+
+# Funkce na prace s daty
+
 import requests
 import lxml.html as lh
 import os
@@ -120,6 +123,10 @@ def GetMemberResults(link,indexYear):
 
     for index in range(len(tr_elements)):
         if index >= 2:
+            i = 0
+            if indexYear == 0:
+                i = 1
+
             name = tr_elements[index][3].text_content()
             hasTitle = 0
             for titul in tituly:
@@ -127,36 +134,33 @@ def GetMemberResults(link,indexYear):
                     hasTitle = 1
                 name = name.replace(titul, "")
             name = name.replace(' '," ")
-            if name not in memberObjects.keys():
-                memberObjects[name] = MemberObjects()
-                memberObjects[name].name = name
+            nameKey = name + str(int(yearsAll[indexYear])-int(tr_elements[index][4+i].text_content()))
+            if nameKey not in memberObjects.keys():
+                memberObjects[nameKey] = MemberObjects()
+                memberObjects[nameKey].name = name
 
-            memberObjects[name].yearsInElections.append(yearsAll[indexYear])
-            memberObjects[name].partyName.append(tr_elements[index][1].text_content())
-            i = 0
+            memberObjects[nameKey].yearsInElections.append(yearsAll[indexYear])
+            memberObjects[nameKey].partyName.append(tr_elements[index][1].text_content())
+
             if indexYear == 0:
-                i = 1
                 titles = tr_elements[index][4].text_content()
                 if len(titles) > 1:
-                    memberObjects[name].hasTitle = 1
+                    memberObjects[nameKey].hasTitle = 1
 
             if hasTitle == 1:
-                memberObjects[name].hasTitle = hasTitle
+                memberObjects[nameKey].hasTitle = hasTitle
             numberOfVotes = tr_elements[index][7+i].text_content()
             numberOfVotes = numberOfVotes.replace(u'\xa0', u'')
-            memberObjects[name].numberOfVotes.append(numberOfVotes)
+            memberObjects[nameKey].numberOfVotes.append(numberOfVotes)
             percentage = tr_elements[index][8+i].text_content()
             percentage = percentage.replace(u',', u'.')
-            memberObjects[name].percentageOfVotes.append(percentage)
-            memberObjects[name].rankAfterElection.append(tr_elements[index][9+i].text_content())
-            memberObjects[name].AgeDuringSaidElection.append(tr_elements[index][4+i].text_content())
-            memberObjects[name].rankBeforeElection.append(tr_elements[index][2].text_content())
+            memberObjects[nameKey].percentageOfVotes.append(percentage)
+            memberObjects[nameKey].rankAfterElection.append(tr_elements[index][9+i].text_content())
+            memberObjects[nameKey].AgeDuringSaidElection.append(tr_elements[index][4+i].text_content())
+            memberObjects[nameKey].rankBeforeElection.append(tr_elements[index][2].text_content())
             mandate = tr_elements[index][10+i].text_content()
             mandate = 'YES' if mandate == '*' else 'NO'
-            memberObjects[name].receivedMandate.append(mandate)
-            # if indexYear == 4:
-            #     print('---------------------')
-            #     memberObjects[name].MyPrint()
+            memberObjects[nameKey].receivedMandate.append(mandate)
 
 
 csvPeople = 'people.csv'
@@ -180,181 +184,185 @@ def PartOne(): # Load data into csv files
     for key in partyObjects.keys():
         partyObjects[key].WriteIntoCSVFile(csvParties)
 
-def PartTwo(): #Load data from csv files and work with them
-    with open(csvPeople,'r') as f:
-        lines = [line.rstrip('\n') for line in f]
-    for line in lines:
-        arr = line.split(';')
-        memberObjects[arr[0]] = MemberObjects()
-        memberObjects[arr[0]].name = arr[0]
-        memberObjects[arr[0]].yearsInElections = eval(arr[1])
-        memberObjects[arr[0]].partyName = eval(arr[2])
-        memberObjects[arr[0]].numberOfVotes = eval(arr[3])
-        memberObjects[arr[0]].percentageOfVotes = eval(arr[4])
-        memberObjects[arr[0]].rankBeforeElection = eval(arr[5])
-        memberObjects[arr[0]].rankAfterElection = eval(arr[6])
-        memberObjects[arr[0]].AgeDuringSaidElection = eval(arr[7])
-        memberObjects[arr[0]].receivedMandate = eval(arr[8])
-        memberObjects[arr[0]].hasTitle = arr[9]
-
-
-    with open(csvParties,'r') as f:
-        lines = [line.rstrip('\n') for line in f]
-    for line in lines:
-        arr = line.split(';')
-        partyObjects[arr[0]] = PartyObject()
-        partyObjects[arr[0]].partyName = arr[0]
-        partyObjects[arr[0]].yearsInElections = eval(arr[1])
-        partyObjects[arr[0]].numberOfVotes = eval(arr[2])
-        partyObjects[arr[0]].percentageOfVotes = eval(arr[3])
-
-
-    # Časový vývoj (po rocích voleb) počtu kandidujících stran i lidí a to celkově
-    # i po jednotlivých stranách (ve volbách, kterých se daná strana účastnila).
-    nOfPartiesPerYear = [0 for i in range(len(yearsAll))]
-    nOfPeoplePerYear = [0 for i in range(len(yearsAll))]
-    for i in range(len(nOfPeoplePerYear)):
-        for key in memberObjects.keys():
-            if yearsAll[i] in memberObjects[key].yearsInElections:
-                nOfPeoplePerYear[i] += 1
-
-        for key in partyObjects.keys():
-            if yearsAll[i] in partyObjects[key].yearsInElections:
-                nOfPartiesPerYear[i] += 1
-
-    plt.bar(yearsAll,nOfPartiesPerYear)
-    plt.xticks(yearsAll)
-    plt.xlabel('Roky')
-    plt.ylabel('Pocet stran')
-    plt.title('Časový vývoj počtu kandidujících stran')
-    plt.show()
-
-    plt.plot(yearsAll, nOfPeoplePerYear)
-    plt.xlabel('Roky')
-    plt.ylabel('Pocet kandidatu')
-    plt.title('Časový vývoj počtu kandidujících lidí')
-    plt.show()
-
-    import matplotlib.colors as mcolors
-    # Věkovou strukturu kandidátů celkově i za jednotlivé strany a vývoj této struktury během jednotlivých voleb.
-    # Celkove
-    PartyYears = [[0 for j in range(11)] for i in range(len(yearsAll))]
-    countPartyYears = [[0 for j in range(11)] for i in range(len(yearsAll))]
-    partyNames = ['Celkove']
-    width = 0.15
-    widths = [-2 * width, -1 * width, 0, 1 * width, 2 * width]
-
-    for key in partyObjects.keys():
-        if partyObjects[key].partyName not in partyNames and len(partyObjects[key].yearsInElections) > 1:
-            partyNames.append(partyObjects[key].partyName)
-
-    for cnt, key in enumerate(memberObjects.keys()):
-        for cnt2, year in enumerate(memberObjects[key].yearsInElections):
-            PartyYears[yearsDict[year]][0] += int(memberObjects[key].AgeDuringSaidElection[cnt2])
-            countPartyYears[yearsDict[year]][0] += 1
-
-        for i in range(len(partyNames)):
-            for cnt2, year in enumerate(memberObjects[key].yearsInElections):
-                if partyNames[i] == memberObjects[key].partyName[cnt2]:
-                    PartyYears[yearsDict[year]][i] += int(memberObjects[key].AgeDuringSaidElection[cnt2])
-                    countPartyYears[yearsDict[year]][i] += 1
-
-
-
-    for i in range(len(PartyYears)):
-        for j in range(len(PartyYears[i])):
-            if countPartyYears[i][j] != 0:
-                PartyYears[i][j] /= float(countPartyYears[i][j])
-
-    import numpy as np
-    ind = np.arange(len(PartyYears[0]))
-    colors = ['r','g','b','c','k']
-    patchesList1 = []
-
-    for i in range(len(PartyYears)):
-        plt.bar(ind+widths[i], PartyYears[i], width,color=colors[i])
-        patchesList1.append(mpatches.Patch(color=colors[i], label=str(yearsAll[i])))
-
-    plt.legend(handles=patchesList1)
-    plt.xticks(ind,partyNames, rotation=20)
-    plt.xlabel('Strany')
-    plt.ylabel('Prumerny vek kandidata')
-    plt.title('Věkovou strukturu kandidátů celkově i za jednotlivé strany a vývoj této struktury během jednotlivých voleb.')
-    plt.show()
-
-
-    # Časový vývoj volebních výsledků jednotlivých stran.
-    patchesList = []
-    for cnt, key in enumerate(partyObjects.keys()):
-        if len(partyObjects[key].yearsInElections) > 1:
-            plt.plot(partyObjects[key].yearsInElections, partyObjects[key].percentageOfVotes,color=list(mcolors.cnames.keys())[cnt])
-            patchesList.append(mpatches.Patch(color=list(mcolors.cnames.keys())[cnt], label=partyObjects[key].partyName))
-    plt.legend(handles=patchesList)
-    plt.title('Časový vývoj volebních výsledků jednotlivých stran')
-    plt.show()
-
-    # Časový vývoj volební účasti
-    nOfPeople = [0 for i in range(len(yearsAll))]
-    for key in partyObjects.keys():
-        for i in range(len(partyObjects[key].yearsInElections)):
-            nOfPeople[yearsDict[partyObjects[key].yearsInElections[i]]] += partyObjects[key].numberOfVotes[i]
-
-    plt.bar(yearsAll,nOfPeople)
-    plt.xticks(yearsAll)
-    plt.xlabel('Roky')
-    plt.ylabel('Pocet hlasu')
-    plt.title('Časový vývoj volební účasti')
-    plt.show()
-
-    # Časový vývoj podílu kandidujících s titulem a bez titulu
-    nOfHasTitle = [0 for i in range(len(yearsAll))]
-    nOfHasNotTitle = [0 for i in range(len(yearsAll))]
-    percentageTitle = [0 for i in range(len(yearsAll))]
-    for i in range(len(nOfHasTitle)):
-        for key in memberObjects.keys():
-            if yearsAll[i] in memberObjects[key].yearsInElections:
-                if memberObjects[key].hasTitle == '1':
-                    nOfHasTitle[i] += 1
-                else:
-                    nOfHasNotTitle[i] += 1
-        percentageTitle[i] = nOfHasTitle[i] / float(nOfHasTitle[i] + nOfHasNotTitle[i])
-
-    plt.bar(yearsAll,percentageTitle)
-    plt.xticks(yearsAll)
-    plt.xlabel('Roky')
-    plt.ylabel('Podil kandidatu s titulem')
-    plt.title('Časový vývoj podílu kandidujících s titulem')
-    plt.show()
-
-    # Pokuste se u jednotlivých kandidátů zjistit, zda kandidovali ve více volbách.
-    # Najděte 10 nejpilnějších kandidátů a vypište jejich volební zisky a za jaké strany kandidovali.
-    print("Nejpilnejsi kandidati")
-    print()
-    print()
-    arr = []
-    for key in memberObjects.keys():
-        arr.append([len(memberObjects[key].yearsInElections),key])
-    arr.sort(reverse=True)
-    arr = arr[:10]
-    for cnt, item in enumerate(arr):
-        print(str(cnt+1)+'.')
-        memberObjects[item[1]].MyPrint()
-
-    #Zkuste odhadnout i podíl žen na kandidátkách.
-    pocetZen = 0
-    koncovkyZenske = ['ová ','atá ','ná ','ká ']
-    for key in memberObjects.keys():
-        for koncovka in koncovkyZenske:
-            if koncovka in memberObjects[key].name:
-                pocetZen += 1
-                break
-    print()
-    print()
-    print()
-    print('Odhadnute procento zen:',pocetZen/len(list(memberObjects.keys())) * 100)
-
 #PartOne()
-PartTwo()
+
+# Nacteni dat
+with open(csvPeople,'r') as f:
+    lines = [line.rstrip('\n') for line in f]
+for line in lines:
+    arr = line.split(';')
+    memberObjects[arr[0]] = MemberObjects()
+    memberObjects[arr[0]].name = arr[0]
+    memberObjects[arr[0]].yearsInElections = eval(arr[1])
+    memberObjects[arr[0]].partyName = eval(arr[2])
+    memberObjects[arr[0]].numberOfVotes = eval(arr[3])
+    memberObjects[arr[0]].percentageOfVotes = eval(arr[4])
+    memberObjects[arr[0]].rankBeforeElection = eval(arr[5])
+    memberObjects[arr[0]].rankAfterElection = eval(arr[6])
+    memberObjects[arr[0]].AgeDuringSaidElection = eval(arr[7])
+    memberObjects[arr[0]].receivedMandate = eval(arr[8])
+    memberObjects[arr[0]].hasTitle = arr[9]
+
+
+with open(csvParties,'r') as f:
+    lines = [line.rstrip('\n') for line in f]
+for line in lines:
+    arr = line.split(';')
+    partyObjects[arr[0]] = PartyObject()
+    partyObjects[arr[0]].partyName = arr[0]
+    partyObjects[arr[0]].yearsInElections = eval(arr[1])
+    partyObjects[arr[0]].numberOfVotes = eval(arr[2])
+    partyObjects[arr[0]].percentageOfVotes = eval(arr[3])
+
+
+# Časový vývoj (po rocích voleb) počtu kandidujících stran i lidí a to celkově
+# i po jednotlivých stranách (ve volbách, kterých se daná strana účastnila).
+nOfPartiesPerYear = [0 for i in range(len(yearsAll))]
+nOfPeoplePerYear = [0 for i in range(len(yearsAll))]
+for i in range(len(nOfPeoplePerYear)):
+    for key in memberObjects.keys():
+        if yearsAll[i] in memberObjects[key].yearsInElections:
+            nOfPeoplePerYear[i] += 1
+
+    for key in partyObjects.keys():
+        if yearsAll[i] in partyObjects[key].yearsInElections:
+            nOfPartiesPerYear[i] += 1
+
+plt.subplot(211)
+plt.plot(yearsAll,nOfPartiesPerYear)
+plt.xlabel('Roky')
+plt.ylabel('Pocet stran')
+plt.title('Časový vývoj počtu kandidujících stran')
+
+plt.subplot('212')
+plt.plot(yearsAll, nOfPeoplePerYear)
+plt.xlabel('Roky')
+plt.ylabel('Pocet kandidatu')
+plt.title('Časový vývoj počtu kandidujících lidí')
+plt.show()
+
+# Věkovou strukturu kandidátů celkově i za jednotlivé strany a vývoj této struktury během jednotlivých voleb.
+# Celkove
+PartyYears = [[0 for j in range(11)] for i in range(len(yearsAll))]
+countPartyYears = [[0 for j in range(11)] for i in range(len(yearsAll))]
+partyNames = ['Celkove']
+width = 0.15
+widths = [-2 * width, -1 * width, 0, 1 * width, 2 * width]
+
+for key in partyObjects.keys():
+    if partyObjects[key].partyName not in partyNames and len(partyObjects[key].yearsInElections) > 1:
+        partyNames.append(partyObjects[key].partyName)
+
+for cnt, key in enumerate(memberObjects.keys()):
+    for cnt2, year in enumerate(memberObjects[key].yearsInElections):
+        PartyYears[yearsDict[year]][0] += int(memberObjects[key].AgeDuringSaidElection[cnt2])
+        countPartyYears[yearsDict[year]][0] += 1
+
+    for i in range(len(partyNames)):
+        for cnt2, year in enumerate(memberObjects[key].yearsInElections):
+            if partyNames[i] == memberObjects[key].partyName[cnt2]:
+                PartyYears[yearsDict[year]][i] += int(memberObjects[key].AgeDuringSaidElection[cnt2])
+                countPartyYears[yearsDict[year]][i] += 1
+
+
+
+for i in range(len(PartyYears)):
+    for j in range(len(PartyYears[i])):
+        if countPartyYears[i][j] != 0:
+            PartyYears[i][j] /= float(countPartyYears[i][j])
+
+import numpy as np
+ind = np.arange(len(PartyYears[0]))
+colors = ['r','g','b','c','k']
+patchesList1 = []
+
+for i in range(len(PartyYears)):
+    plt.bar(ind+widths[i], PartyYears[i], width,color=colors[i])
+    patchesList1.append(mpatches.Patch(color=colors[i], label=str(yearsAll[i])))
+
+plt.legend(handles=patchesList1)
+plt.xticks(ind,partyNames, rotation=20)
+plt.xlabel('Strany')
+plt.ylabel('Prumerny vek kandidata')
+plt.title('Věkovou strukturu kandidátů celkově i za jednotlivé strany a vývoj této struktury během jednotlivých voleb.')
+plt.show()
+
+
+# Časový vývoj volebních výsledků jednotlivých stran.
+percentagesYears = [[0 for j in range(11)] for i in range(len(yearsAll))]
+
+for cnt, key in enumerate(partyNames):
+    if key in partyObjects.keys() and len(partyObjects[key].yearsInElections) > 1:
+        for j in range(len(partyObjects[key].yearsInElections)):
+            percentagesYears[yearsDict[partyObjects[key].yearsInElections[j]]][cnt] = partyObjects[key].percentageOfVotes[j]
+
+for i in range(len(percentagesYears)):
+    plt.bar(ind+widths[i], percentagesYears[i], width,color=colors[i])
+
+plt.title('Časový vývoj volebních výsledků jednotlivých stran')
+plt.legend(handles=patchesList1)
+plt.xticks(ind, partyNames, rotation=20)
+plt.xlabel('Strany')
+plt.ylabel('Procentualni zisk hlasu ve volbach')
+plt.show()
+
+# Časový vývoj volební účasti
+nOfPeople = [0 for i in range(len(yearsAll))]
+for key in partyObjects.keys():
+    for i in range(len(partyObjects[key].yearsInElections)):
+        nOfPeople[yearsDict[partyObjects[key].yearsInElections[i]]] += partyObjects[key].numberOfVotes[i]
+
+plt.plot(yearsAll,nOfPeople)
+plt.xlabel('Roky')
+plt.ylabel('Pocet hlasu')
+plt.title('Časový vývoj volební účasti')
+plt.show()
+
+# Časový vývoj podílu kandidujících s titulem a bez titulu
+nOfHasTitle = [0 for i in range(len(yearsAll))]
+nOfHasNotTitle = [0 for i in range(len(yearsAll))]
+percentageTitle = [0 for i in range(len(yearsAll))]
+for i in range(len(nOfHasTitle)):
+    for key in memberObjects.keys():
+        if yearsAll[i] in memberObjects[key].yearsInElections:
+            if memberObjects[key].hasTitle == '1':
+                nOfHasTitle[i] += 1
+            else:
+                nOfHasNotTitle[i] += 1
+    percentageTitle[i] = nOfHasTitle[i] / float(nOfHasTitle[i] + nOfHasNotTitle[i])
+
+plt.plot(yearsAll,percentageTitle)
+plt.xlabel('Roky')
+plt.ylabel('Podil kandidatu s titulem')
+plt.title('Časový vývoj podílu kandidujících s titulem')
+plt.show()
+
+# Pokuste se u jednotlivých kandidátů zjistit, zda kandidovali ve více volbách.
+# Najděte 10 nejpilnějších kandidátů a vypište jejich volební zisky a za jaké strany kandidovali.
+print("Nejpilnejsi kandidati")
+print()
+print()
+arr = []
+for key in memberObjects.keys():
+    arr.append([len(memberObjects[key].yearsInElections),memberObjects[key].name])
+arr.sort(reverse=True)
+arr = arr[:10]
+for cnt, item in enumerate(arr):
+    print(str(cnt+1)+'.')
+    memberObjects[item[1]].MyPrint()
+
+# Zkuste odhadnout i podíl žen na kandidátkách.
+pocetZen = 0
+koncovkyZenske = ['ová ','atá ','ná ','ká ']
+for key in memberObjects.keys():
+    for koncovka in koncovkyZenske:
+        if koncovka in memberObjects[key].name:
+            pocetZen += 1
+            break
+print()
+print()
+print()
+print('Odhadnute procento zen:',pocetZen/len(list(memberObjects.keys())) * 100)
 
 
 
