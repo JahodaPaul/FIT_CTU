@@ -1,4 +1,13 @@
 import datetime
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+import matplotlib.patches as mpatches
+
+#plt.rc('xtick', labelsize=18) 
+#plt.rc('ytick', labelsize=18)
+plt.rc('axes', titlesize=20)  
+plt.rc('axes', labelsize=18)  
 
 INT_MAX = 2147483647
 with open("eshop.csv",'r') as f:
@@ -67,3 +76,31 @@ for cnt, ID in enumerate(uniqueIDList):
     rmfDataFrameBonus[cnt].append(bonus)
 
 from sklearn.cluster import KMeans
+rmfDataFrame = np.array(rmfDataFrame)
+rmfDataFrameBonus = np.array(rmfDataFrameBonus)
+
+import collections, numpy
+#print(collections.Counter(kmeans.labels_))
+
+from sklearn.metrics import silhouette_score
+X, Y, YBonus = [], [], []
+for i in range(2,20):
+    kmeans = KMeans(n_clusters=i, random_state=0).fit(rmfDataFrame)
+    kmeansBonus = KMeans(n_clusters=i, random_state=0).fit(rmfDataFrameBonus)
+    score = silhouette_score(rmfDataFrame,kmeans.labels_)
+    scoreBonus = silhouette_score(rmfDataFrameBonus,kmeansBonus.labels_)
+    X.append(i)
+    Y.append(score)
+    YBonus.append(scoreBonus)
+
+plt.plot(X,Y,color='green')
+plt.plot(X,YBonus,color='blue')
+plt.xlabel('Pocet clusteru')
+plt.ylabel('Silhouette score')
+plt.title('Vliv poctu clusteru na Silhouette score')
+patchesList = []
+patchesList.append(mpatches.Patch(color='green', label='RMF'))
+patchesList.append(mpatches.Patch(color='blue', label='Modifikovana RMF'))
+plt.legend(handles=patchesList)
+plt.show()
+
