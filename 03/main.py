@@ -136,27 +136,27 @@ plt.show()
 # Častým způsobem určení k je hledání tzv. loket (angl. elbow) neboli místa grafu účelové funkce pro kterou se mění pokles účelové funkce z hodně prudkého na méně prudký.
 # V našem případě použijeme jako účelovou funkci tzv. Silhouette hodnotu.
 
-# from sklearn.metrics import silhouette_score
-# X, Y, YBonus = [], [], []
-# for i in range(2,20):
-#     kmeans = KMeans(n_clusters=i, random_state=0).fit(rmfDataFrame)
-#     kmeansBonus = KMeans(n_clusters=i, random_state=0).fit(rmfDataFrameBonus)
-#     score = silhouette_score(rmfDataFrame,kmeans.labels_)
-#     scoreBonus = silhouette_score(rmfDataFrameBonus,kmeansBonus.labels_)
-#     X.append(i)
-#     Y.append(score)
-#     YBonus.append(scoreBonus)
-#
-# plt.plot(X,Y,color='green')
-# plt.plot(X,YBonus,color='blue')
-# plt.xlabel('Pocet clusteru')
-# plt.ylabel('Silhouette score')
-# plt.title('Vliv poctu clusteru na Silhouette score')
-# patchesList = []
-# patchesList.append(mpatches.Patch(color='green', label='RMF'))
-# patchesList.append(mpatches.Patch(color='blue', label='Modifikovana RMF'))
-# plt.legend(handles=patchesList)
-# plt.show()
+from sklearn.metrics import silhouette_score
+X, Y, YBonus = [], [], []
+for i in range(2,20):
+    kmeans = KMeans(n_clusters=i, random_state=0).fit(rmfDataFrame)
+    kmeansBonus = KMeans(n_clusters=i, random_state=0).fit(rmfDataFrameBonus)
+    score = silhouette_score(rmfDataFrame,kmeans.labels_)
+    scoreBonus = silhouette_score(rmfDataFrameBonus,kmeansBonus.labels_)
+    X.append(i)
+    Y.append(score)
+    YBonus.append(scoreBonus)
+
+plt.plot(X,Y,color='green')
+plt.plot(X,YBonus,color='blue')
+plt.xlabel('Pocet clusteru')
+plt.ylabel('Silhouette score')
+plt.title('Vliv poctu clusteru na Silhouette score')
+patchesList = []
+patchesList.append(mpatches.Patch(color='green', label='RMF'))
+patchesList.append(mpatches.Patch(color='blue', label='Modifikovana RMF'))
+plt.legend(handles=patchesList)
+plt.show()
 
 
 # Hledání počtu clusterů
