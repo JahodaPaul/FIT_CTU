@@ -1,0 +1,11 @@
+/__pycache__/
+*.py
+*.txt
+*.png
+*.p
+/.idea/
+!CarDetector.py
+!DrivingControl.py
+!synchronous_mode.py
+!VizualizeDrivingPath.py
+!client_bounding_boxes.py
