@@ -10,6 +10,13 @@ All the files are in format ```<algorithm>_<name>.<suffix>```.<br />
 ```<name>``` represents name of the problem.<br />
 ```<suffix>``` files that have ".txt" or ".pdf" suffix contain problem statement and original link to the problem. Files that have other suffix contain the problem solution.
 
+### ACM ICPC results
+After 4 years, me and my team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [mkucera](http://codeforces.com/profile/mkucera)) have managed to qualify through CTU Open to represent Czech Technical University in Prague at the Central European Regional Contest (CERC 2019) which is part of ACM ICPC. At CERC 2019, we have ranked as the best team from Czech Technical University in Prague, solving 5 out of 12 problems. 
+
+Out team with our mascot at CERC             |  CERC 2019
+:-------------------------:|:-------------------------:
+![team at CERC](https://i.imgur.com/2Y3T67O.jpg)  |  ![CERC 2019](https://i.imgur.com/J970Qdf.jpg)
+
 ### BI-ACM course
 The course focuses mainly on gifted students, but everybody is welcome. Every week there is a training where you try to solve as many algorithmic problems as possible. You can solve problems in a team of up to three people. At the end of training, there is an editorial, where the correct solutions are presented. For solving a problem during the training you get more point. You can also get some points if you submit correct solution before the next training.
 
@@ -38,7 +45,7 @@ Always recieved an A.
 	* Our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [mkucera](http://codeforces.com/profile/mkucera)) finished 1st (out of 13) with 248 points.
 
 ## Petrozavodsk Programming Camp
-Thanks to our results, our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [mkucera](http://codeforces.com/profile/mkucera)) was selected to be sent to [Petrozavodsk Programming Camp](https://camp.acm.petrsu.ru
+Thanks to our results, our team ([Jahoda](http://codeforces.com/profile/Jahoda), [vanda](http://codeforces.com/profile/vanda), [mkucera](http://codeforces.com/profile/mkucera)) was selected to be sent to 37th [Petrozavodsk Programming Camp](https://camp.acm.petrsu.ru
 ) in Russia where we have competed against the best sports programmers in the world such as [Gennady Korotkevich](https://en.wikipedia.org/wiki/Gennady_Korotkevich). We ended up 50th out of 52 teams and solved 16 out of 97 problems in total.
 
 ## Links
