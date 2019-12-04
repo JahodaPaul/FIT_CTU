@@ -310,12 +310,13 @@ def main():
                 location1 = vehicle.get_transform()
                 location2 = vehicleToFollow.get_transform()
 
-                bbox, predicted_distance = carDetector.getDistance(vehicleToFollow, camera_rgb)
+                bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb)
 
                 newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x,location1.location.y,location1.rotation.yaw)
                 angle = carDetector.getAngle([location1.location.x,location1.location.y],[newX,newY],[location2.location.x,location2.location.y])
+                print('real angle:', angle)
                 # print(angle,location1.location.distance(location2.location))
-                steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,angle,None)
+                steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
                 # print(steer, throttle)
                 vehicle.apply_control(carla.VehicleControl(throttle=throttle,steer=steer))
                 # transform2 = vehicleToFollow.get_transform()
@@ -335,7 +336,8 @@ def main():
                 velocity2 = vehicleToFollow.get_velocity()
 
 
-                print('real dist:',location1.location.distance(location2.location))
+                # print('real dist:',location1.location.distance(location2.location))
+
 
                 visualisation.Add(velocity1,velocity2,location1.location.distance(location2.location), angle)
 

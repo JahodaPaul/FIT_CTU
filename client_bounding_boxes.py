@@ -139,14 +139,14 @@ class ClientSideBoundingBoxes(object):
 
         cords = np.zeros((8, 4))
         extent = vehicle.bounding_box.extent
-        cords[0, :] = np.array([extent.x, extent.y, -extent.z, 1])
-        cords[1, :] = np.array([-extent.x, extent.y, -extent.z, 1])
-        cords[2, :] = np.array([-extent.x, -extent.y, -extent.z, 1])
-        cords[3, :] = np.array([extent.x, -extent.y, -extent.z, 1])
-        cords[4, :] = np.array([extent.x, extent.y, extent.z, 1])
-        cords[5, :] = np.array([-extent.x, extent.y, extent.z, 1])
-        cords[6, :] = np.array([-extent.x, -extent.y, extent.z, 1])
-        cords[7, :] = np.array([extent.x, -extent.y, extent.z, 1])
+        cords[0, :] = np.array([extent.x, extent.y, -extent.z, 1]) # bottom #front
+        cords[1, :] = np.array([-extent.x, extent.y, -extent.z, 1]) # bottom #back
+        cords[2, :] = np.array([-extent.x, -extent.y, -extent.z, 1]) # bottom #back
+        cords[3, :] = np.array([extent.x, -extent.y, -extent.z, 1]) # bottom #front
+        cords[4, :] = np.array([extent.x, extent.y, extent.z, 1]) # upper #front
+        cords[5, :] = np.array([-extent.x, extent.y, extent.z, 1]) # upper #back
+        cords[6, :] = np.array([-extent.x, -extent.y, extent.z, 1]) # upper #back
+        cords[7, :] = np.array([extent.x, -extent.y, extent.z, 1]) # upper #front
         return cords
 
     @staticmethod
