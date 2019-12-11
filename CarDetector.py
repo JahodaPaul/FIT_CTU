@@ -12,6 +12,12 @@ class CarDetector:
     def __init__(self):
         self.boundingBoxes = ClientSideBoundingBoxes()
         self.consecutiveFramesLeft = 0
+        self.lastN = 5
+        self.lastNDistances = []
+        self.lastNAngles = []
+        self.exponentialMovingAverageDist = 0
+        self.exponentialMovingAverageAngle = 0
+        self.alpha = 0.5
 
     def CreatePointInFrontOFCar(self, x, y, angle):
         x2 = math.cos(math.radians(angle))
@@ -90,6 +96,13 @@ class CarDetector:
         bounding_boxes = self.boundingBoxes.get_bounding_boxes([vehicle], camera) # bounding boxes in images
         bounding_boxes = self.CreateBoundBoxMistakes(bounding_boxes)
         if len(bounding_boxes) == 0:
+            if len(self.lastNDistances) >= 2:
+                predicted_distance = 2 * self.lastNDistances[-1] - self.lastNDistances[-2] #simple extrapolation
+                predicted_angle = 2 * self.lastNDistances[-1] - self.lastNDistances[-2] #simple extrapolation
+                self.exponentialMovingAverageDist = self.alpha * predicted_distance + (1 - self.alpha) * self.exponentialMovingAverageDist
+                self.exponentialMovingAverageAngle = self.alpha * predicted_angle + (1 - self.alpha) * self.exponentialMovingAverageAngle
+                return bounding_boxes, self.exponentialMovingAverageDist, self.exponentialMovingAverageAngle
+            
             return bounding_boxes, -1, 0
         bounding_boxes = bounding_boxes[0]
         points = [(float(bounding_boxes[i, 0]), float(bounding_boxes[i, 1])) for i in range(8)] # image points
@@ -119,6 +132,15 @@ class CarDetector:
         # print('predicted dist:',predicted_distance)
 
         # print(points)
+        self.lastNDistances.append(predicted_distance)
+        self.lastNAngles.append(predicted_Angle)
+        if len(self.lastNDistances) > self.lastN:
+            self.lastNDistances = self.lastNDistances[:-1]
+            self.lastNAngles = self.lastNAngles[:-1]
+        alpha = self.alpha if len(self.lastNDistances) > 1 else 1
+        self.exponentialMovingAverageDist = alpha * predicted_distance + (1 - alpha) * self.exponentialMovingAverageDist
+        self.exponentialMovingAverageAngle = alpha * predicted_Angle + (1 - alpha) * self.exponentialMovingAverageAngle
+
         return bounding_boxes, predicted_distance, predicted_Angle
         # print(res_car_bb)
 
