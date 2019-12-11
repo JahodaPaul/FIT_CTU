@@ -98,11 +98,20 @@ class CarDetector:
         if len(bounding_boxes) == 0:
             if len(self.lastNDistances) >= 2:
                 predicted_distance = 2 * self.lastNDistances[-1] - self.lastNDistances[-2] #simple extrapolation
-                predicted_angle = 2 * self.lastNDistances[-1] - self.lastNDistances[-2] #simple extrapolation
+                predicted_angle = 2 * self.lastNAngles[-1] - self.lastNAngles[-2] #simple extrapolation
                 self.exponentialMovingAverageDist = self.alpha * predicted_distance + (1 - self.alpha) * self.exponentialMovingAverageDist
                 self.exponentialMovingAverageAngle = self.alpha * predicted_angle + (1 - self.alpha) * self.exponentialMovingAverageAngle
+
+                self.lastNDistances.append(predicted_distance)
+                self.lastNAngles.append(predicted_angle)
+                if len(self.lastNDistances) > self.lastN:
+                    self.lastNDistances = self.lastNDistances[1:]
+                    self.lastNAngles = self.lastNAngles[1:]
+
+                print('estimated angle:', predicted_angle)
+
                 return bounding_boxes, self.exponentialMovingAverageDist, self.exponentialMovingAverageAngle
-            
+
             return bounding_boxes, -1, 0
         bounding_boxes = bounding_boxes[0]
         points = [(float(bounding_boxes[i, 0]), float(bounding_boxes[i, 1])) for i in range(8)] # image points
@@ -135,8 +144,8 @@ class CarDetector:
         self.lastNDistances.append(predicted_distance)
         self.lastNAngles.append(predicted_Angle)
         if len(self.lastNDistances) > self.lastN:
-            self.lastNDistances = self.lastNDistances[:-1]
-            self.lastNAngles = self.lastNAngles[:-1]
+            self.lastNDistances = self.lastNDistances[1:]
+            self.lastNAngles = self.lastNAngles[1:]
         alpha = self.alpha if len(self.lastNDistances) > 1 else 1
         self.exponentialMovingAverageDist = alpha * predicted_distance + (1 - alpha) * self.exponentialMovingAverageDist
         self.exponentialMovingAverageAngle = alpha * predicted_Angle + (1 - alpha) * self.exponentialMovingAverageAngle
