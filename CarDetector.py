@@ -85,6 +85,26 @@ class CarDetector:
                 #     boundingBox[0][ind] += 20
             return bbBoxes
 
+    # Calculates rotation matrix to euler angles
+    # The result is the same as MATLAB except the order
+    # of the euler angles ( x and z are swapped ).
+    def rotationMatrixToEulerAngles(self,R):
+
+        sy = math.sqrt(R[0, 0] * R[0, 0] + R[1, 0] * R[1, 0])
+
+        singular = sy < 1e-6
+
+        if not singular:
+            x = math.atan2(R[2, 1], R[2, 2])
+            y = math.atan2(-R[2, 0], sy)
+            z = math.atan2(R[1, 0], R[0, 0])
+        else:
+            x = math.atan2(-R[1, 2], R[1, 1])
+            y = math.atan2(-R[2, 0], sy)
+            z = 0
+
+        return np.array([math.degrees(x), math.degrees(y), math.degrees(z)])
+
 
     def getDistance(self, vehicle, camera):
         calibration = np.identity(3)
@@ -118,8 +138,13 @@ class CarDetector:
 
         car_bb = self.boundingBoxes._create_bb_points(vehicle) # world bb coords
         res_car_bb = []#car_bbcar_bb[0]
+        median_bb = []
+        for i in range(len(car_bb[1])):
+            median_bb.append((car_bb[1][i] + car_bb[6][i])/2.0)
+        # print(car_bb[1])
+        # print(car_bb[6])
         for i in range(len(car_bb)):
-            tmp = car_bb[i] - car_bb[0]
+            tmp = car_bb[i] - median_bb # - car_bb[0]
             res_car_bb.append([tmp[0],tmp[1],tmp[2]]) # object points
         res_car_bb = np.array(res_car_bb,dtype=float)
         res_car_bb = np.reshape(res_car_bb,(8,3,1))
@@ -131,13 +156,44 @@ class CarDetector:
         distortion = np.zeros((4,1))
         ret, rvecs, tvecs = cv2.solvePnP(res_car_bb, points, calibration,distortion)
         rodr = cv2.Rodrigues(rvecs)[0]
-        # print(rodr)
-        # print(math.degrees(math.asin(rodr[2][1])))
-        print('pred angle:',math.degrees(math.atan2(-tvecs[0][0],-tvecs[2][0])))
+        print('rodr',math.degrees(math.atan2(rodr[0][0], rodr[2][0])))
+        # print('rodr',math.degrees(math.asin(rodr[2][1])))
+        # print('pred angle:',math.degrees(math.atan2(-tvecs[0][0],-tvecs[2][0])))
         # print('predicted angle',self.getAngle([-0.3,0],[-0.3,1],[tvecs[0][0],abs(tvecs[2][0])]))
-        predicted_Angle = math.degrees(math.atan2(-tvecs[0][0],-tvecs[2][0]))
+        tmp_Predicted_Angle = math.degrees(math.atan2(-tvecs[0][0],-tvecs[2][0]))
+        # print('tvecs',tvecs)
+
+
+
+
         # print(tvecs)
-        predicted_distance = math.sqrt(tvecs[0][0]**2+tvecs[1][0]**2+tvecs[2][0]**2)
+        tmp_Predicted_Distance = math.sqrt(tvecs[0][0]**2+tvecs[1][0]**2+tvecs[2][0]**2)
+
+        # korekce
+        triangleAngle = 0
+        if tmp_Predicted_Angle >= 0:
+            triangleAngle = 90.0 - tmp_Predicted_Angle
+        elif tmp_Predicted_Angle < 0:
+            triangleAngle = 90.0 + (-1* tmp_Predicted_Angle)
+
+        prvniStrana = 0.001
+
+        # Cosinova veta na spocteni 3. strany trojuhelnika
+        predicted_distance = math.sqrt(prvniStrana**2+tmp_Predicted_Distance**2-2*prvniStrana*tmp_Predicted_Distance*math.cos(math.radians(triangleAngle)))
+        # print(predicted_distance,tmp_Predicted_Distance, triangleAngle)
+        # print(math.acos((0.3**2+predicted_distance**2-tmp_Predicted_Distance**2)/(2*0.3*predicted_distance)))
+
+        tmpAngle = math.degrees(math.acos((prvniStrana**2+predicted_distance**2-tmp_Predicted_Distance**2)/(2*prvniStrana*predicted_distance)))
+
+        if tmp_Predicted_Angle >= 0:
+            predicted_Angle = 90.0 - (180-tmpAngle)
+        else:
+            predicted_Angle = -1* (90.0 - (tmpAngle))
+
+        print('pred distance:', predicted_distance)
+        print('pred angle:', predicted_Angle)
+
+
         # print('predicted dist:',predicted_distance)
 
         # print(points)

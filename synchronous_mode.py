@@ -234,15 +234,24 @@ def main():
         # deep copy
         
         # carla.Location(x=1.5, z=1.4,y=-0.3)
+        # Find the blueprint of the sensor.
+        blueprint = world.get_blueprint_library().find('sensor.camera.rgb')
+        # Modify the attributes of the blueprint to set image resolution and field of view.
+        blueprint.set_attribute('image_size_x', '800')
+        blueprint.set_attribute('image_size_y', '600')
+        blueprint.set_attribute('fov', '90')
+
         camera_rgb = world.spawn_actor(
             blueprint_library.find('sensor.camera.rgb'),
-            carla.Transform(carla.Location(x=1.5, z=1.4,y=-0.3), carla.Rotation(pitch=0)), #5,3,0
+            carla.Transform(carla.Location(x=1.5, z=1.4,y=-0.001), carla.Rotation(pitch=0)), #5,3,0 # -0.3
             attach_to=vehicle)
         actor_list.append(camera_rgb)
+        # camera_rgb.set(FOV=90.0)
+        # camera_rgb.set_image_size(800, 600)
 
         camera_rgb2 = world.spawn_actor(
             blueprint_library.find('sensor.camera.rgb'),
-            carla.Transform(carla.Location(x=1.5, z=1.4,y=0.3), carla.Rotation(pitch=0)),
+            carla.Transform(carla.Location(x=-5.5, z=4.4,y=0), carla.Rotation(pitch=0)),
             attach_to=vehicle)
         actor_list.append(camera_rgb2)
         
@@ -336,13 +345,13 @@ def main():
                 velocity2 = vehicleToFollow.get_velocity()
 
 
-                # print('real dist:',location1.location.distance(location2.location))
+                print('real dist:',location1.location.distance(location2.location))
 
 
                 visualisation.Add(velocity1,velocity2,location1.location.distance(location2.location), angle)
 
 
-                draw_image(display, image_rgb, image_rgb2,location1, location2)
+                draw_image(display, image_rgb2, image_rgb2,location1, location2)
                 display.blit(
                     font.render('% 5d FPS (real)' % clock.get_fps(), True, (255, 255, 255)),
                     (8, 10))

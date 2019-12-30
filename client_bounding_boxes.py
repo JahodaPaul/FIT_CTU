@@ -61,8 +61,8 @@ try:
 except ImportError:
     raise RuntimeError('cannot import numpy, make sure numpy package is installed')
 
-VIEW_WIDTH = 1920//2
-VIEW_HEIGHT = 1080//2
+VIEW_WIDTH = 800
+VIEW_HEIGHT = 600
 VIEW_FOV = 90
 
 BB_COLOR = (248, 64, 24)

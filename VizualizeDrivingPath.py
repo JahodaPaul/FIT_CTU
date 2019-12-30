@@ -80,8 +80,8 @@ class VizualizeDrivingPath:
         plt.title('Angles between cars in time')
         plt.show()
 
-#tmp = VizualizeDrivingPath()
-#tmp.Load()
-#tmp.ShowSpeeds()
-#tmp.ShowDistances()
-#tmp.ShowAngles()
+# tmp = VizualizeDrivingPath()
+# tmp.Load()
+# tmp.ShowSpeeds()
+# tmp.ShowDistances()
+# tmp.ShowAngles()
