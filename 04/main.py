@@ -127,6 +127,23 @@ print('Random Forest MAE:',res)
 
 
 
+# Data standardization
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(X)
+transformedX = scaler.transform(X)
+
+res = abs(cross_val_score(reg, transformedX, Y1, cv=10, scoring='neg_mean_absolute_error').mean()) + abs(cross_val_score(reg, transformedX, Y2, cv=10, scoring='neg_mean_absolute_error').mean())
+print('Linear regression MAE after standardization:',res/2.0)
+
+res = abs(cross_val_score(ridge, transformedX, Y1, cv=10, scoring='neg_mean_absolute_error').mean()) + abs(cross_val_score(ridge, transformedX, Y2, cv=10, scoring='neg_mean_absolute_error').mean())
+print('Ridge regression MAE after standardization:',res/2.0)
+
+res = abs(cross_val_score(regr, transformedX, Y1, cv=10, scoring='neg_mean_absolute_error').mean()) + abs(cross_val_score(regr, transformedX, Y2, cv=10, scoring='neg_mean_absolute_error').mean())
+print('Random forest MAE after standardization:',res/2.0)
+
+
+
 
 # Find hyperparameters
 import numpy as np
@@ -148,7 +165,7 @@ random_grid = {'n_estimators': n_estimators,
                'min_samples_leaf': min_samples_leaf,
                'bootstrap': bootstrap}
 
-grid_search = RandomizedSearchCV(estimator = regr, param_distributions = random_grid, n_iter = 30, cv = 3, verbose=1, random_state=42, n_jobs = 1)
+grid_search = RandomizedSearchCV(estimator = regr, param_distributions = random_grid, n_iter = 100, cv = 3, verbose=1, random_state=42, n_jobs = 1)
 grid_search.fit(X,Y1)
 
 print('Best parameters:',grid_search.best_params_)
@@ -157,6 +174,25 @@ regr = RandomForestRegressor(**(grid_search.best_params_))
 
 res = abs(cross_val_score(regr, X, Y1, cv=10, scoring='neg_mean_absolute_error').mean()) + abs(cross_val_score(regr, X, Y2, cv=10, scoring='neg_mean_absolute_error').mean())
 print('Best Random forest MAE:',res/2.0)
+
+
+solver = ['svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag', 'saga']
+alpha = [0.001, 0.05,0.2,1,3,10,100,300]
+
+# Create the random grid for ridge regression
+random_grid_ridge = {'solver': solver,
+               'alpha': alpha,}
+
+grid_search = RandomizedSearchCV(estimator = ridge, param_distributions = random_grid_ridge, n_iter = 100, cv = 3, verbose=1, random_state=42, n_jobs = 1)
+grid_search.fit(X,Y1)
+
+print('Best parameters for ridge regression:',grid_search.best_params_)
+
+ridge = Ridge(**(grid_search.best_params_))
+
+res = abs(cross_val_score(ridge, X, Y1, cv=10, scoring='neg_mean_absolute_error').mean()) + abs(cross_val_score(ridge, X, Y2, cv=10, scoring='neg_mean_absolute_error').mean())
+print('Best Ridge regression MAE:',res/2.0)
+
 
 
 from sklearn.metrics import mean_absolute_error
