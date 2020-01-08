@@ -12,6 +12,7 @@ import sys
 from CarDetector import CarDetector
 from DrivingControl import DrivingControl
 from VizualizeDrivingPath import VizualizeDrivingPath
+from PurePursuitAlgorithm import PurePursuitAlgorithm
 import math
 import pickle
 
@@ -244,7 +245,7 @@ class Evaluation():
 
 
 import copy
-def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, driveName='',record=False):
+def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, driveName='',record=False, followMode=False):
     counter = 1
 
     actor_list = []
@@ -255,6 +256,10 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
     visualisation = VizualizeDrivingPath()
     myControl = ManualControl()
     evaluation = Evaluation()
+
+
+    lookAheadDistance = 5
+    purePursuit = PurePursuitAlgorithm(lookAheadDistance=lookAheadDistance)
 
     display = pygame.display.set_mode(
         (800, 600),
@@ -272,13 +277,12 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
     try:
         m = world.get_map()
-        if not followDrivenPath:
-            start_pose = random.choice(m.get_spawn_points())
-        else:
-            evaluation.LoadHistoryFromFile(driveName)
-            first = evaluation.history[0]
-            print(first)
-            start_pose = random.choice(m.get_spawn_points())
+        # if not followDrivenPath:
+        start_pose = random.choice(m.get_spawn_points())
+        # else:
+            # first = evaluation.history[0]
+            # print(first)
+            # start_pose = random.choice(m.get_spawn_points())
             # start_pose = carla.Transform(carla.Location(first[0],first[1],first[2]),carla.Rotation(first[3],first[4],first[5]))
         # print('Start pose:',start_pose)
 
@@ -290,6 +294,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
         actor_list.append(vehicle)
         vehicle.set_simulate_physics(True)
         if followDrivenPath:
+            evaluation.LoadHistoryFromFile(driveName)
             first = evaluation.history[0]
             start_pose = carla.Transform(carla.Location(first[0], first[1], first[2]),
                                          carla.Rotation(first[3], first[4], first[5]))
@@ -442,9 +447,24 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     print('real angle:', angle)
                     steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
 
-                    if followDrivenPath:
-                        vehicle.apply_control(carla.VehicleControl(throttle=throttle,steer=steer))
+                    # if followDrivenPath:
+                    vehicle.apply_control(carla.VehicleControl(throttle=throttle,steer=steer))
 
+                    if evaluateChasingCar:
+                        evaluation.AddError(location1.location.distance(location2.location),optimalDistance)
+                elif followMode:
+                    angle = 0
+                    bbox, predicted_distance, predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb)
+                    purePursuit.AddPathPoint(location2.location.x,location2.location.y)
+                    newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x, location1.location.y,
+                                                                     location1.rotation.yaw)
+                    targetX, targetY = purePursuit.GetNextPoint(location1.location.x,location1.location.y)
+                    predicted_angle = carDetector.getAngle([location1.location.x,location1.location.y],[newX,newY],[targetX,targetY])
+                    # print('real angle:', angle)
+                    steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
+
+                    # if followDrivenPath:
+                    vehicle.apply_control(carla.VehicleControl(throttle=throttle,steer=steer))
                     if evaluateChasingCar:
                         evaluation.AddError(location1.location.distance(location2.location),optimalDistance)
 
@@ -519,18 +539,19 @@ if __name__ == '__main__':
     try:
         optimalDistance = 8
         followDrivenPath = True
-        chaseMode = True
+        chaseMode = False
         evaluateChasingCar = True
-        record = True
+        record = False
+        followMode = True
 
         drivesDir = 'drives'
         drivesFileNames = os.listdir(drivesDir)
         drivesFileNames.sort()
         if evaluateChasingCar:
             for fileName in drivesFileNames:
-                main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record)
+                main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode)
         else:
-            main(optimalDistance=optimalDistance, followDrivenPath=followDrivenPath, chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar)
+            main(optimalDistance=optimalDistance, followDrivenPath=followDrivenPath, chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,followMode=followMode)
 
     except KeyboardInterrupt:
         print('\nCancelled by user. Bye!')
