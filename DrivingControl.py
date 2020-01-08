@@ -1,7 +1,7 @@
 import numpy as np
 
 class DrivingControl:
-    def __init__(self):
+    def __init__(self, optimalDistance):
         self.prevDist = 0
         self.distChange = 0
         self.throttle = 0
@@ -11,7 +11,7 @@ class DrivingControl:
         self.I_mult = 0#1/3000.0
         self.D_mult = 1#0.1
         self.errorsArr = np.array([],dtype=float)
-        self.optimalDist = 8
+        self.optimalDist = optimalDistance
         self.prevError = 0
         self.distChange = 0
 

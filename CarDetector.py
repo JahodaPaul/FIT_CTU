@@ -176,7 +176,7 @@ class CarDetector:
         elif tmp_Predicted_Angle < 0:
             triangleAngle = 90.0 + (-1* tmp_Predicted_Angle)
 
-        prvniStrana = 0.001
+        prvniStrana = 0.3
 
         # Cosinova veta na spocteni 3. strany trojuhelnika
         predicted_distance = math.sqrt(prvniStrana**2+tmp_Predicted_Distance**2-2*prvniStrana*tmp_Predicted_Distance*math.cos(math.radians(triangleAngle)))

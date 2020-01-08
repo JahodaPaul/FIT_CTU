@@ -13,6 +13,7 @@ from CarDetector import CarDetector
 from DrivingControl import DrivingControl
 from VizualizeDrivingPath import VizualizeDrivingPath
 import math
+import pickle
 
 try:
     sys.path.append(glob.glob('../carla/dist/carla-*%d.%d-%s.egg' % (
@@ -94,12 +95,15 @@ class CarlaSyncMode(object):
                 return data
 
 
-def draw_image(surface, image, image2,location1, location2, blend=False):
-    if False:#image.frame % 10 == 0:
-        image.save_to_disk('output/%07d_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f.png' % (image.frame,location1.location.x,location1.location.y,location1.location.z, location1.rotation.pitch,location1.rotation.yaw, location1.rotation.roll
-                                                            ,location2.location.x,location2.location.y,location2.location.z, location2.rotation.pitch,location2.rotation.yaw, location2.rotation.roll ))
-        image2.save_to_disk('output2/%07d_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f.png' % (image2.frame,location1.location.x,location1.location.y,location1.location.z, location1.rotation.pitch,location1.rotation.yaw, location1.rotation.roll
-                                                            ,location2.location.x,location2.location.y,location2.location.z, location2.rotation.pitch,location2.rotation.yaw, location2.rotation.roll ))
+def draw_image(surface, image, image2,location1, location2, blend=False, record=False,driveName=''):
+    if record:#image.frame % 10 == 0:
+        driveName = driveName.split('/')[1]
+        dirName = os.path.join('output',driveName)
+        if not os.path.exists(dirName):
+            os.mkdir(dirName)
+        image.save_to_disk(dirName+'/%07d' % image.frame)#_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f.png' % (image.frame,location1.location.x,location1.location.y,location1.location.z, location1.rotation.pitch,location1.rotation.yaw, location1.rotation.roll,location2.location.x,location2.location.y,location2.location.z, location2.rotation.pitch,location2.rotation.yaw, location2.rotation.roll ))
+        #image2.save_to_disk('output2/%07d_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f_%f.png' % (image2.frame,location1.location.x,location1.location.y,location1.location.z, location1.rotation.pitch,location1.rotation.yaw, location1.rotation.roll
+        #                                                    ,location2.location.x,location2.location.y,location2.location.z, location2.rotation.pitch,location2.rotation.yaw, location2.rotation.roll ))
     array = np.frombuffer(image.raw_data, dtype=np.dtype("uint8"))
     array = np.reshape(array, (image.height, image.width, 4))
     array = array[:, :, :3]
@@ -164,8 +168,11 @@ except ImportError:
 class ManualControl(object):
     def __init__(self):
         #self.vehicle = vehicle
+        self.history = []
         self._control = carla.VehicleControl()
         self._steer_cache = 0.0
+        self.fileName = 'test.p'
+        self.startRecording = False
         #self.display = pygame.display.set_mode(
         #    (200, 200),
         #    pygame.HWSURFACE | pygame.DOUBLEBUF)
@@ -187,6 +194,9 @@ class ManualControl(object):
         self._control.steer = round(self._steer_cache, 1)
         #self._control.brake = 1.0 if keys[K_DOWN] or keys[K_s] else 0.0
         self._control.hand_brake = keys[K_SPACE]
+
+        if keys[K_r]:
+            self.startRecording = True
     
     def Run(self):
         clock = pygame.time.Clock()
@@ -197,14 +207,54 @@ class ManualControl(object):
             self.vehicle.apply_control(self._control)
             pygame.display.flip()
 
+    def SaveCarPosition(self,location):
+        if self.startRecording:
+            self.history.append([location.location.x, location.location.y, location.location.z, location.rotation.pitch, location.rotation.yaw, location.rotation.roll])
+
+    def SaveHistoryToFile(self):
+        if len(self.history) > 0:
+            pickle.dump(self.history,  open(self.fileName, "wb"))
+
+
+class Evaluation():
+    def __init__(self):
+        self.sumMAE = 0
+        self.sumRMSE = 0
+        self.n_of_frames = 0
+        self.n_of_collisions = 0
+        self.history = []
+
+    def AddError(self, distance, goalDistance):
+        self.n_of_frames += 1
+        self.sumMAE += abs(goalDistance-distance)
+        self.sumRMSE += abs(goalDistance-distance)*abs(goalDistance-distance)
+
+    def WriteIntoFileFinal(self, filename, driveName):
+        self.sumMAE = self.sumMAE / float(self.n_of_frames)
+        self.sumRMSE = self.sumRMSE / float(self.n_of_frames)
+
+        with open(filename,'a') as f:
+            f.write(str(driveName)+', '+str(self.sumMAE)+', '+str(self.sumRMSE)+', '+str(self.n_of_collisions)+'\n')
+
+    def LoadHistoryFromFile(self, fileName):
+        self.history = pickle.load( open(fileName, "rb"))
+
+    def CollisionHandler(self,event):
+        self.n_of_collisions += 1
+
+
 import copy
-def main():
+def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, driveName='',record=False):
+    counter = 1
+
     actor_list = []
     pygame.init()
 
     carDetector = CarDetector()
-    drivingControl = DrivingControl()
+    drivingControl = DrivingControl(optimalDistance=optimalDistance)
     visualisation = VizualizeDrivingPath()
+    myControl = ManualControl()
+    evaluation = Evaluation()
 
     display = pygame.display.set_mode(
         (800, 600),
@@ -219,9 +269,18 @@ def main():
 
     vehicleToFollowSpawned = False
 
+
     try:
         m = world.get_map()
-        start_pose = random.choice(m.get_spawn_points())
+        if not followDrivenPath:
+            start_pose = random.choice(m.get_spawn_points())
+        else:
+            evaluation.LoadHistoryFromFile(driveName)
+            first = evaluation.history[0]
+            print(first)
+            start_pose = random.choice(m.get_spawn_points())
+            # start_pose = carla.Transform(carla.Location(first[0],first[1],first[2]),carla.Rotation(first[3],first[4],first[5]))
+        # print('Start pose:',start_pose)
 
         blueprint_library = world.get_blueprint_library()
         
@@ -230,7 +289,17 @@ def main():
             start_pose)
         actor_list.append(vehicle)
         vehicle.set_simulate_physics(True)
+        if followDrivenPath:
+            first = evaluation.history[0]
+            start_pose = carla.Transform(carla.Location(first[0], first[1], first[2]),
+                                         carla.Rotation(first[3], first[4], first[5]))
+            vehicle.set_transform(start_pose)
 
+        collision_sensor = world.spawn_actor(blueprint_library.find('sensor.other.collision'),
+                                             carla.Transform(), attach_to=vehicle)
+
+        collision_sensor.listen(lambda event: evaluation.CollisionHandler(event))
+        actor_list.append(collision_sensor)
         # deep copy
         
         # carla.Location(x=1.5, z=1.4,y=-0.3)
@@ -243,7 +312,7 @@ def main():
 
         camera_rgb = world.spawn_actor(
             blueprint_library.find('sensor.camera.rgb'),
-            carla.Transform(carla.Location(x=1.5, z=1.4,y=-0.001), carla.Rotation(pitch=0)), #5,3,0 # -0.3
+            carla.Transform(carla.Location(x=1.5, z=1.4,y=0.3), carla.Rotation(pitch=0)), #5,3,0 # -0.3
             attach_to=vehicle)
         actor_list.append(camera_rgb)
         # camera_rgb.set(FOV=90.0)
@@ -259,7 +328,7 @@ def main():
 
         # Create a synchronous mode context.
         with CarlaSyncMode(world, camera_rgb, camera_rgb2, fps=30) as sync_mode:
-            myControl = ManualControl()
+
             while True:
                 if should_quit():
                     return
@@ -268,7 +337,7 @@ def main():
                 # Advance the simulation and wait for the data.
                 snapshot, image_rgb, image_rgb2 = sync_mode.tick(timeout=2.0)
                 
-                if not vehicleToFollowSpawned:
+                if not vehicleToFollowSpawned and not followDrivenPath:
                     vehicleToFollowSpawned = True
                     start_pose2 = carla.Transform()
                     start_pose2.rotation = start_pose.rotation
@@ -303,8 +372,49 @@ def main():
                     actor_list.append(vehicleToFollow)
                     vehicleToFollow.set_simulate_physics(True)
                     vehicleToFollow.set_autopilot(True)
+                elif not vehicleToFollowSpawned and followDrivenPath:
+                    vehicleToFollowSpawned = True
+                    location1 = vehicle.get_transform()
+                    newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x, location1.location.y,
+                                                                     location1.rotation.yaw)
+                    diffX = newX - location1.location.x
+                    diffY = newY - location1.location.y
+                    newX = location1.location.x - (diffX*5)
+                    newY = location1.location.y - (diffY*5)
 
+                    start_pose.location.x = newX
+                    start_pose.location.y = newY
 
+                    vehicle.set_transform(start_pose)
+
+                    start_pose2 = random.choice(m.get_spawn_points())
+
+                    bp = blueprint_library.filter('tesla')[0]
+                    bp.set_attribute('color', '204,0,204')
+                    vehicleToFollow = world.spawn_actor(
+                        bp,
+                        start_pose2)
+
+                    start_pose2 = carla.Transform()
+                    start_pose2.rotation = start_pose.rotation
+
+                    start_pose2.location.x = start_pose.location.x
+                    start_pose2.location.y = start_pose.location.y
+                    start_pose2.location.z = start_pose.location.z
+
+                    vehicleToFollow.set_transform(start_pose2)
+
+                    actor_list.append(vehicleToFollow)
+                    vehicleToFollow.set_simulate_physics(True)
+                    vehicleToFollow.set_autopilot(False)
+
+                if followDrivenPath:
+                    if counter >= len(evaluation.history):
+                        break
+                    tmp = evaluation.history[counter]
+                    currentPos = carla.Transform(carla.Location(tmp[0],tmp[1],tmp[2]),carla.Rotation(tmp[3],tmp[4],tmp[5]))
+                    vehicleToFollow.set_transform(currentPos)
+                    counter += 1
 
                 # Choose the next waypoint and update the car location.
                 #waypoint = random.choice(waypoint.next(1.5))
@@ -312,22 +422,32 @@ def main():
 
                 #image_semseg.convert(carla.ColorConverter.CityScapesPalette)
                 fps = round(1.0 / snapshot.timestamp.delta_seconds)
-
                 # Draw the display.
-                myControl._parse_vehicle_keys(pygame.key.get_pressed(), clock.get_time())
-                # vehicle.apply_control(myControl._control)
+
+                # manual control
+                if not followDrivenPath:
+                    myControl._parse_vehicle_keys(pygame.key.get_pressed(), clock.get_time())
+                    vehicle.apply_control(myControl._control)
+
+
                 location1 = vehicle.get_transform()
                 location2 = vehicleToFollow.get_transform()
 
-                bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb)
+                myControl.SaveCarPosition(location1)
 
-                newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x,location1.location.y,location1.rotation.yaw)
-                angle = carDetector.getAngle([location1.location.x,location1.location.y],[newX,newY],[location2.location.x,location2.location.y])
-                print('real angle:', angle)
-                # print(angle,location1.location.distance(location2.location))
-                steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
-                # print(steer, throttle)
-                vehicle.apply_control(carla.VehicleControl(throttle=throttle,steer=steer))
+                if chaseMode:
+                    bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb)
+                    newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x,location1.location.y,location1.rotation.yaw)
+                    angle = carDetector.getAngle([location1.location.x,location1.location.y],[newX,newY],[location2.location.x,location2.location.y])
+                    print('real angle:', angle)
+                    steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
+
+                    if followDrivenPath:
+                        vehicle.apply_control(carla.VehicleControl(throttle=throttle,steer=steer))
+
+                    if evaluateChasingCar:
+                        evaluation.AddError(location1.location.distance(location2.location),optimalDistance)
+
                 # transform2 = vehicleToFollow.get_transform()
                 # print(camera_rgb2.get_location())
                 # # print(vehicleToFollow.bounding_box)
@@ -351,7 +471,7 @@ def main():
                 visualisation.Add(velocity1,velocity2,location1.location.distance(location2.location), angle)
 
 
-                draw_image(display, image_rgb2, image_rgb2,location1, location2)
+                draw_image(display, image_rgb2, image_rgb2,location1, location2,record=record,driveName=driveName)
                 display.blit(
                     font.render('% 5d FPS (real)' % clock.get_fps(), True, (255, 255, 255)),
                     (8, 10))
@@ -383,7 +503,9 @@ def main():
                 pygame.display.flip()
 
     finally:
-
+        if evaluateChasingCar:
+            evaluation.WriteIntoFileFinal('results.txt',driveName=driveName)
+        myControl.SaveHistoryToFile()
         print('destroying actors.')
         for actor in actor_list:
             actor.destroy()
@@ -391,12 +513,24 @@ def main():
         pygame.quit()
         print('done.')
 
-
+import os
 if __name__ == '__main__':
 
     try:
+        optimalDistance = 8
+        followDrivenPath = True
+        chaseMode = True
+        evaluateChasingCar = True
+        record = True
 
-        main()
+        drivesDir = 'drives'
+        drivesFileNames = os.listdir(drivesDir)
+        drivesFileNames.sort()
+        if evaluateChasingCar:
+            for fileName in drivesFileNames:
+                main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record)
+        else:
+            main(optimalDistance=optimalDistance, followDrivenPath=followDrivenPath, chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar)
 
     except KeyboardInterrupt:
         print('\nCancelled by user. Bye!')
