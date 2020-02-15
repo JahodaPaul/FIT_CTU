@@ -1,3 +1,4 @@
+
 ## Code written for courses at Czech Technical University in Prague, FIT <br/>
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 [![Awesome](https://awesome.re/badge-flat.svg)](https://awesome.re)
@@ -33,6 +34,8 @@ To share code [I](https://www.bit.ly/2Kudpj5) have written during [my](https://w
   * Selected for an exchange programme with one of the best universities in the world, [Nanyang Technological University](https://en.wikipedia.org/wiki/Nanyang_Technological_University) in [Singapore](https://en.wikipedia.org/wiki/Singapore).
   * [NTU](/NTU) - Code written during exchange programme, plus notes and tips
 
+* ### 7th semester
+  * [BI-VZD](/VZD) - _Data Mining_ - 46/48 points received.
 
 [BI-ACM](/ACM) - _Competitive programming_ - Course taken during 1st,2nd,3rd and 5th semester in preparation for [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest) 
   
@@ -43,4 +46,5 @@ I strongly recommend against copying the code from this repository. The goal of 
 
 ## Links
 If you have any questions about [FIT CTU](https://fit.cvut.cz/en) or any questions in general. Feel free to leave me a message.<br>
-Here is my [LinkedIn](https://www.linkedin.com/in/pjahoda/). Also, feel free to check my [instagram](https://bit.ly/travel-strawberry-insta) or my [Youtube channel](https://bit.ly/travel-strawberry-yt).
+Here is my [LinkedIn](https://www.linkedin.com/in/pjahoda/) and [Instagram](https://bit.ly/travel-strawberry-insta).
+
