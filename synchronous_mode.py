@@ -13,6 +13,8 @@ from CarDetector import CarDetector
 from DrivingControl import DrivingControl
 from VizualizeDrivingPath import VizualizeDrivingPath
 from PurePursuitAlgorithm import PurePursuitAlgorithm
+from SemanticSegmentation import SemanticSegmentation
+from DrivingControlAdvanced import DrivingControlAdvanced
 import math
 import pickle
 
@@ -97,6 +99,11 @@ class CarlaSyncMode(object):
 
 
 def draw_image(surface, image, image2,location1, location2, blend=False, record=False,driveName=''):
+    # if image2.frame%20 == 0:
+    #     dirName = os.path.join('test')
+    #     if not os.path.exists(dirName):
+    #         os.mkdir(dirName)
+    #     image2.save_to_disk(dirName + '/%07d' % image2.frame)
     if record:#image.frame % 10 == 0:
         driveName = driveName.split('/')[1]
         dirName = os.path.join('output',driveName)
@@ -253,9 +260,13 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
     carDetector = CarDetector()
     drivingControl = DrivingControl(optimalDistance=optimalDistance)
+    drivingControlAdvanced = DrivingControlAdvanced(optimalDistance=optimalDistance)
     visualisation = VizualizeDrivingPath()
     myControl = ManualControl()
     evaluation = Evaluation()
+    semantic = SemanticSegmentation()
+
+    lastX, lastY = 0, 0
 
 
     lookAheadDistance = 5
@@ -328,11 +339,17 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
             carla.Transform(carla.Location(x=-5.5, z=4.4,y=0), carla.Rotation(pitch=0)),
             attach_to=vehicle)
         actor_list.append(camera_rgb2)
+
+        camera_segmentation = world.spawn_actor(
+            blueprint_library.find('sensor.camera.semantic_segmentation'),
+            carla.Transform(carla.Location(x=1.5, z=1.4,y=0), carla.Rotation(pitch=0)), #5,3,0 # -0.3
+            attach_to=vehicle)
+        actor_list.append(camera_segmentation)
         
         
 
         # Create a synchronous mode context.
-        with CarlaSyncMode(world, camera_rgb, camera_rgb2, fps=30) as sync_mode:
+        with CarlaSyncMode(world, camera_rgb, camera_rgb2, camera_segmentation, fps=30) as sync_mode:
 
             while True:
                 if should_quit():
@@ -340,7 +357,9 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 clock.tick(30)
 
                 # Advance the simulation and wait for the data.
-                snapshot, image_rgb, image_rgb2 = sync_mode.tick(timeout=2.0)
+                snapshot, image_rgb, image_rgb2, image_segmentation = sync_mode.tick(timeout=2.0)
+
+
                 
                 if not vehicleToFollowSpawned and not followDrivenPath:
                     vehicleToFollowSpawned = True
@@ -441,11 +460,21 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 myControl.SaveCarPosition(location1)
 
                 if chaseMode:
-                    bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb)
+                    carInTheImage = semantic.IsThereACarInThePicture(image_segmentation)
+                    bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage)
+
                     newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x,location1.location.y,location1.rotation.yaw)
+                    if len(bbox) != 0:
+                        lastX = location2.location.x
+                        lastY = location2.location.y
                     angle = carDetector.getAngle([location1.location.x,location1.location.y],[newX,newY],[location2.location.x,location2.location.y])
                     print('real angle:', angle)
-                    steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
+
+                    if True:
+                        objectInFront, goLeftOrRight = semantic.ObjectInFrontOfChasedCar(image_segmentation,bbox)
+                        steer, throttle = drivingControlAdvanced.PredictSteerAndThrottle(predicted_distance, predicted_angle,None, goLeftOrRight)
+                    else:
+                        steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
 
                     # if followDrivenPath:
                     vehicle.apply_control(carla.VehicleControl(throttle=throttle,steer=steer))
@@ -454,7 +483,8 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                         evaluation.AddError(location1.location.distance(location2.location),optimalDistance)
                 elif followMode:
                     angle = 0
-                    bbox, predicted_distance, predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb)
+                    carInTheImage = semantic.IsThereACarInThePicture(image_segmentation)
+                    bbox, predicted_distance, predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage)
                     purePursuit.AddPathPoint(location2.location.x,location2.location.y)
                     newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x, location1.location.y,
                                                                      location1.rotation.yaw)
@@ -539,14 +569,16 @@ if __name__ == '__main__':
     try:
         optimalDistance = 8
         followDrivenPath = True
-        chaseMode = False
         evaluateChasingCar = True
         record = False
-        followMode = True
+        chaseMode = True
+        followMode = False
 
         drivesDir = 'drives'
         drivesFileNames = os.listdir(drivesDir)
         drivesFileNames.sort()
+
+        drivesFileNames = ['ride10.p']
         if evaluateChasingCar:
             for fileName in drivesFileNames:
                 main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode)

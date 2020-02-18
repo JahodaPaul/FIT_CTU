@@ -4,9 +4,12 @@
 *.png
 *.p
 /.idea/
+*.zip
 !CarDetector.py
 !DrivingControl.py
 !synchronous_mode.py
 !VizualizeDrivingPath.py
 !client_bounding_boxes.py
 !PurePursuitAlgorithm.py
+!SemanticSegmentation.py
+!DrivingControlAdvanced.py

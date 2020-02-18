@@ -106,7 +106,7 @@ class CarDetector:
         return np.array([math.degrees(x), math.degrees(y), math.degrees(z)])
 
 
-    def getDistance(self, vehicle, camera):
+    def getDistance(self, vehicle, camera, carInTheImage=True):
         calibration = np.identity(3)
         calibration[0, 2] = VIEW_WIDTH / 2.0
         calibration[1, 2] = VIEW_HEIGHT / 2.0
@@ -115,6 +115,8 @@ class CarDetector:
 
         bounding_boxes = self.boundingBoxes.get_bounding_boxes([vehicle], camera) # bounding boxes in images
         bounding_boxes = self.CreateBoundBoxMistakes(bounding_boxes)
+        if not carInTheImage:
+            bounding_boxes = []
         if len(bounding_boxes) == 0:
             if len(self.lastNDistances) >= 2:
                 predicted_distance = 2 * self.lastNDistances[-1] - self.lastNDistances[-2] #simple extrapolation
