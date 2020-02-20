@@ -23,6 +23,32 @@ class SemanticSegmentation:
                     return True
         return False
 
+    def BresenhamLineSample(self,arr, k):
+        if k >= len(arr):
+            return arr
+        else:
+            x0 = 0
+            x1 = k - 1
+            y0 = 0
+            y1 = len(arr) - (k + 1)
+
+        dx = x1 - x0
+        dy = abs(y1 - y0)
+        D = 2 * dy - dx
+        y = y0
+        res = []
+        counter = 0
+
+        for x in range(x0, x1 + 1):
+            res.append(arr[counter])
+            counter += 1
+            while D > 0 and (x != x1 or y != y1):
+                y = y + (1 if y1 >= y0 else -1)
+                counter += 1
+                D = D - 2 * dx
+            D = D + 2 * dy
+        return res
+
     def BresenhamLine(self,x0, y0, x1, y1):
         counter = 0
         if x0 > x1:
@@ -59,6 +85,20 @@ class SemanticSegmentation:
         val = ((x-halfWidth)**2)/float((halfWidth//1)**2) + (y**2)/float((halfHeight//1)**2)
         return val <= 1
 
+    def GetPercentage(self,middleX,xCoord, currentPredictedX, otherSide=False):
+        overallDistX = abs(currentPredictedX - middleX)
+        distFromMiddle = abs(middleX - xCoord)
+        percentage = distFromMiddle / overallDistX
+        # if otherSide:
+        #     print('perc', percentage * -1)
+        # else:
+        #     print('perc',percentage)
+        percentage = percentage * percentage
+        if otherSide:
+            percentage = -1 * percentage
+        return percentage
+
+
     def FindPossibleAngle(self, segmImage, bbox, maxAngle):
         self.imageHeight = segmImage.height
         self.imageWidth = segmImage.width
@@ -79,10 +119,10 @@ class SemanticSegmentation:
                 self.lastpixelYCar = yCoordTo
                 self.lastMaxAngle = maxAngle
 
-            prevDiffX = self.lastpixelXCar - self.imageWidth
+            prevDiffX = self.lastpixelXCar - (self.imageWidth//2)
             if self.lastMaxAngle != 0:
                 currentDiffX = maxAngle/float(self.lastMaxAngle) * prevDiffX
-                currentPredictedX = int(self.imageWidth + currentDiffX)
+                currentPredictedX = int((self.imageWidth//2) + currentDiffX)
             else:
                 currentPredictedX = self.lastpixelXCar
 
@@ -91,45 +131,36 @@ class SemanticSegmentation:
                 XCoordsToCheck = np.arange(currentPredictedX,middleX+1,1)
             else:
                 XCoordsToCheck = np.arange(currentPredictedX,middleX-1,-1)
-            # print('LAST X AND Y',self.lastpixelXCar, self.lastpixelYCar)
-            # print(XCoordsToCheck)
-            # print(self.lastpixelXCar,middleX)
+
+            XCoordsToCheck = self.BresenhamLineSample(XCoordsToCheck,20) #optimisation
             for xCoord in XCoordsToCheck:
                 coords = self.BresenhamLine(self.imageWidth//2,self.imageHeight-1,xCoord,self.lastpixelYCar)
-                # print('coords:',coords)
-                # print(self.imageWidth//2,self.imageHeight-1,xCoord,self.lastpixelYCar)
                 badPixels = 0
                 for coord in coords:
                     if self.IsThePointInsideElipse(coord[0],coord[1]):
                         if array[coord[1]][coord[0]][2] != 7 and array[coord[1]][coord[0]][2] != 6:
                             badPixels += 1
-                if bestBadPixels > badPixels:
-                    bestBadPixels = badPixels
-                    XBestBadPixels = xCoord
-
-                    overallDistX = len(XCoordsToCheck)
-                    distFromX = abs(currentPredictedX - xCoord)
-                    percentage = (overallDistX - distFromX) / overallDistX
-                    percentage = percentage * percentage
-                    bestPercentage = percentage
 
                 if badPixels == 0:
                     res = []
                     for coord in coords:
                         if self.IsThePointInsideElipse(coord[0], coord[1]):
                             res.append([coord[0],coord[1]])
-                    # print(res)
-                    overallDistX = len(XCoordsToCheck)
-                    distFromX = abs(currentPredictedX-xCoord)
-                    percentage = (overallDistX-distFromX)/overallDistX
-                    print('perc',percentage)
-                    percentage = percentage*percentage
+                    percentage = self.GetPercentage(middleX,xCoord,currentPredictedX)
                     return percentage*maxAngle, res
+
+                if bestBadPixels > badPixels:
+                    bestBadPixels = badPixels
+                    XBestBadPixels = xCoord
+                    bestPercentage = self.GetPercentage(middleX,xCoord,currentPredictedX)
+
             # check other side
             if middleX >= currentPredictedX:
                 XCoordsToCheck = np.arange(middleX, self.imageWidth,1)
             else:
                 XCoordsToCheck = np.arange(middleX,0,-1)
+
+            XCoordsToCheck = self.BresenhamLineSample(XCoordsToCheck, 20)  # optimisation
             for xCoord in XCoordsToCheck:
                 coords = self.BresenhamLine(self.imageWidth//2,self.imageHeight-1,xCoord,self.lastpixelYCar)
                 badPixels = 0
@@ -140,31 +171,21 @@ class SemanticSegmentation:
                 if bestBadPixels > badPixels:
                     bestBadPixels = badPixels
                     XBestBadPixels = xCoord
-                    overallDistX = abs(currentPredictedX-middleX)
-                    distFromX = abs(middleX-xCoord)
-                    percentage = distFromX/overallDistX
-                    percentage = percentage*percentage
-                    percentage = -1 * percentage
-                    bestPercentage = percentage
+                    bestPercentage = self.GetPercentage(middleX,xCoord,currentPredictedX,True)
+
                 if badPixels == 0:
                     res = []
                     for coord in coords:
                         if self.IsThePointInsideElipse(coord[0], coord[1]):
                             res.append([coord[0],coord[1]])
-                    # print(res)
-                    overallDistX = abs(currentPredictedX-middleX)
-                    distFromX = abs(middleX-xCoord)
-                    percentage = distFromX/overallDistX
-                    print('perc',percentage*-1)
-                    percentage = percentage*percentage
-                    percentage = -1 * percentage
+                    percentage = self.GetPercentage(middleX,xCoord,currentPredictedX,True)
+
                     return percentage*maxAngle, res
             res = []
             coords = self.BresenhamLine(self.imageWidth // 2, self.imageHeight - 1, XBestBadPixels, self.lastpixelYCar)
             for coord in coords:
                 if self.IsThePointInsideElipse(coord[0], coord[1]):
                     res.append([coord[0], coord[1]])
-            print('Best perc',bestPercentage)
             return bestPercentage * maxAngle, res
 
         else:
