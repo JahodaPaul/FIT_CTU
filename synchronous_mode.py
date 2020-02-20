@@ -98,12 +98,73 @@ class CarlaSyncMode(object):
                 return data
 
 
-def draw_image(surface, image, image2,location1, location2, blend=False, record=False,driveName=''):
-    # if image2.frame%20 == 0:
-    #     dirName = os.path.join('test')
-    #     if not os.path.exists(dirName):
-    #         os.mkdir(dirName)
-    #     image2.save_to_disk(dirName + '/%07d' % image2.frame)
+def BresenhamLine(x0,y0, x1,y1):
+    if x0 > x1:
+        tmpX = x1
+        tmpY = y1
+        x1 = x0
+        x0 = tmpX
+        y1 = y0
+        y0 = tmpY
+
+    coords = []
+    dx = x1 - x0
+    dy = abs(y1 - y0)
+    D = 2*dy - dx
+    y = y0
+
+    for x in range(x0,x1+1):
+        coords.append([x,y])
+        if D > 0:
+               y = y + (1 if y1 >= y0 else -1)
+               D = D - 2*dx
+        D = D + 2*dy
+    return coords
+
+import imageio
+from copy import deepcopy
+def draw_image(surface, image, image2,location1, location2, blend=False, record=False,driveName='',smazat=[]):
+    if image2.frame%10 == 0:
+        # coords1 = BresenhamLine(0,image2.height-1,image2.width//2,image2.height//2)
+        # coords2 = BresenhamLine(image2.width - 1, image2.height - 1, image2.width // 2, image2.height // 2)
+        # print(coords2)
+        # print(len(coords1),len(coords2))
+
+        array = np.frombuffer(image2.raw_data, dtype=np.dtype("uint8"))
+        array = np.reshape(array, (image2.height, image2.width, 4))
+        # array = np.reshape(array, (image2.width, image2.height, 4))
+        array = array[:, :, :3]
+        # array = array[:, :, ::-1]
+        arr = deepcopy(array)
+        arr = np.array(arr,dtype=int)
+        for i in range(len(array)):
+            for j in range(len(array[i])):
+                if array[i][j][2] == 7 or array[i][j][2] == 6:
+                    arr[i][j][0] = 0
+                    arr[i][j][1] = 255
+                    arr[i][j][2] = 43
+        # for i in range(len(coords1)):
+        #     arr[coords1[i][1]][coords1[i][0]][0] = 255
+        #     arr[coords1[i][1]][coords1[i][0]][1] = 0
+        #     arr[coords1[i][1]][coords1[i][0]][2] = 0
+        #
+        # for i in range(len(coords2)):
+        #     arr[coords2[i][1]][coords2[i][0]][0] = 255
+        #     arr[coords2[i][1]][coords2[i][0]][1] = 0
+        #     arr[coords2[i][1]][coords2[i][0]][2] = 0
+
+        for i in range(len(smazat)):
+            arr[smazat[i][1]][smazat[i][0]][0] = 255
+            arr[smazat[i][1]][smazat[i][0]][1] = 0
+            arr[smazat[i][1]][smazat[i][0]][2] = 0
+
+        dirName = os.path.join('test')
+        if not os.path.exists(dirName):
+            os.mkdir(dirName)
+        filename = dirName + '/' + str(image2.frame) + '.png'
+        print(filename)
+        imageio.imwrite(filename, arr)
+        # image2.save_to_disk(dirName + '/%07d' % image2.frame)
     if record:#image.frame % 10 == 0:
         driveName = driveName.split('/')[1]
         dirName = os.path.join('output',driveName)
@@ -359,7 +420,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 # Advance the simulation and wait for the data.
                 snapshot, image_rgb, image_rgb2, image_segmentation = sync_mode.tick(timeout=2.0)
 
-
+                line = []
                 
                 if not vehicleToFollowSpawned and not followDrivenPath:
                     vehicleToFollowSpawned = True
@@ -471,8 +532,10 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     print('real angle:', angle)
 
                     if True:
-                        objectInFront, goLeftOrRight = semantic.ObjectInFrontOfChasedCar(image_segmentation,bbox)
-                        steer, throttle = drivingControlAdvanced.PredictSteerAndThrottle(predicted_distance, predicted_angle,None, goLeftOrRight)
+                        # objectInFront, goLeftOrRight = semantic.ObjectInFrontOfChasedCar(image_segmentation,bbox)
+                        possibleAngle, line = semantic.FindPossibleAngle(image_segmentation,bbox,predicted_angle)
+                        print('predicted angle:',predicted_angle,'possible angle:',possibleAngle)
+                        steer, throttle = drivingControlAdvanced.PredictSteerAndThrottle(predicted_distance, possibleAngle,None)
                     else:
                         steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
 
@@ -521,7 +584,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 visualisation.Add(velocity1,velocity2,location1.location.distance(location2.location), angle)
 
 
-                draw_image(display, image_rgb2, image_rgb2,location1, location2,record=record,driveName=driveName)
+                draw_image(display, image_rgb2, image_segmentation,location1, location2,record=record,driveName=driveName,smazat=line)
                 display.blit(
                     font.render('% 5d FPS (real)' % clock.get_fps(), True, (255, 255, 255)),
                     (8, 10))
