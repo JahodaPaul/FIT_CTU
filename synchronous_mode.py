@@ -121,10 +121,25 @@ def BresenhamLine(x0,y0, x1,y1):
         D = D + 2*dy
     return coords
 
+import os
+def myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance, chaseMode=True):
+    os.system('clear')
+    if chaseMode == True:
+        print('----- Chase mode -----')
+    else:
+        print('----- Follow mode -----')
+    if chaseMode == False:
+        print('The predicted angle is between the chasing car and some point in the trajectory.')
+    print('Real angle:',angle)
+    print('Predicted angle:',predicted_angle)
+    print('Possible angle:',possibleAngle)
+    print('Real distance:',real_dist)
+    print('Predicted distance:',predicted_distance)
+
 import imageio
 from copy import deepcopy
 def draw_image(surface, image, image2,location1, location2, blend=False, record=False,driveName='',smazat=[]):
-    if image2.frame%10 == 0:
+    if image2.frame%1 == 0:
         # coords1 = BresenhamLine(0,image2.height-1,image2.width//2,image2.height//2)
         # coords2 = BresenhamLine(image2.width - 1, image2.height - 1, image2.width // 2, image2.height // 2)
         # print(coords2)
@@ -162,7 +177,6 @@ def draw_image(surface, image, image2,location1, location2, blend=False, record=
         if not os.path.exists(dirName):
             os.mkdir(dirName)
         filename = dirName + '/' + str(image2.frame) + '.png'
-        print(filename)
         imageio.imwrite(filename, arr)
         # image2.save_to_disk(dirName + '/%07d' % image2.frame)
     if record:#image.frame % 10 == 0:
@@ -406,7 +420,11 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
             carla.Transform(carla.Location(x=1.5, z=1.4,y=0), carla.Rotation(pitch=0)), #5,3,0 # -0.3
             attach_to=vehicle)
         actor_list.append(camera_segmentation)
-        
+
+        # IMU = world.spawn_actor(blueprint_library.find('sensor.other.imu'),
+        #                                      carla.Transform(), attach_to=vehicle)
+        #
+        # actor_list.append(IMU)
         
 
         # Create a synchronous mode context.
@@ -519,22 +537,27 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 location2 = vehicleToFollow.get_transform()
 
                 myControl.SaveCarPosition(location1)
+                newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x, location1.location.y,location1.rotation.yaw)
+                angle = carDetector.getAngle([location1.location.x, location1.location.y], [newX, newY],
+                                             [location2.location.x, location2.location.y])
+
+                possibleAngle = 0
 
                 if chaseMode:
                     carInTheImage = semantic.IsThereACarInThePicture(image_segmentation)
                     bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage)
 
-                    newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x,location1.location.y,location1.rotation.yaw)
+
                     if len(bbox) != 0:
                         lastX = location2.location.x
                         lastY = location2.location.y
-                    angle = carDetector.getAngle([location1.location.x,location1.location.y],[newX,newY],[location2.location.x,location2.location.y])
-                    print('real angle:', angle)
+
+                    # print('real angle:', angle)
 
                     if True:
                         # objectInFront, goLeftOrRight = semantic.ObjectInFrontOfChasedCar(image_segmentation,bbox)
                         possibleAngle, line = semantic.FindPossibleAngle(image_segmentation,bbox,predicted_angle)
-                        print('predicted angle:',predicted_angle,'possible angle:',possibleAngle)
+                        # print('predicted angle:',predicted_angle,'possible angle:',possibleAngle)
                         steer, throttle = drivingControlAdvanced.PredictSteerAndThrottle(predicted_distance, possibleAngle,None)
                     else:
                         steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
@@ -553,6 +576,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                                                                      location1.rotation.yaw)
                     targetX, targetY = purePursuit.GetNextPoint(location1.location.x,location1.location.y)
                     predicted_angle = carDetector.getAngle([location1.location.x,location1.location.y],[newX,newY],[targetX,targetY])
+                    possibleAngle = predicted_angle
                     # print('real angle:', angle)
                     steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
 
@@ -561,25 +585,8 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     if evaluateChasingCar:
                         evaluation.AddError(location1.location.distance(location2.location),optimalDistance)
 
-                # transform2 = vehicleToFollow.get_transform()
-                # print(camera_rgb2.get_location())
-                # # print(vehicleToFollow.bounding_box)
-                # # print(vehicleToFollow.bounding_box.transform())
-                # # location1.location.x = newX
-                # # location1.location.y = newY
-                # # print(location1)
-                # # vehicle.set_transform(location1)
-                # transform = vehicleToFollow.get_transform()
-                # bounding_box = vehicleToFollow.bounding_box
-                # bounding_box.location += transform.location
-                # world.debug.draw_box(bounding_box, transform.rotation)
-
                 velocity1 = vehicle.get_velocity()
                 velocity2 = vehicleToFollow.get_velocity()
-
-
-                print('real dist:',location1.location.distance(location2.location))
-
 
                 visualisation.Add(velocity1,velocity2,location1.location.distance(location2.location), angle)
 
@@ -612,7 +619,9 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     pygame.draw.line(display, BB_COLOR, points[2], points[6])
                     pygame.draw.line(display, BB_COLOR, points[3], points[7])
 
+                real_dist = location1.location.distance(location2.location)
 
+                myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance,chaseMode)
                 pygame.display.flip()
 
     finally:

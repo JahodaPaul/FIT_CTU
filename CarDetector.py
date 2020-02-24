@@ -42,7 +42,7 @@ class CarDetector:
 
     def CreateBoundBoxMistakes(self, boundingBox):
         # Not returning any bounding box at all
-        # the chance defined as 10% overall, but let's make it so there are consecutive frames where nothing is found
+        # the chance defined as 10% overall, but we make it so there are consecutive frames where nothing is found
         if self.consecutiveFramesLeft > 0:
             self.consecutiveFramesLeft -= 1
             return []
@@ -71,7 +71,7 @@ class CarDetector:
                 xMoveBack = (1 if np.random.randint(0, 1) == 0 else -1) * np.random.exponential(1) * sizewidthBack / VIEW_WIDTH * 10
                 yMoveBack = (1 if np.random.randint(0, 1) == 0 else -1) * np.random.exponential(1) * sizeheightBack / VIEW_HEIGHT * 10
 
-                print(xMoveFront, yMoveFront, xMoveBack, yMoveBack)
+                # print(xMoveFront, yMoveFront, xMoveBack, yMoveBack)
 
                 for j in front_indices:
                     bbBoxes[i][j][0] += xMoveFront
@@ -105,6 +105,9 @@ class CarDetector:
 
         return np.array([math.degrees(x), math.degrees(y), math.degrees(z)])
 
+    def LimitAngles(self,angle):
+        return min(max(angle,-175),175)
+
 
     def getDistance(self, vehicle, camera, carInTheImage=True):
         calibration = np.identity(3)
@@ -121,6 +124,8 @@ class CarDetector:
             if len(self.lastNDistances) >= 2:
                 predicted_distance = 2 * self.lastNDistances[-1] - self.lastNDistances[-2] #simple extrapolation
                 predicted_angle = 2 * self.lastNAngles[-1] - self.lastNAngles[-2] #simple extrapolation
+
+                predicted_angle = self.LimitAngles(predicted_angle)
                 self.exponentialMovingAverageDist = self.alpha * predicted_distance + (1 - self.alpha) * self.exponentialMovingAverageDist
                 self.exponentialMovingAverageAngle = self.alpha * predicted_angle + (1 - self.alpha) * self.exponentialMovingAverageAngle
 
@@ -130,7 +135,7 @@ class CarDetector:
                     self.lastNDistances = self.lastNDistances[1:]
                     self.lastNAngles = self.lastNAngles[1:]
 
-                print('estimated angle:', predicted_angle)
+                # print('estimated angle:', predicted_angle)
 
                 return bounding_boxes, self.exponentialMovingAverageDist, self.exponentialMovingAverageAngle
 
@@ -158,7 +163,7 @@ class CarDetector:
         distortion = np.zeros((4,1))
         ret, rvecs, tvecs = cv2.solvePnP(res_car_bb, points, calibration,distortion)
         rodr = cv2.Rodrigues(rvecs)[0]
-        print('rodr',math.degrees(math.atan2(rodr[0][0], rodr[2][0])))
+        # print('rodr',math.degrees(math.atan2(rodr[0][0], rodr[2][0])))
         # print('rodr',math.degrees(math.asin(rodr[2][1])))
         # print('pred angle:',math.degrees(math.atan2(-tvecs[0][0],-tvecs[2][0])))
         # print('predicted angle',self.getAngle([-0.3,0],[-0.3,1],[tvecs[0][0],abs(tvecs[2][0])]))
@@ -192,11 +197,7 @@ class CarDetector:
         else:
             predicted_Angle = -1* (90.0 - (tmpAngle))
 
-        print('pred distance:', predicted_distance)
-        print('pred angle:', predicted_Angle)
-
-
-        # print('predicted dist:',predicted_distance)
+        predicted_Angle = self.LimitAngles(predicted_Angle)
 
         # print(points)
         self.lastNDistances.append(predicted_distance)
