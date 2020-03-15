@@ -1,0 +1,209 @@
+% % arara: xelatex
+% % arara: xelatex
+% % arara: xelatex
+
+
+% % options:
+% % thesis=B bachelor's thesis
+% % thesis=M master's thesis
+% % czech thesis in Czech language
+% % english thesis in English language
+% % hidelinks remove colour boxes around hyperlinks
+
+% \documentclass[thesis=B,english]{FITtemplates/FITthesis}[2019/12/23]
+
+% %\usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
+% % \usepackage[latin2]{inputenc} % LaTeX source encoded as ISO-8859-2
+% % \usepackage[cp1250]{inputenc} % LaTeX source encoded as Windows-1250
+
+% % \usepackage{subfig} %subfigures
+% % \usepackage{amsmath} %advanced maths
+% % \usepackage{amssymb} %additional math symbols
+
+% \usepackage{dirtree} %directory tree visualisation
+
+% % % list of acronyms
+% % \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
+% % \iflanguage{czech}{\renewcommand*{\acronymname}{Seznam pou{\v z}it{\' y}ch zkratek}}{}
+% % \makeglossaries
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % EDIT THIS
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+
+% \department{Department of Applied Mathematics}
+% \title{Autonomous car chasing}
+% \authorGN{Pavel} %author's given name/names
+% \authorFN{Jahoda} %author's surname
+% \author{Pavel Jahoda} %author's name without academic degrees
+% \authorWithDegrees{Pavel Jahoda} %author's name with academic degrees
+% \supervisor{Ing. Jan Čech, Ph.D.}
+% \acknowledgements{THANKS (remove entirely in case you do not with to thank anyone)}
+% \abstractEN{Summarize the contents and contribution of your work in a few sentences in English language.}
+% \abstractCS{V n{\v e}kolika v{\v e}t{\' a}ch shr{\v n}te obsah a p{\v r}{\' i}nos t{\' e}to pr{\' a}ce v {\v c}esk{\' e}m jazyce.}
+% \placeForDeclarationOfAuthenticity{Prague}
+% \keywordsCS{Replace with comma-separated list of keywords in Czech.}
+% \keywordsEN{Replace with comma-separated list of keywords in English.}
+% \declarationOfAuthenticityOption{1} %select as appropriate, according to the desired license (integer 1-6)
+% % \website{http://site.example/thesis} %optional thesis URL
+
+
+% \begin{document}
+
+% % \newacronym{CVUT}{{\v C}VUT}{{\v C}esk{\' e} vysok{\' e} u{\v c}en{\' i} technick{\' e} v Praze}
+% % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
+
+% \setsecnumdepth{part}
+% \chapter{Introduction}
+
+
+
+% \setsecnumdepth{all}
+% \chapter{State-of-the-art}
+
+% \chapter{Analysis and design}
+
+% Přidáme odstavec Text --- zejména ten odborný --- je nutné členit na odstavce. Každý odstavec by se měl týkat jednoho tématu, myšlenky\dots{} Odstavce od sebe musí být vizuálně oddělené. K tomu existuje několik vhodných stylů, které si popíšeme v jedné z následujících kapitol. Odstavce mohou být různě vysázené. V odborných textech je běžná sazba "do bloku". Při ní je nutné vhodně měnit mezislovní mezery. Jejich doporučená velikost je 0,25--0.33 čtverčíku.
+
+% Požadavky jsou těchto typů:
+
+% \chapter{Realisation}
+
+% \setsecnumdepth{part}
+% \chapter{Conclusion}
+
+
+% \bibliographystyle{iso690}
+% \bibliography{mybibliographyfile}
+
+% \setsecnumdepth{all}
+% \appendix
+
+% \chapter{Acronyms}
+% % \printglossaries
+% \begin{description}
+% 	\item[GUI] Graphical user interface
+% 	\item[XML] Extensible markup language
+% \end{description}
+
+
+% \chapter{Contents of enclosed CD}
+
+% %change appropriately
+
+% \begin{figure}
+% 	\dirtree{%
+% 		.1 readme.txt\DTcomment{the file with CD contents description}.
+% 		.1 exe\DTcomment{the directory with executables}.
+% 		.1 src\DTcomment{the directory of source codes}.
+% 		.2 wbdcm\DTcomment{implementation sources}.
+% 		.2 thesis\DTcomment{the directory of \LaTeX{} source codes of the thesis}.
+% 		.1 text\DTcomment{the thesis text directory}.
+% 		.2 thesis.pdf\DTcomment{the thesis text in PDF format}.
+% 		.2 thesis.ps\DTcomment{the thesis text in PS format}.
+% 	}
+% \end{figure}
+
+% \end{document}
+
+
+
+
+\documentclass{ctuthesis/ctuthesis}
+
+\ctusetup{
+	xdoctype = B,
+	xfaculty = F8,
+	mainlanguage = english,
+	titlelanguage = english,
+	title-english = {Autonomous Car Chasing},
+	%title-czech = {Automaticke pronasledovani auta},
+	department-english = {Department of Applied Mathematics},
+	author = {Pavel Jahoda},
+	supervisor = {Ing. Jan Čech, Ph.D.},
+	supervisor-address = {Czech Technical University in Prague Faculty of Electrical Engineering  \\
+	Center for Machine Perception},
+	fieldofstudy-english = {Knowledge Engineering},
+	keywords-czech = {TODO},
+	keywords-english = {self-driving car, car, CARLA, simulation, chase, RC car},
+	month = 5,
+	year = 2020,
+}
+
+\ctuprocess
+
+\begin{abstract-english}
+We develop \ldots
+\end{abstract-english}
+
+\begin{abstract-czech}
+Rozvíjíme \ldots
+\end{abstract-czech}
+
+% Acknowledgements / Podekovani
+\begin{thanks}
+I would like to express my deep gratitude to my supervisor Assistant Professor Ing. Jan Čech, Ph.D. for his patient guidance and willingness to devote his time to this work. I would also like to thank my parents for their support throughout my education. 
+\end{thanks}
+
+% Declaration / Prohlaseni
+\begin{declaration}
+		I hereby declare that the presented thesis is my own work and that I have cited all sources of information in accordance with the Guideline for adhering to ethical principles when elaborating an academic final thesis.
+		
+		I acknowledge that my thesis is subject to the rights and obligations stipulated by the Act No.\,121/2000~Coll., the Copyright Act, as amended. In accordance with Article~46~(6) of the Act, I hereby grant a nonexclusive authorization (license) to utilize this thesis, including any and all computer programs incorporated therein or attached thereto and all corresponding documentation (hereinafter collectively referred to as the ``Work''), to any and all persons that wish to utilize the Work. Such persons are entitled to use the Work in any way (including for-profit purposes) that does not detract from its value. This authorization is not limited in terms of time, location and quantity.
+\end{declaration}
+
+
+
+\begin{document}
+
+\maketitle
+
+\chapter{Introduction}
+An autonomous car driving system capable of making fast and accurate decisions is important for making car transportation a safer activity. The reaction times of the system -- especially in high speeds -- have impact on the human acceptance and trust of an automated vehicles. The key aspects of driving autonomously include detecting other cars and interacting with them on the road. In this paper, we focus on testing a semi-autonomous system in these aspects by using a car chasing scenario. \par
+
+In the recent years, attention has been given to solving a similar task -- an autonomous vehicle following.
+
+A car chase -- vehicular hot pursuit of suspects by law enforcers -- typically involves high speeds and therefore fast reactions are necessary. In our scenario, a vehicle being pursued is driven by a person, while the vehicle that's chasing it is being controlled by an artificial intelligence based system. The algorithm is firstly tested in a open-source simulator for autonomous driving research CARLA and then deployed in a radio-controlled car (RC car for short). The goal of the chase is to maintain a determined distance between the cars.
+
+\chapter{Method}
+\section{Overview}
+
+\section{Computer vision}
+\subsection{Convolutional Neural Network}
+\subsection{Bounding Box Detector}
+\subsection{Distance Estimation}
+\subsection{Angle Estimation}
+
+\section{Control And Planning}
+\subsection{Pure Pursuit Algorithm}
+
+\chapter{Experiments}
+
+\section{Vehicle Detection}
+\subsection{Dataset}
+\subsection{Detection Results}
+
+\section{Simulation}
+\subsection{CARLA Environment}
+\subsection{Experiment Setup}
+\subsection{Results}
+
+\section{RC car}
+
+
+
+
+
+\chapter{Conclusion}
+
+Lorep ipsum \cite{doe}
+
+\begin{thebibliography}{1}
+
+\bibitem{doe} J. Doe. \emph{Book on foobar.} Publisher X,
+ 2300.
+
+\end{thebibliography}
+
+\end{document}
+
