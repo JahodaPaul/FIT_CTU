@@ -1,10 +1,13 @@
 /__pycache__/
-*.py
 *.txt
 *.png
 *.p
 /.idea/
 *.zip
+*.meta
+*.index
+*.data-00000-of-00001
+/RC_Version/model/
 !CarDetector.py
 !DrivingControl.py
 !synchronous_mode.py
@@ -13,3 +16,4 @@
 !PurePursuitAlgorithm.py
 !SemanticSegmentation.py
 !DrivingControlAdvanced.py
+*.pyc
