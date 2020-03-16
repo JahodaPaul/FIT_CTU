@@ -9,6 +9,9 @@ class SemanticSegmentation:
         self.imageWidth = 0
         self.imageHeight = 0
 
+        self.prevAngle = 0
+        self.arrNBadPixels = []
+
     def IsThereACarInThePicture(self,segmImage):
         array = np.frombuffer(segmImage.raw_data, dtype=np.dtype("uint8"))
         array = np.reshape(array, (segmImage.height, segmImage.width, 4))
@@ -99,12 +102,55 @@ class SemanticSegmentation:
         return percentage
 
 
+    def AngleBasedOnPreviousAngle(self, currentCarAngle):
+        # with open('test.txt','a') as f:
+        #     f.write(str(self.prevAngle) + '\n')
+        #     f.write(str(self.arrNBadPixels) + '\n')
+        # print(self.prevAngle)
+        # print(self.arrNBadPixels)
+        # add +1 to everyone,
+        b = True
+        arrMax = 0
+        for i in range(len(self.arrNBadPixels)):
+            if self.arrNBadPixels[i][0] != 0 and abs(self.arrNBadPixels[i][2] - 1) < 0.15:
+                b = False
+            self.arrNBadPixels[i][0] += 1
+            if arrMax < self.arrNBadPixels[i][0]:
+                arrMax = self.arrNBadPixels[i][0]
+        if b:
+            # with open('test.txt', 'a') as f:
+            #     f.write('CHANGE' + '\n')
+            return 1,0
+        tmp = [0 for i in range(len(self.arrNBadPixels))]
+        # add difference from prevAngle
+        # penalize change
+
+        for i in range(len(self.arrNBadPixels)):
+            tmp[i] += abs(self.prevAngle - (currentCarAngle*self.arrNBadPixels[i][2]))
+
+        tmpMax = np.max(tmp)
+        for i in range(len(self.arrNBadPixels)):
+            tmp[i] /= float(tmpMax)
+
+        for i in range(len(self.arrNBadPixels)):
+            self.arrNBadPixels[i][0] *= tmp[i]
+        self.arrNBadPixels.sort()
+        # with open('test.txt','a') as f:
+        #     f.write(str(currentCarAngle) + '\n')
+        #     f.write(str(self.prevAngle) + '\n')
+        #     f.write(str(self.arrNBadPixels) + '\n')
+        return self.arrNBadPixels[0][2], self.arrNBadPixels[0][1]
+
+
     def FindPossibleAngle(self, segmImage, bbox, maxAngle):
         self.imageHeight = segmImage.height
         self.imageWidth = segmImage.width
         bestBadPixels = 1000000
         XBestBadPixels = 0
         bestPercentage = 0
+
+        self.arrNBadPixels = []
+
 
         if self.counter > 30:
             array = np.frombuffer(segmImage.raw_data, dtype=np.dtype("uint8"))
@@ -137,22 +183,24 @@ class SemanticSegmentation:
                 coords = self.BresenhamLine(self.imageWidth//2,self.imageHeight-1,xCoord,self.lastpixelYCar)
                 badPixels = 0
                 for coord in coords:
-                    if self.IsThePointInsideElipse(coord[0],coord[1]):
+                    if self.IsThePointInsideElipse(coord[0],coord[1]) and coord[1] < int(segmImage.height) and coord[0] < int(segmImage.width)\
+                            and coord[1] >= 0 and coord[0] >= 0:
                         if array[coord[1]][coord[0]][2] != 7 and array[coord[1]][coord[0]][2] != 6:
                             badPixels += 1
 
-                if badPixels == 0:
-                    res = []
-                    for coord in coords:
-                        if self.IsThePointInsideElipse(coord[0], coord[1]):
-                            res.append([coord[0],coord[1]])
-                    percentage = self.GetPercentage(middleX,xCoord,currentPredictedX)
-                    return percentage*maxAngle, res
+                # if badPixels == 0:
+                #     res = []
+                #     for coord in coords:
+                #         if self.IsThePointInsideElipse(coord[0], coord[1]):
+                #             res.append([coord[0],coord[1]])
+                #     percentage = self.GetPercentage(middleX,xCoord,currentPredictedX)
+                #     return percentage*maxAngle, res
 
                 if bestBadPixels > badPixels:
                     bestBadPixels = badPixels
                     XBestBadPixels = xCoord
                     bestPercentage = self.GetPercentage(middleX,xCoord,currentPredictedX)
+                self.arrNBadPixels.append([badPixels,xCoord,self.GetPercentage(middleX,xCoord,currentPredictedX)])
 
             # check other side
             if middleX >= currentPredictedX:
@@ -165,30 +213,37 @@ class SemanticSegmentation:
                 coords = self.BresenhamLine(self.imageWidth//2,self.imageHeight-1,xCoord,self.lastpixelYCar)
                 badPixels = 0
                 for coord in coords:
-                    if self.IsThePointInsideElipse(coord[0],coord[1]):
+                    if self.IsThePointInsideElipse(coord[0],coord[1]) and coord[1] < int(segmImage.height) and coord[0] < int(segmImage.width)\
+                            and coord[1] >= 0 and coord[0] >= 0:
                         if array[coord[1]][coord[0]][2] != 7 and array[coord[1]][coord[0]][2] != 6:
                             badPixels += 1
                 if bestBadPixels > badPixels:
                     bestBadPixels = badPixels
                     XBestBadPixels = xCoord
                     bestPercentage = self.GetPercentage(middleX,xCoord,currentPredictedX,True)
+                self.arrNBadPixels.append([badPixels,xCoord,self.GetPercentage(middleX,xCoord,currentPredictedX,True)])
 
-                if badPixels == 0:
-                    res = []
-                    for coord in coords:
-                        if self.IsThePointInsideElipse(coord[0], coord[1]):
-                            res.append([coord[0],coord[1]])
-                    percentage = self.GetPercentage(middleX,xCoord,currentPredictedX,True)
+                # if badPixels == 0:
+                #     res = []
+                #     for coord in coords:
+                #         if self.IsThePointInsideElipse(coord[0], coord[1]):
+                #             res.append([coord[0],coord[1]])
+                #     percentage = self.GetPercentage(middleX,xCoord,currentPredictedX,True)
+                #
+                #     return percentage*maxAngle, res
 
-                    return percentage*maxAngle, res
+            bestPercentage, XBestBadPixels = self.AngleBasedOnPreviousAngle(maxAngle)
             res = []
             coords = self.BresenhamLine(self.imageWidth // 2, self.imageHeight - 1, XBestBadPixels, self.lastpixelYCar)
             for coord in coords:
                 if self.IsThePointInsideElipse(coord[0], coord[1]):
                     res.append([coord[0], coord[1]])
+
+            self.prevAngle = bestPercentage * maxAngle
             return bestPercentage * maxAngle, res
 
         else:
+            self.prevAngle = maxAngle
             self.counter += 1
         return maxAngle, []
 

@@ -139,7 +139,7 @@ def myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance, 
 import imageio
 from copy import deepcopy
 def draw_image(surface, image, image2,location1, location2, blend=False, record=False,driveName='',smazat=[]):
-    if image2.frame%1 == 0:
+    if False:#image2.frame%5 == 0:
         # coords1 = BresenhamLine(0,image2.height-1,image2.width//2,image2.height//2)
         # coords2 = BresenhamLine(image2.width - 1, image2.height - 1, image2.width // 2, image2.height // 2)
         # print(coords2)
@@ -327,7 +327,8 @@ class Evaluation():
 
 
 import copy
-def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, driveName='',record=False, followMode=False):
+def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, driveName='',record=False, followMode=False,
+         resultsName='results',P=None,I=None,D=None):
     counter = 1
 
     actor_list = []
@@ -335,7 +336,10 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
     carDetector = CarDetector()
     drivingControl = DrivingControl(optimalDistance=optimalDistance)
-    drivingControlAdvanced = DrivingControlAdvanced(optimalDistance=optimalDistance)
+    if P!=None:
+        drivingControlAdvanced = DrivingControlAdvanced(optimalDistance=optimalDistance,P=P,I=I,D=D)
+    else:
+        drivingControlAdvanced = DrivingControlAdvanced(optimalDistance=optimalDistance)
     visualisation = VizualizeDrivingPath()
     myControl = ManualControl()
     evaluation = Evaluation()
@@ -626,7 +630,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
     finally:
         if evaluateChasingCar:
-            evaluation.WriteIntoFileFinal('results.txt',driveName=driveName)
+            evaluation.WriteIntoFileFinal(os.path.join('res',resultsName+'.txt'),driveName=driveName)
         myControl.SaveHistoryToFile()
         print('destroying actors.')
         for actor in actor_list:
@@ -638,24 +642,34 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 import os
 if __name__ == '__main__':
 
-    try:
-        optimalDistance = 8
-        followDrivenPath = True
-        evaluateChasingCar = True
-        record = False
-        chaseMode = True
-        followMode = False
+    Ps = [0.01,0.1,0.5,1]
+    Is = [0,0.001,0.01,0.1,0.5]
+    Ds = [0.1,0.2,0.5,1,4]
+    cnt = 0
+    for p in Ps:
+        for i in Is:
+            for d in Ds:
+                try:
+                    optimalDistance = 8
+                    followDrivenPath = True
+                    evaluateChasingCar = True
+                    record = False
+                    chaseMode = True
+                    followMode = False
 
-        drivesDir = 'drives'
-        drivesFileNames = os.listdir(drivesDir)
-        drivesFileNames.sort()
+                    drivesDir = 'drives'
+                    drivesFileNames = os.listdir(drivesDir)
+                    drivesFileNames.sort()
 
-        drivesFileNames = ['ride10.p']
-        if evaluateChasingCar:
-            for fileName in drivesFileNames:
-                main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode)
-        else:
-            main(optimalDistance=optimalDistance, followDrivenPath=followDrivenPath, chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,followMode=followMode)
+                    drivesFileNames = ['ride10.p']
+                    if evaluateChasingCar:
+                        for fileName in drivesFileNames:
+                            main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode,
+                                 resultsName=str(p)+'_'+str(i)+'_'+str(d),P=p,I=i,D=d)
+                    else:
+                        main(optimalDistance=optimalDistance, followDrivenPath=followDrivenPath, chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,followMode=followMode)
 
-    except KeyboardInterrupt:
-        print('\nCancelled by user. Bye!')
+                except Exception as ex:
+                    with open('problem.txt','a') as f:
+                        f.write('problem\n')
+                    # print('\nCancelled by user. Bye!')

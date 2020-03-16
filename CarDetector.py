@@ -162,7 +162,12 @@ class CarDetector:
 
         distortion = np.zeros((4,1))
         ret, rvecs, tvecs = cv2.solvePnP(res_car_bb, points, calibration,distortion)
-        rodr = cv2.Rodrigues(rvecs)[0]
+
+        # print(tvecs)
+        # if random.randrange(0,50) == 4:
+        #     exit()
+
+        # rodr = cv2.Rodrigues(rvecs)[0]
         # print('rodr',math.degrees(math.atan2(rodr[0][0], rodr[2][0])))
         # print('rodr',math.degrees(math.asin(rodr[2][1])))
         # print('pred angle:',math.degrees(math.atan2(-tvecs[0][0],-tvecs[2][0])))

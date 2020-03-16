@@ -1,7 +1,7 @@
 import numpy as np
 
 class DrivingControlAdvanced:
-    def __init__(self, optimalDistance):
+    def __init__(self, optimalDistance,P=0.1,I=0,D=1):
         self.prevDist = 0
         self.distChange = 0
         self.throttle = 0
