@@ -24,6 +24,12 @@ class CarDetector:
         self.height_ori, self.width_ori = 0,0
         self.letterbox_resize = True
 
+        self.lastN = 5
+        self.lastNDistances = []
+        self.lastNAngles = []
+        self.exponentialMovingAverageDist = 0
+        self.exponentialMovingAverageAngle = 0
+        self.alpha = 0.5
 
         self.sess = tf.Session()
 
@@ -144,7 +150,45 @@ class CarDetector:
 
         return boxes_, scores_
 
+    def Extrapolate(self):
+        if len(self.lastNDistances) >= 2:
+            predicted_distance = 2 * self.lastNDistances[-1] - self.lastNDistances[-2]  # simple extrapolation
+            predicted_angle = 2 * self.lastNAngles[-1] - self.lastNAngles[-2]  # simple extrapolation
+
+            predicted_angle = self.LimitAngles(predicted_angle)
+            alpha = self.alpha if len(self.lastNDistances) > 1 else 1
+            self.exponentialMovingAverageDist = alpha * predicted_distance + (
+                                                                                  1 - self.alpha) * self.exponentialMovingAverageDist
+            self.exponentialMovingAverageAngle = alpha * predicted_angle + (
+                                                                                1 - self.alpha) * self.exponentialMovingAverageAngle
+
+            self.lastNDistances.append(predicted_distance)
+            self.lastNAngles.append(predicted_angle)
+            return self.exponentialMovingAverageDist, self.exponentialMovingAverageAngle
+        else:
+            return 0,0
+
+    def LimitAngles(self,angle):
+        return min(max(angle,-175),175)
+
+    def KeepLastN(self):
+        if len(self.lastNDistances) > self.lastN:
+            self.lastNDistances = self.lastNDistances[1:]
+            self.lastNAngles = self.lastNAngles[1:]
+
+
     def Run(self,img_name,half=True):
         boxes, scores = self.GetBoundingBox(img_name,half)
-        dist, angle = self.getDistanceAndAngle(boxes[np.argmax(scores)], self.width_ori, self.height_ori)
+        if len(boxes) != 0:
+            dist, angle = self.getDistanceAndAngle(boxes[np.argmax(scores)], self.width_ori, self.height_ori)
+            self.lastNDistances.append(dist)
+            self.lastNAngles.append(angle)
+            alpha = self.alpha if len(self.lastNDistances) > 1 else 1
+            self.exponentialMovingAverageDist = alpha * dist + (1 - alpha) * self.exponentialMovingAverageDist
+            self.exponentialMovingAverageAngle = alpha * angle + (1 - alpha) * self.exponentialMovingAverageAngle
+
+        else:
+            dist, angle = self.Extrapolate()
+        self.KeepLastN()
+        angle = self.LimitAngles(angle)
         return dist, angle
