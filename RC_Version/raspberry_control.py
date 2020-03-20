@@ -305,7 +305,7 @@ def AutopilotControl(serial_ifc, throttle_SP, steer_SP, curr_data):
             end = True
 
 
-def main(abs_k=None, throttle_SP=None, steer_SP=None, autopilot=False):
+def main(abs_k=None, throttle_SP=None, steer_SP=None, autopilot=True):
     serial_port = "/dev/ttyTHS0"
     baudrate = 1000000
     parity = serial.PARITY_EVEN
@@ -365,11 +365,11 @@ def main(abs_k=None, throttle_SP=None, steer_SP=None, autopilot=False):
         processes.append(AutopilotControl_pr)
 
     # DEBUG: delete this
-    # with throttle_SP.get_lock():
-    #     throttle_SP.value = 1600
-    # time.sleep(5)
-    # with steer_SP.get_lock():
-    #     steer_SP.value = 1200
+    with throttle_SP.get_lock():
+        throttle_SP.value = 1600
+    time.sleep(5)
+    with steer_SP.get_lock():
+        steer_SP.value = 1200
 
     # FIXME: this is commented for debugging!!!
     # abs_k_update = Process(target=setAbsK, args=(serial_ifc, abs_k, ))

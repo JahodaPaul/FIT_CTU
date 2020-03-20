@@ -13,7 +13,7 @@ from birdEyeTransform import transform
 
 sys.path.append('../MachineLearning/Segmentation/Codes')
 
-import segmentator  # noqa: E402
+#import segmentator  # noqa: E402
 
 from CarDetector import CarDetector
 from DrivingControl import DrivingControl
@@ -160,9 +160,12 @@ def ImageAcquisition(zed, mat, runtime_parameters,throttle_SP,steer_SP):
                     img_path = img_name[:-4]
 
                 predicted_distance, predicted_angle = carDetector.Run(img_name,True)
+                logger.info("Distance: " + str(predicted_distance) + " Angle: " + str(predicted_angle))
+
                 steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle)
                 throttle = ConvertThrottleValue(throttle)
                 steer = ConvertSteerValue(steer)
+
 
                 with throttle_SP.get_lock():
                     throttle_SP.value = throttle

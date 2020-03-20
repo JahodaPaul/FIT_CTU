@@ -107,8 +107,8 @@ class CarDetector:
         else:
             angle = -1 * (90.0 - (tmpAngle))
 
-        print('distance:', distance)
-        print('angle:', angle)
+        # print('distance:', distance)
+        # print('angle:', angle)
         return distance,angle
 
     def GetBoundingBox(self,input_image,half):
@@ -139,14 +139,14 @@ class CarDetector:
             boxes_[:, [0, 2]] *= (width_ori / float(self.new_size[0]))
             boxes_[:, [1, 3]] *= (height_ori / float(self.new_size[1]))
 
-        print("box coords:")
-        print(boxes_)
-        print('*' * 30)
-        print("scores:")
-        print(scores_)
-        print('*' * 30)
-        print("labels:")
-        print(labels_)
+        # print("box coords:")
+        # print(boxes_)
+        # print('*' * 30)
+        # print("scores:")
+        # print(scores_)
+        # print('*' * 30)
+        # print("labels:")
+        # print(labels_)
 
         return boxes_, scores_
 
