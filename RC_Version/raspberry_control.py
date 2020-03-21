@@ -365,11 +365,11 @@ def main(abs_k=None, throttle_SP=None, steer_SP=None, autopilot=True):
         processes.append(AutopilotControl_pr)
 
     # DEBUG: delete this
-    with throttle_SP.get_lock():
-        throttle_SP.value = 1600
-    time.sleep(5)
-    with steer_SP.get_lock():
-        steer_SP.value = 1200
+    #time.sleep(5)
+    #with steer_SP.get_lock():
+    #    steer_SP.value = 1200
+    #with throttle_SP.get_lock():
+    #    throttle_SP.value = 1490
 
     # FIXME: this is commented for debugging!!!
     # abs_k_update = Process(target=setAbsK, args=(serial_ifc, abs_k, ))

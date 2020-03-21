@@ -2,25 +2,20 @@
 
 from __future__ import division, print_function
 
-import tensorflow as tf
+# import tensorflow as tf
 import numpy as np
 import cv2
 import math
 
-from utils.misc_utils import parse_anchors, read_class_names
-from utils.nms_utils import gpu_nms
-from utils.data_aug import letterbox_resize
-
-from model import yolov3
+# from model import yolov3
+from shutil import copyfile
 
 
 class CarDetector:
     def __init__(self):
-        self.MODEL_NAME = './model/best_model_Epoch_28_step_1565_mAP_0.9963_loss_0.4472_lr_0.0001'
-        self.new_size = [416, 416]
-        self.anchors = parse_anchors('model/yolo_anchors.txt')
-        self.classes = read_class_names('model/coco.names')
-        self.num_class = len(self.classes)
+        self.MODEL_NAME = './model/best_model_Epoch_78_step_4265_mAP_0.7415_loss_1.2230_lr_1e-05'
+        self.new_size = [256, 256]
+
         self.height_ori, self.width_ori = 0,0
         self.letterbox_resize = True
 
@@ -31,23 +26,7 @@ class CarDetector:
         self.exponentialMovingAverageAngle = 0
         self.alpha = 0.5
 
-        self.sess = tf.Session()
-
-
-        self.input_data = tf.placeholder(tf.float32, [1, self.new_size[1], self.new_size[0], 3], name='input_data')
-        self.yolo_model = yolov3(self.num_class, self.anchors)
-
-        with tf.variable_scope('yolov3'):
-            pred_feature_maps = self.yolo_model.forward(self.input_data, False)
-        self.pred_boxes, self.pred_confs, self.pred_probs = self.yolo_model.predict(pred_feature_maps)
-
-        self.pred_scores = self.pred_confs * self.pred_probs
-
-        self.boxes, self.scores, self.labels = gpu_nms(self.pred_boxes, self.pred_scores, self.num_class, max_boxes=200, score_thresh=0.3,
-                                        nms_thresh=0.45)
-
-        self.saver = tf.train.Saver()
-        self.saver.restore(self.sess, self.MODEL_NAME)
+        self.sess = None
 
 
     def getDistanceAndAngle(self, box,width_ori,height_ori):
@@ -111,8 +90,11 @@ class CarDetector:
         # print('angle:', angle)
         return distance,angle
 
-    def GetBoundingBox(self,input_image,half):
-        img_ori = cv2.imread(input_image)
+    def GetBoundingBox(self,img_ori,half):
+        from utils.data_aug import letterbox_resize
+
+        if img_ori.shape[2] == 4:
+            img_ori = img_ori[:,:,:3]
         if half: # Grab left half of the image
             height, width = img_ori.shape[:2]
             start_row, start_col = int(0), int(0)
@@ -120,16 +102,21 @@ class CarDetector:
             img_ori = img_ori[start_row:end_row, start_col:end_col]
 
         self.height_ori, self.width_ori = img_ori.shape[:2]
+        # print('start resize')
         if self.letterbox_resize:
             img, resize_ratio, dw, dh = letterbox_resize(img_ori, self.new_size[0], self.new_size[1])
         else:
             height_ori, width_ori = img_ori.shape[:2]
             img = cv2.resize(img_ori, tuple(self.new_size))
+        # print('resize end')
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = np.asarray(img, np.float32)
         img = img[np.newaxis, :] / 255.
 
+
+        # print('run TF')
         boxes_, scores_, labels_ = self.sess.run([self.boxes, self.scores, self.labels], feed_dict={self.input_data: img})
+        # print('after TF')
 
         # rescale the coordinates to the original image
         if self.letterbox_resize:
@@ -147,6 +134,8 @@ class CarDetector:
         # print('*' * 30)
         # print("labels:")
         # print(labels_)
+        # print('bounding boxes analyzed')
+        # print(str(boxes_))
 
         return boxes_, scores_
 
@@ -178,7 +167,43 @@ class CarDetector:
 
 
     def Run(self,img_name,half=True):
+        if self.sess == None:
+            import tensorflow as tf
+            from model import yolov3
+            from utils.misc_utils import parse_anchors, read_class_names
+            from utils.nms_utils import gpu_nms
+
+
+            self.anchors = parse_anchors('./model/yolo_anchors.txt')
+            self.classes = read_class_names('./model/coco.names')
+            self.num_class = len(self.classes)
+
+            self.sess = tf.Session(config=tf.ConfigProto(log_device_placement=True, intra_op_parallelism_threads=1,
+                                                         inter_op_parallelism_threads=1))
+
+            self.input_data = tf.placeholder(tf.float32, [1, self.new_size[1], self.new_size[0], 3], name='input_data')
+            self.yolo_model = yolov3(self.num_class, self.anchors)
+
+            with tf.variable_scope('yolov3'):
+                pred_feature_maps = self.yolo_model.forward(self.input_data, False)
+            self.pred_boxes, self.pred_confs, self.pred_probs = self.yolo_model.predict(pred_feature_maps)
+
+            self.pred_scores = self.pred_confs * self.pred_probs
+
+            self.boxes, self.scores, self.labels = gpu_nms(self.pred_boxes, self.pred_scores, self.num_class,
+                                                           max_boxes=200, score_thresh=0.3,
+                                                           nms_thresh=0.45)
+
+            self.saver = tf.train.Saver()
+            self.saver.restore(self.sess, self.MODEL_NAME)
+            self.sess.run(tf.global_variables_initializer())
+
+
+
+
+        # print('getting boxes')
         boxes, scores = self.GetBoundingBox(img_name,half)
+        # print('got boxes:',boxes)
         if len(boxes) != 0:
             dist, angle = self.getDistanceAndAngle(boxes[np.argmax(scores)], self.width_ori, self.height_ori)
             self.lastNDistances.append(dist)

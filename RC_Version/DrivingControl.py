@@ -15,7 +15,7 @@ class DrivingControl:
         self.prevError = 0
         self.distChange = 0
 
-    def PredictSteerAndThrottle(self, distance, angleBetweenCars, secondCarAngle):
+    def PredictSteerAndThrottle(self, distance, angleBetweenCars, secondCarAngle=0):
         steer = angleBetweenCars/180.0
         # print('ANGLE',angleBetweenCars)
         # print('STEER',steer)

@@ -9,9 +9,9 @@ from threading import Thread, Lock
 import cv2
 from scipy import stats
 import numpy as np
-from birdEyeTransform import transform
+#from birdEyeTransform import transform
 
-sys.path.append('../MachineLearning/Segmentation/Codes')
+#sys.path.append('../MachineLearning/Segmentation/Codes')
 
 #import segmentator  # noqa: E402
 
@@ -125,7 +125,49 @@ def ConvertSteerValue(steer):
     return int(val)
 
 
-def ImageAcquisition(zed, mat, runtime_parameters,throttle_SP,steer_SP):
+def CarDetection(throttle_SP,steer_SP):
+
+    global img_data, img_lock, img_path
+
+    while True:
+
+        # img_lock.acquire(True, -1)
+        # img_lock.release()
+
+        with img_lock:
+            image = img_data
+            file_path = img_path
+
+        if img_data is None:
+            continue
+
+        # img_name = img_path + '.jpg'
+        with img_lock:
+            predicted_distance, predicted_angle = carDetector.Run(image, True)
+            print("Distance: " + str(predicted_distance) + " Angle: " + str(predicted_angle))
+            logger.info("Distance: " + str(predicted_distance) + " Angle: " + str(predicted_angle))
+
+            steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance, predicted_angle)
+            throttle = ConvertThrottleValue(throttle)
+            steer = ConvertSteerValue(steer)
+            #debug
+            throttle = 1570
+            steer = 1220
+
+            with throttle_SP.get_lock():
+                throttle_SP.value = throttle
+
+            with steer_SP.get_lock():
+                steer_SP.value = steer
+
+        #set_abs_k(res, abs_k)
+
+        logger.info("Throttle: " + str(throttle) + " Steer: " + str(steer))
+
+    return False
+
+
+def ImageAcquisition(zed, mat, runtime_parameters):
     # Init
     cntr = 0
     fps_timer = time.time()
@@ -142,13 +184,11 @@ def ImageAcquisition(zed, mat, runtime_parameters,throttle_SP,steer_SP):
 
             zed.retrieve_image(mat, sl.VIEW.VIEW_SIDE_BY_SIDE)
             cntr += 1
-
             grab_timestamp = str(t1)
             grab_timestamp = grab_timestamp.replace('.', '')  # remove "." due to folder organization
             img_name = '/media/ctuxavier/ADATASE730H/images/img_{}.jpg'.format(grab_timestamp)
 
             img = sl.ERROR_CODE.ERROR_CODE_FAILURE
-
             countdown = 5
             while img != sl.ERROR_CODE.SUCCESS and countdown > 0:
 
@@ -158,21 +198,6 @@ def ImageAcquisition(zed, mat, runtime_parameters,throttle_SP,steer_SP):
                 with img_lock:
                     img_data = mat.get_data()
                     img_path = img_name[:-4]
-
-                predicted_distance, predicted_angle = carDetector.Run(img_name,True)
-                logger.info("Distance: " + str(predicted_distance) + " Angle: " + str(predicted_angle))
-
-                steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle)
-                throttle = ConvertThrottleValue(throttle)
-                steer = ConvertSteerValue(steer)
-
-
-                with throttle_SP.get_lock():
-                    throttle_SP.value = throttle
-
-                with steer_SP.get_lock():
-                    steer_SP.value = steer
-
 
                 with open('/media/ctuxavier/ADATASE730H/img_data.txt', 'a') as data_file:   # external SSD
                     data_file.write("{}, {}\n".format(grab_timestamp,
@@ -342,7 +367,7 @@ def main(abs_k=None, depth=True, throttle_SP=None, steer_SP=None):
 
     threads = []
     # Init and start image acquisition thread
-    ImageAcquisition_t = Thread(target=ImageAcquisition, args=(zed, mat, runtime_parameters,throttle_SP,steer_SP))
+    ImageAcquisition_t = Thread(target=ImageAcquisition, args=(zed, mat, runtime_parameters))
     ImageAcquisition_t.daemon = True
     threads.append(ImageAcquisition_t)
     ImageAcquisition_t.start()
@@ -353,6 +378,12 @@ def main(abs_k=None, depth=True, throttle_SP=None, steer_SP=None):
         DataAcquisiton_t.daemon = True
         threads.append(DataAcquisiton_t)
         DataAcquisiton_t.start()
+
+    # start car detection thread
+    car_detection_t = Thread(target=CarDetection,args=(throttle_SP,steer_SP))
+    #car_detection_t.daemon = True
+    threads.append(car_detection_t)
+    car_detection_t.start()
 
     # # Init and start image segmentation thread
     # image_segmentation_t = Thread(target=image_segmentation, args=(abs_k, ))
