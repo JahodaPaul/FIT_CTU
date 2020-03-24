@@ -9,7 +9,7 @@ VIEW_HEIGHT = 600
 VIEW_FOV = 90
 
 class CarDetector:
-    def __init__(self):
+    def _init__(self):
         self.boundingBoxes = ClientSideBoundingBoxes()
         self.consecutiveFramesLeft = 0
         self.lastN = 5

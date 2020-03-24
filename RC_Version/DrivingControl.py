@@ -7,9 +7,9 @@ class DrivingControl:
         self.throttle = 0
 
 
-        self.P_mult = 0.1
+        self.P_mult = 0.25
         self.I_mult = 0#1/3000.0
-        self.D_mult = 1#0.1
+        self.D_mult = 0.07
         self.errorsArr = np.array([],dtype=float)
         self.optimalDist = optimalDistance
         self.prevError = 0

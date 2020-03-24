@@ -51,27 +51,27 @@ class yolov3(object):
                     route_1, route_2, route_3 = darknet53_body(inputs)
 
                 with tf.variable_scope('yolov3_head'):
-                    inter1, net = yolo_block(route_3, 256)
+                    inter1, net = yolo_block(route_3, 512)
                     feature_map_1 = slim.conv2d(net, 3 * (5 + self.class_num), 1,
                                                 stride=1, normalizer_fn=None,
                                                 activation_fn=None, biases_initializer=tf.zeros_initializer())
                     feature_map_1 = tf.identity(feature_map_1, name='feature_map_1')
 
-                    inter1 = conv2d(inter1, 128, 1)
+                    inter1 = conv2d(inter1, 256, 1)
                     inter1 = upsample_layer(inter1, route_2.get_shape().as_list() if self.use_static_shape else tf.shape(route_2))
                     concat1 = tf.concat([inter1, route_2], axis=3)
 
-                    inter2, net = yolo_block(concat1, 128)
+                    inter2, net = yolo_block(concat1, 256)
                     feature_map_2 = slim.conv2d(net, 3 * (5 + self.class_num), 1,
                                                 stride=1, normalizer_fn=None,
                                                 activation_fn=None, biases_initializer=tf.zeros_initializer())
                     feature_map_2 = tf.identity(feature_map_2, name='feature_map_2')
 
-                    inter2 = conv2d(inter2, 64, 1)
+                    inter2 = conv2d(inter2, 128, 1)
                     inter2 = upsample_layer(inter2, route_1.get_shape().as_list() if self.use_static_shape else tf.shape(route_1))
                     concat2 = tf.concat([inter2, route_1], axis=3)
 
-                    _, feature_map_3 = yolo_block(concat2, 64)
+                    _, feature_map_3 = yolo_block(concat2, 128)
                     feature_map_3 = slim.conv2d(feature_map_3, 3 * (5 + self.class_num), 1,
                                                 stride=1, normalizer_fn=None,
                                                 activation_fn=None, biases_initializer=tf.zeros_initializer())

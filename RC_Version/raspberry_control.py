@@ -265,38 +265,41 @@ def AutopilotControl(serial_ifc, throttle_SP, steer_SP, curr_data):
 
     fail_cntr = 0
     MAX_FAILS = 150
+    time.sleep(5)
 
     while not end:
         # Check for manual control interference
-        data = curr_data
-        print(data)
+        # data = curr_data
+        # print(data)
 
-        try:
-            throttle_center = data[37]*1000
-
-            throttle_signal_th = throttle_center - 150
-            throttle_signal = data[30]
-            print(f"throttle signal: {throttle_signal}")
-        except IndexError:
-            fail_cntr += 1
-            if fail_cntr >= MAX_FAILS:
-                print("Autopilot: Data not available! Try again in 1 sec.")
-                time.sleep(1)
-                fail_cntr = 0
-            continue
+        # try:
+        #     throttle_center = data[37]*1000
+        #
+        #     throttle_signal_th = throttle_center - 150
+        #     throttle_signal = data[30]
+        #     # print(f"throttle signal: {throttle_signal}")
+        # except IndexError:
+        #     fail_cntr += 1
+        #     if fail_cntr >= MAX_FAILS:
+        #         print("Autopilot: Data not available! Try again in 1 sec.")
+        #         time.sleep(1)
+        #         fail_cntr = 0
+        #     continue
 
         # Check, if throttle
-        interrupt = throttle_signal < throttle_signal_th
+        interrupt = throttle_SP.value < 1400
 
         if not interrupt:
             # Set throttle and PWM from setpoints
             throttle_sp_val = throttle_SP.value
             steer_sp_val = steer_SP.value
 
-            print(throttle_sp_val)
-            print(steer_sp_val)
+            # print("Steer: " + str(steer_sp_val) + " Throttle: " + str(throttle_sp_val))
             setCarRPM(serial_ifc, int(throttle_sp_val))
             setCarSteer(serial_ifc, int(steer_sp_val))
+            if abs(throttle_SP.value - 1520) <= 3:
+                time.sleep(0.1)
+            time.sleep(0.005)
         else:
             # Throttle interrupt recieved, stop autopilot
             print("Throttle autopilot interrupt recieved, autopilot interface "

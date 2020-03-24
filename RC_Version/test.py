@@ -13,4 +13,13 @@ img_ori = cv2.imread(img_name)
 print('image read')
 
 cDet = CarDetector()
-cDet.Run(img_ori,True)
+
+dirr = '/home/pjahoda/Downloads/Jahoda_vid2'
+import os
+arr = os.listdir(dirr)
+# print(arr)
+for fil in arr:
+    path = os.path.join(dirr,fil)
+    img_ori = cv2.imread(path)
+    print(cDet.Run(img_ori,False))
+# cDet.Run(img_ori,True)

@@ -13,8 +13,8 @@ from shutil import copyfile
 
 class CarDetector:
     def __init__(self):
-        self.MODEL_NAME = './model/best_model_Epoch_78_step_4265_mAP_0.7415_loss_1.2230_lr_1e-05'
-        self.new_size = [256, 256]
+        self.MODEL_NAME = './model/best_model_Epoch_26_step_1592_mAP_0.9788_loss_0.4212_lr_0.0001'
+        self.new_size = [320, 320]
 
         self.height_ori, self.width_ori = 0,0
         self.letterbox_resize = True
@@ -160,6 +160,9 @@ class CarDetector:
     def LimitAngles(self,angle):
         return min(max(angle,-175),175)
 
+    def LimitDistance(self,dist):
+        return min(20,max(dist,0))
+
     def KeepLastN(self):
         if len(self.lastNDistances) > self.lastN:
             self.lastNDistances = self.lastNDistances[1:]
@@ -178,8 +181,7 @@ class CarDetector:
             self.classes = read_class_names('./model/coco.names')
             self.num_class = len(self.classes)
 
-            self.sess = tf.Session(config=tf.ConfigProto(log_device_placement=True, intra_op_parallelism_threads=1,
-                                                         inter_op_parallelism_threads=1))
+            self.sess = tf.Session()
 
             self.input_data = tf.placeholder(tf.float32, [1, self.new_size[1], self.new_size[0], 3], name='input_data')
             self.yolo_model = yolov3(self.num_class, self.anchors)
@@ -196,7 +198,11 @@ class CarDetector:
 
             self.saver = tf.train.Saver()
             self.saver.restore(self.sess, self.MODEL_NAME)
-            self.sess.run(tf.global_variables_initializer())
+
+
+
+            # self.sess.run(tf.global_variables_initializer())
+            print('Tensorflow intialized')
 
 
 
@@ -213,7 +219,9 @@ class CarDetector:
             self.exponentialMovingAverageAngle = alpha * angle + (1 - alpha) * self.exponentialMovingAverageAngle
 
         else:
+            print('No box found')
             dist, angle = self.Extrapolate()
         self.KeepLastN()
         angle = self.LimitAngles(angle)
+        dist = self.LimitDistance(dist)
         return dist, angle

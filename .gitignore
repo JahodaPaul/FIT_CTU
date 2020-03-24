@@ -17,3 +17,4 @@
 !SemanticSegmentation.py
 !DrivingControlAdvanced.py
 *.pyc
+*.jpg

@@ -9,6 +9,8 @@ from threading import Thread, Lock
 import cv2
 from scipy import stats
 import numpy as np
+import math
+import copy
 #from birdEyeTransform import transform
 
 #sys.path.append('../MachineLearning/Segmentation/Codes')
@@ -19,7 +21,7 @@ from CarDetector import CarDetector
 from DrivingControl import DrivingControl
 
 carDetector = CarDetector()
-drivingControl = DrivingControl(3)
+drivingControl = DrivingControl(1.2)
 
 # Create ZED image data lock
 img_lock = Lock()
@@ -117,11 +119,17 @@ def DataAcquisiton(zed, zed_pose, runtime_parameters):
                 writer.writerow([ty, tx, tz, rx, ry, rz, time.time()])
 
 def ConvertThrottleValue(val):
-    val = 1520 + (val*30)
+    val = 1520 + min((val*120),120)
     return int(val)
 
-def ConvertSteerValue(steer):
-    val = 1520 + (steer*300)
+def ConvertSteerValue(steer,useSqrtVal=True):
+    if useSqrtVal:
+        if steer >= 0:
+            steer = math.pow(abs(steer),1/2)
+        else:
+            steer = math.pow(abs(steer),1/2) * -1
+    # steer = -1
+    val = 1450 + (steer*300)
     return int(val)
 
 
@@ -129,40 +137,30 @@ def CarDetection(throttle_SP,steer_SP):
 
     global img_data, img_lock, img_path
 
+
     while True:
-
-        # img_lock.acquire(True, -1)
-        # img_lock.release()
-
         with img_lock:
             image = img_data
-            file_path = img_path
+            img_path_save = copy.deepcopy(img_path)
 
         if img_data is None:
             continue
 
-        # img_name = img_path + '.jpg'
-        with img_lock:
-            predicted_distance, predicted_angle = carDetector.Run(image, True)
-            print("Distance: " + str(predicted_distance) + " Angle: " + str(predicted_angle))
-            logger.info("Distance: " + str(predicted_distance) + " Angle: " + str(predicted_angle))
+        predicted_distance, predicted_angle = carDetector.Run(image, True)
+        logger.info("Distance: " + str(predicted_distance) + " Angle: " + str(predicted_angle))
+        logger.info("Analyzed image: "+str(img_path_save))
 
-            steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance, predicted_angle)
-            throttle = ConvertThrottleValue(throttle)
-            steer = ConvertSteerValue(steer)
-            #debug
-            throttle = 1570
-            steer = 1220
+        steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance, predicted_angle)
+        throttle = ConvertThrottleValue(throttle)
+        steer = ConvertSteerValue(steer)
 
-            with throttle_SP.get_lock():
-                throttle_SP.value = throttle
+        logger.info("Steer: " + str(steer) + " Throttle: " + str(throttle))
 
-            with steer_SP.get_lock():
-                steer_SP.value = steer
+        with throttle_SP.get_lock():
+            throttle_SP.value = throttle
 
-        #set_abs_k(res, abs_k)
-
-        logger.info("Throttle: " + str(throttle) + " Steer: " + str(steer))
+        with steer_SP.get_lock():
+            steer_SP.value = steer
 
     return False
 
@@ -208,6 +206,7 @@ def ImageAcquisition(zed, mat, runtime_parameters):
                     break
 
                 logger.debug("Image not written!")
+            time.sleep(0.01)
 
             # Count FPS
             if (time.time() - fps_timer) > 1:
