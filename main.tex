@@ -142,7 +142,9 @@ Rozvíjíme \ldots
 
 % Acknowledgements / Podekovani
 \begin{thanks}
-I would like to express my deep gratitude to my supervisor Assistant Professor Ing. Jan Čech, Ph.D. for his patient guidance and willingness to devote his time to this work. I would also like to thank my parents for their support throughout my education. 
+I would like to express my deep gratitude to my supervisor Assistant Professor Ing. Jan Čech, Ph.D. for his patient guidance and willingness to devote his time to this work. I would also like to thank ToMi team (Michal Bahník, Dominik Filyo, Martin Vlašimský and others) who have assembled the 1:5 RC car platform used as the self-driving chasing car. Furthermore, I would like to thank doc. Ing. Martin Hromčík, Ph.D. for lending me his 1:10 RC car that was used as the chased car.\par
+
+Finally, I would like to extend my thanks to my parents for their support throughout my education and to my girlfriend Vanda for her support and for helping me film promotional video of the autonomous car chase.
 \end{thanks}
 
 % Declaration / Prohlaseni
@@ -159,11 +161,17 @@ I would like to express my deep gratitude to my supervisor Assistant Professor I
 \maketitle
 
 \chapter{Introduction}
-An autonomous car driving system capable of making fast and accurate decisions is important for making car transportation a safer activity. The reaction times of the system -- especially in high speeds -- have impact on the human acceptance and trust of an automated vehicles. The key aspects of driving autonomously include detecting other cars and interacting with them on the road. In this paper, we focus on testing a semi-autonomous system in these aspects by using a car chasing scenario. \par
+An autonomous car driving system capable of making fast and accurate decisions is important for making car transportation a safer activity. The reaction times of the system (especially in high speeds) have impact on the human trust and acceptance of automated vehicles. The key aspects of driving autonomously include detecting other cars and interacting with them on the road. In this paper, we focus on testing a semi-autonomous system in these aspects by using a car chasing scenario. \par
 
-In the recent years, attention has been given to solving a similar task -- an autonomous vehicle following.
+A similar scenario -- car-following -- has been studied for more than half a century. Car-following models describe how drivers should follow each other in traffic stream. Oftentimes these theoretical models assume having precise data such as speed, distance and acceleration at every time-stamp \cite{car_following}. However, with the advancements of machine learning and computer vision more practical car-following models have been developed and tested. These models use sensors such as LIDAR and camera to estimate the distance between the two cars \cite{lidar_highway}. The estimated information is then use to maintain a safe distance between the two cars while following the trajectory of the front car. The car-following models have been however typically tested in scenarios that didn't involve high speeds and sudden significant speed changes. \par
+ 
+ 
+On the other hand, a car chase -- vehicular hot pursuit of suspects by law enforcers -- typically involves high speeds and therefore fast reactions are necessary. In our scenario, a vehicle being pursued is driven by a person, while the vehicle that's chasing it is being controlled by an artificial intelligence based system. The system architecture is similar as the DARPA Urban Challenge vehicles \cite{Bertha}\cite{darpa2}\cite{darpa_book} and consists of three parts: perception and localization, trajectory planning and a trajectory controller. \par
 
-A car chase -- vehicular hot pursuit of suspects by law enforcers -- typically involves high speeds and therefore fast reactions are necessary. In our scenario, a vehicle being pursued is driven by a person, while the vehicle that's chasing it is being controlled by an artificial intelligence based system. The algorithm is firstly tested in a open-source simulator for autonomous driving research CARLA and then deployed in a radio-controlled car (RC car for short). The goal of the chase is to maintain a determined distance between the cars.
+
+The algorithm is firstly tested in a open-source simulator for autonomous driving research CARLA and then deployed in a radio-controlled car (RC car for short). The goal of the chase, similarly to the car-following model, is to maintain a determined distance between the cars.
+
+\chapter{Related work}
 
 \chapter{Method}
 \section{Overview}
@@ -189,21 +197,16 @@ A car chase -- vehicular hot pursuit of suspects by law enforcers -- typically i
 \subsection{Results}
 
 \section{RC car}
-
+\subsection{Model Description}
+losi desert buggy xl-e 4wd
 
 
 
 
 \chapter{Conclusion}
 
-Lorep ipsum \cite{doe}
-
-\begin{thebibliography}{1}
-
-\bibitem{doe} J. Doe. \emph{Book on foobar.} Publisher X,
- 2300.
-
-\end{thebibliography}
+\bibliography{citations}
+\bibliographystyle{IEEEtran}
 
 \end{document}
 
