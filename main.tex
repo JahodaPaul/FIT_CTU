@@ -124,8 +124,8 @@
 	supervisor-address = {Czech Technical University in Prague Faculty of Electrical Engineering  \\
 	Center for Machine Perception},
 	fieldofstudy-english = {Knowledge Engineering},
-	keywords-czech = {TODO},
-	keywords-english = {self-driving car, car, CARLA, simulation, chase, RC car},
+	keywords-czech = {samořídíci auto, RC auto, pronásledování, autonomní řízení, hluboké učení, CARLA, simulace},
+	keywords-english = {self-driving car, RC car, chasing, autonomous driving, deep learning, CARLA, simulation},
 	month = 5,
 	year = 2020,
 }
@@ -161,15 +161,15 @@ Finally, I would like to extend my thanks to my parents for their support throug
 \maketitle
 
 \chapter{Introduction}
-An autonomous car driving system capable of making fast and accurate decisions is important for making car transportation a safer activity. The reaction times of the system (especially in high speeds) have impact on the human trust and acceptance of automated vehicles. The key aspects of driving autonomously include detecting other cars and interacting with them on the road. In this paper, we focus on testing a semi-autonomous system in these aspects by using a car chasing scenario. \par
+An autonomous car driving system capable of making fast and accurate decisions is important for making car transportation a safer activity. The reaction times of the system (especially in high speeds) have an impact on the human trust and acceptance of automated vehicles. The key aspects of driving autonomously include detecting other cars and interacting with them on the road. In this paper, we focus on testing a semi-autonomous system in these aspects by using a car chasing scenario. \par
 
-A similar scenario -- car-following -- has been studied for more than half a century. Car-following models describe how drivers should follow each other in traffic stream. Oftentimes these theoretical models assume having precise data such as speed, distance and acceleration at every time-stamp \cite{car_following}. However, with the advancements of machine learning and computer vision more practical car-following models have been developed and tested. These models use sensors such as LIDAR and camera to estimate the distance between the two cars \cite{lidar_highway}. The estimated information is then use to maintain a safe distance between the two cars while following the trajectory of the front car. The car-following models have been however typically tested in scenarios that didn't involve high speeds and sudden significant speed changes. \par
+A similar scenario -- car-following -- has been studied for more than half a century. Car-following models describe how drivers should follow each other in traffic stream. Oftentimes these theoretical models assume having precise data such as speed, distance and acceleration at every time-stamp \cite{car_following}. However, with the advancements of machine learning and computer vision more practical car-following models have been developed and tested. These models use sensors such as LIDAR and camera to estimate the distance between the two cars \cite{lidar_highway}. The estimated information is then used to maintain a safe distance between the two cars while following the trajectory of the front car. The car-following models have been however typically tested in scenarios that didn't involve high speeds and sudden significant speed changes. \par
  
  
-On the other hand, a car chase -- vehicular hot pursuit of suspects by law enforcers -- typically involves high speeds and therefore fast reactions are necessary. In our scenario, a vehicle being pursued is driven by a person, while the vehicle that's chasing it is being controlled by an artificial intelligence based system. The system architecture is similar as the DARPA Urban Challenge vehicles \cite{Bertha}\cite{darpa2}\cite{darpa_book} and consists of three parts: perception and localization, trajectory planning and a trajectory controller. \par
+On the other hand, a car chase -- vehicular hot pursuit of suspects by law enforcers -- typically involves high speeds and therefore fast reactions are necessary. In our scenario, a vehicle being pursued is driven by a person, while the vehicle that's chasing it is being controlled by an artificial intelligence-based system. The system architecture is similar to the DARPA Urban Challenge vehicles \cite{Bertha}\cite{darpa2}\cite{darpa_book} and consists of three parts: perception and localization, trajectory planning and a trajectory controller. \par
 
 
-The algorithm is firstly tested in a open-source simulator for autonomous driving research CARLA and then deployed in a radio-controlled car (RC car for short). The goal of the chase, similarly to the car-following model, is to maintain a determined distance between the cars.
+The thesis has the following structure. First, a theoretical background of the chasing algorithm is outlined. This includes related work and also a description of each part of the system. Then, a experiment section follows. The section includes testing in CARLA -- an open-source simulator for autonomous driving research. Additionally, it has a real-world evaluation of the system deployed in a radio-controlled car (RC car for short). The real-world evaluation consists of evaluation of a detector on a collected dataset and a practical chase in which the goal, similarly to the car-following model, is to maintain a determined distance between the two RC cars.
 
 \chapter{Related work}
 
@@ -189,6 +189,9 @@ The algorithm is firstly tested in a open-source simulator for autonomous drivin
 
 \section{Vehicle Detection}
 \subsection{Dataset}
+In order to train and evaluate 2D object detector capable of creating 2D bounding box around the chased RC car in a image, a dataset was needed. The collected dataset consists of \textbf{440} annotated images. All image annotations are in the PASCAL VOC data format introduced in the PASCAL Visual Object Classes Challenge \cite{pascal-voc}. Each image has it's annotation that contains pixel coordinates of the bounding box corners for each object in the image. In our dataset, only one object per image is present -- the chased RC car. The data were collected from multiple locations around Czechia and also under different lighting conditions. The majority of images were collected by the ZED Stereo camera attached to the chasing RC car. 
+
+
 \subsection{Detection Results}
 
 \section{Simulation}
