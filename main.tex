@@ -199,10 +199,23 @@ In order to train and evaluate 2D object detector capable of creating 2D boundin
 \subsection{Experiment Setup}
 \subsection{Results}
 
-\section{RC car}
-\subsection{Model Description}
-losi desert buggy xl-e 4wd
+\section{Real-world Testing}
+\subsection{RC Cars Description}
+\subsubsection{Chasing RC car}
+For deployment of our autonomous chasing algorithm a sub-scale vehicle platform called Toyota Mini (ToMi) was used %TODO cite. 
+The platform is built around a large 1:5 scale RC car "Losi Desert Buggy XL-E 4WD". This electrically powered car has 0.9 x 0.5 meters length and width dimensions with reported maximal speed of up to 80km/h. At the core of the platform is a Raspberry Pi with a Navio-board that generates pulse width modulation signals for the throttle and steering to the servomotor. It is also equipped with a ZED stereo camera for taking color images, NVIDIA Jetson AGX Xavier graphics card for image processing and neural network interference. Finally, it is equipped with SSD to provide additional storage, GPS and IMU. \par
+The whole simplified process flow is as follows. First, an image is taken by camera, which then goes to graphics card where it's analyzed by our algorithm. Then, based on the image analysis a steer and throttle values are updated. These values are transmitted from the graphics card to the Raspberry Pi which then sends signal to the servomotor that controls the vehicle.
 
+\subsubsection{Chased RC car}
+The RC car used as the chased vehicle is a 1:10 scale "Losi XXX-SCR RTR". This electrically powered car has 0.55 x 0.29 meters length and width dimensions with reported maximal speed of up to 55 km/h.
+
+\begin{figure}[h!]
+\includegraphics[width=0.5\textwidth]{images/rc_cars.pdf}
+\caption{Both RC cars used for testing. The autonomous chasing car is in the back, while the manually driven car used as the pursued car is in the front}
+\end{figure}
+
+
+\subsection{Experiments}
 
 
 
