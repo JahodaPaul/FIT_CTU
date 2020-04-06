@@ -110,6 +110,7 @@
 
 
 \documentclass{ctuthesis/ctuthesis}
+\usepackage{subfig}
 
 \ctusetup{
 	xdoctype = B,
@@ -189,10 +190,26 @@ The thesis has the following structure. First, a theoretical background of the c
 
 \section{Vehicle Detection}
 \subsection{Dataset}
-In order to train and evaluate 2D object detector capable of creating 2D bounding box around the chased RC car in a image, a dataset was needed. The collected dataset consists of \textbf{440} annotated images. All image annotations are in the PASCAL VOC data format introduced in the PASCAL Visual Object Classes Challenge \cite{pascal-voc}. Each image has it's annotation that contains pixel coordinates of the bounding box corners for each object in the image. In our dataset, only one object per image is present -- the chased RC car. The data were collected from multiple locations around Czechia and also under different lighting conditions. The majority of images were collected by the ZED Stereo camera attached to the chasing RC car. 
+In order to train and evaluate 2D object detector capable of creating 2D bounding box around the chased RC car in a image, a dataset was needed. The collected dataset consists of \textbf{440} annotated images. All image annotations are in the PASCAL VOC data format introduced in the PASCAL Visual Object Classes Challenge \cite{pascal-voc}. Each image has it's annotation that contains pixel coordinates of the bounding box corners for each object in the image. In our dataset, only one object per image is annotated -- the chased RC car. The data were collected from multiple locations around Czechia and also under different lighting conditions. The majority of images were collected by the ZED Stereo camera attached to the chasing RC car. 
 
 
 \subsection{Detection Results}
+The collected dataset was split into three sets. The majority of 80\% of the images were randomly selected into training set, 10\% were randomly selected into validation set and the remaining images were used as a testing set. To evaluate the model, we calculated multiple values -- recall, precision, XY loss and WH loss. To understand recall and precision we need to first define IoU (Intersection over union). IoU measures how much the predicted bounding box overlaps with the ground truth (annotated bounding box). It is defines as 
+\begin{equation}IoU = \cfrac{\textrm{Area of overlap}}{\textrm{Area of union}}\end{equation}
+
+When calculating precision and recall, we say that the predicition is either true positive or false positive when IoU is bigger than $0.5$. XY loss is calculated as a mean squared error (MSE) between the center of the predicted bounding box and the center of ground truth bounding box. WH loss on the other hand is the difference between width and height of the predicted bounding box and the ground truth bounding box. When calculating both of these values, coordinates and image dimensions have been scaled to the [0, 1] range. \par
+The model has been trained to minimize sum of the XY and WH losses. During training, the model with the lowest loss on the validation dataset has been saved.
+
+\begin{table}[]
+\begin{tabular}{l|llll}
+\hline
+            & Precision & Recall & XY loss & WH loss \\ \hline
+Testing set & 99.8\%    & 97.7\% & 0.066   & 0.227   \\ \hline
+\end{tabular}
+\label{tab:detection}
+\caption{Evaluation of the detector on a testing set}
+\end{table}
+
 
 \section{Simulation}
 \subsection{CARLA Environment}
@@ -202,7 +219,7 @@ In order to train and evaluate 2D object detector capable of creating 2D boundin
 \section{Real-world Testing}
 \subsection{RC Cars Description}
 \subsubsection{Chasing RC car}
-For deployment of our autonomous chasing algorithm a sub-scale vehicle platform called Toyota Mini (ToMi) was used %TODO cite. 
+For the deployment of our autonomous chasing algorithm a sub-scale vehicle platform called Toyota Mini (ToMi) was used %TODO cite. 
 The platform is built around a large 1:5 scale RC car "Losi Desert Buggy XL-E 4WD". This electrically powered car has 0.9 x 0.5 meters length and width dimensions with reported maximal speed of up to 80km/h. At the core of the platform is a Raspberry Pi with a Navio-board that generates pulse width modulation signals for the throttle and steering to the servomotor. It is also equipped with a ZED stereo camera for taking color images, NVIDIA Jetson AGX Xavier graphics card for image processing and neural network interference. Finally, it is equipped with SSD to provide additional storage, GPS and IMU. \par
 The whole simplified process flow is as follows. First, an image is taken by camera, which then goes to graphics card where it's analyzed by our algorithm. Then, based on the image analysis a steer and throttle values are updated. These values are transmitted from the graphics card to the Raspberry Pi which then sends signal to the servomotor that controls the vehicle.
 
@@ -210,9 +227,24 @@ The whole simplified process flow is as follows. First, an image is taken by cam
 The RC car used as the chased vehicle is a 1:10 scale "Losi XXX-SCR RTR". This electrically powered car has 0.55 x 0.29 meters length and width dimensions with reported maximal speed of up to 55 km/h.
 
 \begin{figure}[h!]
-\includegraphics[width=0.5\textwidth]{images/rc_cars.pdf}
-\caption{Both RC cars used for testing. The autonomous chasing car is in the back, while the manually driven car used as the pursued car is in the front}
+    \centering
+    \subfloat[Inside of the chasing RC car]{{\includegraphics[height=3.7cm]{images/inside.jpg} }}%
+    \qquad
+    \subfloat[Chasing RC in the back and the chased RC car in the front]{{\includegraphics[height=3.7cm]{images/rc_cars.pdf} }}%
+    \caption{Hardware inside of the autonomous chasing RC car on the left and both RC cars used for testing on the right}%
+    \label{fig:example}%
 \end{figure}
+
+%\begin{figure}[h!]
+%\centering
+%\begin{subfigure}{.5\textwidth}
+%\includegraphics[width=.4\linewidth]{images/inside.jpg}
+%\end{subfigure}
+%\begin{subfigure}{0.5\textwidth}
+%\includegraphics[width=.4\linewidth]{images/rc_cars.pdf}
+%\end{subfigure}
+%\caption{Both RC cars used for testing. The autonomous chasing car is in the back, while the manually driven car used as the pursued %car is in the front}
+%\end{figure}
 
 
 \subsection{Experiments}
