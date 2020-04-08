@@ -178,8 +178,22 @@ The thesis has the following structure. First, a theoretical background of the c
 \section{Overview}
 
 \section{Computer vision}
-\subsection{Convolutional Neural Network}
 \subsection{Bounding Box Detector}
+In our work, a bounding box is the smallest box which encloses all pixels belonging to the chased RC car in an image. It is also axis-aligned and two dimensional. The detection is performed by a convolutional neural network \cite{CNN_Lecun} with a YOLOv3 neural network architecture \cite{YOLOv3}. \par 
+The first version of the YOLO pubslihed in 2015 \cite{YOLO}, made an incredible improvement to the previous state-of-the-art object detection solutions with it's ability to predict bounding boxes of multiple object classes with incredible interference speed. It does so by reasoning globally about the whole images and all its object classes. \par
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/YOLO.png}
+    
+    \caption{YOLO TODO reference}\label{f:YOLO}
+\end{figure}
+
+The YOLO neural network works by dividing an image into $S\times S$ grid of cells. Each cell makes $K$ bounding box predictions. For each object in the image, the cell that has the center of the object inside is responsible for predicting the bounding box for said object. This can be seen in the top middle image in the Figure \ref{f:YOLO}. Separately, each cells outputs $C$ values where each value represents a predicted probability whether object from a class $C_i$ is in the cell. The resulting class map from these predicted probabilities can be seen in the bottom middle image in the Figure \ref{f:YOLO}. 
+%TODO how the backpropagation works
+\par
+The third version of the YOLO architecture improves YOLO in X way TODO.
+
+
 \subsection{Distance Estimation}
 \subsection{Angle Estimation}
 
