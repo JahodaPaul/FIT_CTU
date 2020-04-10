@@ -191,7 +191,12 @@ The first version of the YOLO pubslihed in 2015 \cite{YOLO}, made an incredible 
 The YOLO neural network works by dividing an image into $S\times S$ grid of cells. Each cell makes $K$ bounding box predictions. For each object in the image, the cell that has the center of the object inside is responsible for predicting the bounding box for said object. This can be seen in the top middle image in the Figure \ref{f:YOLO}. Separately, each cells outputs $C$ values where each value represents a predicted probability whether object from a class $C_i$ is in the cell. The resulting class map from these predicted probabilities can be seen in the bottom middle image in the Figure \ref{f:YOLO}. 
 %TODO how the backpropagation works
 \par
-The third version of the YOLO architecture improves YOLO in X way TODO.
+Two years after introducing YOLO, the second version of called YOLO9000 \cite{YOLO9000} was introduced.  In the first version of YOLO, each cells makes $K$ bounding box predictions of a random size resulting in steep gradient changes during training. %(TODO - my own words)
+This is improved in YOLO9000 by calculating the expected bounding box sizes by clustering the bounding boxes of the training set. These expected bounding boxes are called anchors or priors. It also uses different network architecture called Darknet-19 and enables detection on different image sizes. \par
+% TODO add ""
+
+The third version of the YOLO architecture improves YOLO in two main way. Firstly, it adds more layers to the Darknet network architecture. Secondly, inspired by Feature Pyramid Networks \cite{FPN}, it predicts boxes at 3 different scales. Precisely, instead of dividing the image into $S\times S$ grid of cells, YOLOv3 divides it into $S\times S$, $(S\cdot2)\times (S\cdot2)$ and a $(S\cdot4)\times (S\cdot4)$ grid of cells.
+%This is then used to... TODO
 
 
 \subsection{Distance Estimation}
