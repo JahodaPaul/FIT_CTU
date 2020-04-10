@@ -111,6 +111,7 @@
 
 \documentclass{ctuthesis/ctuthesis}
 \usepackage{subfig}
+\usepackage{amsfonts}
 
 \ctusetup{
 	xdoctype = B,
@@ -199,8 +200,32 @@ The third version of the YOLO architecture improves YOLO in two main way. Firstl
 %This is then used to... TODO
 
 
-\subsection{Distance Estimation}
-\subsection{Angle Estimation}
+\subsection{Angle and Distance Estimation}
+One of the most crucial information when chasing another vehicle is it's relative angle and distance to the chasing car. In our work, we are trying to estimate the angle between the normal vector of a camera on the chasing car (in the direction of the car) and the vector pointing from the camera to the center of the back of the pursued car. Furthermore, we want to estimate the distance between the two cars. To be specific, the distance between the front of the chasing car and the center of the back of the pursued car.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/chasing_diagram.pdf}
+    
+    \caption{Diagram showing blue chasing car on the left and pursued car on the right. It shows the ground truth distance $d$ and the angle $\alpha$ we are trying to estimate }\label{f:chasing_diagram}
+\end{figure}
+
+The Figure \ref{f:chasing_diagram} shows this problem in a simplified 2D view.
+
+
+\begin{equation}
+s\begin{bmatrix}u\\v\\1\end{bmatrix} = \begin{bmatrix}
+f_x & \gamma & u_0\\
+0 & f_y & v_0\\
+0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}
+r_{11} & r_{12} & r_{13} & t_{1}\\
+r_{21} & r_{22} & r_{23} & t_{2}\\
+r_{31} & r_{32} & r_{33} & t_{3}\\
+\end{bmatrix}
+\begin{bmatrix}x\\y\\z\\1\end{bmatrix}
+\end{equation}
+
 
 \section{Control And Planning}
 \subsection{Pure Pursuit Algorithm}
