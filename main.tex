@@ -196,7 +196,7 @@ Two years after introducing YOLO, the second version of called YOLO9000 \cite{YO
 This is improved in YOLO9000 by calculating the expected bounding box sizes by clustering the bounding boxes of the training set. These expected bounding boxes are called anchors or priors. It also uses different network architecture called Darknet-19 and enables detection on different image sizes. \par
 % TODO add ""
 
-The third version of the YOLO architecture improves YOLO in two main way. Firstly, it adds more layers to the Darknet network architecture. Secondly, inspired by Feature Pyramid Networks \cite{FPN}, it predicts boxes at 3 different scales. Precisely, instead of dividing the image into $S\times S$ grid of cells, YOLOv3 divides it into $S\times S$, $(S\cdot2)\times (S\cdot2)$ and a $(S\cdot4)\times (S\cdot4)$ grid of cells.
+The third version of the YOLO architecture improves YOLO in two main way. Firstly, it adds more layers to the Darknet network architecture. Secondly, inspired by Feature Pyramid Networks \cite{FPN}, it predicts boxes at 3 different scales. To be specific, instead of dividing the image into $S\times S$ grid of cells, YOLOv3 divides it into $S\times S$, $(S\cdot2)\times (S\cdot2)$ and a $(S\cdot4)\times (S\cdot4)$ grid of cells.
 %This is then used to... TODO
 
 
@@ -210,7 +210,12 @@ One of the most crucial information when chasing another vehicle is it's relativ
     \caption{Diagram showing blue chasing car on the left and pursued car on the right. It shows the ground truth distance $d$ and the angle $\alpha$ we are trying to estimate }\label{f:chasing_diagram}
 \end{figure}
 
-The Figure \ref{f:chasing_diagram} shows this problem in a simplified 2D view.
+The Figure \ref{f:chasing_diagram} shows this problem in a simplified 2D view. To estimate the distance and the angle of the car from an image, we took advantage of existing solutions solving PnP (Perspective-n-Point) problem. PnP is a problem of estimating position and orientation of a camera from a set of $n$ 3D points, their corresponding 2D projections in the image and the calibrated intrinsic camera parameters. This leads us to an equation 
+\begin{equation}
+s\,p_{image} = K\,[\,R\, |\, T\, ]\, p_{world}
+\end{equation}
+, where $p_{image}$
+are the coordinates of the points in the image, $p_{world}$ are the corresponding world coordinates, $K$ is the matrix of intrinsic camera parameters and $R$ and $T$ are the rotation and translation we are calculating. Here is the full equation: 
 
 
 \begin{equation}
@@ -226,9 +231,19 @@ r_{31} & r_{32} & r_{33} & t_{3}\\
 \begin{bmatrix}x\\y\\z\\1\end{bmatrix}
 \end{equation}
 
+In our case, the image points $p_{image}$ are the bounding box corners of the detected car. We can also estimate the world coordinates $p_{world}$ by measuring the width and height of the chased RC car. Finally, the the intrinsic camera parameters such as focal lengths $f_x$ and $f_y$ were calculated based on official documentation from the ZED camera. Then, we plug these values into a OpenCV \cite{opencv_library} library function which gives us the translation and rotation vectors. Afterwards, we calculate the desired estimated distance by calculating euclidean distance between the translation vector and the origin. Similarly, we extract the desired estimated angle by calculating arc tangent of the rotation vector. 
+
+Finally, since we are using a stereo camera and the camera lens which was used is not in the center of the front of the car, we have convert the calculated angle and distance as if the camera was in the center of the front of the car. We achieve this by simple triangulation.
+
 
 \section{Control And Planning}
 \subsection{Pure Pursuit Algorithm}
+Pure pursuit algorithm is a path tracking algorithm that moves a vehicle from its current position to a some look-ahead position on the path. It was invented in the 1980s as it was used in the first demonstration of an autonomous vehicle capable of following a road using imagery from a black and white camera \cite{pure_pursuit_orig}. The goal of the demonstration was to keep the vehicle centered on the road while it was driving at a constant speed.\par
+The algorithm works as follows. Firstly, it finds the goal point on the path. Then, it transforms the goal point to vehicle coordinates and finally it calculates the curvature that will drive the vehicle to the look-ahead position on the path. \par
+In our work, we were inspired by the algorithm. As opposed to the pure pursuit algorithm settings, our car doesn't move at a constant speed. Secondly, we are not following a path, but rather chasing a moving RC car. Therefore, every time we process an image from the camera, we update our goal position. But, unlike in the path following algorithm we destination is updated to the current position of the chased RC car.
+
+% we dont use curvature because... update position often.. 
+\subsection{PID Controller}
 
 \chapter{Experiments}
 
