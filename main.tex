@@ -179,6 +179,8 @@ The thesis has the following structure. First, a theoretical background of the c
 \section{Overview}
 
 \section{Computer vision}
+\subsection{Dual-purpose Neural Network}
+
 \subsection{Bounding Box Detector}
 In our work, a bounding box is the smallest box which encloses all pixels belonging to the chased RC car in an image. It is also axis-aligned and two dimensional. The detection is performed by a convolutional neural network \cite{CNN_Lecun} with a YOLOv3 neural network architecture \cite{YOLOv3}. \par 
 The first version of the YOLO pubslihed in 2015 \cite{YOLO}, made an incredible improvement to the previous state-of-the-art object detection solutions with it's ability to predict bounding boxes of multiple object classes with incredible interference speed. It does so by reasoning globally about the whole images and all its object classes. \par
@@ -186,7 +188,7 @@ The first version of the YOLO pubslihed in 2015 \cite{YOLO}, made an incredible 
     \centering
     \includegraphics[width=0.8\textwidth]{images/YOLO.png}
     
-    \caption{YOLO TODO reference}\label{f:YOLO}
+    \caption{Diagram showing YOLO neural network mechanism, adopted from \protect\cite{YOLO}}\label{f:YOLO}
 \end{figure}
 
 The YOLO neural network works by dividing an image into $S\times S$ grid of cells. Each cell makes $K$ bounding box predictions. For each object in the image, the cell that has the center of the object inside is responsible for predicting the bounding box for said object. This can be seen in the top middle image in the Figure \ref{f:YOLO}. Separately, each cells outputs $C$ values where each value represents a predicted probability whether object from a class $C_i$ is in the cell. The resulting class map from these predicted probabilities can be seen in the bottom middle image in the Figure \ref{f:YOLO}. 
@@ -235,12 +237,41 @@ In our case, the image points $p_{image}$ are the bounding box corners of the de
 
 Finally, since we are using a stereo camera and the camera lens which was used is not in the center of the front of the car, we have convert the calculated angle and distance as if the camera was in the center of the front of the car. We achieve this by simple triangulation.
 
+\subsection{Angle and Distance Extrapolation}
+In the previous section, we have described how we estimate angle distance based on bounding box of the chased car. However, in some cases the detector is unable to detect object in the image due to poor light conditions in the scene, or because the pursued vehicle is only partially vehicle due to some object blocking it. Furthermore, there are cases when the chased car is not in the image at all. In these cases we need to make a reasonable prediction about the position of the chased car. \par
+
+
+We extrapolate the angle and the distance of the chased car based on the previous estimations. At the heart of the extrapolation algorithm is exponential moving average. In fact, we use just six variables to store the information about the whole history of estimated angles and distances. The idea will explained on extrapolating distances. The angle extrapolation is done similarly. \par
+The whole extrapolation revolves around using the following equation:
+\begin{equation}
+exp = \alpha\cdot d_i + (1-\alpha)\cdot exp
+\end{equation}
+The $\alpha$ variable is in this case a value in the range [0,1] that sets the weight of the last predicted estimate $d_i$ at frame $i$. In our algorithm, we have chosen value $\alpha=0.5$. The $exp$ variable is the exponential variable where we store the information about the estimation history. At every frame, we update the value of $exp$. \par
+
+If the chased car is detected in the image we set $d_i$ equal to the predicted estimate and update the variable $exp$.
+However, if the the chased car is not in the image, or the detection is unsuccessful we use the following simple extrapolation to set the estimated value of $d_i$ equal to:
+\begin{equation}
+d_i = 2\cdot d_{i-1} - d_{i-2}
+\end{equation}
+Afterwards, we update the $exp$ value and return it as the predicted estimate in case no bounding box was found in the image. 
+\par This method allows us to extrapolate the angle and the distance very fast in a $\mathcal{O}(1)$ time and space complexity with almost no overhead.
+
+\subsection{Image Segmentation}
+
 
 \section{Control And Planning}
-\subsection{Pure Pursuit Algorithm}
+In this section, we will explain how we control steering and throttle of the vehicle based on the extracted information from the camera. Conversely to many algorithms, we control steering and throttle separately. Steering control is inspired by pure pursuit algorithm and throttle is controlled by a PID controlled.
+
+
+\subsection{Pure Pursuit Inspired Algorithm}
 Pure pursuit algorithm is a path tracking algorithm that moves a vehicle from its current position to a some look-ahead position on the path. It was invented in the 1980s as it was used in the first demonstration of an autonomous vehicle capable of following a road using imagery from a black and white camera \cite{pure_pursuit_orig}. The goal of the demonstration was to keep the vehicle centered on the road while it was driving at a constant speed.\par
 The algorithm works as follows. Firstly, it finds the goal point on the path. Then, it transforms the goal point to vehicle coordinates and finally it calculates the curvature that will drive the vehicle to the look-ahead position on the path. \par
-In our work, we were inspired by the algorithm. As opposed to the pure pursuit algorithm settings, our car doesn't move at a constant speed. Secondly, we are not following a path, but rather chasing a moving RC car. Therefore, every time we process an image from the camera, we update our goal position. But, unlike in the path following algorithm we destination is updated to the current position of the chased RC car.
+In our work, we were inspired by the algorithm. As opposed to the pure pursuit algorithm settings, our car doesn't move at a constant speed. Secondly, we are not following a path, but rather chasing a moving RC car. Therefore, every time we process an image from the camera, we update our goal position. But unlike in the path following algorithm, the destination position is updated to the current position of the chased RC car rather than to a position on a path. \par
+Conversely to the pure pursuit algorithm, we also don't calculate the curvature to control the steering. That is because we need to update our the steering every frame based on the position of the chased RC car and take more aggressive turns to chase the pursued vehicle. In our algorithm we calculate the steering value with the following function:
+
+\begin{equation}steer = (\cfrac{\alpha}{\textrm{180}})^{2}\end{equation}
+
+The value $\alpha$ represents the angle between the chasing and the chased car shown in the Figure \ref{f:chasing_diagram}. The $steer$ variable is a value in the [-1, 1] range, where -1 and 1 represent the highest left-turn and right-turn steering angle the car can make respectively. We square the result of the division, because the steering control on the RC car is non-linear. We don't square the divison in the CARLA simulation.
 
 % we dont use curvature because... update position often.. 
 \subsection{PID Controller}
