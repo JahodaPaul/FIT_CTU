@@ -30,20 +30,20 @@ import carla
 
 import random
 
-try:
-    import pygame
-except ImportError:
-    raise RuntimeError('cannot import pygame, make sure pygame package is installed')
+# try:
+import pygame
+# except ImportError:
+#     raise RuntimeError('cannot import pygame, make sure pygame package is installed')
 
-try:
-    import numpy as np
-except ImportError:
-    raise RuntimeError('cannot import numpy, make sure numpy package is installed')
+# try:
+import numpy as np
+# except ImportError:
+#     raise RuntimeError('cannot import numpy, make sure numpy package is installed')
 
-try:
-    import queue
-except ImportError:
-    import Queue as queue
+# try:
+import queue
+# except ImportError:
+#     import Queue as queue
 
 
 class CarlaSyncMode(object):
@@ -214,39 +214,39 @@ def should_quit():
                 return True
     return False
 
-try:
-    import pygame
-    from pygame.locals import KMOD_CTRL
-    from pygame.locals import KMOD_SHIFT
-    from pygame.locals import K_0
-    from pygame.locals import K_9
-    from pygame.locals import K_BACKQUOTE
-    from pygame.locals import K_BACKSPACE
-    from pygame.locals import K_COMMA
-    from pygame.locals import K_DOWN
-    from pygame.locals import K_ESCAPE
-    from pygame.locals import K_F1
-    from pygame.locals import K_LEFT
-    from pygame.locals import K_PERIOD
-    from pygame.locals import K_RIGHT
-    from pygame.locals import K_SLASH
-    from pygame.locals import K_SPACE
-    from pygame.locals import K_TAB
-    from pygame.locals import K_UP
-    from pygame.locals import K_a
-    from pygame.locals import K_c
-    from pygame.locals import K_d
-    from pygame.locals import K_h
-    from pygame.locals import K_m
-    from pygame.locals import K_p
-    from pygame.locals import K_q
-    from pygame.locals import K_r
-    from pygame.locals import K_s
-    from pygame.locals import K_w
-    from pygame.locals import K_MINUS
-    from pygame.locals import K_EQUALS
-except ImportError:
-    raise RuntimeError('cannot import pygame, make sure pygame package is installed')
+# try:
+import pygame
+from pygame.locals import KMOD_CTRL
+from pygame.locals import KMOD_SHIFT
+from pygame.locals import K_0
+from pygame.locals import K_9
+from pygame.locals import K_BACKQUOTE
+from pygame.locals import K_BACKSPACE
+from pygame.locals import K_COMMA
+from pygame.locals import K_DOWN
+from pygame.locals import K_ESCAPE
+from pygame.locals import K_F1
+from pygame.locals import K_LEFT
+from pygame.locals import K_PERIOD
+from pygame.locals import K_RIGHT
+from pygame.locals import K_SLASH
+from pygame.locals import K_SPACE
+from pygame.locals import K_TAB
+from pygame.locals import K_UP
+from pygame.locals import K_a
+from pygame.locals import K_c
+from pygame.locals import K_d
+from pygame.locals import K_h
+from pygame.locals import K_m
+from pygame.locals import K_p
+from pygame.locals import K_q
+from pygame.locals import K_r
+from pygame.locals import K_s
+from pygame.locals import K_w
+from pygame.locals import K_MINUS
+from pygame.locals import K_EQUALS
+# except ImportError:
+#     raise RuntimeError('cannot import pygame, make sure pygame package is installed')
 
 class ManualControl(object):
     def __init__(self):
@@ -313,8 +313,9 @@ class Evaluation():
         self.sumRMSE += abs(goalDistance-distance)*abs(goalDistance-distance)
 
     def WriteIntoFileFinal(self, filename, driveName):
-        self.sumMAE = self.sumMAE / float(self.n_of_frames)
-        self.sumRMSE = self.sumRMSE / float(self.n_of_frames)
+        if self.n_of_frames > 0:
+            self.sumMAE = self.sumMAE / float(self.n_of_frames)
+            self.sumRMSE = self.sumRMSE / float(self.n_of_frames)
 
         with open(filename,'a') as f:
             f.write(str(driveName)+', '+str(self.sumMAE)+', '+str(self.sumRMSE)+', '+str(self.n_of_collisions)+'\n')
@@ -324,6 +325,16 @@ class Evaluation():
 
     def CollisionHandler(self,event):
         self.n_of_collisions += 1
+
+def DrawDrivable(indexes, w, h, display):
+    BB_COLOR = (11, 102, 35)
+    for i in range(10):
+        for j in range(10):
+            if indexes[i*10+j] == 1:
+                pygame.draw.line(display, BB_COLOR, (j*w,i*h) , (j*w+w,i*h))
+                pygame.draw.line(display, BB_COLOR, (j*w,i*h), (j*w,i*h+h))
+                pygame.draw.line(display, BB_COLOR, (j*w+w,i*h), (j*w+w,i*h+h))
+                pygame.draw.line(display, BB_COLOR,  (j*w,i*h+h), (j*w+w,i*h+h))
 
 
 import copy
@@ -366,6 +377,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
 
     try:
+    # if True:
         m = world.get_map()
         # if not followDrivenPath:
         start_pose = random.choice(m.get_spawn_points())
@@ -560,7 +572,9 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
                     if True:
                         # objectInFront, goLeftOrRight = semantic.ObjectInFrontOfChasedCar(image_segmentation,bbox)
-                        possibleAngle, line = semantic.FindPossibleAngle(image_segmentation,bbox,predicted_angle)
+                        possibleAngle = predicted_angle
+                        # possibleAngle, drivableIndexes = semantic.FindPossibleAngle(image_segmentation,bbox,predicted_angle)
+                        # DrawDrivable(drivableIndexes,image_segmentation.width//10,image_segmentation.height//10, display)
                         # print('predicted angle:',predicted_angle,'possible angle:',possibleAngle)
                         steer, throttle = drivingControlAdvanced.PredictSteerAndThrottle(predicted_distance, possibleAngle,None)
                     else:
@@ -627,11 +641,13 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
                 myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance,chaseMode)
                 pygame.display.flip()
-
+    except Exception as ex:
+        print(ex)
     finally:
-        if evaluateChasingCar:
-            evaluation.WriteIntoFileFinal(os.path.join('res',resultsName+'.txt'),driveName=driveName)
-        myControl.SaveHistoryToFile()
+        print('Ending')
+        # if evaluateChasingCar:
+        #     evaluation.WriteIntoFileFinal(os.path.join('res',resultsName+'.txt'),driveName=driveName)
+        # myControl.SaveHistoryToFile()
         print('destroying actors.')
         for actor in actor_list:
             actor.destroy()

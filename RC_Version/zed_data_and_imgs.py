@@ -11,11 +11,12 @@ from scipy import stats
 import numpy as np
 import math
 import copy
-#from birdEyeTransform import transform
 
-#sys.path.append('../MachineLearning/Segmentation/Codes')
-
-#import segmentator  # noqa: E402
+carChase = False
+if not carChase:
+    from birdEyeTransform import transform
+    sys.path.append('../MachineLearning/Segmentation/Codes')
+    import segmentator  # noqa: E402
 
 from CarDetector import CarDetector
 from DrivingControl import DrivingControl
@@ -378,17 +379,17 @@ def main(abs_k=None, depth=True, throttle_SP=None, steer_SP=None):
         threads.append(DataAcquisiton_t)
         DataAcquisiton_t.start()
 
-    # start car detection thread
-    car_detection_t = Thread(target=CarDetection,args=(throttle_SP,steer_SP))
-    #car_detection_t.daemon = True
-    threads.append(car_detection_t)
-    car_detection_t.start()
+    # start car detection thread by Pavel Jahoda - for autonomous car chasing
+    if carChase:
+        car_detection_t = Thread(target=CarDetection,args=(throttle_SP,steer_SP))
+        threads.append(car_detection_t)
+        car_detection_t.start()
 
-    # # Init and start image segmentation thread
-    # image_segmentation_t = Thread(target=image_segmentation, args=(abs_k, ))
-    # image_segmentation_t.daemon = True
-    # threads.append(image_segmentation)
-    # image_segmentation_t.start()
+    # Init and start image segmentation thread
+    image_segmentation_t = Thread(target=image_segmentation, args=(abs_k, ))
+    image_segmentation_t.daemon = True
+    threads.append(image_segmentation)
+    image_segmentation_t.start()
 
     try:
         for thread in threads:

@@ -253,7 +253,7 @@ def CarControl(serial_ifc):
     except KeyboardInterrupt:
         print("Closing CarControl process.")
 
-
+# Updated version used for chasing, the previous version can be found in file raspberry_control_prev.py
 def AutopilotControl(serial_ifc, throttle_SP, steer_SP, curr_data):
     """ Autopilot interface provides direct control over throttle and steer
     signals going to servo and motor via shared values. Autopilot is to be
@@ -262,30 +262,10 @@ def AutopilotControl(serial_ifc, throttle_SP, steer_SP, curr_data):
     end = False
 
     carSetAutopilot(serial_ifc, True)
-
-    fail_cntr = 0
-    MAX_FAILS = 150
     time.sleep(5)
 
+
     while not end:
-        # Check for manual control interference
-        # data = curr_data
-        # print(data)
-
-        # try:
-        #     throttle_center = data[37]*1000
-        #
-        #     throttle_signal_th = throttle_center - 150
-        #     throttle_signal = data[30]
-        #     # print(f"throttle signal: {throttle_signal}")
-        # except IndexError:
-        #     fail_cntr += 1
-        #     if fail_cntr >= MAX_FAILS:
-        #         print("Autopilot: Data not available! Try again in 1 sec.")
-        #         time.sleep(1)
-        #         fail_cntr = 0
-        #     continue
-
         # Check, if throttle
         interrupt = throttle_SP.value < 1400
 

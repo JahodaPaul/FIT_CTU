@@ -151,6 +151,7 @@ class SemanticSegmentation:
         cols = self.imageWidth // size_w
         objects = []
 
+
         for i in range(rows):
             for j in range(cols):
                 half_of_pixels = size_w * size_h // 2
@@ -160,8 +161,8 @@ class SemanticSegmentation:
                     if k%5 == 1:
                         for l in range(size_w):
                             if l%5==1:
-                                if (segmImage[i * size_h + k][j * size_w + l][2] == 6 or segmImage[i * size_h + k][j * size_w + l][2] == 7):
-                                    if not (i * size_h + k >= int(obj[0]) and i * size_h + k <= int(obj[1]) and j * size_w + l >= int(obj[2]) and j * size_w + l <= int(obj[3])):
+                                if (segmImage[j * size_w + l][i * size_h + k][2] == 6 or segmImage[j * size_w + l][i * size_h + k][2] == 7):
+                                    if not (i * size_h + k >= int(obj[2]) and i * size_h + k <= int(obj[3]) and j * size_w + l >= int(obj[0]) and j * size_w + l <= int(obj[1])):
                                         counter += 1
                 if counter >= half_of_pixels:
                     objects.extend([1])
@@ -191,7 +192,7 @@ class SemanticSegmentation:
                         yMin = bbox[i,1]
         drivableIndexes = self.parse_segm(segmImage=segmImage,obj=[xMin,xMax,yMin,yMax])
         print(drivableIndexes)
-        return maxAngle
+        return maxAngle, drivableIndexes
 
 
 
