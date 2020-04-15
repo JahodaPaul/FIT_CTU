@@ -141,8 +141,61 @@ class SemanticSegmentation:
         #     f.write(str(self.arrNBadPixels) + '\n')
         return self.arrNBadPixels[0][2], self.arrNBadPixels[0][1]
 
+    def parse_segm(self,segmImage, obj):
+        n_cols = 10
+        n_rows = 10
+        size_w = self.imageWidth // n_cols
+        size_h = self.imageHeight // n_rows
 
-    def FindPossibleAngle(self, segmImage, bbox, maxAngle):
+        rows = self.imageHeight // size_h
+        cols = self.imageWidth // size_w
+        objects = []
+
+        for i in range(rows):
+            for j in range(cols):
+                half_of_pixels = size_w * size_h // 2
+                half_of_pixels = half_of_pixels//25
+                counter = 0
+                for k in range(size_h):
+                    if k%5 == 1:
+                        for l in range(size_w):
+                            if l%5==1:
+                                if (segmImage[i * size_h + k][j * size_w + l][2] == 6 or segmImage[i * size_h + k][j * size_w + l][2] == 7):
+                                    if not (i * size_h + k >= int(obj[0]) and i * size_h + k <= int(obj[1]) and j * size_w + l >= int(obj[2]) and j * size_w + l <= int(obj[3])):
+                                        counter += 1
+                if counter >= half_of_pixels:
+                    objects.extend([1])
+                else:
+                    objects.extend([0])
+        if len(objects) > 1:
+            return objects
+        else:
+            return None
+
+    def FindPossibleAngle(self,segmImage,bbox,maxAngle):
+        self.imageHeight = segmImage.height
+        self.imageWidth = segmImage.width
+        xMin, xMax, yMin, yMax = 0, 0, 0, 0
+        if len(bbox) != 0:
+            x_Middle = (int(bbox[1, 0]) + int(bbox[2, 0])) // 2
+            y_Middle = (int(bbox[1, 1]) + int(bbox[5, 1])) // 2
+            for i in range(len(bbox)):
+                for i in range(bbox):
+                    if bbox[i,0] > xMax:
+                        xMax = bbox[i,0]
+                    if bbox[i,1] > yMax:
+                        yMax = bbox[i,1]
+                    if bbox[i,0] < xMin:
+                        xMin = bbox[i,0]
+                    if bbox[i,1] < yMin:
+                        yMin = bbox[i,1]
+        drivableIndexes = self.parse_segm(segmImage=segmImage,obj=[xMin,xMax,yMin,yMax])
+        print(drivableIndexes)
+        return maxAngle
+
+
+
+    def FindPossibleAnglePrev(self, segmImage, bbox, maxAngle):
         self.imageHeight = segmImage.height
         self.imageWidth = segmImage.width
         bestBadPixels = 1000000
