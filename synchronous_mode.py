@@ -123,7 +123,7 @@ def BresenhamLine(x0,y0, x1,y1):
 
 import os
 def myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance, chaseMode=True):
-    os.system('clear')
+    # os.system('clear')
     if chaseMode == True:
         print('----- Chase mode -----')
     else:
@@ -327,15 +327,15 @@ class Evaluation():
         self.n_of_collisions += 1
 
 def DrawDrivable(indexes, w, h, display):
-    BB_COLOR = (11, 102, 35)
-    for i in range(10):
-        for j in range(10):
-            if indexes[i*10+j] == 1:
-                pygame.draw.line(display, BB_COLOR, (j*w,i*h) , (j*w+w,i*h))
-                pygame.draw.line(display, BB_COLOR, (j*w,i*h), (j*w,i*h+h))
-                pygame.draw.line(display, BB_COLOR, (j*w+w,i*h), (j*w+w,i*h+h))
-                pygame.draw.line(display, BB_COLOR,  (j*w,i*h+h), (j*w+w,i*h+h))
-
+    if len(indexes) != 0:
+        BB_COLOR = (11, 102, 35)
+        for i in range(10):
+            for j in range(10):
+                if indexes[i*10+j] == 1:
+                    pygame.draw.line(display, BB_COLOR, (j*w,i*h) , (j*w+w,i*h))
+                    pygame.draw.line(display, BB_COLOR, (j*w,i*h), (j*w,i*h+h))
+                    pygame.draw.line(display, BB_COLOR, (j*w+w,i*h), (j*w+w,i*h+h))
+                    pygame.draw.line(display, BB_COLOR,  (j*w,i*h+h), (j*w+w,i*h+h))
 
 import copy
 def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, driveName='',record=False, followMode=False,
@@ -558,7 +558,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                                              [location2.location.x, location2.location.y])
 
                 possibleAngle = 0
-
+                drivableIndexes = []
                 if chaseMode:
                     carInTheImage = semantic.IsThereACarInThePicture(image_segmentation)
                     bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage)
@@ -572,9 +572,8 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
                     if True:
                         # objectInFront, goLeftOrRight = semantic.ObjectInFrontOfChasedCar(image_segmentation,bbox)
-                        possibleAngle = predicted_angle
-                        # possibleAngle, drivableIndexes = semantic.FindPossibleAngle(image_segmentation,bbox,predicted_angle)
-                        # DrawDrivable(drivableIndexes,image_segmentation.width//10,image_segmentation.height//10, display)
+                        possibleAngle, drivableIndexes = semantic.FindPossibleAngle(image_segmentation,bbox,predicted_angle)
+
                         # print('predicted angle:',predicted_angle,'possible angle:',possibleAngle)
                         steer, throttle = drivingControlAdvanced.PredictSteerAndThrottle(predicted_distance, possibleAngle,None)
                     else:
@@ -636,6 +635,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     pygame.draw.line(display, BB_COLOR, points[1], points[5])
                     pygame.draw.line(display, BB_COLOR, points[2], points[6])
                     pygame.draw.line(display, BB_COLOR, points[3], points[7])
+                DrawDrivable(drivableIndexes, image_segmentation.width // 10, image_segmentation.height // 10, display)
 
                 real_dist = location1.location.distance(location2.location)
 
