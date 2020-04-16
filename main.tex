@@ -106,6 +106,8 @@
 
 % \end{document}
 
+% TODO the distance and the angle vs the distance and angle
+
 
 
 
@@ -177,9 +179,27 @@ The thesis has the following structure. First, a theoretical background of the c
 
 \chapter{Method}
 \section{Overview}
+The system architecture can be divided into three parts: perception and localization, trajectory planning and a trajectory controller.\par
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/bachelor_diagram4.pdf}
+    \caption{Simplified overview of the autonomous driving system}\label{f:overview}
+\end{figure}
+
+
+In the perception part we introduce a novel neural network that detects objects and segments image at the same time. It is able to find a 2D bounding box of the chased car. Furthermore, it segments image into a grid of $S\times S$ cells and makes a classification about each cell whether it's suitable for driving or not. The detection and segmentation is done with a single pass of the image through the neural network. \par
+
+Then, we estimate the angle and distance between the two cars based on the found bounding box of the chased car. In case no bounding box is found we extrapolate the distance and angle. \par
+
+After the perception and localization we plan the trajectory. At this stage we take advantage of the image segmentation. If the conditions allow, we try to drive straight at the last position of the chased car. However if that's not possible, we use the image segmentation and find a direction where it's possible to drive and that is closest to the position of the chased car. \par
+
+Finally, with the trajectory planned, we calculate the steer and throttle to drive the vehicle. We use a PID controller \cite{PID_orig} to control the throttle. It is done by taking into account the current as well as the previous distances between the chasing and chased car. On the other hand, we developed a Pure Pursuit \cite{pure_pursuit_orig} inspired algorithm to control the steering. \par
+
+The details of the method will be described in the following sections.
 
 \section{Computer vision}
-\subsection{Dual-purpose Neural Network}
+\subsection{Dual-task Neural Network}
 
 \subsection{Bounding Box Detector}
 In our work, a bounding box is the smallest box which encloses all pixels belonging to the chased RC car in an image. It is also axis-aligned and two dimensional. The detection is performed by a convolutional neural network \cite{CNN_Lecun} with a YOLOv3 neural network architecture \cite{YOLOv3}. \par 
