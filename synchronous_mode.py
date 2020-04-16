@@ -123,7 +123,7 @@ def BresenhamLine(x0,y0, x1,y1):
 
 import os
 def myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance, chaseMode=True):
-    # os.system('clear')
+    os.system('clear')
     if chaseMode == True:
         print('----- Chase mode -----')
     else:

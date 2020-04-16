@@ -3,14 +3,9 @@ import numpy as np
 class SemanticSegmentation:
     def __init__(self):
         self.counter = 0
-        self.lastpixelXCar = -1
-        self.lastpixelYCar = -1
-        self.lastMaxAngle = 0
         self.imageWidth = 0
         self.imageHeight = 0
 
-        self.prevAngle = 0
-        self.arrNBadPixels = []
         self.CoordRectangles = [] #y,x
 
         self.lastN = 5
@@ -36,6 +31,7 @@ class SemanticSegmentation:
                 if array[i][j][2] == 10:
                     return True
         return False
+
 
     def BresenhamLineSample(self,arr, k):
         if k >= len(arr):
@@ -92,13 +88,6 @@ class SemanticSegmentation:
             D = D + 2 * dy
         return coords
 
-    def IsThePointInsideElipse(self,x,y):
-        y = self.imageHeight-y
-        halfWidth = self.imageWidth//2
-        halfHeight = self.imageHeight//2
-        val = ((x-halfWidth)**2)/float((halfWidth//1)**2) + (y**2)/float((halfHeight//1)**2)
-        return val <= 1
-
     def GetPercentage(self,middleX,xCoord, currentPredictedX, otherSide=False):
         overallDistX = abs(currentPredictedX - middleX)
         distFromMiddle = abs(middleX - xCoord)
@@ -107,46 +96,6 @@ class SemanticSegmentation:
         if otherSide:
             percentage = -1 * percentage
         return percentage
-
-
-    def AngleBasedOnPreviousAngle(self, currentCarAngle):
-        # with open('test.txt','a') as f:
-        #     f.write(str(self.prevAngle) + '\n')
-        #     f.write(str(self.arrNBadPixels) + '\n')
-        # print(self.prevAngle)
-        # print(self.arrNBadPixels)
-        # add +1 to everyone,
-        b = True
-        arrMax = 0
-        for i in range(len(self.arrNBadPixels)):
-            if self.arrNBadPixels[i][0] != 0 and abs(self.arrNBadPixels[i][2] - 1) < 0.15:
-                b = False
-            self.arrNBadPixels[i][0] += 1
-            if arrMax < self.arrNBadPixels[i][0]:
-                arrMax = self.arrNBadPixels[i][0]
-        if b:
-            # with open('test.txt', 'a') as f:
-            #     f.write('CHANGE' + '\n')
-            return 1,0
-        tmp = [0 for i in range(len(self.arrNBadPixels))]
-        # add difference from prevAngle
-        # penalize change
-
-        for i in range(len(self.arrNBadPixels)):
-            tmp[i] += abs(self.prevAngle - (currentCarAngle*self.arrNBadPixels[i][2]))
-
-        tmpMax = np.max(tmp)
-        for i in range(len(self.arrNBadPixels)):
-            tmp[i] /= float(tmpMax)
-
-        for i in range(len(self.arrNBadPixels)):
-            self.arrNBadPixels[i][0] *= tmp[i]
-        self.arrNBadPixels.sort()
-        # with open('test.txt','a') as f:
-        #     f.write(str(currentCarAngle) + '\n')
-        #     f.write(str(self.prevAngle) + '\n')
-        #     f.write(str(self.arrNBadPixels) + '\n')
-        return self.arrNBadPixels[0][2], self.arrNBadPixels[0][1]
 
     def parse_segm(self,segmImage, obj):
         array = np.frombuffer(segmImage.raw_data, dtype=np.dtype("uint8"))
@@ -256,19 +205,16 @@ class SemanticSegmentation:
                 closestRectIndex = self.FindClosestRect(coords[i][0], coords[i][1])
                 if drivableIndexes[closestRectIndex] == 0:
                     possible = False
-                    print('False')
-                else:
-                    print('True')
             if possible:
-                print('It is possible')
+                # print('It is possible')
                 return maxAngle, drivableIndexes
             else:
-                print('It is not possible')
+                # print('It is not possible')
                 closestRectIndex = self.FindClosestRect(x_Middle, y_Middle)
                 line = closestRectIndex//10 #TODO if the number of rectangles changes
                 if line == 9:
                     return 0, drivableIndexes
-                print('Line:',line,closestRectIndex)
+                # print('Line:',line,closestRectIndex)
                 mostDrivable = 0
                 mostDrivableIndex = 0
                 for j in range(10):
@@ -285,7 +231,7 @@ class SemanticSegmentation:
                     if current > mostDrivable:
                         mostDrivable = current
                         mostDrivableIndex = line*10+j
-                print(mostDrivableIndex, self.CoordRectangles[mostDrivableIndex][1],x_Middle)
+                # print(mostDrivableIndex, self.CoordRectangles[mostDrivableIndex][1],x_Middle)
 
                 percentage = self.GetPercentage(self.imageWidth//2,self.CoordRectangles[mostDrivableIndex][1],x_Middle)
                 # Trick to see if the drivable x coordinate and extrapoled X coordinate are on the same side of the image
@@ -296,151 +242,3 @@ class SemanticSegmentation:
             self.counter += 1
             return maxAngle, []
         return maxAngle, drivableIndexes
-
-
-
-    def FindPossibleAnglePrev(self, segmImage, bbox, maxAngle):
-        self.imageHeight = segmImage.height
-        self.imageWidth = segmImage.width
-        bestBadPixels = 1000000
-        XBestBadPixels = 0
-        bestPercentage = 0
-
-        self.arrNBadPixels = []
-
-
-        if self.counter > 30:
-            array = np.frombuffer(segmImage.raw_data, dtype=np.dtype("uint8"))
-            array = np.reshape(array, (segmImage.height, segmImage.width, 4))
-            if self.lastpixelYCar == -1:
-                self.lastpixelXCar = segmImage.width//2
-                self.lastpixelYCar = segmImage.height//2
-            if len(bbox) != 0:
-                xCoordTo = (int(bbox[1, 0]) + int(bbox[2, 0])) // 2
-                yCoordTo = int(bbox[1, 1])
-                self.lastpixelXCar = xCoordTo
-                self.lastpixelYCar = yCoordTo
-                self.lastMaxAngle = maxAngle
-
-            prevDiffX = self.lastpixelXCar - (self.imageWidth//2)
-            if self.lastMaxAngle != 0:
-                currentDiffX = maxAngle/float(self.lastMaxAngle) * prevDiffX
-                currentPredictedX = int((self.imageWidth//2) + currentDiffX)
-            else:
-                currentPredictedX = self.lastpixelXCar
-
-            middleX = segmImage.width//2
-            if middleX >= currentPredictedX:
-                XCoordsToCheck = np.arange(currentPredictedX,middleX+1,1)
-            else:
-                XCoordsToCheck = np.arange(currentPredictedX,middleX-1,-1)
-
-            XCoordsToCheck = self.BresenhamLineSample(XCoordsToCheck,20) #optimisation
-            for xCoord in XCoordsToCheck:
-                coords = self.BresenhamLine(self.imageWidth//2,self.imageHeight-1,xCoord,self.lastpixelYCar)
-                badPixels = 0
-                for coord in coords:
-                    if self.IsThePointInsideElipse(coord[0],coord[1]) and coord[1] < int(segmImage.height) and coord[0] < int(segmImage.width)\
-                            and coord[1] >= 0 and coord[0] >= 0:
-                        if array[coord[1]][coord[0]][2] != 7 and array[coord[1]][coord[0]][2] != 6:
-                            badPixels += 1
-
-                # if badPixels == 0:
-                #     res = []
-                #     for coord in coords:
-                #         if self.IsThePointInsideElipse(coord[0], coord[1]):
-                #             res.append([coord[0],coord[1]])
-                #     percentage = self.GetPercentage(middleX,xCoord,currentPredictedX)
-                #     return percentage*maxAngle, res
-
-                if bestBadPixels > badPixels:
-                    bestBadPixels = badPixels
-                    XBestBadPixels = xCoord
-                    bestPercentage = self.GetPercentage(middleX,xCoord,currentPredictedX)
-                self.arrNBadPixels.append([badPixels,xCoord,self.GetPercentage(middleX,xCoord,currentPredictedX)])
-
-            # check other side
-            if middleX >= currentPredictedX:
-                XCoordsToCheck = np.arange(middleX, self.imageWidth,1)
-            else:
-                XCoordsToCheck = np.arange(middleX,0,-1)
-
-            XCoordsToCheck = self.BresenhamLineSample(XCoordsToCheck, 20)  # optimisation
-            for xCoord in XCoordsToCheck:
-                coords = self.BresenhamLine(self.imageWidth//2,self.imageHeight-1,xCoord,self.lastpixelYCar)
-                badPixels = 0
-                for coord in coords:
-                    if self.IsThePointInsideElipse(coord[0],coord[1]) and coord[1] < int(segmImage.height) and coord[0] < int(segmImage.width)\
-                            and coord[1] >= 0 and coord[0] >= 0:
-                        if array[coord[1]][coord[0]][2] != 7 and array[coord[1]][coord[0]][2] != 6:
-                            badPixels += 1
-                if bestBadPixels > badPixels:
-                    bestBadPixels = badPixels
-                    XBestBadPixels = xCoord
-                    bestPercentage = self.GetPercentage(middleX,xCoord,currentPredictedX,True)
-                self.arrNBadPixels.append([badPixels,xCoord,self.GetPercentage(middleX,xCoord,currentPredictedX,True)])
-
-                # if badPixels == 0:
-                #     res = []
-                #     for coord in coords:
-                #         if self.IsThePointInsideElipse(coord[0], coord[1]):
-                #             res.append([coord[0],coord[1]])
-                #     percentage = self.GetPercentage(middleX,xCoord,currentPredictedX,True)
-                #
-                #     return percentage*maxAngle, res
-
-            bestPercentage, XBestBadPixels = self.AngleBasedOnPreviousAngle(maxAngle)
-            res = []
-            coords = self.BresenhamLine(self.imageWidth // 2, self.imageHeight - 1, XBestBadPixels, self.lastpixelYCar)
-            for coord in coords:
-                if self.IsThePointInsideElipse(coord[0], coord[1]):
-                    res.append([coord[0], coord[1]])
-
-            self.prevAngle = bestPercentage * maxAngle
-            return bestPercentage * maxAngle, res
-
-        else:
-            self.prevAngle = maxAngle
-            self.counter += 1
-        return maxAngle, []
-
-
-    def ObjectInFrontOfChasedCar(self, segmImage, bbox):
-        if self.counter > 30:
-            if len(bbox) != 0:
-                xCoordTo = (int(bbox[1, 0]) + int(bbox[2, 0])) // 2
-                yCoordTo = int(bbox[1, 1])
-                self.lastpixelXCar = xCoordTo
-                self.lastpixelYCar = yCoordTo
-                print('using bbox')
-            else:
-                xCoordTo = segmImage.width//2
-                yCoordTo = segmImage.height//2
-
-            # print(segmImage.raw_data)
-            array = np.frombuffer(segmImage.raw_data, dtype=np.dtype("uint8"))
-            array = np.reshape(array, (segmImage.height, segmImage.width, 4))
-            # carDetected = False
-            for i in range(segmImage.height - yCoordTo):
-                if array[segmImage.height-i-1][xCoordTo][2] == 10:
-                    # carDetected = True
-                    # print('CAR DETECTED')
-                    return False, ''
-                elif array[segmImage.height-i-1][xCoordTo][2] == 1 or array[segmImage.height-i-1][xCoordTo][2] == 2 or array[segmImage.height-i-1][xCoordTo][2] == 4 or \
-                        array[segmImage.height-i-1][xCoordTo][2] == 11 or array[segmImage.height-i-1][xCoordTo][2] == 12:
-                    print('BUILDING, CAREFUL')
-                    for j in range(segmImage.width//2-1):
-                        if array[segmImage.height-i-1][xCoordTo+j][2] != 1 and array[segmImage.height-i-1][xCoordTo+j][2] != 2 and array[segmImage.height-i-1][xCoordTo+j][2] != 4 and \
-                                array[segmImage.height-i-1][xCoordTo+j][2] != 11 and array[segmImage.height-i-1][xCoordTo+j][2] != 12:
-                            print('GO RIGHT')
-                            return True, 'RIGHT'
-                        elif array[segmImage.height-i-1][xCoordTo-1][2] != 1 and array[segmImage.height-i-1][xCoordTo-1][2] != 2 and array[segmImage.height-i-1][xCoordTo-1][2] != 4 and \
-                                array[segmImage.height-i-1][xCoordTo-1][2] != 11 and array[segmImage.height-i-1][xCoordTo-1][2] != 12:
-                            print('GO LEFT')
-                            return True, 'LEFT'
-        else:
-            self.counter += 1
-        return False, ''
-                # return True
-                # break
-        # print('TEEEST',array[0][400][2])
