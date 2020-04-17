@@ -200,6 +200,18 @@ The details of the method will be described in the following sections.
 
 \section{Computer vision}
 \subsection{Dual-task Neural Network}
+In this section, we introduce a novel neural network that solves two problems at once - object detection and semantic segmentation. \par
+
+The neural network shares the same backbone for both tasks -- a 53 layer feature extractor called Darknet-53 \cite{YOLOv3}. On top of feature extractor are two sets of layers -- one that gives the output for the object detection and the second that gives an output for the image segmentation. \par
+
+The main idea is in the training of the network. During training, when the network receives training batch of data for semantic segmentation, the output for the object detection is ignored and consequently only the shared layer and the segmentation layers are trained. Equivalently, when the network gets a batch containing object detection data, it updates the weights only on the shared layers and the detection layers. Therefore, the neural network uses two loss functions depending on the batch. \par
+
+During inference, the network works as follows. It is given an image, which passes through the network just once. From this, we get a object detection output as well as the semantic segmentation output. This means that while the training is slightly slower than training a single-task neural network, it is essentially just as fast during inference. \par
+
+For the purpose of autonomous driving the neural network architecture has many advantages over using two separate networks. First, as it was mentioned, it is much faster. That is crucial when driving autonomously, because we want to process as many frames per second as possible and have a fast reaction times to ultimately prevent accidents and crashes. Second, it uses less memory, because most of the network weights are shared. This can be also beneficial for the overall speed since more RAM is available, less disk swapping is required. Finally, it makes integration of the detection and segmentation into our autonomous RC car system a lot simpler.
+
+
+
 
 \subsection{Bounding Box Detector}
 In our work, a bounding box is the smallest box which encloses all pixels belonging to the chased RC car in an image. It is also axis-aligned and two dimensional. The detection is performed by a convolutional neural network \cite{CNN_Lecun} with a YOLOv3 neural network architecture \cite{YOLOv3}. \par 
