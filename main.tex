@@ -289,6 +289,23 @@ Afterwards, we update the $exp$ value and return it as the predicted estimate in
 \par This method allows us to extrapolate the angle and the distance very fast in a $\mathcal{O}(1)$ time and space complexity with almost no overhead.
 
 \subsection{Image Segmentation}
+In comparison to the semantic segmentation that links each pixel of the image to a class label, we segment image into a a $S\times S$ grid of cells that link each cell to a class label. In our work, we have chosen $S=10$ and only two classes. First class represents surfaces suitable for driving and the second class is everything else. \par
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/segmented_image.png}
+    
+    \caption{Segmented image from the RC car's camera. The image is segmented into $10\times 10$ grid of cells where the green cells represents drivable surface. The image is taken from our testing set}\label{f:chasing_diagram}
+\end{figure}
+
+To create a label for each cell during, we use semantic segmented image (an image that has each pixel of the image linked to a class label). Then, we calculate the number of pixels in a cell that belong to the class representing drivable surface. If the percentage of these pixels is higher than $P$ percentage of all the pixels in the cell, we assign the cell said label. In our work, we have chosen $P=50\%$.\par
+
+Since we have only two classes we can represent each cell label as binary 1 or 0. For this reason, we have chosen logistic loss function to train the network.
+
+\begin{equation}
+L_{log} = -\dfrac{1}{N} \sum_{i=1}^{N} y_i \cdot \log_{} (\hat{y_i}) + (1 - y_i) \cdot \log_{} (1-\hat{y_i})
+\end{equation}
+
 
 
 \section{Control And Planning}
@@ -305,8 +322,29 @@ Conversely to the pure pursuit algorithm, we also don't calculate the curvature 
 
 The value $\alpha$ represents the angle between the chasing and the chased car shown in the Figure \ref{f:chasing_diagram}. The $steer$ variable is a value in the [-1, 1] range, where -1 and 1 represent the highest left-turn and right-turn steering angle the car can make respectively. We square the result of the division, because the steering control on the RC car is non-linear. We don't square the divison in the CARLA simulation.
 
-% we dont use curvature because... update position often.. 
+
 \subsection{PID Controller}
+Despite being invented in the 1940s, the PID controller is the most common control algorithm. In a 2002 survey of over eleven thousand controllers from various industries, 97\% of regulatory controllers utilize PID feedback \cite{PID-usage}. 
+
+In our work, we use a PID controller to control the throttle of the chasing autonomous car. As the name sugggest it can be described with following equation:
+
+\begin{equation}
+throttle = P+I+D    
+\end{equation}
+The term $P$ called the proportional term is equal to a value proportional to the current error value $e_i$. In our case, the error value is $e_i = d_i - d_{optimal}$, where $d_i$ is the estimated distance between the chasing and the chased car, and $d_{optimal}$ is the optimal distance between the two cars that we are trying to maintain. Equivalently to the terms $I$ and $D$, the term $P$ is equal to a value that is multiplied by a weight $w_p$ which indicates the influence and importance of the term. Therefore, the term $P$ is described as $P = e_i\cdot w_p$ \par
+
+
+The term $I$ refers to the integration term. It integrates the errors over time. In our case, if the distances between the two cars continues to stay the same for a prolonged period of time, this term increases it's value. It is equal to $I = w_i\cdot \sum_{j=(i-K)}^{i} e_j$, where K is the number of frames representing the time we want to consider from the current frame. We used $K = 300$, which corresponds to the last 10 seconds.\par
+
+
+The last component of the equation -- $D$ refers to the derivation term. It's purpose is to decrease the rate of change and decrease oscillations of the error value. In our work $D = w_d\cdot (e_i-e_{i-1})$. \par
+
+
+To make the PID controller usable a person must first set the weights of the tree components. We have picked different weights for the CARLA simulation and for the RC car. In the CARLA simulation, we have analyzed over hundred sets of weights and picked the one that resulted in lowest average error ($e = d - d_{optimal}$). These values were $w_p=0.1$, $w_i=0$ and $w_d=1$. For the RC car, we have chosen the values based on trial and error. They were $w_p=0.25$, $w_i=0$ and $w_d=0.07$ \par
+
+The reason for choosing $w_i=0$ is pretty simple. While higher value of $w_i$ had positive effect on the average error, it cause the car to crash into the chased car. In many cases, if the car was not catching up it made the car go very fast and when it reached the desired distance, the car didn't slow fast enough resulting in a crash. Lowering the number of frames the integration part considers, did slightly help this issue. However, we decided not take the risk of braking a very expensive RC car.
+
+
 
 \chapter{Experiments}
 
