@@ -109,7 +109,7 @@ class CarDetector:
         return min(max(angle,-175),175)
 
 
-    def getDistance(self, vehicle, camera, carInTheImage=True):
+    def getDistance(self, vehicle, camera, carInTheImage=True, extrapolation=True):
         calibration = np.identity(3)
         calibration[0, 2] = VIEW_WIDTH / 2.0
         calibration[1, 2] = VIEW_HEIGHT / 2.0
@@ -122,8 +122,12 @@ class CarDetector:
             bounding_boxes = []
         if len(bounding_boxes) == 0:
             if len(self.lastNDistances) >= 2:
-                predicted_distance = 2 * self.lastNDistances[-1] - self.lastNDistances[-2] #simple extrapolation
-                predicted_angle = 2 * self.lastNAngles[-1] - self.lastNAngles[-2] #simple extrapolation
+                if extrapolation:
+                    predicted_distance = 2 * self.lastNDistances[-1] - self.lastNDistances[-2] #simple extrapolation
+                    predicted_angle = 2 * self.lastNAngles[-1] - self.lastNAngles[-2] #simple extrapolation
+                else:
+                    predicted_distance = self.lastNDistances[-1]
+                    predicted_angle = self.lastNAngles[-1]
 
                 predicted_angle = self.LimitAngles(predicted_angle)
                 self.exponentialMovingAverageDist = self.alpha * predicted_distance + (1 - self.alpha) * self.exponentialMovingAverageDist
@@ -136,8 +140,10 @@ class CarDetector:
                     self.lastNAngles = self.lastNAngles[1:]
 
                 # print('estimated angle:', predicted_angle)
-
-                return bounding_boxes, self.exponentialMovingAverageDist, self.exponentialMovingAverageAngle
+                if extrapolation:
+                    return bounding_boxes, self.exponentialMovingAverageDist, self.exponentialMovingAverageAngle
+                else:
+                    return bounding_boxes, self.lastNDistances[-1], self.lastNAngles[-1]
 
             return bounding_boxes, -1, 0
         bounding_boxes = bounding_boxes[0]

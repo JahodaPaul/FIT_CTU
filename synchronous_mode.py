@@ -249,16 +249,15 @@ from pygame.locals import K_EQUALS
 #     raise RuntimeError('cannot import pygame, make sure pygame package is installed')
 
 class ManualControl(object):
-    def __init__(self):
-        #self.vehicle = vehicle
+    def __init__(self,filename):
         self.history = []
         self._control = carla.VehicleControl()
         self._steer_cache = 0.0
-        self.fileName = 'test.p'
+        self.outputDir = 'chaseOutput'
+        self.fileName = filename.split('/')[-1]
+        if self.fileName == '':
+            self.fileName = 'test.p'
         self.startRecording = False
-        #self.display = pygame.display.set_mode(
-        #    (200, 200),
-        #    pygame.HWSURFACE | pygame.DOUBLEBUF)
 
     def _parse_vehicle_keys(self, keys, milliseconds):
         self._control.throttle = 1.0 if keys[K_UP] or keys[K_w] else 0.0
@@ -295,8 +294,10 @@ class ManualControl(object):
             self.history.append([location.location.x, location.location.y, location.location.z, location.rotation.pitch, location.rotation.yaw, location.rotation.roll])
 
     def SaveHistoryToFile(self):
+        if not os.path.exists(self.outputDir):
+            os.mkdir(self.outputDir)
         if len(self.history) > 0:
-            pickle.dump(self.history,  open(self.fileName, "wb"))
+            pickle.dump(self.history,  open(os.path.join(self.outputDir,self.fileName), "wb"))
 
 
 class Evaluation():
@@ -352,7 +353,11 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
     else:
         drivingControlAdvanced = DrivingControlAdvanced(optimalDistance=optimalDistance)
     visualisation = VizualizeDrivingPath()
-    myControl = ManualControl()
+    myControl = ManualControl(driveName)
+    myControl.startRecording = True
+    advanced = False
+    extrapolate = False
+
     evaluation = Evaluation()
     semantic = SemanticSegmentation()
 
@@ -374,6 +379,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
     world = client.get_world()
 
     vehicleToFollowSpawned = False
+
 
 
     try:
@@ -481,8 +487,9 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     elif abs(rotation1.yaw - 90.0) < 45.0:
                         print('4')
                         start_pose2.location.y = start_pose.location.y + 5
+                    # print(blueprint_library)
+                    bp = blueprint_library.filter('model3')[0]
 
-                    bp = blueprint_library.filter('tesla')[0]
                     bp.set_attribute('color', '204,0,204')
                     vehicleToFollow = world.spawn_actor(
                         bp,
@@ -507,8 +514,8 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     vehicle.set_transform(start_pose)
 
                     start_pose2 = random.choice(m.get_spawn_points())
-
-                    bp = blueprint_library.filter('tesla')[0]
+                    # print(blueprint_library)
+                    bp = blueprint_library.filter('model3')[0]
                     bp.set_attribute('color', '204,0,204')
                     vehicleToFollow = world.spawn_actor(
                         bp,
@@ -553,15 +560,17 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 location2 = vehicleToFollow.get_transform()
 
                 myControl.SaveCarPosition(location1)
+                # myControl.SaveCarPosition(location2)
                 newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x, location1.location.y,location1.rotation.yaw)
                 angle = carDetector.getAngle([location1.location.x, location1.location.y], [newX, newY],
                                              [location2.location.x, location2.location.y])
 
                 possibleAngle = 0
                 drivableIndexes = []
+                bbox = []
                 if chaseMode:
                     carInTheImage = semantic.IsThereACarInThePicture(image_segmentation)
-                    bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage)
+                    bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage,extrapolation=extrapolate)
 
 
                     if len(bbox) != 0:
@@ -570,7 +579,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
                     # print('real angle:', angle)
 
-                    if True:
+                    if advanced:
                         # objectInFront, goLeftOrRight = semantic.ObjectInFrontOfChasedCar(image_segmentation,bbox)
                         possibleAngle, drivableIndexes = semantic.FindPossibleAngle(image_segmentation,bbox,predicted_angle)
 
@@ -638,16 +647,16 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 DrawDrivable(drivableIndexes, image_segmentation.width // 10, image_segmentation.height // 10, display)
 
                 real_dist = location1.location.distance(location2.location)
-
-                myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance,chaseMode)
+                if chaseMode or followMode:
+                    myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance,chaseMode)
                 pygame.display.flip()
     except Exception as ex:
         print(ex)
     finally:
         print('Ending')
-        # if evaluateChasingCar:
-        #     evaluation.WriteIntoFileFinal(os.path.join('res',resultsName+'.txt'),driveName=driveName)
-        # myControl.SaveHistoryToFile()
+        if evaluateChasingCar:
+            evaluation.WriteIntoFileFinal(os.path.join('res',resultsName+'.txt'),driveName=driveName)
+        myControl.SaveHistoryToFile()
         print('destroying actors.')
         for actor in actor_list:
             actor.destroy()
@@ -658,34 +667,35 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 import os
 if __name__ == '__main__':
 
-    Ps = [0.01,0.1,0.5,1]
-    Is = [0,0.001,0.01,0.1,0.5]
-    Ds = [0.1,0.2,0.5,1,4]
+    # Ps = [0.01,0.1,0.5,1]
+    # Is = [0,0.001,0.01,0.1,0.5]
+    # Ds = [0.1,0.2,0.5,1,4]
     cnt = 0
-    for p in Ps:
-        for i in Is:
-            for d in Ds:
-                try:
-                    optimalDistance = 8
-                    followDrivenPath = True
-                    evaluateChasingCar = True
-                    record = False
-                    chaseMode = True
-                    followMode = False
+    # for p in Ps:
+    #     for i in Is:
+    #         for d in Ds:
+    try:
+        optimalDistance = 8
+        followDrivenPath = True
+        evaluateChasingCar = True
+        record = False
+        chaseMode = True
+        followMode = False
 
-                    drivesDir = 'drives'
-                    drivesFileNames = os.listdir(drivesDir)
-                    drivesFileNames.sort()
+        drivesDir = 'drives'
+        drivesFileNames = os.listdir(drivesDir)
+        drivesFileNames.sort()
 
-                    drivesFileNames = ['ride10.p']
-                    if evaluateChasingCar:
-                        for fileName in drivesFileNames:
-                            main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode,
-                                 resultsName=str(p)+'_'+str(i)+'_'+str(d),P=p,I=i,D=d)
-                    else:
-                        main(optimalDistance=optimalDistance, followDrivenPath=followDrivenPath, chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,followMode=followMode)
+        # drivesFileNames = ['ride3.p']
+        # drivesFileNames = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p']
+        drivesFileNames = ['ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
+        if evaluateChasingCar:
+            for fileName in drivesFileNames:
+                main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode)
+        else:
+            main(optimalDistance=optimalDistance, followDrivenPath=followDrivenPath, chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,followMode=followMode)
 
-                except Exception as ex:
-                    with open('problem.txt','a') as f:
-                        f.write('problem\n')
+    except Exception as ex:
+        with open('problem.txt','a') as f:
+            f.write(str(ex)+'\n')
                     # print('\nCancelled by user. Bye!')

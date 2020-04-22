@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 class SemanticSegmentation:
     def __init__(self):
@@ -31,6 +32,9 @@ class SemanticSegmentation:
                 if array[i][j][2] == 10:
                     return True
         return False
+
+    def EuclidianDistance(self,x1,x2,y1,y2):
+        return math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))
 
 
     def BresenhamLineSample(self,arr, k):
@@ -162,6 +166,7 @@ class SemanticSegmentation:
         self.imageWidth = segmImage.width
 
         if self.counter >= 30:
+            #Find bounding box
             xMin, xMax, yMin, yMax = -1, -1, -1, -1
             if len(bbox) != 0:
                 points = [[int(bbox[i, 0]), int(bbox[i, 1])] for i in range(8)]
@@ -206,16 +211,19 @@ class SemanticSegmentation:
                 if drivableIndexes[closestRectIndex] == 0:
                     possible = False
             if possible:
-                # print('It is possible')
+                # Can drive straight
                 return maxAngle, drivableIndexes
             else:
-                # print('It is not possible')
+                # Need to find another path
                 closestRectIndex = self.FindClosestRect(x_Middle, y_Middle)
                 line = closestRectIndex//10 #TODO if the number of rectangles changes
                 if line == 9:
                     return 0, drivableIndexes
                 # print('Line:',line,closestRectIndex)
-                mostDrivable = 0
+                drivability = []
+                closeness = []
+
+                goodnessScore = []
                 mostDrivableIndex = 0
                 for j in range(10):
                     closestRectIndex = line*10+j
@@ -228,10 +236,17 @@ class SemanticSegmentation:
                         closestRectIndex = self.FindClosestRect(coords[i][0], coords[i][1])
                         if drivableIndexes[closestRectIndex] == 1:
                             current += 1
-                    if current > mostDrivable:
-                        mostDrivable = current
-                        mostDrivableIndex = line*10+j
+                    drivability.append(current)
+                    closeness.append(self.EuclidianDistance(self.CoordRectangles[closestRectIndex][1],x_Middle,self.CoordRectangles[closestRectIndex][0],y_Middle))
+                    # if current > mostDrivable:
+                    #     mostDrivable = current
+                    #     mostDrivableIndex = line*10+j
                 # print(mostDrivableIndex, self.CoordRectangles[mostDrivableIndex][1],x_Middle)
+                closeness = np.array(closeness)/float(np.max(closeness))
+                closeness = 1.0 - closeness
+                for i in range(len(drivability)):
+                    goodnessScore.append(closeness[i]+float(drivability[i]))
+                mostDrivableIndex = line*10 + np.argmax(goodnessScore)
 
                 percentage = self.GetPercentage(self.imageWidth//2,self.CoordRectangles[mostDrivableIndex][1],x_Middle)
                 # Trick to see if the drivable x coordinate and extrapoled X coordinate are on the same side of the image
