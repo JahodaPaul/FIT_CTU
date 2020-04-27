@@ -128,8 +128,8 @@
 	supervisor-address = {Czech Technical University in Prague Faculty of Electrical Engineering  \\
 	Center for Machine Perception},
 	fieldofstudy-english = {Knowledge Engineering},
-	keywords-czech = {samořídíci auto, RC auto, pronásledování, autonomní řízení, hluboké učení, CARLA, simulace},
-	keywords-english = {self-driving car, RC car, chasing, autonomous driving, deep learning, CARLA, simulation},
+	keywords-czech = {samořídíci auto, RC auto, víceúlohové učení, autonomní řízení, hluboké učení, CARLA, simulace},
+	keywords-english = {self-driving car, RC car, multi-task learning, autonomous driving, deep learning, CARLA, simulation},
 	month = 5,
 	year = 2020,
 }
@@ -137,11 +137,21 @@
 \ctuprocess
 
 \begin{abstract-english}
-We develop \ldots
+
+Safe autonomous driving system must have fast reaction times to ultimately prevent accidents and crashes. A car chase is a situation that requires such fast reaction times.
+
+
+In our work, we introduce a novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarsened semantic segmentation. Furthermore, we have developed an autonomous driving system that uses the dual-task neural network. The system has been integrated into a subscale vehicle platform attached to a high-speed RC car and has been evaluated by autonomously chasing another vehicle. The system architecture and results of the evaluation are presented. 
+
 \end{abstract-english}
 
+
+
 \begin{abstract-czech}
-Rozvíjíme \ldots
+Bezpečné autonomní řízení musí mít rychlé reakce, aby bylo možné předejít nehodám a srážkám. Pronásledování auta je situace, která vyžaduje tyto rychlé reakce.
+
+
+V naší práci představujeme novou víceúlohovou konvoluční neuronovou síť schopnou současně detekovat objekty a hrubě semánticky segmentovat obrázky. Dále jsme vytvořili autonomní řídící systém, který tuto víceúlohovou neuronovou síť využívá. Tento systém byl integrován do do platformy nazvané "subscale vehicle platform" připevněné na velmi rychlé RC auto na kterém byl následné systém testován pronásledováním dalšího vozidla. V této práci je prezentována achitektura systému a výsledky evaluace.
 \end{abstract-czech}
 
 % Acknowledgements / Podekovani
@@ -243,8 +253,10 @@ The first version of the YOLO published in 2015 \cite{YOLO}, made a great improv
     \caption{Diagram showing YOLO neural network mechanism, adopted from \protect\cite{YOLO}}\label{f:YOLO}
 \end{figure}
 
-The YOLO neural network divides an image into $S\times S$ grid of cells. Each cell makes $K$ bounding box predictions. For each object in the image, the cell that has the center of the object inside is responsible for predicting its bounding box. This can be seen in the top middle image in the Figure \ref{f:YOLO}. Concurrently, each cell outputs $C$ values where each value represents a predicted probability of whether an object from a class $C_i$ is in the cell. The resulting class map from these predicted probabilities are seen in the bottom middle image in the Figure \ref{f:YOLO}. Both of these predictions -- the class probabilities and the bounding box predictions -- are then used together to make detection and classification of the objects in the image.
+The YOLO neural network divides an image into $S\times S$ grid of cells. Each cell makes $K$ bounding box predictions. Each prediction is a set of numbers such as width, height and the $(x,y)$ coordinates of the center of the bounding box. For each object in the image, the cell that has the center of the object inside is responsible for predicting its bounding box. This can be seen in the top middle image in the Figure \ref{f:YOLO}. Concurrently, each cell outputs $C$ values where each value represents a predicted probability of whether an object from a class $C_i$ is in the cell. The resulting class map from these predicted probabilities are seen in the bottom middle image in the Figure \ref{f:YOLO}. Both of these predictions -- the class probabilities and the bounding box predictions -- are then used together to make detection and classification of the objects in the image.
 \par
+
+During training, YOLO optimizes multi-task loss function. It concurrently optimizes the bounding box regression as well the class probabilities predictions.
 
 
 Two years after introducing YOLO, the second version of called YOLO9000 \cite{YOLO9000} was introduced. In the first version of YOLO, each cell makes $K$ bounding box predictions of a random size. This was improved by calculating the expected bounding box sizes by clustering the bounding boxes of the training set. These expected bounding boxes are called anchors or priors. Furthermore, YOLO9000 also uses different network architecture called Darknet-19 and enables detection on different image sizes. \par
@@ -253,7 +265,7 @@ Two years after introducing YOLO, the second version of called YOLO9000 \cite{YO
 The third version of the YOLO architecture \cite{YOLOv3} improves YOLO in two main ways. Firstly, it adds more layers to the Darknet network architecture. Secondly, inspired by Feature Pyramid Networks \cite{FPN}, it predicts boxes at 3 different scales. To be specific, instead of dividing the image into $S\times S$ grid of cells, YOLOv3 divides it into $S\times S$, $(S\cdot2)\times (S\cdot2)$ and a $(S\cdot4)\times (S\cdot4)$ grid of cells. This helps the neural network to detect objects across a larger range of scales.
 
 
-In our work, we have used the YOLOv3 detector pre-trained on a COCO dataset consisting of more than 330 000 images with objects from 80 different classes \cite{COCO_dataset}. The neural network was fine-tuned on our dataset that has 460 images of the chased RC car. During fine-tuning, only the final layers that follow the Darknet-53 feature extractor were updated.
+In our work, we have used the YOLOv3 detector pre-trained on a COCO dataset consisting of more than 330 000 images with objects from 80 different classes \cite{COCO_dataset}. The neural network was fine-tuned on our dataset that has 460 images of the chased RC car. The dataset is described in Section \ref{s:detection_dataset}. During fine-tuning, only the final layers that follow the Darknet-53 feature extractor were updated.
 
 
 
@@ -292,7 +304,7 @@ r_{31} & r_{32} & r_{33} & t_{3}\\
 \begin{bmatrix}x\\y\\z\\1\end{bmatrix}
 \end{equation}
 
-In our case, the image points $p_{image}$ are the bounding box corners of the detected car. We also estimated the world coordinates $p_{world}$ by measuring the width and height of the chased RC car. Finally, the intrinsic camera parameters such as focal lengths $f_x$ and $f_y$ were taken from official calibration the ZED camera. Then, we plugged these values into an OpenCV \cite{opencv_library} library function which gave us the translation and rotation vectors. Afterwards, we calculated the distance $d$ by calculating the Euclidean distance between the translation vector $\mathbf{T}$ and the origin. Similarly, we extracted the desired estimated angle $\varphi$ by calculating arc tangent of the rotation vector. 
+In our case, the image points $p_{image}$ are the bounding box corners of the detected car. We also estimated the world coordinates $p_{world}$ by measuring the width and height of the chased RC car. Finally, the intrinsic camera parameters such as focal lengths $f_x$ and $f_y$ were taken from official calibration of the ZED camera. Then, we plugged these values into an OpenCV \cite{opencv_library} library function which gave us the translation and rotation vectors. Afterwards, we calculated the distance $d$ by calculating the Euclidean distance between the translation vector $\mathbf{T}$ and the origin. Similarly, we extracted the desired estimated angle $\varphi$ by calculating arc tangent of the rotation vector. 
 
 Finally, since we are using a stereo camera and the camera lens which was used is not in the center of the front of the car, we converted the calculated angle and distance as if the camera was in the center of the front of the car. We achieve this by a simple triangulation.
 
@@ -323,7 +335,7 @@ If the chased car is detected at $i$th frame, we set $d_i$ equal to the predicte
 d_{extrapolated} = 2\cdot d_{i-1} - d_{i-2}
 \end{equation}
 
-Afterwards, we output the variable $\hat{e_{i}}$ as our estimate for $i$th frame in case no bounding box was detected. Finally, we set $d_i = d_{extrapolated}$ for future linear extrapolation computations. \par
+Afterwards, we output the variable $\hat{e_{i}}$ as our estimate for $i$th frame in case no bounding box was detected. Then, we set $d_i = d_{extrapolated}$ for future linear extrapolation computations. Finally, each extrapolated angle is processed by a saturation block that limits the output values. The saturation limits are -175 and 175 degrees. \par
 
 
 This method allows us to extrapolate the angle and the distance very fast in a $\mathcal{O}(1)$ time and space complexity with almost no overhead.
@@ -352,13 +364,12 @@ L_{log} = -\dfrac{1}{N} \sum_{i=1}^{N} y_i \cdot \log_{} (\hat{y_i}) + (1 - y_i)
 \end{equation}
 
 Where $N$ is the number of images per batch, $\hat{y_i}$ are the predicted segmentation values of the neural network for the $i$th image in the batch and $y_i$ are its labels. 
-%TODO where L_log is..
 
 
 
 
 \section{Control And Planning}
-In this section, we will explain how we control the steering and throttle of the vehicle based on the extracted information from the camera. Conversely to many algorithms, we control steering and throttle separately. Steering control is inspired by pure pursuit algorithm and throttle is controlled by a PID controlled.
+In this section, we will explain how we control the steering and throttle of the vehicle based on the extracted information from the camera. Conversely to many algorithms \cite{Broggi2013}\cite{Werling2010}, we control steering and throttle separately. Steering control is inspired by pure pursuit algorithm and throttle is controlled by a PID controlled.
 
 
 \subsection{Pure Pursuit Inspired Algorithm} \label{sec:pure_pursuit}
@@ -398,7 +409,7 @@ The term $I$ refers to the integration term. It integrates the errors over time.
 The last component of the equation -- $D$ refers to the derivation term. Its purpose is to decrease the rate of change and decrease oscillations of the error value. In our work $D = w_d\cdot (e_i-e_{i-1})$. \par
 
 
-To make the PID controller usable based on the dynamics of the system, weights of the three components must be set. We have picked different weights for the CARLA simulation and the RC car. In the CARLA simulation, we have analyzed over a hundred sets of weights and picked the one that resulted in the lowest average error ($e = d - d_{desired}$). These values were $w_p=0.1$, $w_i=0$ and $w_d=1$. For the RC car, we have chosen the values based on trial and error. They were $w_p=0.25$, $w_i=0$ and $w_d=0.07$ \par
+To make the PID controller usable based on the dynamics of the system, weights of the three components must be set. We have picked different weights for the CARLA simulation and the RC car. In the CARLA simulation, we have analyzed over a hundred sets of weights and picked the one that resulted in the lowest average error ($e = d - d_{desired}$). These values were $w_p=0.1$, $w_i=0$ and $w_d=1$. For the RC car, we have chosen the values based on trial and error. They were $w_p=0.25$, $w_i=0$ and $w_d=0.07$. Finally, we saturate the output to the [0, 1] range. \par
 
 
 The reason for choosing $w_i=0$ is pretty simple. While higher value of $w_i$ had a positive effect on the average error, it caused the car to crash into the chased car. In many cases, if the car was not catching up it made the car drive very fast and when it reached the desired distance, the car didn't slow fast enough resulting in a crash. Lowering the number of frames the integration part considers, did slightly help this issue. However, we decided not to take the risk of breaking a very expensive subscale vehicle platform attached to the RC car.
@@ -408,16 +419,23 @@ The reason for choosing $w_i=0$ is pretty simple. While higher value of $w_i$ ha
 \chapter{Experiments}
 
 \section{Vehicle Detection}
-\subsection{Dataset}
-In order to train and evaluate 2D object detector capable of creating 2D bounding box around the chased RC car in a image, a dataset was needed. The collected dataset consists of \textbf{440} annotated images. All image annotations are in the PASCAL VOC data format introduced in the PASCAL Visual Object Classes Challenge \cite{pascal-voc}. Each image has it's annotation that contains pixel coordinates of the bounding box corners for each object in the image. In our dataset, only one object per image is annotated -- the chased RC car. The data were collected from multiple locations around Czechia and also under different lighting conditions. The majority of images were collected by the ZED Stereo camera attached to the chasing RC car. 
+\subsection{Dataset} \label{s:detection_dataset}
+In order to train and evaluate 2D object detector capable of creating 2D bounding box around the chased RC car in a image, a dataset was needed. The collected dataset consists of \textbf{460} annotated images. All image annotations are in the PASCAL VOC data format introduced in the PASCAL Visual Object Classes Challenge \cite{pascal-voc}. Each image has it's annotation that contains pixel coordinates of the bounding box corners for each object in the image. In our dataset, only one object per image is present -- the chased RC car. The data were collected from multiple locations around Czechia and also under different lighting conditions. The majority of images were collected by the ZED Stereo camera attached to the chasing RC car. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/dataset_collage.pdf}
+    
+    \caption{Detection dataset. Overview of the environment variability present in the dataset}\label{f:dataset_detection}
+\end{figure}
 
 
 \subsection{Detection Results}
-The collected dataset was split into three sets. The majority of 80\% of the images were randomly selected into training set, 10\% were randomly selected into validation set and the remaining images were used as a testing set. To evaluate the model, we calculated multiple values -- recall, precision, XY loss and WH loss. To understand recall and precision we need to first define IoU (Intersection over union). IoU measures how much the predicted bounding box overlaps with the ground truth (annotated bounding box). It is defines as 
+The collected dataset was split into three sets. The majority of 80\% of the images were randomly selected into training set, 10\% were randomly selected into validation set and the remaining images were used as a test set. To evaluate the model, we calculated multiple values -- recall, precision, XY loss and WH loss. To understand recall and precision we need to first define IoU (Intersection over union). IoU measures how much the predicted bounding box overlaps with the ground truth (annotated bounding box). It is defines as 
 \begin{equation}IoU = \cfrac{\textrm{Area of overlap}}{\textrm{Area of union}}\end{equation}
 
 When calculating precision and recall, we say that the predicition is either true positive or false positive when IoU is bigger than $0.5$. XY loss is calculated as a mean squared error (MSE) between the center of the predicted bounding box and the center of ground truth bounding box. WH loss on the other hand is the difference between width and height of the predicted bounding box and the ground truth bounding box. When calculating both of these values, coordinates and image dimensions have been scaled to the [0, 1] range. \par
-The model has been trained to minimize sum of the XY and WH losses. During training, the model with the lowest loss on the validation dataset has been saved.
+During training, the model with the lowest loss on the validation dataset has been saved.
 
 \begin{table}[]
 \begin{tabular}{l|llll}
@@ -446,7 +464,7 @@ All the simulation experiments were performed in CARLA -- an open-source simulat
 
 
 \subsection{Experiment Setup}
-In our work, we have chosen Tesla Model 3 as the chased car and TODO as the chasing car. Also, all the experiments were performed in a synchronous mode in which the simulation waits for the sensor data to be ready before sending the measurements as well as halts each frame until a control message is received \cite{CARLA}. \par
+In our work, we have chosen Tesla Model 3 as the chased car and Jeep Wrangler Rubicon as the chasing car. Also, all the experiments were performed in a synchronous mode in which the simulation waits for the sensor data to be ready before sending the measurements as well as halts each frame until a control message is received \cite{CARLA}. \par
 
 To perform the experiments we first collected a driving dataset. We used the Tesla Model 3 and drove it around the city. As the car was driven, its location and orientation was recorded at every frame. This way, we have created a database of 20 different drives with varying difficulty (in a sense of chasing the car). We used this database to evaluate the autonomous driving system. In the following experiments a chasing car was placed 2 meters behind the chased car. Then, we updated every frame the location and orientation of the chased car based on the saved coordinates in the dataset. Meanwhile the chasing vehicle was driven autonomously and trying to maintain desired distance from the pursued car. 
 
@@ -488,7 +506,7 @@ W/o Segm. and Ex. & 3               & 53.29\%                  & 1       & 14.49
 \end{table}
 
 
-\subsection{Detection Rate Experiment}
+\subsection{Detection Recall Experiment}
 
 \section{Real-world Testing}
 \subsection{RC Cars Description}
