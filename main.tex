@@ -443,8 +443,7 @@ During training, the model with the lowest loss on the validation dataset has be
             & Precision & Recall & XY loss & WH loss \\ \hline
 Testing set & 99.8\%    & 97.7\% & 0.066   & 0.227   \\ \hline
 \end{tabular}
-\label{tab:detection}
-\caption{Evaluation of the detector on a testing set}
+\caption{Evaluation of the detector on a testing set}\label{tab:detection}
 \end{table}
 
 
@@ -471,7 +470,7 @@ To perform the experiments we first collected a driving dataset. We used the Tes
 
 
 
-\subsection{Segmentation and Extrapolation Evaluation}
+\subsection{Segmentation and Extrapolation Evaluation} \label{s:experiment1}
 In the first experiment, we compare different versions of the algorithm. We evaluate the algorithm with its full functionality enabled as described in the Method section, we test the same algorithm without using rough image segmentation and finally evaluate the algorithm without image segmentation, and distance and angle extrapolation. \par
 
 
@@ -506,7 +505,20 @@ W/o Segm. and Ex. & 3               & 53.29\%                  & 1       & 14.49
 \end{table}
 
 
+
+
 \subsection{Detection Recall Experiment}
+As we can see in Table \ref{tab:detection} the recall of the detector is significantly lower than its precision. In this experiment, we investigate the effects of detectors recall on the ability of the autonomous driving system to chase another vehicle. Furthermore, we investigate how each of the tree versions of the system cope with different detection recall levels. Figure \ref{f:detection_recall} plots the average drive completion (of the 20 drives) described in Section \ref{s:experiment1} against the detection recall. 
+
+% todo - ADD figure
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/recall_chart.pdf}
+    
+    \caption{TODO}\label{f:detection_recall}
+\end{figure}
+
+
 
 \section{Real-world Testing}
 \subsection{RC Cars Description}
