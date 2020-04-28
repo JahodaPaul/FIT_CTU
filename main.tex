@@ -151,7 +151,7 @@ In our work, we introduce a novel dual-task convolutional neural network capable
 Bezpečné autonomní řízení musí mít rychlé reakce, aby bylo možné předejít nehodám a srážkám. Pronásledování auta je situace, která vyžaduje tyto rychlé reakce.
 
 
-V naší práci představujeme novou víceúlohovou konvoluční neuronovou síť schopnou současně detekovat objekty a hrubě semánticky segmentovat obrázky. Dále jsme vytvořili autonomní řídící systém, který tuto víceúlohovou neuronovou síť využívá. Tento systém byl integrován do do platformy nazvané "subscale vehicle platform" připevněné na velmi rychlé RC auto na kterém byl následné systém testován pronásledováním dalšího vozidla. V této práci je prezentována achitektura systému a výsledky evaluace.
+V naší práci představujeme novou víceúlohovou konvoluční neuronovou síť schopnou současně detekovat objekty a hrubě semánticky segmentovat obrázky. Dále jsme vytvořili autonomní řídící systém, který tuto víceúlohovou neuronovou síť využívá. Tento systém byl integrován do do platformy nazvané "subscale vehicle platform" připevněné na velmi rychlé RC auto na kterém byl následné systém testován pronásledováním dalšího vozidla. V této práci je prezentována architektura systému a výsledky evaluace.
 \end{abstract-czech}
 
 % Acknowledgements / Podekovani
@@ -195,7 +195,7 @@ The thesis has the following structure. First, a theoretical background of the c
 
 
 
-\chapter{Method}
+\chapter{Method}\label{s:method}
 \section{Overview}
 \begin{figure}[]
     \centering
@@ -448,7 +448,7 @@ Testing set & 99.8\%    & 97.7\% & 0.066   & 0.227   \\ \hline
 
 
 
-\begin{figure}[h!]
+\begin{figure}[]
     \centering
     \includegraphics[width=1\textwidth]{images/Collage_detection(1).pdf}
     
@@ -465,19 +465,30 @@ All the simulation experiments were performed in CARLA -- an open-source simulat
 \subsection{Experiment Setup}
 In our work, we have chosen Tesla Model 3 as the chased car and Jeep Wrangler Rubicon as the chasing car. Also, all the experiments were performed in a synchronous mode in which the simulation waits for the sensor data to be ready before sending the measurements as well as halts each frame until a control message is received \cite{CARLA}. \par
 
-To perform the experiments we first collected a driving dataset. We used the Tesla Model 3 and drove it around the city. As the car was driven, its location and orientation was recorded at every frame. This way, we have created a database of 20 different drives with varying difficulty (in a sense of chasing the car). We used this database to evaluate the autonomous driving system. In the following experiments a chasing car was placed 2 meters behind the chased car. Then, we updated every frame the location and orientation of the chased car based on the saved coordinates in the dataset. Meanwhile the chasing vehicle was driven autonomously and trying to maintain desired distance from the pursued car. 
 
+
+
+\subsubsection{Driving Dataset} \label{s:drivingDataset}
+To perform the experiments we first collected a driving dataset. We used the Tesla Model 3 and drove it around the city. As the car was driven, its location and orientation was recorded at every frame. This way, we have created a database of 20 different drives with varying difficulty (in a sense of chasing the car). We used this database to evaluate the autonomous driving system. In the following experiments a chasing car was placed 2 meters behind the chased car. Then, we updated every frame the location and orientation of the chased car based on the saved coordinates in the dataset. Meanwhile the chasing vehicle was driven autonomously and trying to maintain desired distance from the pursued car. \par
+
+
+We divide the dataset in two equal sized sets based on difficulty. The first set contains simple drives in which the car was driven slowly and without sudden turning and braking. Any changes such as turns were slow. The average speed in these drives is 34.77 km/h.\par
+
+
+On the other hand, the second set aims to test the algorithm to its limits. The drives include sudden braking, fast turns as well as cutting corners. Sometimes even drifts were performed. The average speed in these drives is 49.37 km/h. The average speed distribution of both of these sets can be seen in Figure \ref{f:speed_distribution}.
+
+
+\begin{figure}[]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/average_speeds4.pdf}
+    
+    \caption{Average speed distribution of the collected CARLA driving sets}\label{f:speed_distribution}
+\end{figure}
 
 
 
 \subsection{Segmentation and Extrapolation Evaluation} \label{s:experiment1}
-In the first experiment, we compare different versions of the algorithm. We evaluate the algorithm with its full functionality enabled as described in the Method section, we test the same algorithm without using rough image segmentation and finally evaluate the algorithm without image segmentation, and distance and angle extrapolation. \par
-
-
-We evaluate these verions on the driving dataset. We divide the dataset in two equal sized sets based on difficulty. The first set contains simple drives in which the car was driven slowly and without sudden turning and braking. Any changes such as turns were slow. The average speed in these drives is TODO\par
-
-
-On the other hand, the second set aims to test the algorithm to its limits. The drives include sudden braking, fast turns as well as cutting corners. Sometimes even drifts were performed. The average speed in these drives is TODO.
+In the first experiment, we compare different versions of the algorithm. We evaluate the algorithm with its full functionality enabled as described in Section \ref{s:method}, we also test the same algorithm without using coarsened image segmentation and finally evaluate the algorithm without the segmentation, and distance and angle extrapolation. We compare these versions on both of the sets described in Section \ref{s:drivingDataset}. We evaluated these versions using 5 indicators. Namely, an average root-mean-square error (RMSE) of the desired distance between the two cars and the actual distance between the two cars. The average mean absolute error (MAE) of the desired and the actual distance. The average number of crashes per drive. The average drive completion, which is based on how long the autonomous system was chasing the pursued car. To be specific, at the last position of the chasing car, we calculated the closest point on the chased car path. Then, we calculated the percentage that the part of path from the beginning point to this point accounts for. Finally, we evaluate the total number of finished drives. We consider the chase to be finished if the drive was at least 95\% completed.\par
 
 
 \begin{table}[]
@@ -489,8 +500,9 @@ Full Algorithm                         & 10       & 97.48\% & 0.1     & 9.28 & 1
 W/o Segmentation                    & 10       & 97.41\%          & 0.1     & 9.26 & 118.82 \\
 W/o Segm. and Ex. & 9        & 97.03\%          & 0.11    & 9.34 & 126.20 \\ \hline
 \end{tabular}
-\caption{Comparison of the different algorithm versions on the easy driving set}
+\caption{Comparison of the different algorithm versions on the easy driving set}\label{t:easy_drives}
 \end{table}
+
 
 \begin{table}[]
 \tabcolsep=0.11cm
@@ -501,21 +513,37 @@ Full Algorithm                         & 4               & \textbf{63.84\%}     
 W/o Segmentation                   & 4               & 54.76\%                  & 1.25    & 14.30 & 331.89 \\
 W/o Segm. and Ex. & 3               & 53.29\%                  & 1       & 14.49 & 357    \\ \hline
 \end{tabular}
-\caption{Comparison of the different algorithm versions on the difficult driving set}
+\caption{Comparison of the different algorithm versions on the difficult driving set}\label{t:difficult_drives}
 \end{table}
 
+Table \ref{t:easy_drives} shows all three versions of the system performing well with even the simplest version finishing most of the drives. \par
+Table \ref{t:difficult_drives} compares the versions using the difficult driving set. We can see, that the full versions of the algorithm performed significantly better than the remaining two versions. It achieved almost 10\% higher average drive completion than the next best evaluated version. We attribute this to the use of coarsened semantic segmentation. \par
+
+
+While performing the experiment, we saw that the use of coarsened semantic segmentation allowed the system to stay longer on the road in situations when the pursued car was not detected for prolonged period of time. For example, when the pursued car drove behind a building, both versions of the algorithm that use extrapolation correctly predicted the position of the pursued car. However, the algorithm that did not use segmentation drove straight into the building as it didn't have any information about its surrounding environment. Only the full version of the algorithm drove around the building and continued the chase.
 
 
 
 \subsection{Detection Recall Experiment}
-As we can see in Table \ref{tab:detection} the recall of the detector is significantly lower than its precision. In this experiment, we investigate the effects of detectors recall on the ability of the autonomous driving system to chase another vehicle. Furthermore, we investigate how each of the tree versions of the system cope with different detection recall levels. Figure \ref{f:detection_recall} plots the average drive completion (of the 20 drives) described in Section \ref{s:experiment1} against the detection recall. 
+As we can see in Table \ref{tab:detection} the recall of the detector is significantly lower than its precision. In this experiment, we investigate the effects of detectors recall on the ability of the autonomous driving system to chase another vehicle. The unsuccessful detections had a uniform distribution. Furthermore, we investigate how each of the tree versions of the system copes with different detection recall levels. Figure \ref{f:detection_recall} plots the average drive completion (of the 20 drives) described in Section \ref{s:experiment1} against the detection recall. \par
 
-% todo - ADD figure
-\begin{figure}[h!]
+
+\begin{figure}[]
     \centering
-    \includegraphics[width=1\textwidth]{images/recall_chart.pdf}
+    \includegraphics[width=1\textwidth]{images/recall_chart7.pdf}
     
-    \caption{TODO}\label{f:detection_recall}
+    \caption{Average drive completion plotted against detection recall. All drives included}\label{f:detection_recall}
+\end{figure}
+
+From Figure \ref{f:detection_recall} we can see, that the average drive completion steadily declines with decreasing detection recall and starts to plummet once the detection recall is at 25\%. Out of the three versions of the algorithm, the full version which uses coarsened semantic segmentation and angle and distance extrapolation of the pursued car, performs the best. It maintains above 80\% drive completion until the detection recall gets below 25\%. We attribute this achievement to the use of coarsened semantic segmentation. We base this assumption on the fact, that the version of the system that uses extrapolation, but does not use segmentation performs similarly to the version which doesn't use extrapolation nor the segmentation. \par
+
+Figure \ref{f:detection_recall_difficult} plots the average drive completion of the difficult driving set against detection recall. On this driving set, the full version of the algorithm performs even more significantly better than the other two versions. When the recall is at 60\% or lower, the average drive completion of the full version is almost 20\% higher than the average drive completion of the remaining two versions.
+
+\begin{figure}[]
+    \centering
+    \includegraphics[width=1\textwidth]{images/recall_chart7_difficult.pdf}
+    
+    \caption{Average drive completion plotted against detection recall. Only difficult drives included}\label{f:detection_recall_difficult}
 \end{figure}
 
 
@@ -530,7 +558,7 @@ The whole simplified process flow is as follows. First, an image is taken by cam
 \subsubsection{Chased RC car}
 The RC car used as the chased vehicle is a 1:10 scale "Losi XXX-SCR RTR". This electrically powered car has 0.55 x 0.29 meters length and width dimensions with reported maximal speed of up to 55 km/h.
 
-\begin{figure}[h!]
+\begin{figure}[]
     \centering
     \subfloat[Inside of the chasing RC car]{{\includegraphics[height=3.7cm]{images/inside.jpg} }}%
     \qquad
@@ -556,6 +584,9 @@ The RC car used as the chased vehicle is a 1:10 scale "Losi XXX-SCR RTR". This e
 
 
 \chapter{Conclusion}
+We have presented a novel dual-task convolutional neural network that concurrently detects objects and performs coarsened semantic segmentation. We have developed a system, capable of autonomously chasing another vehicle, that uses the dual-task network. We have extensively evaluated different versions of the system and have shown that the system benefits from using the coarsened semantic segmentation. Especially if the detector has low detection recall.\par
+Additionally, we have collected and annotated two datasets. The first is a object detection dataset consisting of 460 images of a pursued RC car. The second is a semantic segmentation dataset consisting of 460 annotated images segmented into drivable and non-drivable parts. We have then used these datasets to train the dual-task convolutional neural network using alternating optimization. \par
+Finally, we have integrated the system into a subscale vehicle platform attached to a high-speed RC car. We have demonstrated and documented \cite{my_yt_video} the system's ability to chase another car.
 
 \bibliography{citations}
 \bibliographystyle{IEEEtran}
