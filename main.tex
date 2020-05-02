@@ -1,116 +1,3 @@
-% % arara: xelatex
-% % arara: xelatex
-% % arara: xelatex
-
-
-% % options:
-% % thesis=B bachelor's thesis
-% % thesis=M master's thesis
-% % czech thesis in Czech language
-% % english thesis in English language
-% % hidelinks remove colour boxes around hyperlinks
-
-% \documentclass[thesis=B,english]{FITtemplates/FITthesis}[2019/12/23]
-
-% %\usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
-% % \usepackage[latin2]{inputenc} % LaTeX source encoded as ISO-8859-2
-% % \usepackage[cp1250]{inputenc} % LaTeX source encoded as Windows-1250
-
-% % \usepackage{subfig} %subfigures
-% % \usepackage{amsmath} %advanced maths
-% % \usepackage{amssymb} %additional math symbols
-
-% \usepackage{dirtree} %directory tree visualisation
-
-% % % list of acronyms
-% % \usepackage[acronym,nonumberlist,toc,numberedsection=autolabel]{glossaries}
-% % \iflanguage{czech}{\renewcommand*{\acronymname}{Seznam pou{\v z}it{\' y}ch zkratek}}{}
-% % \makeglossaries
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-% % EDIT THIS
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-
-% \department{Department of Applied Mathematics}
-% \title{Autonomous car chasing}
-% \authorGN{Pavel} %author's given name/names
-% \authorFN{Jahoda} %author's surname
-% \author{Pavel Jahoda} %author's name without academic degrees
-% \authorWithDegrees{Pavel Jahoda} %author's name with academic degrees
-% \supervisor{Ing. Jan Čech, Ph.D.}
-% \acknowledgements{THANKS (remove entirely in case you do not with to thank anyone)}
-% \abstractEN{Summarize the contents and contribution of your work in a few sentences in English language.}
-% \abstractCS{V n{\v e}kolika v{\v e}t{\' a}ch shr{\v n}te obsah a p{\v r}{\' i}nos t{\' e}to pr{\' a}ce v {\v c}esk{\' e}m jazyce.}
-% \placeForDeclarationOfAuthenticity{Prague}
-% \keywordsCS{Replace with comma-separated list of keywords in Czech.}
-% \keywordsEN{Replace with comma-separated list of keywords in English.}
-% \declarationOfAuthenticityOption{1} %select as appropriate, according to the desired license (integer 1-6)
-% % \website{http://site.example/thesis} %optional thesis URL
-
-
-% \begin{document}
-
-% % \newacronym{CVUT}{{\v C}VUT}{{\v C}esk{\' e} vysok{\' e} u{\v c}en{\' i} technick{\' e} v Praze}
-% % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
-
-% \setsecnumdepth{part}
-% \chapter{Introduction}
-
-
-
-% \setsecnumdepth{all}
-% \chapter{State-of-the-art}
-
-% \chapter{Analysis and design}
-
-% Přidáme odstavec Text --- zejména ten odborný --- je nutné členit na odstavce. Každý odstavec by se měl týkat jednoho tématu, myšlenky\dots{} Odstavce od sebe musí být vizuálně oddělené. K tomu existuje několik vhodných stylů, které si popíšeme v jedné z následujících kapitol. Odstavce mohou být různě vysázené. V odborných textech je běžná sazba "do bloku". Při ní je nutné vhodně měnit mezislovní mezery. Jejich doporučená velikost je 0,25--0.33 čtverčíku.
-
-% Požadavky jsou těchto typů:
-
-% \chapter{Realisation}
-
-% \setsecnumdepth{part}
-% \chapter{Conclusion}
-
-
-% \bibliographystyle{iso690}
-% \bibliography{mybibliographyfile}
-
-% \setsecnumdepth{all}
-% \appendix
-
-% \chapter{Acronyms}
-% % \printglossaries
-% \begin{description}
-% 	\item[GUI] Graphical user interface
-% 	\item[XML] Extensible markup language
-% \end{description}
-
-
-% \chapter{Contents of enclosed CD}
-
-% %change appropriately
-
-% \begin{figure}
-% 	\dirtree{%
-% 		.1 readme.txt\DTcomment{the file with CD contents description}.
-% 		.1 exe\DTcomment{the directory with executables}.
-% 		.1 src\DTcomment{the directory of source codes}.
-% 		.2 wbdcm\DTcomment{implementation sources}.
-% 		.2 thesis\DTcomment{the directory of \LaTeX{} source codes of the thesis}.
-% 		.1 text\DTcomment{the thesis text directory}.
-% 		.2 thesis.pdf\DTcomment{the thesis text in PDF format}.
-% 		.2 thesis.ps\DTcomment{the thesis text in PS format}.
-% 	}
-% \end{figure}
-
-% \end{document}
-
-% TODO the distance and the angle vs the distance and angle
-
-
-
-
 \documentclass{ctuthesis/ctuthesis}
 \usepackage{subfig}
 \usepackage{amsfonts}
@@ -132,6 +19,8 @@
 	keywords-english = {self-driving car, RC car, multi-task learning, autonomous driving, deep learning, CARLA, simulation},
 	month = 5,
 	year = 2020,
+	specification-file = {images/zadani.pdf},
+	front-specification = true
 }
 
 \ctuprocess
@@ -141,7 +30,7 @@
 Safe autonomous driving system must have fast reaction times to ultimately prevent accidents and crashes. A car chase is a situation that requires such fast reaction times.
 
 
-In our work, we introduce a novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarsened semantic segmentation. Furthermore, we have developed an autonomous driving system that uses the dual-task neural network. The system has been integrated into a subscale vehicle platform attached to a high-speed RC car and has been evaluated by autonomously chasing another vehicle. The system architecture and results of the evaluation are presented. 
+In our work, we introduce a fast novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarsened semantic segmentation. Furthermore, we have developed an autonomous driving system that uses the dual-task neural network. The system has been integrated into a subscale vehicle platform attached to a high-speed RC car and has been evaluated by autonomously chasing another vehicle. The system architecture and results of the evaluation are presented. 
 
 \end{abstract-english}
 
@@ -151,7 +40,7 @@ In our work, we introduce a novel dual-task convolutional neural network capable
 Bezpečné autonomní řízení musí mít rychlé reakce, aby bylo možné předejít nehodám a srážkám. Pronásledování auta je situace, která vyžaduje tyto rychlé reakce.
 
 
-V naší práci představujeme novou víceúlohovou konvoluční neuronovou síť schopnou současně detekovat objekty a hrubě semánticky segmentovat obrázky. Dále jsme vytvořili autonomní řídící systém, který tuto víceúlohovou neuronovou síť využívá. Tento systém byl integrován do do platformy nazvané "subscale vehicle platform" připevněné na velmi rychlé RC auto na kterém byl následné systém testován pronásledováním dalšího vozidla. V této práci je prezentována architektura systému a výsledky evaluace.
+V naší práci představujeme novou rychlou víceúlohovou konvoluční neuronovou síť schopnou současně detekovat objekty a hrubě semánticky segmentovat obrázky. Dále jsme vytvořili autonomní řídící systém, který tuto víceúlohovou neuronovou síť využívá. Tento systém byl integrován do platformy nazvané "subscale vehicle platform" připevněné na velmi rychlé RC auto na kterém byl následné systém testován pronásledováním dalšího vozidla. V této práci je prezentována architektura systému a výsledky evaluace.
 \end{abstract-czech}
 
 % Acknowledgements / Podekovani
@@ -176,24 +65,65 @@ Finally, I would like to extend my thanks to my parents for their support throug
 \maketitle
 
 \chapter{Introduction}
-An autonomous car driving system capable of making fast and accurate decisions is important for making car transportation a safer activity. The reaction times of the system (especially in high speeds) have an impact on the human trust and acceptance of automated vehicles. The key aspects of driving autonomously include detecting other cars and interacting with them on the road. In this paper, we focus on testing a semi-autonomous system in these aspects by using a car chasing scenario. \par
+An autonomous car driving system capable of making fast and accurate decisions is important for making car transportation a safer activity. The reaction times of the system (especially in high speeds) have an impact on the human trust and acceptance of automated vehicles. The key aspects of driving autonomously include understanding of the surrounding environment, detecting other cars and interacting with them on the road. In this paper, we present a novel neural architecture that gives us information about other cars as well as the surrounding environment. We then test an autonomous driving system, that we developed, in these aspects by using a car chasing scenario. \par
 
 
-A similar scenario -- car-following -- has been studied for more than half a century. Car-following models describe how drivers should follow each other in traffic stream. Oftentimes these theoretical models assume having precise data such as speed, distance, and acceleration at every time-stamp \cite{car_following}. However, with the advancements of machine learning and computer vision more practical car-following models have been developed and tested. These models use sensors such as LIDAR and camera to estimate the distance between the two cars \cite{lidar_highway}. The estimated information is then used to maintain a safe distance between the two cars while following the trajectory of the front car. The car-following models have been however typically tested in scenarios that didn't involve high speeds and sudden significant speed changes. \par
+A similar scenario -- car-following -- has been studied for more than half a century. Car-following models describe how drivers should follow each other in traffic stream. Oftentimes these theoretical models assume having precise data such as speed, distance, and acceleration at every time-stamp \cite{car_following}. However, with the advancements of machine learning and computer vision more practical car-following models have been developed and tested. These models use sensors such as LIDAR and camera to estimate the distance between the two cars \cite{lidar_highway}. The estimated information is then used to maintain a safe distance between the two cars while following the trajectory of the front car. However, the car-following models have typically not been tested in scenarios involving high speeds and sudden fast acceleration and deceleration. \par
  
  
 On the other hand, a car chase -- a vehicular hot pursuit of suspects by law enforcers -- typically involves high speeds and therefore fast reactions are necessary. In our scenario, a vehicle being pursued is driven by a person, while the vehicle that's chasing it is being controlled by an artificial intelligence-based system. The system architecture is similar to the DARPA Urban Challenge vehicles \cite{Bertha}\cite{darpa2}\cite{darpa_book} and consists of three parts: perception and localization, trajectory planning and a trajectory controller. \par
 
 
-The thesis has the following structure. First, a theoretical background of the chasing algorithm is outlined. This includes related work and also a description of each part of the system. Then, an experiment section follows. The section includes testing in CARLA -- an open-source simulator for autonomous driving research \cite{CARLA}. Additionally, it has a real-world evaluation of the system deployed in a radio-controlled car (RC car for short). The real-world evaluation consists of an evaluation of a detector on a collected dataset and a practical chase in which the goal, similarly to the car-following model, is to maintain a determined distance between the two RC cars.
+The thesis has the following structure. First, a theoretical background of the chasing algorithm is outlined. This includes related work and also a description of each part of the system. Then, an experiment section follows. The section includes testing in CARLA -- an open-source simulator for autonomous driving research \cite{CARLA}. Additionally, it has a real-world evaluation of the system deployed in a radio-controlled car (RC car for short). The real-world evaluation consists of two parts. First, it has an evaluation of the novel neural network's ability to detect objects and segment images. This is done using a collected dataset that will be also presented in the experiment section. Finally the section describes a live test chase in which the goal, similarly to the car-following model, is to maintain a determined distance between the two RC cars.
 
 
 
 
-\chapter{Related work}
+\chapter{Related Work}
+\section{Path Following}
+A path can be understood as a set of waypoints $w_0,..,w_n$. Given a path, a moving vehicle with an initial position $p=w_0$ and initial vehicle heading angle $\psi$, path following algorithm tries to change $\psi$ at each time stamp $i \in \langle 0,n\rangle$. It does so in way that minimizes the sum of cross track errors, which is a distance between the vehicle and the closest point on the path. Furthermore, it attempts to minimize the differences between the heading angles $\psi_i$ and the angle formed by waypoints $w_i$ and $w_{i+1}$ called the LOS angle $\phi$ \cite{path_following_evaluation}.\par
+
+In 1985, Carnegie Mellon University demonstrated the first autonomous path following vehicle. It works by finding a look-ahead position on the path and subsequently calculating the vehicle's heading angle $\psi$ as a curvature $\kappa$ of an arc depicted in Figure \ref{f:pure_pursuit}. Using the Pythagorean theorem and the fact that $\kappa=\frac{1}{r}$, it can be deduced that $\kappa = \frac{2\cdot x}{p^2}$. \par
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Geometry-of-the-pure-pursuit-algorithm.jpg}
+    
+    \caption{Geometry of the pure pursuit path following algorithm, adopted from \protect\cite{nice_picture}}\label{f:pure_pursuit}
+\end{figure}
+
+
+Year later after introducing the pure pursuit algorithm, Carnegie Mellon University's Navlab was able to follow road at a maximal speed of 28 km/h \cite{navlab1}. Two decades later, autonomous cars were able to finish 212 km off-road course at the DARPA Grand Challenge. The winning team introduced a novel path following algorithm called Stanley method \cite{stanley_method}. Stanley method is a non-linear function that takes into account the difference between vehicle heading angle $\psi$ and the LOS angle $\phi$, as well as the cross track error $e$. Denote the vehicle speed at time $i$ by $u_i$, the steering control is given by:
+
+\begin{equation}
+steer = (\phi- \psi)_i + \arctan{\dfrac{k\cdot e_i}{u_i}}
+\end{equation}
+
+Where $k$ is a gain parameter.\par
+
+
+Solving a path following problem is an important step to achieving fully autonomous driving system. We acknowledge that there are many approaches and path following algorithms \cite{path_following_overview}, but for the sake of brevity we have highlighted only two.
+% they stated that the biggest challenge was computer vision
+
+\section{Car Following and Chasing}
+The goal of a car following problem is to maintain a predefined distance from a followed vehicle. Typically, the problem is solved with a goal of creating an autonomous convoy or a system capable of autonomously driving in a highway traffic. Generally, in the car following problem, the leading car drives smoothly without aggressive turning or sudden braking. On the other hand, in the car chasing problem the pursued car actively tries to get away from the chasing car. While the chasing car also tries to maintain a certain distance between the two car, the ultimate goal is not losing the pursued car. For this reason, car chasing is a much more difficult task. \par
 
 
 
+The first scientists who attempted to solve the car chasing/following problem realised that autonomous system with such capabilities needs to be able to perform many different different tasks such as localization and planning. Many attempts focused on solving different parts of the system.\par
+
+In the 1990s, the first attempts of localization of the 'lead' chased car were made \cite{only_detection_and_tracking} \cite{also_only_car_tracking} \cite{night}. Schwarzinger et. al. used a database of different car models to match the tracked vehicle to a vehicle model \cite{only_detection_and_tracking}. This gives us information about the size of the pursued vehicle. Subsequently, we can use this information to estimate the distance and relative position of the pursued car.
+
+
+In 1991, Kehtarnavaz et. al. developed the first autonomous car following system called BART \cite{BART_car_following}. The system was able to follow the leading car at 20 km/h speed. The system works by changing the velocity of the following car based on the velocity and the distance of the followed car. The authors state that estimating velocity of the lead car is a challenging problem. While new Radar/Lidar sensor fusion solution for velocity estimation has been developed \cite{lidar_highway}, we address the issue by proposing solution that controls the throttle based only on the distances between the two cars.
+
+
+\subsection{Reinforcement Learning}
+Reinforcement learning is subfield of machine learning. It deals with what actions should an agent in an environment make in order to maximize some reward function. An example would be an agent driving a car on a road. In this scenario, the reward could be based on how long the agent is able to drive on the road. The idea is that eventually, the agent would learn  from trial and error to match the correct responses (optimal steering value) based on the perceived state (where it is on the road).\par
+
+With the rise of reinforcement learning in the recent years \cite{alphago}\cite{deepstack}\cite{alphastar}, reinforcement learning based solutions for autonomous following and driving have been developed. Michels et. al. developed an autonomous driving system capable of driving an RC in a unstructured environment \cite{RL_autonomous_driving}. They used supervised learning approach to estimate depth in an image. Then, they used a simulator to learn a control policy to steer based on the depth information from camera images. Zhu et. al. developed a solution that imitates human-like velocity control during highway car following \cite{RL_humanlike}\cite{RL_velocity}.
+
+The disadvantage of the reinforcement learning approach seems to be the necessity to partly train the system in a simulator. This limits the ability of the system to drive based on the quality of the simulator. Pan et. al. acknowledge the problem and address it by creating a network that converts non-realistic virtual image input into a realistic image with similar scene structure \cite{synthetic_images}. Furthermore, they prove that a reinforcement learning agent benefits from training on more realistic images.
 
 \chapter{Method}\label{s:method}
 \section{Overview}
@@ -222,7 +152,7 @@ Details of the method will be described in the following sections.
 
 
 
-\section{Computer vision}
+\section{Computer Vision}
 \subsection{Dual-task Neural Network}
 In this section, we introduce a novel neural network that solves two problems at once - object detection and semantic segmentation. \par
 
@@ -480,7 +410,7 @@ On the other hand, the second set aims to test the algorithm to its limits. The 
 
 \begin{figure}[]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/average_speeds4.pdf}
+    \includegraphics[width=0.9\textwidth]{images/average_speeds.pdf}
     
     \caption{Average speed distribution of the collected CARLA driving sets}\label{f:speed_distribution}
 \end{figure}
@@ -520,7 +450,7 @@ Table \ref{t:easy_drives} shows all three versions of the system performing well
 Table \ref{t:difficult_drives} compares the versions using the difficult driving set. We can see, that the full versions of the algorithm performed significantly better than the remaining two versions. It achieved almost 10\% higher average drive completion than the next best evaluated version. We attribute this to the use of coarsened semantic segmentation. \par
 
 
-While performing the experiment, we saw that the use of coarsened semantic segmentation allowed the system to stay longer on the road in situations when the pursued car was not detected for prolonged period of time. For example, when the pursued car drove behind a building, both versions of the algorithm that use extrapolation correctly predicted the position of the pursued car. However, the algorithm that did not use segmentation drove straight into the building as it didn't have any information about its surrounding environment. Only the full version of the algorithm drove around the building and continued the chase.
+
 
 
 
@@ -544,6 +474,20 @@ Figure \ref{f:detection_recall_difficult} plots the average drive completion of 
     \includegraphics[width=1\textwidth]{images/recall_chart7_difficult.pdf}
     
     \caption{Average drive completion plotted against detection recall. Only difficult drives included}\label{f:detection_recall_difficult}
+\end{figure}
+
+
+\subsection{Qualitative results}
+While performing the experiments, we saw that the use of coarsened semantic segmentation allowed the system to stay longer on the road in situations when the pursued car was not detected for prolonged period of time. For example, when the pursued car drove behind a building, both versions of the algorithm that use extrapolation correctly predicted the position of the pursued car. However, the algorithm that did not use segmentation drove straight into the building as it didn't have any information about its surrounding environment. Only the full version of the algorithm drove around the building and continued the chase.
+
+Figure \ref{f:trajectory} depicts a full trajectory of an autonomous chase in CARLA.
+%TODO it shows.. asi nejak popsat
+
+\begin{figure}[]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/trajectory.pdf}
+    
+    \caption{Difficult drive trajectory. The full blue line represents the trajectory of the chasing car and the dashes black line represents trajectory of the pursued car. The measurement unit is a meter. }\label{f:trajectory}
 \end{figure}
 
 
@@ -579,7 +523,13 @@ The RC car used as the chased vehicle is a 1:10 scale "Losi XXX-SCR RTR". This e
 %\end{figure}
 
 
-\subsection{Experiments}
+\subsection{Qualitative results}
+We have performed live tests using a simplified version of the system without the semantic segmentation and extrapolation enabled. The system was tested on a empty roundabout. During live tests, several safety measures were available. Multiple software conditions were implemented to stop the system. For example, in case the ZED camera stopped capturing images. On top of that, an emergency switch that can return manual control was available. We tested the system on multiple days during multiple weather conditions. The chasing trajectories driven on a road leading to the roundabout included a straight line and a U-turn. On the roundabout, the trajectories consisted of arc segments and full circles. \par
+
+
+The autonomous system followed the other car smoothly without jerky movements. For the most part, it was able to successfully chase the other RC. It was maintaining the desired distance when chasing the other car on the roundabout as well as when the pursued car was driving in a straight line. If the chased car stopped, so did the autonomous system. The only limitation of the system comes from its current reactive nature, which in some instances affected the system's ability to perform U-turn on a narrow road. \par
+
+The autonomous chase was documented and a highlight is available online \cite{my_yt_video}.
 
 
 
