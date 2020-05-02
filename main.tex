@@ -45,7 +45,7 @@ V naší práci představujeme novou rychlou víceúlohovou konvoluční neurono
 
 % Acknowledgements / Podekovani
 \begin{thanks}
-I would like to express my deep gratitude to my supervisor Assistant Professor Ing. Jan Čech, Ph.D. for his patient guidance and willingness to devote his time to this work. I would also like to thank ToMi team (Michal Bahník, Dominik Filyo, Martin Vlašimský, and others) who have assembled the 1:5 RC car platform used as the self-driving chasing car. Furthermore, I would like to thank doc. Ing. Martin Hromčík, Ph.D. for lending me his 1:10 RC car that was used as the chased car.\par
+I would like to express my deep gratitude to my supervisor Assistant Professor Ing. Jan Čech, Ph.D. for his patient guidance and willingness to devote his time to this work. I would also like to thank ToMi team (Michal Bahník, Dominik Filyo, Martin Vlašimský, and others) who have assembled the subscale vehicle platform attached to a 1:5 RC car used as the chasing car. Furthermore, I would like to thank doc. Ing. Martin Hromčík, Ph.D. for lending me his 1:10 RC car that was used as the chased car.\par
 
 
 Finally, I would like to extend my thanks to my parents for their support throughout my education and to my girlfriend Vanda for her support and for helping me film a promotional video of the autonomous car chase.
@@ -81,7 +81,7 @@ The thesis has the following structure. First, a theoretical background of the c
 
 \chapter{Related Work}
 \section{Path Following}
-A path can be understood as a set of waypoints $w_0,..,w_n$. Given a path, a moving vehicle with an initial position $p=w_0$ and initial vehicle heading angle $\psi$, path following algorithm tries to change $\psi$ at each time stamp $i \in \langle 0,n\rangle$. It does so in way that minimizes the sum of cross track errors, which is a distance between the vehicle and the closest point on the path. Furthermore, it attempts to minimize the differences between the heading angles $\psi_i$ and the angle formed by waypoints $w_i$ and $w_{i+1}$ called the LOS angle $\phi$ \cite{path_following_evaluation}.\par
+A path can be understood as a set of waypoints $w_0,\dots ,w_n$. Given a path, a moving vehicle with an initial position $p=w_0$ and initial vehicle heading angle $\psi$, path following algorithm tries to change $\psi$ at each time stamp $i \in \langle 0,n\rangle$. It does so in way that minimizes the sum of cross track errors, which is a distance between the vehicle and the closest point on the path. Furthermore, it attempts to minimize the differences between the heading angles $\psi_i$ and the angle formed by waypoints $w_i$ and $w_{i+1}$ called the LOS angle $\phi$ \cite{path_following_evaluation}.\par
 
 In 1985, Carnegie Mellon University demonstrated the first autonomous path following vehicle. It works by finding a look-ahead position on the path and subsequently calculating the vehicle's heading angle $\psi$ as a curvature $\kappa$ of an arc depicted in Figure \ref{f:pure_pursuit}. Using the Pythagorean theorem and the fact that $\kappa=\frac{1}{r}$, it can be deduced that $\kappa = \frac{2\cdot x}{p^2}$. \par
 
@@ -234,7 +234,7 @@ r_{31} & r_{32} & r_{33} & t_{3}\\
 \begin{bmatrix}x\\y\\z\\1\end{bmatrix}
 \end{equation}
 
-In our case, the image points $p_{image}$ are the bounding box corners of the detected car. We also estimated the world coordinates $p_{world}$ by measuring the width and height of the chased RC car. Finally, the intrinsic camera parameters such as focal lengths $f_x$ and $f_y$ were taken from official calibration of the ZED camera. Then, we plugged these values into an OpenCV \cite{opencv_library} library function which gave us the translation and rotation vectors. Afterwards, we calculated the distance $d$ by calculating the Euclidean distance between the translation vector $\mathbf{T}$ and the origin. Similarly, we extracted the desired estimated angle $\varphi$ by calculating arc tangent of the rotation vector. 
+In our case, the image points $p_{image}$ are the bounding box corners of the detected car. We also estimated the model coordinates $p_{model}$ by measuring the width and height of the chased RC car. We make an assumption that the bounding box encloses only the corresponding image points, i.e., the back of the RC car. We acknowledge that the assumption does not always hold true, but we found the resulting inaccuracies to be negligible. Finally, the intrinsic camera parameters such as focal lengths $f_x$ and $f_y$ were taken from official calibration of the ZED camera. Then, we plugged these values into an OpenCV \cite{opencv_library} library function which gave us the translation and rotation vectors. Afterwards, we calculated the distance $d$ by calculating the Euclidean distance between the translation vector $\mathbf{T}$ and the origin. Similarly, we extracted the desired estimated angle $\varphi$ by calculating arc tangent of the rotation vector. 
 
 Finally, since we are using a stereo camera and the camera lens which was used is not in the center of the front of the car, we converted the calculated angle and distance as if the camera was in the center of the front of the car. We achieve this by a simple triangulation.
 
@@ -273,7 +273,7 @@ This method allows us to extrapolate the angle and the distance very fast in a $
 
 
 
-\subsection{Image Segmentation}
+\subsection{Image Segmentation}\label{s:Image_Segmentation}
 In comparison to the semantic segmentation that links each pixel of the image to a class label, we segment the image into a coarsened grid of $S\times S$ cells. Each cell linked with a class label. In our work, we have chosen $S=10$ and only two classes. The first class represents a drivable surface while the second class is everything else. \par
 
 
@@ -380,10 +380,15 @@ Testing set & 99.8\%    & 97.7\% & 0.066   & 0.227   \\ \hline
 
 \begin{figure}[]
     \centering
-    \includegraphics[width=1\textwidth]{images/Collage_detection(1).pdf}
+    \includegraphics[width=1\textwidth]{images/detection_collage.pdf}
     
     \caption{Detection, distance and angle estimation performed on images from the RC car camera. The images are part of the collected dataset}\label{f:detection_images}
 \end{figure}
+
+
+
+\section{Segmentation Results}
+To train and evaluate the coarsened semantic segmentation part of the dual-task neural network, we have annotated the collected detection dataset presented in Section \ref{s:detection_dataset}. As explained in Section \ref{s:Image_Segmentation}, each image is segmented into a $10\times 10$ grid of cells. Therefore, we treat this as a classification problem, where the network performs 100 classifications per image. We report, that the neural network achieved 96.2\% classification accuracy on the test set.
 
 \section{Simulation}
 \subsection{CARLA Environment}
