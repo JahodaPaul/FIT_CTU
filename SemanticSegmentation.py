@@ -19,6 +19,8 @@ class SemanticSegmentation:
         self.size_w = 0
         self.size_h = 0
 
+        self.bboxInARow = 0
+
     def IsThereACarInThePicture(self,segmImage):
         array = np.frombuffer(segmImage.raw_data, dtype=np.dtype("uint8"))
         array = np.reshape(array, (segmImage.height, segmImage.width, 4))
@@ -92,6 +94,9 @@ class SemanticSegmentation:
             D = D + 2 * dy
         return coords
 
+    def LimitAngles(self,angle):
+        return min(max(angle,-175),175)
+
     def GetPercentage(self,middleX,xCoord, currentPredictedX, otherSide=False):
         overallDistX = abs(currentPredictedX - middleX)
         distFromMiddle = abs(middleX - xCoord)
@@ -158,6 +163,15 @@ class SemanticSegmentation:
             if len(self.lastNX) > self.lastN:
                 self.lastNX = self.lastNX[1:]
                 self.lastNY = self.lastNY[1:]
+
+            if self.bboxInARow == 0:
+                self.bboxInARow = 1
+                self.lastNX.append(x_Middle)
+                self.lastNY.append(y_Middle)
+                if len(self.lastNX) > self.lastN:
+                    self.lastNX = self.lastNX[1:]
+                    self.lastNY = self.lastNY[1:]
+
             alpha = self.alpha if len(self.lastNX) > 1 else 1
             self.exponentialMovingAverageX = alpha * x_Middle + (1 - alpha) * self.exponentialMovingAverageX
             self.exponentialMovingAverageY = alpha * y_Middle + (1 - alpha) * self.exponentialMovingAverageY
@@ -185,6 +199,7 @@ class SemanticSegmentation:
                         yMin = points[i][1]
             else:
                 if len(self.lastNX) >= 2:
+                    self.bboxInARow = 0
                     x_Middle = 2 * self.lastNX[-1] - self.lastNX[-2]  # simple extrapolation
                     y_Middle = 2 * self.lastNY[-1] - self.lastNY[-2]  # simple extrapolation
 
@@ -202,6 +217,7 @@ class SemanticSegmentation:
             drivableIndexes = self.parse_segm(segmImage=segmImage,obj=[xMin,xMax,yMin,yMax])
 
             closestRectIndex = self.FindClosestRect(x_Middle, y_Middle)
+            tmp = closestRectIndex%10
 
             coords = self.BresenhamLine(self.imageWidth // 2, self.imageHeight - 1, self.CoordRectangles[closestRectIndex][1], self.CoordRectangles[closestRectIndex][0])
             coords = self.BresenhamLineSample(coords,8)
@@ -225,7 +241,12 @@ class SemanticSegmentation:
 
                 goodnessScore = []
                 mostDrivableIndex = 0
-                for j in range(10):
+                minn = 0; maxx = 10
+                if tmp < 4:
+                    minn = tmp
+                elif tmp > 5:
+                    maxx = tmp
+                for j in range(minn,maxx):
                     closestRectIndex = line*10+j
                     coords = self.BresenhamLine(self.imageWidth // 2, self.imageHeight - 1,self.CoordRectangles[closestRectIndex][1],self.CoordRectangles[closestRectIndex][0])
                     coords = self.BresenhamLineSample(coords, 8)
@@ -246,13 +267,13 @@ class SemanticSegmentation:
                 closeness = 1.0 - closeness
                 for i in range(len(drivability)):
                     goodnessScore.append(closeness[i]+float(drivability[i]))
-                mostDrivableIndex = line*10 + np.argmax(goodnessScore)
+                mostDrivableIndex = line*10 + minn+np.argmax(goodnessScore)
 
                 percentage = self.GetPercentage(self.imageWidth//2,self.CoordRectangles[mostDrivableIndex][1],x_Middle)
                 # Trick to see if the drivable x coordinate and extrapoled X coordinate are on the same side of the image
                 if (self.CoordRectangles[mostDrivableIndex][1] - self.imageWidth//2) * (x_Middle - self.imageWidth//2) < 0:
                     percentage = percentage*-1
-                return maxAngle*percentage, drivableIndexes
+                return self.LimitAngles(maxAngle*percentage), drivableIndexes
         else:
             self.counter += 1
             return maxAngle, []

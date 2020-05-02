@@ -18,6 +18,7 @@ class CarDetector:
         self.exponentialMovingAverageDist = 0
         self.exponentialMovingAverageAngle = 0
         self.alpha = 0.5
+        self.bboxInARow = 0
 
     def CreatePointInFrontOFCar(self, x, y, angle):
         x2 = math.cos(math.radians(angle))
@@ -40,14 +41,16 @@ class CarDetector:
         # return ang + 360 if ang < 0 else ang
         return angle
 
-    def CreateBoundBoxMistakes(self, boundingBox):
+    def CreateBoundBoxMistakes(self, boundingBox,nOfFramesToSkip=0):
         # Not returning any bounding box at all
         # the chance defined as 10% overall, but we make it so there are consecutive frames where nothing is found
-        if self.consecutiveFramesLeft > 0:
-            self.consecutiveFramesLeft -= 1
-            return []
-        elif random.randint(1,30) == 1:
-            self.consecutiveFramesLeft = random.randint(1,5)
+        # if self.consecutiveFramesLeft > 0:
+        #     self.consecutiveFramesLeft -= 1
+        #     return []
+        # elif random.randint(1,30) == 1:
+        #     self.consecutiveFramesLeft = random.randint(1,5)
+        #     return []
+        if random.randint(0,99) < nOfFramesToSkip:
             return []
         else:
             bbBoxes = np.array(boundingBox)
@@ -109,7 +112,7 @@ class CarDetector:
         return min(max(angle,-175),175)
 
 
-    def getDistance(self, vehicle, camera, carInTheImage=True, extrapolation=True):
+    def getDistance(self, vehicle, camera, carInTheImage=True, extrapolation=True, nOfFramesToSkip=0):
         calibration = np.identity(3)
         calibration[0, 2] = VIEW_WIDTH / 2.0
         calibration[1, 2] = VIEW_HEIGHT / 2.0
@@ -117,7 +120,7 @@ class CarDetector:
         camera.calibration = calibration # intrinsic camera matrix
 
         bounding_boxes = self.boundingBoxes.get_bounding_boxes([vehicle], camera) # bounding boxes in images
-        bounding_boxes = self.CreateBoundBoxMistakes(bounding_boxes)
+        bounding_boxes = self.CreateBoundBoxMistakes(bounding_boxes,nOfFramesToSkip)
         if not carInTheImage:
             bounding_boxes = []
         if len(bounding_boxes) == 0:
@@ -133,13 +136,15 @@ class CarDetector:
                 self.exponentialMovingAverageDist = self.alpha * predicted_distance + (1 - self.alpha) * self.exponentialMovingAverageDist
                 self.exponentialMovingAverageAngle = self.alpha * predicted_angle + (1 - self.alpha) * self.exponentialMovingAverageAngle
 
+                # if self.computed == 0:
                 self.lastNDistances.append(predicted_distance)
                 self.lastNAngles.append(predicted_angle)
+                self.bboxInARow = 0
                 if len(self.lastNDistances) > self.lastN:
                     self.lastNDistances = self.lastNDistances[1:]
                     self.lastNAngles = self.lastNAngles[1:]
 
-                # print('estimated angle:', predicted_angle)
+                # print(self.exponentialMovingAverageAngle,predicted_angle)
                 if extrapolation:
                     return bounding_boxes, self.exponentialMovingAverageDist, self.exponentialMovingAverageAngle
                 else:
@@ -211,11 +216,37 @@ class CarDetector:
         predicted_Angle = self.LimitAngles(predicted_Angle)
 
         # print(points)
-        self.lastNDistances.append(predicted_distance)
-        self.lastNAngles.append(predicted_Angle)
-        if len(self.lastNDistances) > self.lastN:
-            self.lastNDistances = self.lastNDistances[1:]
-            self.lastNAngles = self.lastNAngles[1:]
+        if self.bboxInARow == 0:
+            self.lastNDistances.append(predicted_distance)
+            self.lastNAngles.append(predicted_Angle)
+            if len(self.lastNDistances) > self.lastN:
+                self.lastNDistances = self.lastNDistances[1:]
+                self.lastNAngles = self.lastNAngles[1:]
+            self.bboxInARow += 1
+
+            # Makes the extrapolation better during high false negative rate
+            # Fixes the situations where we don't see the car for a long period and then we see it and these situations
+            # the previous extrapolation might be way off from the current estimation which causes the new linear extrapolation
+            # to be very wong
+            if len(self.lastNAngles) >= 2 and predicted_Angle > 0 and self.lastNAngles[-2] > predicted_Angle:
+                self.lastNAngles[-2] = predicted_Angle-1
+            elif len(self.lastNAngles) >= 2 and predicted_Angle < 0 and self.lastNAngles[-2] < predicted_Angle:
+                self.lastNAngles[-2] = predicted_Angle+1
+            elif len(self.lastNAngles) >= 2 and predicted_Angle < 0 and self.lastNAngles[-2] > predicted_Angle:
+                self.lastNAngles[-2] = min(predicted_Angle+1,self.lastNAngles[-2])
+            elif len(self.lastNAngles) >= 2 and predicted_Angle > 0 and self.lastNAngles[-2] < predicted_Angle:
+                self.lastNAngles[-2] = max(predicted_Angle - 1,self.lastNAngles[-2])
+            if len(self.lastNDistances) >= 2 and predicted_distance > 0 and self.lastNDistances[-2] > predicted_distance:
+                self.lastNDistances[-2] = predicted_distance - 1
+            elif len(self.lastNDistances) >= 2:
+                self.lastNDistances[-2] = predicted_distance
+        else:
+            self.lastNDistances.append(predicted_distance)
+            self.lastNAngles.append(predicted_Angle)
+            if len(self.lastNDistances) > self.lastN:
+                self.lastNDistances = self.lastNDistances[1:]
+                self.lastNAngles = self.lastNAngles[1:]
+            self.bboxInARow += 1
         alpha = self.alpha if len(self.lastNDistances) > 1 else 1
         self.exponentialMovingAverageDist = alpha * predicted_distance + (1 - alpha) * self.exponentialMovingAverageDist
         self.exponentialMovingAverageAngle = alpha * predicted_Angle + (1 - alpha) * self.exponentialMovingAverageAngle

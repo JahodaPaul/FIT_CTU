@@ -2,6 +2,8 @@ import pickle
 import os
 import math
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 class AnalyseResults:
     def __init__(self,dirChasing):
@@ -22,16 +24,32 @@ class AnalyseResults:
     def FinishedPercentage(self, historyChased, historyChasing):
         lastPosChasing = historyChasing[-1]
 
+        nOfPositionsDriven = 0
+        tmp = 0
+        for i in range(1,len(historyChasing)):
+            m = len(historyChasing) - 1
+            d = self.EuclidianDistance(lastPosChasing[0], historyChasing[m-i][0], lastPosChasing[1], historyChasing[m-i][1],
+                                   lastPosChasing[2], historyChasing[m-i][2])
+            if d > 2:
+                break
+            else:
+                tmp +=1
+        nOfPositionsDriven = len(historyChased) - tmp
+        print(tmp)
+
         # find shortest position from the last path to the path
         shortestDist = 1000000000
         shortestIndex = 0
-        for i in range(len(historyChased)):
+        for i in range(nOfPositionsDriven-1,-1,-1):
             dist = self.EuclidianDistance(lastPosChasing[0],historyChased[i][0],lastPosChasing[1],historyChased[i][1],lastPosChasing[2],historyChased[i][2])
             if dist < shortestDist:
                 shortestDist = dist
                 shortestIndex = i
-            if dist > 2*shortestDist:
+            else:
                 break
+            # if dist > 2*shortestDist:
+            #     break
+        # shortestIndex = nOfPositionsDriven
 
         distToLastPoint = 0
         distfromLastPoint = 0
@@ -54,37 +72,158 @@ class AnalyseResults:
             if drivename in tmp[0]:
                 return float(tmp[1]), float(tmp[2]), float(tmp[3])
 
-def main():
-    dirChasing = 'chaseOutput_Simple_SimplesDrives'
+def Analyse(dirChasing):
+    dirChasing = dirChasing
     dirChased = 'drives'
     analyse = AnalyseResults(dirChasing)
 
     # chasedFiles = os.listdir(dirChased)
-    chasedFiles = ['ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
+    # chasedFiles = ['ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
     # chasedFiles = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p']
+    chasedFiles = ['ride1.p', 'ride2.p', 'ride3.p', 'ride4.p', 'ride5.p', 'ride6.p', 'ride7.p', 'ride8.p', 'ride9.p',
+                  'ride10.p',
+                   'ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p',
+                   'ride19.p', 'ride20.p']
     finished = 0
     percentages = []
-    maes = []; rmses = []; crashes = []
+    maes = [];
+    rmses = [];
+    crashes = []
 
     for file in chasedFiles:
-        historyChased = analyse.loadPositionHistory(os.path.join(dirChased,file))
-        historyChasing = analyse.loadPositionHistory(os.path.join(dirChasing,file))
-        percentage = analyse.FinishedPercentage(historyChased,historyChasing)
+        historyChased = analyse.loadPositionHistory(os.path.join(dirChased, file))
+        historyChasing = analyse.loadPositionHistory(os.path.join(dirChasing, file))
+        percentage = analyse.FinishedPercentage(historyChased, historyChasing)
         if percentage >= 0.94:
             finished += 1
             mae, rmse, crash = analyse.FindMAE(file)
-            print(mae, rmse, crash)
+            # print(mae, rmse, crash)
             maes.append(mae)
             rmses.append(rmse)
             crashes.append(crash)
 
         percentages.append(percentage)
-        print(file,':',percentage)
-    print('Number of finished drives:',finished)
-    print('Average percentage of finished drives:',np.mean(percentages))
-    print('Average number of crashes:',np.mean(crashes))
-    print('Average number MAE:', np.mean(maes))
-    print('Average number RMSE:',np.mean(rmses))
+        # print(file,':',percentage)
+    print('Number of finished drives:', finished)
+    print('Average percentage of finished drives:', np.mean(percentages))
+    # print('Average number of crashes:',np.mean(crashes))
+    # print('Average number MAE:', np.mean(maes))
+    # print('Average number RMSE:',np.mean(rmses))
+
+    return np.mean(percentages)
+
+def AverageSpeed():
+    dirChased = 'drives'
+    chasedFiles = ['ride1.p', 'ride2.p', 'ride3.p', 'ride4.p', 'ride5.p', 'ride6.p', 'ride7.p', 'ride8.p', 'ride9.p',
+                   'ride10.p',
+                   'ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p',
+                   'ride19.p', 'ride20.p']
+    analyse = AnalyseResults(dirChased)
+    speeds = []
+    for file in chasedFiles:
+        historyChased = analyse.loadPositionHistory(os.path.join(dirChased, file))
+        totalDistMeters = 0
+        totalNumberOfSeconds = 0
+        for i in range(len(historyChased)-1):
+            totalDistMeters += analyse.EuclidianDistance(historyChased[i][0],historyChased[i+1][0],historyChased[i][1],
+                                                        historyChased[i+1][1],historyChased[i][2],historyChased[i+1][2])
+        totalNumberOfSeconds = float(len(historyChased))/30.0
+        metersPerSecond = totalDistMeters/float(totalNumberOfSeconds)
+        kmPerHour = metersPerSecond * 3.6
+        speeds.append(kmPerHour)
+    print(speeds)
+    speeds = np.array(speeds,dtype=float)
+    print('AverageSpeed:',np.mean(speeds))
+    print('AverageSpeed difficult:',np.mean(speeds[:10]))
+    print('AverageSpeed easy:', np.mean(speeds[10:]))
+    X = [0 for i in range(20)]
+    colors = ['#0B6623' for i in range(20)]
+    for i in range(10):
+        X[i] = 1
+        colors[i] = '#0065BD'
+    plt.rc('axes', labelsize=18)
+    plt.scatter(X, speeds,color=colors,s=100,alpha=0.6)
+
+    plt.ylabel('Avg. driving speed km/h')
+    plt.yticks(fontsize=14)
+    plt.xticks([-0.3,0,1,1.3],['','easy drives','difficult drives',''],fontsize=18)
+    plt.savefig("speed5.pdf", bbox_inches='tight')
+    plt.show()
+
+
+
+def PlotTrajectory():
+    dirChased = 'drives'
+    dirChasing = 'Experiment1/chaseOutput_Advanced_DifficultDrives'
+    chasedFiles = ['ride7.p']
+    analyse = AnalyseResults(dirChased)
+    speeds = []
+    for file in chasedFiles:
+        historyChased = analyse.loadPositionHistory(os.path.join(dirChased, file))
+        historyChasing = analyse.loadPositionHistory(os.path.join(dirChasing, file))
+
+    historyChasing = np.array(historyChasing)
+    historyChased = np.array(historyChased)
+    print(len(historyChasing),len(historyChased))
+    plt.rc('axes', labelsize=18)
+
+    plt.plot(historyChasing[:,0],historyChasing[:,1],color='#0065BD',linewidth=4,alpha=0.7) # #0065BD
+    plt.plot(historyChased[:,0],historyChased[:,1],color='black',linewidth=3,alpha=0.7,linestyle='--',dashes=(2, 1))
+    # plt.scatter(X, speeds, color=colors, s=100)
+
+    plt.ylabel('Y')
+    plt.xlabel('X')
+    # plt.yticks(fontsize=14)
+    # plt.xticks([-0.3, 0, 1, 1.3], ['', 'easy drives', 'difficult drives', ''], fontsize=18)
+    plt.gca().set_aspect("equal")
+    plt.savefig("trajectory.pdf", bbox_inches='tight')
+    plt.show()
+
+
+
+def main():
+    # PlotTrajectory()
+    # exit()
+    AverageSpeed()
+    exit()
+
+    finishedPercentagesWOSE = []
+    finishedPercentagesFull = []
+    finishedPercentagesWOS = []
+
+    fromm = 0
+    until = 101
+
+    for i in range(fromm,until,5):
+        finishedPercentagesWOSE.append(Analyse('Experiment2_NoSegmEx/chaseOutput'+str(i)))
+        finishedPercentagesFull.append(Analyse('Experiment2_Full/chaseOutput'+str(i)))
+        finishedPercentagesWOS.append(Analyse('Experiment2_NoSegm/chaseOutput'+str(i)))
+
+
+    plt.figure(figsize=(16, 9), dpi=1200, facecolor='w', edgecolor='k')
+    plt.rc('axes', titlesize=32)
+    plt.rc('axes', labelsize=32)
+    plt.rcParams["legend.fontsize"] = 26
+    plt.yticks(fontsize=22)
+    plt.xticks(fontsize=22)
+    X = np.arange(fromm,until,5)
+
+    plt.plot(X, finishedPercentagesWOSE, color='red',linewidth=3)
+    plt.plot(X, finishedPercentagesFull, color='blue',linewidth=3)
+    plt.plot(X, finishedPercentagesWOS, color='#0B6623',linewidth=3)
+    plt.xlabel('Detection fails per 100 frames')
+    plt.ylabel('Average drive completion')
+    #plt.title('Drive performance based on detection recall')
+    patchesList = []
+    patchesList.append(mpatches.Patch(color='blue', label='Full Algorithm'))
+    patchesList.append(mpatches.Patch(color='#0B6623', label='W/o Segmentation'))
+    patchesList.append(mpatches.Patch(color='red', label='W/o Segmentation or Extrapolation'))
+    plt.legend(handles=patchesList)
+
+    plt.savefig("recall_chart7.pdf", bbox_inches='tight',dpi=1200)
+    plt.show()
+
+
 
 
 if __name__ == '__main__':

@@ -123,6 +123,7 @@ def BresenhamLine(x0,y0, x1,y1):
 
 import os
 def myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance, chaseMode=True):
+    return
     os.system('clear')
     if chaseMode == True:
         print('----- Chase mode -----')
@@ -249,11 +250,11 @@ from pygame.locals import K_EQUALS
 #     raise RuntimeError('cannot import pygame, make sure pygame package is installed')
 
 class ManualControl(object):
-    def __init__(self,filename):
+    def __init__(self,filename,name=''):
         self.history = []
         self._control = carla.VehicleControl()
         self._steer_cache = 0.0
-        self.outputDir = 'chaseOutput'
+        self.outputDir = 'chaseOutput'+name
         self.fileName = filename.split('/')[-1]
         if self.fileName == '':
             self.fileName = 'test.p'
@@ -340,7 +341,7 @@ def DrawDrivable(indexes, w, h, display):
 
 import copy
 def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, driveName='',record=False, followMode=False,
-         resultsName='results',P=None,I=None,D=None):
+         resultsName='results',P=None,I=None,D=None,nOfFramesToSkip=0):
     counter = 1
 
     actor_list = []
@@ -353,10 +354,10 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
     else:
         drivingControlAdvanced = DrivingControlAdvanced(optimalDistance=optimalDistance)
     visualisation = VizualizeDrivingPath()
-    myControl = ManualControl(driveName)
+    myControl = ManualControl(driveName,name=str(nOfFramesToSkip))
     myControl.startRecording = True
     advanced = False
-    extrapolate = False
+    extrapolate = True
 
     evaluation = Evaluation()
     semantic = SemanticSegmentation()
@@ -428,6 +429,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
             carla.Transform(carla.Location(x=1.5, z=1.4,y=0.3), carla.Rotation(pitch=0)), #5,3,0 # -0.3
             attach_to=vehicle)
         actor_list.append(camera_rgb)
+
         # camera_rgb.set(FOV=90.0)
         # camera_rgb.set_image_size(800, 600)
 
@@ -450,7 +452,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
         
 
         # Create a synchronous mode context.
-        with CarlaSyncMode(world, camera_rgb, camera_rgb2, camera_segmentation, fps=30) as sync_mode:
+        with CarlaSyncMode(world,camera_rgb, camera_rgb2, camera_segmentation, fps=30) as sync_mode:
 
             while True:
                 if should_quit():
@@ -458,7 +460,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 clock.tick(30)
 
                 # Advance the simulation and wait for the data.
-                snapshot, image_rgb, image_rgb2, image_segmentation = sync_mode.tick(timeout=2.0)
+                snapshot, img_rgb, image_rgb2, image_segmentation = sync_mode.tick(timeout=2.0)
 
                 line = []
                 
@@ -570,7 +572,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 bbox = []
                 if chaseMode:
                     carInTheImage = semantic.IsThereACarInThePicture(image_segmentation)
-                    bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage,extrapolation=extrapolate)
+                    bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage,extrapolation=extrapolate,nOfFramesToSkip=nOfFramesToSkip)
 
 
                     if len(bbox) != 0:
@@ -670,11 +672,9 @@ if __name__ == '__main__':
     # Ps = [0.01,0.1,0.5,1]
     # Is = [0,0.001,0.01,0.1,0.5]
     # Ds = [0.1,0.2,0.5,1,4]
-    cnt = 0
-    # for p in Ps:
-    #     for i in Is:
-    #         for d in Ds:
+    nOfFramesToSkip = 0
     try:
+    # if True:
         optimalDistance = 8
         followDrivenPath = True
         evaluateChasingCar = True
@@ -688,10 +688,17 @@ if __name__ == '__main__':
 
         # drivesFileNames = ['ride3.p']
         # drivesFileNames = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p']
-        drivesFileNames = ['ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
+        # drivesFileNames = ['ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
+        drivesFileNames = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p',
+                           'ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
+
         if evaluateChasingCar:
-            for fileName in drivesFileNames:
-                main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode)
+            for i in range(0, 101, 5):
+                nOfFramesToSkip = i
+                for fileName in drivesFileNames:
+                    main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode,nOfFramesToSkip=nOfFramesToSkip)
+                os.rename('res/results.txt','chaseOutput'+str(nOfFramesToSkip)+'/results.txt')
+
         else:
             main(optimalDistance=optimalDistance, followDrivenPath=followDrivenPath, chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,followMode=followMode)
 
