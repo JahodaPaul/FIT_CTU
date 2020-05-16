@@ -31,7 +31,7 @@
 A safe autonomous driving system must have fast reaction times to ultimately prevent accidents and crashes. A car chase is a situation that requires such fast reaction times.
 
 
-In our work, we introduce a fast novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarsened semantic segmentation. Furthermore, we have developed an autonomous driving system that uses the dual-task neural network. The system has been integrated into a subscale vehicle platform attached to a high-speed RC car and has been evaluated by autonomously chasing another vehicle. The system architecture and results of the evaluation are presented. 
+In our work, we introduce a fast novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarse semantic segmentation. Furthermore, we have developed an autonomous driving system that uses the dual-task neural network. The system has been integrated into a subscale vehicle platform attached to a high-speed RC car and has been evaluated by autonomously chasing another vehicle. The system architecture and results of the evaluation are presented. 
 
 \end{abstract-english}
 
@@ -153,7 +153,7 @@ As an example of an autonomous UAV target chasing, Telière et al. developed an 
 The system architecture is divided into three parts: perception and localization, trajectory planning and a trajectory controller. The architecture is depicted in Figure \ref{f:overview}. \par
 
 
-In the perception part, we introduce a novel neural network that detects objects and segments an image at the same time. It is able to find a 2D bounding box of the chased car. Furthermore, it segments an image into a coarsened grid of $S\times S$ cells and makes a classification about each cell whether it's drivable surface or not. The detection and segmentation are done with a single pass of the image through the neural network. \par
+In the perception part, we introduce a novel neural network that detects objects and segments an image at the same time. It is able to find a 2D bounding box of the chased car. Furthermore, it segments an image into a coarse grid of $S\times S$ cells and makes a classification about each cell whether it's drivable surface or not. The detection and segmentation are done with a single pass of the image through the neural network. \par
 
 
 Then, we estimate the angle and distance between the two cars based on the detected bounding box of the chased car. In case no bounding box is found we extrapolate the distance and angle. \par
@@ -300,7 +300,7 @@ This method allows us to extrapolate the angle and the distance very fast in a $
 
 
 \subsection{Image Segmentation}\label{s:Image_Segmentation}
-In comparison to the semantic segmentation that links each pixel of the image to a class label, we segment the image into a coarsened grid of $S\times S$ cells. Each cell linked with a class label. In our work, we have chosen $S=10$ and only two classes. The first class represents a drivable surface while the second class is everything else. \par
+In comparison to the semantic segmentation that links each pixel of the image to a class label, we segment the image into a coarse grid of $S\times S$ cells. Each cell linked with a class label. In our work, we have chosen $S=10$ and only two classes. The first class represents a drivable surface while the second class is everything else. \par
 
 
 \begin{figure}[h!]
@@ -346,7 +346,7 @@ Value $\alpha$ represents the angle between the chasing and the chased car shown
 
 
 \subsection{Semantic Segmentation Based Planning}
-During inference, we use the coarsened segmented grid in the following way. First, we construct a line from the middle (horizontally) bottom (vertically) of the image to the bounding box of the detected car. If this line goes only through cells that are drivable, the trajectory planning phase stays unchanged and we try to follow the car directly as described in Section \ref{sec:pure_pursuit}. If that's not the case, we repeat the construction of the line. This time, however, the line goes from the middle bottom of the image to other cells on the same horizontal line as the bounding box of the car. When we find a line goes through cells with drivable surfaces and that is closest to the RC car, we try to drive the car in this direction until it's possible again to chase the car directly.
+During inference, we use the coarse segmented grid in the following way. First, we construct a line from the middle (horizontally) bottom (vertically) of the image to the bounding box of the detected car. If this line goes only through cells that are drivable, the trajectory planning phase stays unchanged and we try to follow the car directly as described in Section \ref{sec:pure_pursuit}. If that's not the case, we repeat the construction of the line. This time, however, the line goes from the middle bottom of the image to other cells on the same horizontal line as the bounding box of the car. When we find a line goes through cells with drivable surfaces and that is closest to the RC car, we try to drive the car in this direction until it's possible again to chase the car directly.
 
 \subsection{PID Controller}
 Despite being invented in the 1940s, the PID controller is the most common control algorithm. In a 2002 survey of over 11 000 controllers from various industries, it was found that 97\% of regulatory controllers utilize PID feedback \cite{PID-usage}. 
@@ -432,7 +432,7 @@ On the other hand, the second set aims to test the algorithm to its limits. The 
 
 
 \subsection{Segmentation and Extrapolation Evaluation} \label{s:experiment1}
-In the first experiment, we compare different versions of the algorithm. We evaluate the algorithm with its full functionality enabled as described in Section \ref{s:method}, we also test the same algorithm without using coarsened image segmentation and finally evaluate the algorithm without the segmentation, and distance and angle extrapolation. We compare these versions on both of the sets described in Section \ref{s:drivingDataset}. We evaluated these versions using 5 indicators. Namely, an average root-mean-square error (RMSE) of the desired distance between the two cars and the actual distance between the two cars. The average mean absolute error (MAE) of the desired and the actual distance. The average number of crashes per drive. The average drive completion, which is based on how long the autonomous system was chasing the pursued car. To be specific, at the last position of the chasing car, we calculated the closest point on the chased car path. Then, we calculated the percentage that the part of the path from the beginning point to this point accounts for. Finally, we evaluate the total number of finished drives. We consider the chase to be finished if the drive was at least 95\% completed.\par
+In the first experiment, we compare different versions of the algorithm. We evaluate the algorithm with its full functionality enabled as described in Section \ref{s:method}, we also test the same algorithm without using coarse image segmentation and finally evaluate the algorithm without the segmentation, and distance and angle extrapolation. We compare these versions on both of the sets described in Section \ref{s:drivingDataset}. We evaluated these versions using 5 indicators. Namely, an average root-mean-square error (RMSE) of the desired distance between the two cars and the actual distance between the two cars. The average mean absolute error (MAE) of the desired and the actual distance. The average number of crashes per drive. The average drive completion, which is based on how long the autonomous system was chasing the pursued car. To be specific, at the last position of the chasing car, we calculated the closest point on the chased car path. Then, we calculated the percentage that the part of the path from the beginning point to this point accounts for. Finally, we evaluate the total number of finished drives. We consider the chase to be finished if the drive was at least 95\% completed.\par
 
 
 \begin{table}[]
@@ -461,7 +461,7 @@ W/o Segm. and Ex. & 3               & 53.29\%                  & 1       & 14.49
 \end{table}
 
 Table \ref{t:easy_drives} shows all three versions of the system performing well with even the simplest version finishing most of the drives. \par
-Table \ref{t:difficult_drives} compares the versions using the difficult driving set. We can see, that the full versions of the algorithm performed significantly better than the remaining two versions. It achieved almost 10\% higher average drive completion than the next best evaluated version. We attribute this to the use of coarsened semantic segmentation. \par
+Table \ref{t:difficult_drives} compares the versions using the difficult driving set. We can see, that the full versions of the algorithm performed significantly better than the remaining two versions. It achieved almost 10\% higher average drive completion than the next best evaluated version. We attribute this to the use of coarse semantic segmentation. \par
 
 
 
@@ -479,7 +479,7 @@ As we can see in Table \ref{tab:detection} the recall of the detector is signifi
     \caption{Average drive completion plotted against detection recall. All drives included}\label{f:detection_recall}
 \end{figure}
 
-From Figure \ref{f:detection_recall} we can see, that the average drive completion steadily declines with decreasing detection recall and the system starts to fail once the detection recall is at 25\%. Out of the three versions of the algorithm, the full version which uses coarsened semantic segmentation and angle and distance extrapolation of the pursued car performs the best. It maintains above 80\% drive completion until the detection recall gets below 25\%. We attribute this achievement to the use of coarsened semantic segmentation. We base this assumption on the fact, that the version of the system that uses extrapolation but does not use segmentation performs similarly to the version which does not use extrapolation nor the segmentation. \par
+From Figure \ref{f:detection_recall} we can see, that the average drive completion steadily declines with decreasing detection recall and the system starts to fail once the detection recall is at 25\%. Out of the three versions of the algorithm, the full version which uses coarse semantic segmentation and angle and distance extrapolation of the pursued car performs the best. It maintains above 80\% drive completion until the detection recall gets below 25\%. We attribute this achievement to the use of coarse semantic segmentation. We base this assumption on the fact, that the version of the system that uses extrapolation but does not use segmentation performs similarly to the version which does not use extrapolation nor the segmentation. \par
 
 Figure \ref{f:detection_recall_difficult} plots the average drive completion of the difficult driving set against detection recall. On this driving set, the full version of the algorithm performs even more significantly better than the other two versions. When the recall is at 60\% or lower, the average drive completion of the full version is almost 20\% higher than the average drive completion of the remaining two versions.
 
@@ -492,7 +492,7 @@ Figure \ref{f:detection_recall_difficult} plots the average drive completion of 
 
 
 \subsection{Qualitative results}
-While performing the experiments, we saw that the use of coarsened semantic segmentation allowed the system to stay longer on the road in situations when the pursued car was not detected for a prolonged period of time. For example, when the pursued car drove behind a building, both versions of the algorithm that use extrapolation correctly predicted the position of the pursued car. However, the algorithm that did not use segmentation drove straight into the building and collided as it did not have any information about its surrounding environment. Only the full version of the algorithm drove around the building and continued the chase.
+While performing the experiments, we saw that the use of coarse semantic segmentation allowed the system to stay longer on the road in situations when the pursued car was not detected for a prolonged period of time. For example, when the pursued car drove behind a building, both versions of the algorithm that use extrapolation correctly predicted the position of the pursued car. However, the algorithm that did not use segmentation drove straight into the building and collided as it did not have any information about its surrounding environment. Only the full version of the algorithm drove around the building and continued the chase.
 
 
 %TODO it shows.. asi nejak popsat
@@ -542,7 +542,7 @@ Test set & 99.8\%    & 97.7\% & 0.066   & 0.227   \\ \hline
 
 
 \subsection{Segmentation Results}
-To train and evaluate the coarsened semantic segmentation part of the dual-task neural network, we have annotated the collected detection dataset presented in Section \ref{s:detection_dataset}. As explained in Section \ref{s:Image_Segmentation}, each image is segmented into a $10\times 10$ grid of cells. Therefore, we treat this as a classification problem, where the network performs 100 classifications per image. We report, that the neural network achieved 96.2\% classification accuracy on the test set.
+To train and evaluate the coarse semantic segmentation part of the dual-task neural network, we have annotated the collected detection dataset presented in Section \ref{s:detection_dataset}. As explained in Section \ref{s:Image_Segmentation}, each image is segmented into a $10\times 10$ grid of cells. Therefore, we treat this as a classification problem, where the network performs 100 classifications per image. We report, that the neural network achieved 95.4\% classification accuracy on the test set.
 
 
 
@@ -585,12 +585,21 @@ We have performed live tests using a simplified version of the system without th
 
 The autonomous system followed the other car smoothly without jerky movements. For the most part, it was able to successfully chase the other RC. It was maintaining the desired distance when chasing the other car on the roundabout as well as when the pursued car was driving in a straight line. If the chased car stopped, so did the autonomous system. The only limitation of the system comes from its current reactive nature, which in some instances affected the system's ability to perform U-turn on a narrow road. \par
 
-The autonomous chase was documented and a highlight is available online \cite{my_yt_video}.
+The autonomous chase was documented and a highlight video is available online \cite{my_yt_video}.
+
+\begin{figure}[]
+    \centering
+    \subfloat[Image taken at $t$ seconds]{{\includegraphics[width=1\textwidth]{images/drone_shot_2.4.2-optimized.png} }}%
+    \quad
+    \subfloat[Image taken at $t+1.9$ seconds]{{\includegraphics[width=1\textwidth]{images/drone_shot_2.4.3-optimized.png} }}%
+    \caption{Drone photos of the live test. The RC car on the right is driven autonomously, while the RC car on the left is manually controlled with a transmitter. The person in the center of the image controls the chased car. The person closest to the red Toyota has an emergency device that can stop the autonomous car and the third person controls the drone. Video of the autonomous car chase is available online \cite{my_yt_video}}\label{f:video}
+\end{figure}
+
 
 
 
 \chapter{Conclusion}
-We have presented a novel dual-task convolutional neural network that concurrently detects objects and performs coarsened semantic segmentation. The network was trained using alternating optimization. We have developed a system, capable of autonomously chasing another vehicle, that uses the dual-task network. We have extensively evaluated different versions of the system and have shown that the system benefits from using the coarsened semantic segmentation. Especially if the detector has low detection recall.\par
+We have presented a novel dual-task convolutional neural network that concurrently detects objects and performs coarse semantic segmentation. The network was trained using alternating optimization. We have developed a system, capable of autonomously chasing another vehicle, that uses the dual-task network. We have extensively evaluated different versions of the system and have shown that the system benefits from using the coarse semantic segmentation. Especially if the detector has low detection recall.\par
 Additionally, we have collected and annotated three datasets. The first is a car chasing dataset made in CARLA, which was used to evaluate the chasing capabilities of the system. The second is an object detection dataset consisting of 460 images of a pursued RC car. The third is a semantic segmentation dataset consisting of 460 annotated images segmented into drivable and non-drivable parts. All of these datasets will be made publicly available. \par
 Finally, we have integrated the system into a subscale vehicle platform attached to a high-speed RC car. We have demonstrated and documented \cite{my_yt_video} the system's ability to chase another car.
 
