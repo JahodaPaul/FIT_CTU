@@ -180,7 +180,7 @@ def draw_image(surface, image, image2,location1, location2, blend=False, record=
         filename = dirName + '/' + str(image2.frame) + '.png'
         imageio.imwrite(filename, arr)
         # image2.save_to_disk(dirName + '/%07d' % image2.frame)
-    if record:#image.frame % 10 == 0:
+    if image.frame % 10 == 0:#record:#image.frame % 10 == 0:
         driveName = driveName.split('/')[1]
         dirName = os.path.join('output',driveName)
         if not os.path.exists(dirName):
@@ -435,8 +435,8 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
         camera_rgb2 = world.spawn_actor(
             blueprint_library.find('sensor.camera.rgb'),
-            carla.Transform(carla.Location(x=-5.5, z=4.4,y=0), carla.Rotation(pitch=0)),
-            attach_to=vehicle)
+            carla.Transform(carla.Location(x=75, z=220,y=0), carla.Rotation(pitch=-90,yaw=-180)))            #x=-5.5, z=4.4,y=0
+            #attach_to=vehicle)
         actor_list.append(camera_rgb2)
 
         camera_segmentation = world.spawn_actor(
@@ -492,7 +492,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     # print(blueprint_library)
                     bp = blueprint_library.filter('model3')[0]
 
-                    bp.set_attribute('color', '204,0,204')
+                    bp.set_attribute('color', '0,101,189')#'204,0,204')
                     vehicleToFollow = world.spawn_actor(
                         bp,
                         start_pose2)
@@ -518,7 +518,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     start_pose2 = random.choice(m.get_spawn_points())
                     # print(blueprint_library)
                     bp = blueprint_library.filter('model3')[0]
-                    bp.set_attribute('color', '204,0,204')
+                    bp.set_attribute('color', '0,101,189')
                     vehicleToFollow = world.spawn_actor(
                         bp,
                         start_pose2)
@@ -686,11 +686,11 @@ if __name__ == '__main__':
         drivesFileNames = os.listdir(drivesDir)
         drivesFileNames.sort()
 
-        # drivesFileNames = ['ride3.p']
+        drivesFileNames = ['ride7.p']
         # drivesFileNames = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p']
         # drivesFileNames = ['ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
-        drivesFileNames = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p',
-                           'ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
+        # drivesFileNames = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p',
+        #                    'ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
 
         if evaluateChasingCar:
             for i in range(0, 101, 5):
