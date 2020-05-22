@@ -1,6 +1,8 @@
 # Autonomous car chase
 The repository presents a system that can autonomously chase another vehicle - i.e., goal is to maintain a determined distance between two cars. It has been tested in a CARLA simulator and with a RC cars. Full video can be found here.
-![Video of the car chase](https://i.imgur.com/zmKrJhj.gif)
+
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Video of the car chase](https://i.imgur.com/RHbzHUF.gif) |
+|-------|
 
 
 ## Main contributions
