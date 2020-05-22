@@ -74,11 +74,16 @@ class CarDetector:
             return bbBoxes
 
 
-    def get3DboundingBox(self, vehicle, camera, carInTheImage=True, extrapolation=True, nOfFramesToSkip=0):
+    def get3DboundingBox(self, vehicle, camera, carInTheImage=True):
+        calibration = np.identity(3)
+        calibration[0, 2] = VIEW_WIDTH / 2.0
+        calibration[1, 2] = VIEW_HEIGHT / 2.0
+        calibration[0, 0] = calibration[1, 1] = VIEW_WIDTH / (2.0 * np.tan(VIEW_FOV * np.pi / 360.0))
+        camera.calibration = calibration # intrinsic camera matrix
         bounding_boxes = self.boundingBoxes.get_bounding_boxes([vehicle], camera) # bounding boxes in images
-        bounding_boxes = self.CreateBoundBoxMistakes(bounding_boxes,nOfFramesToSkip)
+        bounding_boxes = self.CreateBoundBoxMistakes(bounding_boxes)
         if not carInTheImage:
             bounding_boxes = []
-
-        bounding_boxes = bounding_boxes[0]
+        if len(bounding_boxes) > 0:
+            bounding_boxes = bounding_boxes[0]
         return bounding_boxes

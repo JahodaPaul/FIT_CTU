@@ -143,6 +143,12 @@ def should_quit():
 
 
 class CarPosition(object):
+    def __init__(self,name):
+        self.startRecording = True
+        self.history = []
+        self.fileName = name
+        self.outputDir = 'chasingTrajectory'
+
     def SaveCarPosition(self,location):
         if self.startRecording:
             self.history.append([location.location.x, location.location.y, location.location.z, location.rotation.pitch, location.rotation.yaw, location.rotation.roll])
@@ -190,8 +196,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
     pygame.init()
 
     carDetector = CarDetector()
-    visualisation = VizualizeDrivingPath()
-    position = CarPosition(driveName,name=str(nOfFramesToSkip))
+    position = CarPosition(driveName.split('/')[1])
     position.startRecording = True
 
     evaluation = Evaluation()
@@ -248,7 +253,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
         camera_rgb2 = world.spawn_actor(
             blueprint_library.find('sensor.camera.rgb'),
-            carla.Transform(carla.Location(x=1.5, z=1.4,y=-0.3), carla.Rotation(pitch=-90,yaw=-180)),attach_to=vehicle)
+            carla.Transform(carla.Location(x=1.5, z=1.4,y=-0.3), carla.Rotation(pitch=0)),attach_to=vehicle)
         actor_list.append(camera_rgb2)
 
         camera_segmentation = world.spawn_actor(
@@ -328,7 +333,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
                 possibleAngle = 0
                 carInTheImage = semantic.IsThereACarInThePicture(image_segmentation)
-                bbox = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage,extrapolation=extrapolate,nOfFramesToSkip=nOfFramesToSkip)
+                bbox = carDetector.get3DboundingBox(vehicleToFollow, camera_rgb,carInTheImage)
 
                 # Choose approriate steer and throttle here
                 steer, throttle = 0, 1
@@ -339,8 +344,6 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
                 velocity1 = vehicle.get_velocity()
                 velocity2 = vehicleToFollow.get_velocity()
-
-                visualisation.Add(velocity1,velocity2,location1.location.distance(location2.location), angle)
 
 
                 draw_image(display, image_rgb2, image_segmentation,location1, location2,record=record,driveName=driveName,smazat=line)
@@ -368,14 +371,16 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     pygame.draw.line(display, BB_COLOR, points[3], points[7])
 
                 real_dist = location1.location.distance(location2.location)
-                if chaseMode or followMode:
-                    myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance,chaseMode)
+                #if chaseMode or followMode:
+                    #myPrint(angle,predicted_angle, possibleAngle,real_dist, predicted_distance,chaseMode)
                 pygame.display.flip()
     except Exception as ex:
         print(ex)
     finally:
         print('Ending')
         if evaluateChasingCar:
+            if not os.path.exists('res'):
+                os.mkdir('res')
             evaluation.WriteIntoFileFinal(os.path.join('res',resultsName+'.txt'),driveName=driveName)
         position.SaveHistoryToFile()
         print('destroying actors.')
@@ -408,7 +413,7 @@ if __name__ == '__main__':
 
         if evaluateChasingCar:
             for fileName in drivesFileNames:
-                main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode,nOfFramesToSkip=nOfFramesToSkip)
+                main(optimalDistance=optimalDistance,followDrivenPath=followDrivenPath,chaseMode=chaseMode, evaluateChasingCar=evaluateChasingCar,driveName=os.path.join(drivesDir,fileName),record=record,followMode=followMode)
 
     except Exception as ex:
         with open('problem.txt','a') as f:
