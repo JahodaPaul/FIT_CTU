@@ -28,25 +28,40 @@
 
 \begin{abstract-english}
 
-A safe autonomous driving system must have fast reaction times to ultimately prevent accidents and crashes. A car chase is a situation that requires such fast reaction times.
+A car chase is a scenario that requires dynamic maneuvers, fast reactions, and strategic trajectory planning. It tests the limits of an autonomous driving system.
+
+We have developed an autonomous driving system that can chase another vehicle using only images from a single RGB camera. At the core of the system is a novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarse semantic segmentation. The system has been firstly tested in a CARLA simulation. For this reason, we have created a new challenging publicly available chasing dataset collected by manually driving the chased car. Using the dataset, we have shown that the system benefits from using coarse semantic segmentation. The system that uses the semantic segmentation was able to chase the pursued car on average 10\% longer than other versions of the system. 
+
+Finally, we have integrated the system into a subscale vehicle platform attached to a high-speed RC car and demonstrated its capabilities by autonomously chasing another RC car.
 
 
-In our work, we introduce a fast novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarse semantic segmentation. Furthermore, we have developed an autonomous driving system that uses the dual-task neural network. The system has been integrated into a subscale vehicle platform attached to a high-speed RC car and has been evaluated by autonomously chasing another vehicle. The system architecture and results of the evaluation are presented. 
+% We present a novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarse semantic segmentation. The network has been integrated into the system.
+
+% We have developed an autonomous driving system that can chase another vehicle. Furthermore, we introduce a novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarse semantic segmentation. The network has been integrated into the system. 
+
+% The system has been first tested in a CARLA simulation. Then, it has been integrated into a subscale vehicle platform attached to a high-speed RC car and has been evaluated by autonomously chasing another vehicle.
+
+
+% A safe autonomous driving system must have fast reaction times to ultimately prevent accidents and crashes. A car chase is a situation that requires such fast reaction times.
+
+
+% In our work, we introduce a fast novel dual-task convolutional neural network capable of simultaneously performing object detection as well as coarse semantic segmentation. Furthermore, we have developed an autonomous driving system that uses the dual-task neural network. The system has been integrated into a subscale vehicle platform attached to a high-speed RC car and has been evaluated by autonomously chasing another vehicle. The system architecture and results of the evaluation are presented. 
 
 \end{abstract-english}
 
 
 
 \begin{abstract-czech}
-Bezpečné autonomní řízení musí mít rychlé reakce, aby bylo možné předejít nehodám a srážkám. Pronásledování auta je situace, která vyžaduje tyto rychlé reakce.
+Pronásledování auta je situace, která vyžaduje dynamické manévry, rychlé reakce a strategické plánování trajektorie. Zároveň nám umožňuje testovat limity autonomního řízení.
 
+Vytvořili jsme autonomní řídící systém, který dokáže pronásledovat další vozidlo pouze na základě RGB obrazu z jedné kamery. V jádru tohoto systému je nová víceúlohová konvoluční neuronová síť, která dokáže simultánně detekovat objekty a hrubě sémanticky segmentovat obraz. Tento systém byl nejprve otestován v simulátoru CARLA. Pro tyto účely jsme vytvořili nový veřejně dostupný pronásledovací dataset. Dataset byl vytvořen manuální jízdou pronásledováno vozidla. Za použití tohoto datasetu jsme ukázali, že systém funguje lépe když využívá hrubou sémantickou segmentaci. Takový systém dokázal pronásledovat druhé vozidlo v průměru o 10\% déle než verze systému které sémantické segmentace nevyužívají.
 
-V naší práci představujeme novou rychlou víceúlohovou konvoluční neuronovou síť schopnou současně detekovat objekty a hrubě semánticky segmentovat obrázky. Dále jsme vytvořili autonomní řídící systém, který tuto víceúlohovou neuronovou síť využívá. Tento systém byl integrován do platformy nazvané ``subscale vehicle platform'' připevněné na velmi rychlé RC auto na kterém byl následné systém testován pronásledováním dalšího vozidla. V této práci je prezentována architektura systému a výsledky evaluace.
+Na závěr byl tento systém integrován do platformy nazvané \uv{subscale vehicle platform} připevněné na velmi rychlé RC auto na kterém byl systém testován pronásledováním dalšího RC vozidla.
 \end{abstract-czech}
 
 % Acknowledgements / Podekovani
 \begin{thanks}
-I would like to express my deep gratitude to my supervisor Assistant Professor Ing. Jan Čech, Ph.D. for his patient guidance and willingness to devote his time to this work. I would also like to thank ToMi team (Michal Bahník, Dominik Filyo, Martin Vlašimský, and others) who have assembled the subscale vehicle platform attached to a 1:5 RC car used as the chasing car. Furthermore, I would like to thank doc. Ing. Martin Hromčík, Ph.D. for lending me his 1:10 RC car that was used as the chased car.\par
+I would like to express my deep gratitude to my supervisor Assistant Professor Ing. Jan Čech, Ph.D. for his patient guidance and willingness to devote his time to this work. I would also like to thank ToMi team (Michal Bahník, Dominik Filyo, Martin Vlašimský, and others) who have assembled the subscale vehicle platform on a 1:5 RC car used as the chasing car. Furthermore, I would like to thank doc. Ing. Martin Hromčík, Ph.D. for lending me his 1:10 RC car that was used as the chased car.\par
 
 
 Finally, I would like to extend my thanks to my parents for their support throughout my education and to my girlfriend Vanda for her support and for helping me film a promotional video of the autonomous car chase.
@@ -69,20 +84,20 @@ Finally, I would like to extend my thanks to my parents for their support throug
 An autonomous car driving system capable of making fast and accurate decisions is important for making car transportation a safer activity. The reaction times of the system (especially in high speeds) have an impact on the human trust and acceptance of automated vehicles. The key aspects of driving autonomously include an understanding of the surrounding environment, detecting other cars, and interacting with them on the road. In this paper, we present a novel neural architecture that gives information about other cars as well as the surrounding drivable surface. We then test an autonomous driving system, that we developed, in these aspects by using a car chasing scenario. \par
 
 
-A similar scenario -- car-following -- has been studied for more than half a century. Car-following models describe how drivers should follow each other in a traffic stream. Oftentimes these theoretical models assume having precise data such as speed, distance, and acceleration at every time-stamp \cite{car_following}. However, with the advancements of machine learning and computer vision more practical car-following models have been developed and tested. These models use sensors such as LIDAR and camera to estimate the distance between the two cars \cite{lidar_highway}. The estimated information is then used to maintain a safe distance between the two cars while following the trajectory of the front car. However, the car-following models have typically not been tested in scenarios involving high speeds and sudden fast acceleration and deceleration. \par
+A similar scenario -- car-following -- has been studied for more than half a century. Car-following models describe how vehicles should follow each other in a traffic stream. Oftentimes these theoretical models assume having precise data such as speed, distance, and acceleration at every time-stamp \cite{car_following}. However, with the advancements of machine learning and computer vision more practical car-following models have been developed and tested. These models use sensors such as LIDAR and camera to estimate the distance between the two cars \cite{lidar_highway}. The estimated information is then used to maintain a safe distance between the two cars while following the trajectory of the front car. However, the car-following models have typically not been tested in scenarios involving high speeds and sudden fast acceleration and deceleration. \par
  
  
 On the other hand, a car chase -- a vehicular hot pursuit of suspects by law enforcers -- typically involves high speeds and therefore dynamic driving maneuvers are necessary. In our scenario, a vehicle being pursued is driven by a person, while the vehicle that is chasing it is being controlled by an artificial intelligence-based system. Solving autonomous car chasing problem requires a system that solves many sub-problems from computer vision, planning and control theory. The system is an integration of the solutions to these sub-problems. The architecture of our system is similar to the DARPA Urban Challenge vehicles \cite{Bertha,darpa2,darpa_book} and consists of three parts: perception and localization, trajectory planning, and a trajectory controller. \par
 
 
-The thesis has the following structure. First, a theoretical background of the chasing algorithm is outlined. This includes related work described in Section \ref{s:related_work} and also a description of each part of the system in Section \ref{s:method}. Then, an experiment Section \ref{s:experiments} follows. The section includes testing in CARLA -- an open-source simulator for autonomous driving research \cite{CARLA}. Additionally, it has a real-world evaluation of the system deployed in a radio-controlled car (RC car for short). The real-world evaluation consists of two parts. First, it has an evaluation of the novel neural network's ability to detect objects and segment images. This is done using a collected dataset that will be presented in the experiment section. Finally the Section \ref{s:experiments} describes a live test chase in which the goal is to maintain a determined distance between the two RC cars. However, unlike in the car following problem, following the same trajectory is not required.
+The thesis has the following structure. First, a theoretical background of the chasing algorithm is outlined. This includes related work described in Section \ref{s:related_work} and also a description of each part of the system in Section \ref{s:method}. Then, an experiment Section \ref{s:experiments} follows. The section includes evaluation in CARLA -- an open-source simulator for autonomous driving research \cite{CARLA}. Additionally, it has a real-world testing of the system deployed in a radio-controlled car (RC car for short). The real-world evaluation consists of two parts. First, it has an evaluation of the novel neural network's ability to detect objects and segment images. This is done using a collected dataset that will be presented in the experiment section. Second, it describes a live test chase in which the goal is to maintain a determined distance between the two RC cars. However, unlike in the car following problem, following the same trajectory is not required. Finally, Section \ref{s:conclusion} concludes the thesis.
 
 
 
 
 \chapter{Related Work}\label{s:related_work}
 \section{Path Following}
-A path is understood as a set of waypoints $w_0,\dots ,w_n$. Given a path, a moving vehicle with an initial position $p=w_0$ and initial vehicle heading angle $\psi$, a path-following algorithm tries to change $\psi$ at each timestamp $i \in \langle 0,n\rangle$ to minimize the sum of cross-track errors. The cross-track error is a distance between the vehicle and the closest point on the path. Furthermore, it attempts to minimize the differences between the heading angles $\psi_i$ and the angle formed by waypoints $w_i$ and $w_{i+1}$ called the LOS angle $\phi$ \cite{path_following_evaluation}.\par
+A path is understood as a set of waypoints $w_0,\dots ,w_n$. Given a path, a moving vehicle with an initial position $p=w_0$ and initial vehicle heading angle $\psi$. A path-following algorithm tries to change $\psi$ at each timestamp $i \in \langle 0,n\rangle$ to minimize the sum of cross-track errors. The cross-track error is a distance between the vehicle and the closest point on the path. Furthermore, it attempts to minimize the differences between the heading angles $\psi_i$ and the angle formed by waypoints $w_i$ and $w_{i+1}$ called the LOS angle $\phi$ \cite{path_following_evaluation}.\par
 
 In 1985, Carnegie Mellon University \cite{pure_pursuit_orig} demonstrated the first autonomous path-following vehicle. It works by finding a look-ahead position on the path and subsequently calculating the vehicle's heading angle $\psi$ as a curvature $\kappa$ of an arc depicted in Figure \ref{f:pure_pursuit}. Using the Pythagorean theorem and the fact that $\kappa=\frac{1}{r}$, it can be deduced that $\kappa = \frac{2\cdot x}{p^2}$. \par
 
@@ -90,7 +105,7 @@ In 1985, Carnegie Mellon University \cite{pure_pursuit_orig} demonstrated the fi
     \centering
     \includegraphics[width=0.8\textwidth]{images/Geometry-of-the-pure-pursuit-algorithm.jpg}
     
-    \caption{The geometry of the pure pursuit path following algorithm, adopted from \protect\cite{nice_picture}}\label{f:pure_pursuit}
+    \caption[The geometry of the pure pursuit path following algorithm]{The geometry of the pure pursuit path following algorithm, adopted from \protect\cite{nice_picture}}\label{f:pure_pursuit}
 \end{figure}
 
 
@@ -105,40 +120,40 @@ Solving the path-following problem is an important step to achieving a fully aut
 % they stated that the biggest challenge was computer vision
 
 \section{Car Following and Chasing}
-The goal of a car following problem is to maintain a predefined distance to a followed vehicle. Typically, the problem is solved with a goal of creating an autonomous convoy or a system capable of autonomously driving in highway traffic. Generally, in the car following problem it is expected that the leading car drives smoothly without aggressive turning or sudden braking. On the other hand, in the car chasing problem, the pursued car actively tries to get away from the chasing car. While the chasing car also tries to maintain a certain distance between the two cars, the ultimate goal is not losing the pursued car. For this reason, car chasing is a much more challenging problem. \par
+The goal of a car following problem is to maintain a predefined distance to a followed vehicle. Typically, the problem is solved with a goal of creating an autonomous convoy or a system capable of autonomously driving in highway traffic. Generally, in the car following problem it is expected that the leading car drives smoothly without aggressive turning or sudden braking. On the other hand, in the car chasing problem, the pursued car actively attempts to get away from the chasing car. While the chasing car also tries to maintain a certain distance between the two cars, the ultimate goal is not losing the pursued car. For this reason, car chasing is a much more challenging problem. \par
 
 
 
 The first scientists who attempted to solve the car chasing/following problem realised that an autonomous system with such capabilities needs to be able to perform many different tasks such as localization and planning. Many attempts focused on solving different parts of the system independently.\par
 
-In the 1990s, the first attempts of localization of the ``lead'' chased car were made \cite{only_detection_and_tracking,also_only_car_tracking,night}. Schwarzinger et al. used a database of different car models to match the tracked vehicle to a vehicle model \cite{only_detection_and_tracking}. This gives information about the size of the pursued vehicle. Subsequently, this information is used to estimate the distance and relative position of the pursued car.
+In the 1990s, the first attempts of localization of the ``lead'' chased car were made \cite{only_detection_and_tracking,also_only_car_tracking,night}. Schwarzinger et al.\ used a database of different car models to match the tracked vehicle to a vehicle model \cite{only_detection_and_tracking}. This gives information about the size of the pursued vehicle. Subsequently, this information is used to estimate the distance and relative position of the pursued car.
 
 
-In 1991, Kehtarnavaz et al. developed the first autonomous car following system called BART \cite{BART_car_following}. The system was able to follow the leading car at 20 km/h speed. The system works by changing the velocity of the following car based on the velocity and the distance of the followed car. The authors state that estimating the velocity of the lead car is a challenging problem. While a new Radar/Lidar sensor fusion solution for velocity estimation has been developed \cite{lidar_highway}, we address the issue by proposing a solution that controls the throttle based only on the distances between the two cars.
+In 1991, Kehtarnavaz et al.\ developed the first autonomous car following system called BART \cite{BART_car_following}. The system was able to follow the leading car at 20 km/h speed. The system works by changing the velocity of the following car based on the velocity and the distance of the followed car. The authors state that estimating the velocity of the lead car is a challenging problem. While a new Radar/Lidar sensor fusion solution for velocity estimation has been developed \cite{lidar_highway}, we address the issue by proposing a solution that controls the throttle based only on the distances between the two cars.
 
 
 \subsection{Reinforcement Learning}
 Reinforcement learning is a subfield of machine learning. It deals with what actions should an agent in an environment make to maximize some reward function. An example would be an agent driving a car on a road. In this scenario, the reward could be based on how long the agent is able to drive on the road. The idea is that eventually, the agent would learn from trial and error to match the correct responses (optimal steering value) based on the perceived state (where it is on the road).\par
 
-With the rise of reinforcement learning in recent years \cite{alphago,deepstack,alphastar}, reinforcement learning based solutions for autonomous following and driving have been developed. Michels et al. developed an autonomous driving system capable of driving a RC in an unstructured environment \cite{RL_autonomous_driving}. They used supervised learning approach to estimate depth in an image. Then, they used a simulator to learn a control policy to steer based on the depth information from camera images. Zhu et al. developed a solution that imitates human-like velocity control during highway car following \cite{RL_humanlike,RL_velocity}.\par
+With the rise of reinforcement learning in recent years \cite{alphago,deepstack,alphastar}, reinforcement learning based solutions for autonomous following and driving have been developed. Michels et al.\ developed an autonomous driving system capable of driving a RC car in an unstructured environment \cite{RL_autonomous_driving}. They used supervised learning approach to estimate depth in an image. Then, they used a simulator to learn a control policy to steer based on the depth information from camera images. Zhu et al.\ developed a solution that imitates human-like velocity control during highway car following \cite{RL_humanlike,RL_velocity}.\par
 
 
-Reinforcement learning algorithms are often trained (at least partly) in a simulator. This limits the ability of the system to drive based on the quality of the simulator. Pan et al. acknowledge the problem and address it by creating a network that converts non-realistic virtual image input into a realistic image with a similar scene structure \cite{synthetic_images}. Furthermore, they prove that a reinforcement learning agent benefits from training on more realistic images.\par
+Reinforcement learning algorithms are often trained (at least partly) in a simulator. This limits the ability of the system to drive based on the quality of the simulator. Pan et al.\ acknowledge the problem and address it by creating a network that converts non-realistic virtual image input into a realistic image with a similar scene structure \cite{synthetic_images}. Furthermore, they prove that a reinforcement learning agent benefits from training on more realistic images.\par
 
 
-In the end we have decided not to use reinforcement learning approach. Because our system has three parts, we can analyze issues a figure out which part caused the issue, i.e., if it was cause by perception, planning or control. This might not be possible using reinforcement learning. We also believe, that our approach is more suitable for possible hardware changes to the subscale vehicle platform attached to the RC car. 
+We have decided not to use reinforcement learning approach. A major drawback of reinforcement learning is the black-box structure. On the other hand since our system has three parts, we can analyze issues and figure out which part caused the issue, i.e., if it was cause by perception, planning or control. This might not be possible using reinforcement learning. We also believe, that our approach is more suitable for possible hardware changes to the subscale vehicle platform attached to the RC car. 
 
 
 
 
 
 \section{Target Following Using Unmanned Aerial Vehicles}
-Unmanned aerial vehicles (UAV) are used in contemporary conflicts. The use of UAVs has been steadily increasing for number of years \cite{UAV_good_or_bad}. They have been used for remote mapping, data acquisition, target selection and target chasing \cite{UAV_good_or_bad,UAV_use}. Target chasing and target following using UAVs is a similar problem to the car chasing problem. Generally, the architecture of an autonomous UAV is similar to the architectures used in autonomous vehicles \cite{target_following_alg,uva_tracking_formula}. It is usually divided into three parts: perception and localization, planning, and a controller. \par
+Unmanned aerial vehicles (UAV) are used in contemporary military operations. The use of UAVs has been steadily increasing for number of years \cite{UAV_good_or_bad}. They have been used for remote mapping, data acquisition, target selection and target chasing \cite{UAV_good_or_bad,UAV_use}. Target chasing and target following using UAVs is a similar problem to the car chasing problem. Generally, the architecture of an autonomous UAV is similar to the architectures used in autonomous vehicles \cite{target_following_alg,uva_tracking_formula}. It is usually divided into three parts: perception and localization, planning, and a controller. \par
 
-There are two main differences between chasing a target with a UAV compared to vehicle chase. Firstly, UAV can move in more directions, which also means that an altitude control is necessary. Secondly, oftentimes there is an assumption that there are no obstacles that would prevent the UAV to move in all directions \cite{target_following_alg,uva_tracking_formula,rotorcraft}. \par
+There are two main differences between chasing a target with a UAV compared to vehicle chase. Firstly, UAV moves in more directions, which also means that an altitude control is necessary. Secondly, oftentimes there is an assumption that there are no obstacles that would prevent the UAV to move in all directions \cite{target_following_alg,uva_tracking_formula,rotorcraft}. \par
 
 
-As an example of an autonomous UAV target chasing, Telière et al. developed an autonomous quad-rotor UAV that chases a moving RC car \cite{uva_tracking_formula}. They set the camera attached to the UAV in a way that the heading vector of the camera is perpendicular to the ground. Then, they estimate the distance error between the center of the image and the moving target. Finally, with the assumption that there are no obstacles, the system moves the UAV to minimize the measured error. This is similar to our approach as we also move the chasing car based on estimated distance between the chasing and chased car. On top of that, our system performs semantic segmentation and plans a trajectory based on information about the surrounding environment. 
+As an example of an autonomous UAV target chasing, Telière et al.\ developed an autonomous quad-rotor UAV that chases a moving RC car \cite{uva_tracking_formula}. They set the camera attached to the UAV in a way that the heading vector of the camera is perpendicular to the ground. Then, they estimate the distance error between the center of the image and the moving target. Finally, with the assumption that there are no obstacles, the system moves the UAV to minimize the measured error. This is similar to our approach as we also move the chasing car based on estimated distance between the chasing and chased car. On top of that, our system performs semantic segmentation and plans a trajectory based on information about the surrounding environment. 
 
 
 
@@ -153,13 +168,13 @@ As an example of an autonomous UAV target chasing, Telière et al. developed an 
 The system architecture is divided into three parts: perception and localization, trajectory planning and a trajectory controller. The architecture is depicted in Figure \ref{f:overview}. \par
 
 
-In the perception part, we introduce a novel neural network that detects objects and segments an image at the same time. It is able to find a 2D bounding box of the chased car. Furthermore, it segments an image into a coarse grid of $S\times S$ cells and makes a classification about each cell whether it's drivable surface or not. The detection and segmentation are done with a single pass of the image through the neural network. \par
+In the perception part, we introduce a novel neural network that detects objects and segments an image at the same time. It is able to find a 2D bounding box of the chased car. Furthermore, it segments an image into a coarse grid of $S\times S$ cells and makes a classification about each cell whether it is drivable surface or not. The detection and segmentation are done with a single pass of the image through the neural network. \par
 
 
 Then, we estimate the angle and distance between the two cars based on the detected bounding box of the chased car. In case no bounding box is found we extrapolate the distance and angle. \par
 
 
-After the perception and localization, the trajectory is planned. At this stage, we take advantage of the image segmentation. If only a drivable surface is between the two cars, we try to drive straight at the last position of the chased car. Otherwise, we use the image segmentation and find a direction where it's possible to drive and that is closest to the position of the chased car. \par
+After the perception and localization, the trajectory is planned. At this stage, we take advantage of the image segmentation. If only a drivable surface is between the two cars, we try to drive straight at the last position of the chased car. Otherwise, we use the image segmentation and find a direction where it is possible to drive and that is also closest to the position of the chased car. \par
 
 
 Finally, with the trajectory planned, we calculate the steer and throttle to drive the vehicle. We use a PID controller \cite{PID_orig} to control the throttle. It takes into account the current as well as the previous distances between the chasing and chased car. A Pure Pursuit \cite{pure_pursuit_orig} inspired algorithm is developed to control the steering. \par
@@ -171,10 +186,10 @@ Details of the method will be described in the following sections.
 
 \section{Computer Vision}
 \subsection{Dual-task Neural Network}
-In this section, we introduce a novel neural network that solves two problems at once - object detection and semantic segmentation. \par
+In this section, we introduce a novel neural network that solves two problems at once -- object detection and semantic segmentation. \par
 
 
-The neural network shares the same backbone for both tasks -- a 53 layer feature extractor called Darknet-53 \cite{YOLOv3}. Attached to the feature extractor are two sets of layers -- one that gives the output for the object detection and the second that gives an output for the image segmentation. The architecture of the neural network is depicted in Figure \ref{f:dual_task}.\par
+The neural network shares the same backbone for both tasks -- a 53 layer feature extractor called Darknet-53 \cite{YOLOv3}. Attached to the feature extractor are two sets of layers -- one that gives the output for the object detection and the other that gives an output for the image segmentation. The architecture of the neural network is depicted in Figure \ref{f:dual_task}.\par
 
 
 \begin{figure}[]
@@ -186,13 +201,13 @@ The neural network shares the same backbone for both tasks -- a 53 layer feature
 
 
 
-The network is trained by alternating optimization. The neural network uses different loss functions depending on the batch. During training, when the network receives a training batch of data for semantic segmentation, the output for the object detection is ignored, and consequently, only the shared layer and the segmentation layers are trained. Equivalently, when the network gets a batch containing object detection data, it updates the weights only on the shared layers and the detection layers. \par
+The network is trained by alternating optimization -- in every second batch, the network is optimized only for detection, while the segmentation is optimized in the remaining batches. The neural network uses different loss functions depending on the batch. During training, when the network receives a training batch of data for semantic segmentation, the output for the object detection is ignored, and consequently, only the shared layers (the feature extractor) and the segmentation layers are trained. Equivalently, when the network gets a batch containing object detection data, it updates the weights only on the shared layers and the detection layers. \par
 
 
 During inference, the network works as follows. It is given an image, which passes through the network just once. From this, we get an object detection output as well as the semantic segmentation output. This means that while the training is slightly slower than training a single-task neural network, the extra cost is negligible during inference since the backbone features are shared. \par
 
 
-For autonomous driving, the neural network architecture has many advantages over using two separate networks. First, as was mentioned, it is much faster. That is crucial when driving autonomously because we want to process as many frames per second as possible and have fast reaction times to ultimately prevent accidents and crashes. Second, it uses less memory, because most of the network weights are shared. This is potentially beneficial for the overall speed since more RAM is available, less disk swapping is required. Finally, it makes integration of the detection and segmentation into our autonomous RC car system a lot simpler.
+For autonomous driving, the neural network architecture has many advantages over using two separate networks. First, as was mentioned, it is much faster. That is crucial when driving autonomously because we want to process as many frames per second as possible and have fast reaction times to ultimately prevent accidents and crashes. Second, it uses less memory, because most of the network weights are shared. This is potentially beneficial for the overall speed since more RAM is available, less disk swapping is required. Finally, it makes integration of the detection and segmentation into our autonomous RC car system ,having limited computational power, a lot simpler.
 
 
 
@@ -206,10 +221,10 @@ The first version of the YOLO published in 2015 \cite{YOLO}, made a great improv
     \centering
     \includegraphics[width=0.8\textwidth]{images/YOLO.png}
     
-    \caption{Diagram showing YOLO neural network mechanism, adopted from \protect\cite{YOLO}}\label{f:YOLO}
+    \caption[Diagram showing YOLO neural network mechanism]{Diagram showing YOLO neural network mechanism, adopted from \protect\cite{YOLO}}\label{f:YOLO}
 \end{figure}
 
-The YOLO neural network divides an image into $S\times S$ grid of cells. Each cell makes $K$ bounding box predictions. Each prediction is a set of numbers such as width, height and the $(x,y)$ coordinates of the center of the bounding box. For each object in the image, the cell that has the center of the object inside is responsible for predicting its bounding box. This can be seen in the top middle image in the Figure \ref{f:YOLO}. Concurrently, each cell outputs $C$ values where each value represents a predicted probability of whether an object from a class $C_i$ is in the cell. The resulting class map from these predicted probabilities is seen in the bottom middle image in the Figure \ref{f:YOLO}. Both of these predictions -- the class probabilities and the bounding box predictions -- are then used together to make detection and classification of the objects in the image.
+The YOLO neural network divides an image into $S\times S$ grid of cells. Each cell makes $K$ bounding box predictions. Each prediction is a vector containing width, height and the $(x,y)$ coordinates of the center of the bounding box. For each object in the image, the cell that has the center of the object inside is responsible for predicting its bounding box. This can be seen in the top middle image in the Figure \ref{f:YOLO}. Concurrently, each cell outputs $C$ values where each value represents a predicted probability of whether an object from a class $C_i$ is in the cell. The resulting class map from these predicted probabilities is seen in the bottom middle image in the Figure \ref{f:YOLO}. Both of these predictions -- the class probabilities and the bounding box predictions -- are then used together to make detection and classification of the objects in the image.
 \par
 
 During training, YOLO optimizes a multi-task loss function. It concurrently optimizes the bounding box regression as well as the class probabilities predictions.
@@ -230,11 +245,11 @@ In our work, we have used the YOLOv3 detector pre-trained on a COCO dataset cons
 One of the most crucial information when chasing another vehicle is its relative angle and distance to the chasing car as sketched in Figure \ref{f:chasing_diagram}. In our work, we are estimating the angle between the heading vector of the chasing car and the vector pointing from the center-front of the chasing car to the center of the back of the pursued car. Furthermore, we estimate the distance between the two cars. To be specific, the distance $d$ between the front of the chasing car and the center of the back of the pursued car. \par
 
 
-\begin{figure}[h!]
+\begin{figure}[]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ChasingDiagram.png}
     
-    \caption{Angle and distance estimation: Blue chasing car on the left and pursued car on the right. It shows the ground truth distance $d$ and the angle $\varphi$ we are estimating using a camera mounted on the chasing car }\label{f:chasing_diagram}
+    \caption[Angle and distance estimation 2D overview]{Angle and distance estimation: Blue chasing car on the left and pursued car on the right. It shows the ground truth distance $d$ and the angle $\varphi$ we are estimating using a camera mounted on the chasing car }\label{f:chasing_diagram}
 \end{figure}
 
 Figure \ref{f:chasing_diagram} shows this problem in a simplified 2D view. To estimate the distance and the angle of the car from an image, we took advantage of existing solutions solving PnP (Perspective-n-Point) problem. The PnP is a problem of estimating position and orientation of a camera from a set of $n$ known 3D points, their corresponding 2D projections in the image, and the calibrated intrinsic camera parameters. This leads us to the following camera projection equation: \par
@@ -260,18 +275,18 @@ r_{31} & r_{32} & r_{33} & t_{3}\\
 \begin{bmatrix}x\\y\\z\\1\end{bmatrix}
 \end{equation}
 
-In our case, the image points $p_{image}$ are the bounding box corners of the detected car. We also estimated the model coordinates $p_{model}$ by measuring the width and height of the chased RC car. We assume that the bounding box encloses only the corresponding image points, i.e., the back of the RC car. We acknowledge that the assumption does not always hold true, but we found the resulting inaccuracies to be negligible. Finally, the intrinsic camera parameters such as focal lengths $f_x$ and $f_y$ were taken from the official calibration of the ZED camera. Then, we plugged these values into an OpenCV \cite{opencv_library} library function which gave us the translation and rotation vectors. Afterwards, we calculated the distance $d$ by calculating the Euclidean distance between the translation vector $\mathbf{T}$ and the origin. Similarly, we extracted the desired estimated angle $\varphi$ by calculating arc tangent of the rotation vector. 
+In our case, the image points $p_{image}$ are the bounding box corners of the detected car. We also estimated the model coordinates $p_{model}$ by measuring the width and height of the chased RC car. We assume that the bounding box encloses only the corresponding image points, i.e., the back of the RC car. We acknowledge that the assumption does not always hold true, but we found the resulting inaccuracies to be negligible. Finally, the intrinsic camera parameters such as focal lengths $f_x$ and $f_y$ were taken from the official calibration of the ZED camera. Then, we plugged these values into an OpenCV \cite{opencv_library} library function SolvePnP (with CV\_ITERATIVE flag) which gave us the translation and rotation vectors. Afterwards, we calculated the distance $d$ by calculating the Euclidean distance between the translation vector $\mathbf{T}$ and the origin. Similarly, we extracted the desired estimated angle $\varphi$ by calculating arc tangent of the rotation vector. 
 
 Finally, since we are using a stereo camera and the camera lens which was used is not in the center of the front of the car, we converted the calculated angle and distance as if the camera was in the center of the front of the car. We achieve this by a simple triangulation.
 
 \subsection{Angle and Distance Extrapolation}
-In the previous section, we have described how we estimate angle distance based on the bounding box of the chased car. However, in some cases the detector is unable to detect the object in the image due to poor light conditions in the scene, or because the pursued vehicle is only partially visible due to some object occluding it. Furthermore, there are cases when the chased car is out of the field of view. In these cases, we need to make a reasonable prediction about the position of the chased car. \par
+In the previous section, we have described how we estimate angle distance based on the bounding box of the chased car. However, in some cases the detector is unable to detect the object in the image due to poor lighting conditions in the scene, or because the pursued vehicle is only partially visible/non-visible due to some object occluding it. Furthermore, there are cases when the chased car is out of the field of view. In these cases, we need to make a reasonable prediction about the position of the chased car. \par
 
 
 We extrapolate the angle and the distance of the chased car based on the previous estimates. At the heart of the extrapolation algorithm is an exponential moving average. In fact, we use just six variables to store information about the whole history of estimated angles and distances. The idea will be explained by the process of extrapolating distances. The angle extrapolation is done similarly. \par
 
 
-Every frame we update exponential moving average variable using the following equation:\par
+For every frame, we update exponential moving average variable using the following equation:\par
 
 
 \begin{equation}
@@ -282,9 +297,9 @@ Every frame we update exponential moving average variable using the following eq
     \end{cases}
 \end{equation}
 
-Where $\hat{e_{i}}$ is the exponential moving average variable at $i$th frame, $\alpha$ is a value in the range [0,1] that sets the weight of the last predicted distance. In our algorithm, we have chosen value $\alpha=0.5$. \par
+Where $\hat{e_{i}}$ is the exponential moving average variable at $i$th frame, $\alpha$ is a value in range [0,1] that sets the weight of the last predicted distance. In our algorithm, we have chosen value $\alpha=0.5$. \par
 
-If the chased car is detected at $i$th frame, we set $d_i$ equal to the predicted estimate received from the PnP. We then update the variable $\hat{e_{i}}$ using the estimate $d_i$ and subsequently output the variable $d_i$ as our estimate for $i$th frame. In case no bounding box was detected, we update the $\hat{e_{i}}$ variable with $d_{extrapolated}$ variable that is computed using the following linear extrapolation equation:
+If the chased car is detected at $i$th frame, we set $d_i$ equal to the predicted estimate received from the PnP solver. We then update the variable $\hat{e_{i}}$ using the estimate $d_i$ and subsequently output the variable $d_i$ as our estimate for $i$th frame. In case no bounding box was detected, we update the $\hat{e_{i}}$ variable with $d_{extrapolated}$ variable that is computed using the following linear extrapolation equation:
 
 
 \begin{equation}
@@ -307,7 +322,7 @@ In comparison to the semantic segmentation that links each pixel of the image to
     \centering
     \includegraphics[width=0.8\textwidth]{images/segmented_image.png}
     
-    \caption{Segmented image from the RC car's camera. The image is segmented into $10\times 10$ grid of cells where the green cells represent a drivable surface. The image is taken from our test set}\label{f:segmented_image}
+    \caption[Segmented image from the RC car's camera]{Segmented image from the RC car's camera. The image is segmented into $10\times 10$ grid of cells where the green cells represent a drivable surface. The image is taken from our test set}\label{f:segmented_image}
 \end{figure}
 
 To create a labeled dataset, we used semantic segmented images (an image that has each pixel of the image linked to a class label). Then, we calculate the number of pixels in a cell that belong to the class representing the drivable surface. If the percentage of these pixels is higher than $P$ percentage of all the pixels in the cell, we assign the cell said label. In our work, we have chosen $P=50\%$.\par
@@ -325,42 +340,40 @@ Where $N$ is the number of images per batch, $\hat{y_i}$ are the predicted segme
 
 
 \section{Control And Planning}
-In this section, we will explain how we control the steering and throttle of the vehicle based on the extracted information from the camera. Conversely to many algorithms \cite{Broggi2013,Werling2010}, we control steering and throttle separately. Steering control is inspired by pure pursuit algorithm and throttle is controlled by a PID controlled.
+In this section, we will explain how we control the steering and throttle of the vehicle based on the extracted information from the camera. Conversely to many algorithms \cite{Broggi2013,Werling2010}, we control steering and throttle separately. Steering control is inspired by pure pursuit algorithm and throttle is controlled by a PID controller.
 
 
 \subsection{Pure Pursuit Inspired Algorithm} \label{sec:pure_pursuit}
-Pure pursuit algorithm is a path tracking algorithm that moves a vehicle from its current position to some look-ahead position on the path. It was invented in the 1980s as it was used in the first demonstration of an autonomous vehicle capable of following a road using imagery from a black and white camera \cite{pure_pursuit_orig}. The goal of the demonstration was to keep the vehicle centered on the road while it was driving at a constant speed.\par
+Pure pursuit algorithm is a path tracking algorithm that moves a vehicle from its current position to some look-ahead position on the path. The algorithm was invented in the 1980s as it was used in the first demonstration of an autonomous vehicle capable of following a road using imagery from a black and white camera \cite{pure_pursuit_orig}. The goal of the demonstration was to keep the vehicle centered on the road while it was driving at a constant speed.\par
 
 
 The algorithm works as follows. Firstly, it finds the goal point on the path. Then, it transforms the goal point to vehicle coordinates, and finally, it calculates the curvature that will drive the vehicle to the look-ahead position on the path. \par
 
 
 In our work, we were inspired by the algorithm. As opposed to the pure pursuit algorithm settings, our car does not move at a constant speed. Secondly, we are not following a path, but rather chasing a moving RC car. Therefore, every time we process an image from the camera, we update our goal position. But unlike in the path-following algorithm, the target position is updated with respect to the current position of the chased RC car rather than to a position on a path. \par
-Conversely to the pure pursuit algorithm, we also do not calculate the curvature to control the steering. That is because we need to update the steering every frame based on the position of the chased RC car and take more aggressive turns to chase the pursued vehicle. In our algorithm we calculate the steering value with the following function:
+Conversely to the pure pursuit algorithm, we do not calculate the curvature to control the steering. That is because we need to update the steering every frame based on the position of the chased RC car and take more aggressive turns to chase the pursued vehicle. In our algorithm we calculate the steering value with the following function:
 
-\begin{equation}steer = (\cfrac{\alpha}{\textrm{180}})^{2}\end{equation}
+\begin{equation}steer = (\cfrac{\varphi}{\textrm{180}})^{2}\end{equation}
 
-Value $\alpha$ represents the angle between the chasing and the chased car shown in the Figure \ref{f:chasing_diagram}. The $steer$ variable is a value in the [-1, 1] range, where -1 and 1 represent the highest left-turn and right-turn steering angle the car can make respectively. We square the result of the division because the steering control on the RC car is non-linear. We don't square the division in the CARLA simulation.
+Value $\varphi$ represents the angle between the chasing and the chased car shown in the Figure \ref{f:chasing_diagram}. The $steer$ variable is a value in the [-1, 1] range, where -1 and 1 represent the highest left-turn and right-turn steering angle the car can make respectively. We square the result of the division because the steering control on the RC car is non-linear. We do not square the division in the CARLA simulation.
 
 
 
 
 \subsection{Semantic Segmentation Based Planning}
-During inference, we use the coarse segmented grid as depicted in Figure \ref{fig:segmentation_planning}. First, we construct a line from the middle (horizontally) bottom (vertically) of the image to the bounding box of the detected car. If this line goes only through cells that are drivable, the trajectory planning phase stays unchanged and we try to follow the car directly as described in Section \ref{sec:pure_pursuit}. If that's not the case, we repeat the construction of the line. This time, however, the line goes from the middle bottom of the image to other cells on the same horizontal line as the bounding box of the car. When we find a line goes through cells with drivable surfaces and that is closest to the RC car, we try to drive the car in this direction until it's possible again to chase the car directly.
+During inference, we use the coarse segmented grid as depicted in Figure \ref{fig:segmentation_planning}. First, we construct a line from the middle (horizontally) bottom (vertically) of the image to the bounding box of the detected car. If this line goes only through cells that are drivable, the trajectory planning phase stays unchanged and we try to follow the car directly as described in Section \ref{sec:pure_pursuit}. If that's not the case, we repeat the construction of the line. This time, however, the line goes from the middle bottom of the image to other cells on the same horizontal line as the bounding box of the car. When we find a line goes through cells with drivable surfaces and that is closest to the RC car, we try to drive the car in this direction until it is possible again to chase the car directly.
 
 \begin{figure}[]
     \centering
     \subfloat[First proposed path]{{\includegraphics[width=0.45\textwidth]{images/diagram1.pdf} }}%
     \qquad
-    %\subfloat[bb]{{\includegraphics[height=4.3cm]{images/CARLA_middle_view.png} }}%
-    %\qquad
     \subfloat[Second proposed path]{{\includegraphics[width=0.45\textwidth]{images/diagram3.pdf} }}%
-    \caption{Example of a coarse semantic segmentation based planning using $3\times 3$ grid of cells. First the algorithm checks if it's possible to drive directly \textbf{(a)}. This is not possible as the constructed line goes through non-drivable grid. Then, the remaining cells on the the same row as the detected car are checked. The algorithm finally proposes a direction represented by a line that goes only through drivable surfaces and that is closest to the direction of the chased car \textbf{(b)}.}%
+    \caption[Example of a coarse semantic segmentation based planning using $3\times 3$ grid of cells]{Example of a coarse semantic segmentation based planning using $3\times 3$ grid of cells. First the algorithm checks if it is possible to drive directly \textbf{(a)}. This is not possible as the constructed line goes through non-drivable grid. Then, the remaining cells on the the same row as the detected car are checked. The algorithm finally proposes a direction represented by a line that goes only through drivable surfaces and that is closest to the direction of the chased car \textbf{(b)}.}%
     \label{fig:segmentation_planning}%
 \end{figure}
 
 \subsection{PID Controller}
-Despite being invented in the 1940s, the PID controller is the most common control algorithm. In a 2002 survey of over 11 000 controllers from various industries, it was found that 97\% of regulatory controllers utilize PID feedback \cite{PID-usage}. 
+Despite being introduced in the 1940s, the PID controller is the most common control algorithm. In a 2002 survey of over 11 000 controllers from various industries, it was found that 97\% of regulatory controllers utilize PID feedback \cite{PID-usage}. 
 
 In our work, we use a PID controller to control the throttle of the chasing autonomous car. As the name suggests it can be described with the following equation:
 
@@ -392,7 +405,7 @@ All the simulation experiments were performed in CARLA -- an open-source simulat
 
 
 \subsection{Experiment Setup}
-In our work, we chose Tesla Model 3 as the chased car and Jeep Wrangler Rubicon as the chasing car. In each experiment, the pursued Tesla Model 3 was placed in front of the autonomously driven Jeep, as shown in Figure \ref{fig:CARLA}. At each frame, we simulated a bounding box detection of the chased car. We did this by transforming the ground truth world coordinates of the chased vehicle bounding box to the camera image coordinates. Then, we randomly perturbed the bounding box by adding random exponential noise proportional to the size of the bounding box. Furthermore, we simulated detection failure (false negative) in 10\% of the frames. Finally, we simulated detection failure in instances, where the chased car was out of the field of view.\par
+In our work, we chose Tesla Model 3 as the chased car and Jeep Wrangler Rubicon as the chasing car. In each experiment, the pursued Tesla Model 3 was placed in front of the autonomously driven Jeep, as shown in Figure \ref{fig:CARLA}. At each frame, we simulated a bounding box detection of the chased car. We did this by projecting the ground truth world coordinates of the chased vehicle bounding box to the camera image coordinates. Then, we randomly perturbed the bounding box by adding random exponential noise proportional to the size of the bounding box. Furthermore, we simulated detection failure (false negative) in 10\% of the frames. The detection was also not provided when the chased car was out of the field of view.\par
 
 All the experiments were performed in a synchronous mode in which the simulation waits for the sensor data to be ready before sending the measurements as well as halts each frame until a control message is received \cite{CARLA}. \par
 
@@ -400,8 +413,6 @@ All the experiments were performed in a synchronous mode in which the simulation
     \centering
     \subfloat[View from the stereo camera attached to the chasing car]{{\includegraphics[height=4.3cm]{images/CARLA_camera_view.png} }}%
     \qquad
-    %\subfloat[bb]{{\includegraphics[height=4.3cm]{images/CARLA_middle_view.png} }}%
-    %\qquad
     \subfloat[View from above]{{\includegraphics[height=4.3cm]{images/CARLA_top_view.png} }}%
     \caption{Two images showing the beginning of a CARLA experiment from two different perspectives}%
     \label{fig:CARLA}%
@@ -410,50 +421,42 @@ All the experiments were performed in a synchronous mode in which the simulation
 
 
 \subsubsection{Driving Dataset} \label{s:drivingDataset}
-To perform the experiments we first collected a driving dataset\footnote{Available at \href{https://github.com/JahodaPaul/autonomous-car-chase}{https://github.com/JahodaPaul/autonomous-car-chase}}. We used the Tesla Model 3 and manually drove it around the city using connected steering wheel and pedals Hama uRage GripZ \footnote{\href{https://www.hama.com/00113754/urage-urage-gripz-racing-wheel}{https://www.hama.com/00113754/urage-urage-gripz-racing-wheel}}. As the car was driven, its location and orientation were recorded at every frame. This way, we have created a database of 20 different drives with varying difficulty (in a sense of chasing the car). We used this database to evaluate the autonomous driving system. At the beginning of the following experiments, a chasing car was placed half of a meter behind the chased car. Then, we updated every frame the location and orientation of the chased car based on the saved coordinates in the dataset. Meanwhile, the chasing vehicle was driven autonomously and trying to maintain a desired distance from the pursued car. Figure \ref{f:trajectory} depicts a full trajectory of an autonomous chase in CARLA.\par
-
-
+To perform the experiments we first collected a driving dataset\footnote{Available at \href{https://github.com/JahodaPaul/autonomous-car-chase}{https://github.com/JahodaPaul/autonomous-car-chase}}. We used the Tesla Model 3 and manually drove it around the city using connected steering wheel and pedals Hama uRage GripZ \footnote{\href{https://www.hama.com/00113754/urage-urage-gripz-racing-wheel}{https://www.hama.com/00113754/urage-urage-gripz-racing-wheel}}. As the car was driven, its location and orientation were recorded at every frame. This way, we have collected a database of 20 different drives with varying difficulty (in a sense of chasing the car). We used this database to evaluate the autonomous driving system. At the beginning of the following experiments, a chasing car was placed half of a meter behind the chased car. Then, we updated every frame the location and orientation of the chased car based on the saved coordinates in the dataset. Meanwhile, the chasing vehicle was driven autonomously and trying to maintain a desired distance from the pursued car. Figure \ref{f:trajectory} depicts a full trajectory of an autonomous chase in CARLA.\par
 
 
 \begin{figure}[]
     \centering
-    % \subfloat[aa]{{\includegraphics[width=0.8\textwidth]{images/trajectory_h.pdf} }}%
-    % \qquad
-    % \subfloat[bb]{{\includegraphics[width=0.8\textwidth]{images/trajectory_img_h.pdf} }}%
-    % %\qquad
-    % \subfloat[cc]{{
     \includegraphics[width=1\textwidth]{images/trajectory_img_h.pdf}
-    \caption{Example of a difficult drive trajectory in the CARLA simulator. The full blue line represents the trajectory of the chasing car and the dashed black line represents the trajectory of the pursued car. }\label{f:trajectory}
+    \caption[Example of a difficult drive trajectory in the CARLA simulator]{Example of a difficult drive trajectory in the CARLA simulator. The full blue line represents the trajectory of the chasing car and the dashed black line represents the trajectory of the pursued car. }\label{f:trajectory}
 \end{figure}
 
 
-We divide the dataset into two equal-sized sets based on difficulty. The first set contains simple drives in which the car was driven slowly and without sudden turning and braking. Any changes such as turns were slow. The average speed in these drives is 34.77 km/h.\par
+We divide the dataset into two equal-sized sets based on difficulty. The first set contains simple drives in which the car was driven slowly and without sudden turning and braking. Any changes such as turns were slow. The average speed in these drives is 35.01 km/h.\par
 
 
-On the other hand, the second set aims to test the algorithm to its limits. The drives include sudden braking, fast turns as well as cutting corners. Sometimes even drifts were performed. The average speed in these drives is 49.37 km/h. The average speed distribution of both of these sets can be seen in Figure \ref{f:speed_distribution}.
+On the other hand, the second set aims to test the algorithm to its limits. The drives include sudden braking, fast turns as well as cutting corners. Sometimes even drifts were performed. The average speed in these drives is 49.68 km/h with the fastest drive having average speed of 63.29 km/h. %The average speed distribution of both of these sets are seen in Figure \ref{f:speed_distribution}.
 
 
-\begin{figure}[]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/average_speeds.pdf}
+% \begin{figure}[]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{images/average_speeds.pdf}
     
-    \caption{Average speed distribution of the collected CARLA driving sets}\label{f:speed_distribution}
-\end{figure}
+%     \caption{Average speed distribution of the collected CARLA driving sets}\label{f:speed_distribution}
+% \end{figure}
 
 
 
 \subsection{Segmentation and Extrapolation Evaluation} \label{s:experiment1}
-In the first experiment, we compare different versions of the algorithm. We evaluate the algorithm with its full functionality enabled as described in Section \ref{s:method}, we also test the same algorithm without using coarse image segmentation and finally evaluate the algorithm without the segmentation, and distance and angle extrapolation. We compare these versions on both of the sets described in Section \ref{s:drivingDataset}. We evaluated these versions using 5 indicators. Namely, an average root-mean-square error (RMSE) of the desired distance between the two cars and the actual distance between the two cars. The average mean absolute error (MAE) of the desired and the actual distance. The average number of crashes per drive. The average drive completion, which is based on how long the autonomous system was chasing the pursued car. To be specific, at the last position of the chasing car, we calculated the closest point on the chased car path. Then, we calculated the percentage that the part of the path from the beginning point to this point accounts for. Finally, we evaluate the total number of finished drives. We consider the chase to be finished if the drive was at least 95\% completed.\par
-
+In the first experiment, we compare different versions of the algorithm. We evaluate the algorithm with its full functionality enabled as described in Section \ref{s:method}, we also test the same algorithm without using coarse image segmentation and finally evaluate the algorithm without the segmentation, and distance and angle extrapolation. We compare these versions on both of the easy and difficult sets described in Section \ref{s:drivingDataset}. We evaluated these versions using 5 indicators. Namely, an average root-mean-square error (RMSE) of the desired distance between the two cars and the actual distance between the two cars. The average mean absolute error (MAE) of the desired and the actual distance. The average number of crashes per drive. The average drive completion, which is based on how long the autonomous system was chasing the pursued car. To be specific, at the last position of the chasing car, we calculated the closest point on the chased car path. Then, we calculated the percentage that the part of the path from the beginning point to this point accounts for. Finally, we evaluate the total number of finished drives. We consider the chase to be finished if the drive was at least 95\% completed.\par
 
 \begin{table}[]
 \tabcolsep=0.11cm
 \begin{tabular}{l|lllll}
 \hline
-                                       & Finished & Avg. Completion  & Crashes & MAE  & RMSE   \\ \hline
-Full Algorithm                         & 10       & 97.48\% & 0.1     & 9.28 & 118.95 \\
-W/o Segmentation                    & 10       & 97.41\%          & 0.1     & 9.26 & 118.82 \\
-W/o Segm. and Ex. & 9        & 97.03\%          & 0.11    & 9.34 & 126.20 \\ \hline
+                                      & Finished & Avg. Completion  & Crashes & MAE  & RMSE   \\ \hline
+Full Algorithm                         & 10       & 97.48\% & 0.1     & 9.28 & 10.91 \\
+W/o Segmentation                    & 10       & 97.41\%          & 0.1     & 9.26 & 10.90 \\
+W/o Segm. + Ex. & 9        & 97.03\%          & 0.11    & 9.34 & 11.23 \\ \hline
 \end{tabular}
 \caption{Comparison of the different algorithm versions on the easy driving set}\label{t:easy_drives}
 \end{table}
@@ -463,10 +466,10 @@ W/o Segm. and Ex. & 9        & 97.03\%          & 0.11    & 9.34 & 126.20 \\ \hl
 \tabcolsep=0.11cm
 \begin{tabular}{l|lllll}
 \hline
-                                       & Finished & Avg. Completion & Crashes & MAE   & RMSE   \\ \hline
-Full Algorithm                         & 4               & \textbf{63.84\%}         & 1.5     & 14.39 & 335    \\
-W/o Segmentation                   & 4               & 54.76\%                  & 1.25    & 14.30 & 331.89 \\
-W/o Segm. and Ex. & 3               & 53.29\%                  & 1       & 14.49 & 357    \\ \hline
+                                      & Finished & Avg. Completion & Crashes & MAE   & RMSE   \\ \hline
+Full Algorithm                         & 4               & \textbf{63.84\%}         & 1.5     & 14.39 & 18.30    \\
+W/o Segmentation                   & 4               & 54.76\%                  & 1.25    & 14.30 & 18.22 \\
+W/o Segm. + Ex. & 3               & 53.29\%                  & 1       & 14.49 & 18.89    \\ \hline
 \end{tabular}
 \caption{Comparison of the different algorithm versions on the difficult driving set}\label{t:difficult_drives}
 \end{table}
@@ -480,7 +483,7 @@ Table \ref{t:difficult_drives} compares the versions using the difficult driving
 
 
 \subsection{Impact of the Detector Quality on Chasing Success}
-As we can see in Table \ref{tab:detection} the recall of the detector is significantly lower than its precision. In this experiment, we investigate the effects of detectors recall on the ability of the autonomous driving system to chase another vehicle. The unsuccessful detections had a uniform distribution. Furthermore, we investigate how each of the three versions of the system copes with different detection recall levels. Figure \ref{f:detection_recall} plots the average drive completion (of the 20 drives) described in Section \ref{s:experiment1} against the detection recall. \par
+As we can see in Table \ref{tab:detection} the recall of the detector is significantly lower than its precision. Therefore, in this experiment we investigate the effects of detectors recall on the ability of the autonomous driving system to chase another vehicle. The unsuccessful detections had a uniform distribution. Furthermore, we investigate how each of the three versions of the system copes with different detection recall levels. Figure \ref{f:detection_recall} plots the average drive completion (of the 20 drives) described in Section \ref{s:experiment1} against the detection recall. \par
 
 
 \begin{figure}[]
@@ -508,7 +511,7 @@ While performing the experiments, we saw that the use of coarse semantic segment
 
 
 
-\section{Real tasks}
+\section{Real Tests}
 \subsection{Vehicle Detection}
 \subsubsection{Dataset} \label{s:detection_dataset}
 In order to train and evaluate a 2D object detector capable of creating a 2D bounding box around the chased RC car in an image, a dataset was needed. The collected dataset\footnote{Available at \href{https://github.com/JahodaPaul/autonomous-car-chase}{https://github.com/JahodaPaul/autonomous-car-chase}} consists of \textbf{460} manually annotated images. All image annotations are in the PASCAL VOC data format introduced in the PASCAL Visual Object Classes Challenge \cite{pascal-voc}. Each image has its annotation that contains pixel coordinates of the bounding box corners for each object in the image. In our dataset, only one object per image is present -- the chased RC car. The data were collected from multiple locations around Czechia, on various surfaces, and also under different lighting conditions. The majority of images were collected by the ZED Stereo camera attached to the chasing RC car. Around 5\% of the collectd images were taken with smartphone Xiaomi Mi 8. A few images from the dataset are shown in Figure \ref{f:dataset_detection}.
@@ -550,22 +553,30 @@ Test set & 99.8\%    & 97.7\% & 0.066   & 0.227   \\ \hline
 
 
 \subsection{Segmentation Results}
-To train and evaluate the coarse semantic segmentation part of the dual-task neural network, we have annotated the collected detection dataset presented in Section \ref{s:detection_dataset}. As explained in Section \ref{s:Image_Segmentation}, each image is segmented into a $10\times 10$ grid of cells. Therefore, we treat this as a classification problem, where the network performs 100 classifications per image. We report, that the neural network achieved 95.4\% classification accuracy on the test set.
+To train and evaluate the coarse semantic segmentation part of the dual-task neural network, we have annotated the collected detection dataset presented in Section \ref{s:detection_dataset}. As explained in Section \ref{s:Image_Segmentation}, each image is segmented into a $10\times 10$ grid of cells. Therefore, we treat this as a classification problem, where the network performs 100 classifications per image. We report, that the neural network achieved 94.4\% classification accuracy on the test set.
+
+\begin{figure}[h]
+    \centering
+    \subfloat[Class distribution]{{\includegraphics[width=0.45\textwidth]{images/bar_chart_drivable.pdf} }}%
+    \quad
+    \subfloat[Confusion matrix. Value P represent Drivable surface while N represents non-drivable surface
+]{{\includegraphics[width=0.45\textwidth]{images/confusion_matrix.pdf} }}%
+    \caption[Confusion matrix of the coarse segmentation predictions and a class distribution of the test set]{Confusion matrix of the coarse segmentation predictions and a class distribution of the test set.The numbers represent the number of instances per image, i.e., out of 100 cells in a single image}
+    \label{fig:segmentation_results}%
+\end{figure}
 
 
 
-
-
-\subsection{Evaluation Using RC Cars}
+\subsection{Test Drive Using RC Cars}
 \subsubsection{RC Cars Description}
 \paragraph{Chasing RC car}
-For the deployment of our autonomous chasing algorithm, a subscale vehicle platform called Toyota Mini (ToMi) was used \cite{tomi_Cech2020}. The platform is built around a large 1:5 scale RC car ``Losi Desert Buggy XL-E 4WD'' \footnote{\href{http://www.losi.com/Products/Default.aspx?ProdID=LOS05012T2}{http://www.losi.com/Products/Default.aspx?ProdID=LOS05012T2}}. This electrically powered car has 0.9 x 0.5 meters length and width dimensions with reported maximal speed of up to 80km/h. At the core of the platform is a Raspberry Pi with a Navio-board\footnote{\href{https://emlid.com/navio/}{https://emlid.com/navio/}} that generates pulse width modulation signals for the throttle and steering to the servomotor. It is also equipped with a ZED stereo camera\footnote{\href{https://www.stereolabs.com/zed/}{https://www.stereolabs.com/zed/}} for taking color images, NVIDIA Jetson AGX Xavier graphics card\footnote{\href{https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-agx-xavier/}{https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-agx-xavier/}} for image processing and neural network interference. Finally, it is equipped with SSD to provide additional storage, GPS, and IMU. \par
-The whole simplified process flow is as follows. First, an image is taken by a camera, which then goes to the graphics card where it's analyzed by our algorithm. Then, based on the image analysis a steer and throttle values are updated. These values are transmitted from the graphics card to the Raspberry Pi which then sends a signal to the servomotor that controls the vehicle.
+For the deployment of our autonomous chasing algorithm, a subscale vehicle platform called Toyota Mini (ToMi) was used \cite{tomi_Cech2020}. The platform is built around a large 1:5 scale RC car ``Losi Desert Buggy XL-E 4WD'' \footnote{\href{http://www.losi.com/Products/Default.aspx?ProdID=LOS05012T2}{http://www.losi.com/Products/Default.aspx?ProdID=LOS05012T2}}. This electrically powered car has 0.9 x 0.5 meters length and width dimensions with reported maximal speed of up to 80km/h. At the core of the platform is a Raspberry Pi with a Navio-board\footnote{\href{https://emlid.com/navio/}{https://emlid.com/navio/}} that generates pulse width modulation (PWM) signals for the throttle and steering to the servomotor. It is also equipped with a ZED stereo camera\footnote{\href{https://www.stereolabs.com/zed/}{https://www.stereolabs.com/zed/}} for taking color images, NVIDIA Jetson AGX Xavier graphics card\footnote{\href{https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-agx-xavier/}{https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-agx-xavier/}} for image processing and neural network inference. Finally, it is equipped with SSD to provide additional storage, GPS, and IMU. \par
+The whole simplified process flow is as follows. First, an image is taken by a camera, which then goes to the graphics card where it is analyzed by our algorithm. Then, based on the image analysis a steer and throttle values are updated. These values are transmitted from the graphics card to the Raspberry Pi which then sends a signal to the servomotor that controls the vehicle.
 
 \paragraph{Chased RC car}
-The RC car used as the chased vehicle is a 1:10 scale ``Losi XXX-SCT Brushless RTR''\footnote{\href{http://www.losi.com/Products/Default.aspx?ProdID=LOS03002}{http://www.losi.com/Products/Default.aspx?ProdID=LOS03002}}. This electrically powered car has 0.55 x 0.29 meters length and width dimensions with reported maximal speed of up to 55 km/h.
+The RC car used as the chased vehicle is a 1:10 scale ``Losi XXX-SCT Brushless RTR''\footnote{\href{http://www.losi.com/Products/Default.aspx?ProdID=LOS03002}{http://www.losi.com/Products/Default.aspx?ProdID=LOS03002}}. This electrically powered car has 0.55 x 0.29 meters length and width dimensions with reported maximal speed of up to 55 km/h. Both vehicles are shown in Figure \ref{fig:rc_cars}.
 
-\begin{figure}[h!]
+\begin{figure}[]
     \centering
     \subfloat[Inside of the chasing RC car]{{\includegraphics[height=3.7cm]{images/inside.jpg} }}%
     \qquad
@@ -587,7 +598,7 @@ The RC car used as the chased vehicle is a 1:10 scale ``Losi XXX-SCT Brushless R
 
 
 \subsubsection{Qualitative results}
-We have performed live tests using a simplified version of the system without the semantic segmentation and extrapolation enabled. The system was tested on an empty roundabout. During live tests, several safety measures were available. Multiple software conditions were implemented to stop the system. For example, in case the ZED camera stopped capturing images. On top of that, an emergency switch that can return manual control was available. We tested the system on multiple days during multiple weather conditions. The chasing trajectories driven on a road leading to the roundabout included a straight line and a U-turn. On the roundabout, the trajectories consisted of arc segments and full circles. \par
+We have performed live tests using a version of the system that did not have the dual-task neural network and therefore did not have the option to perform coarse semantic segmentation. The system was tested on an empty roundabout. During live tests, several safety measures were available. Multiple software conditions were implemented to stop the system. For example, in case the ZED camera stopped capturing images. We also limited the maximum speed of the autonomous vehicle. This was done by limiting the pulse width modulation (PWM) signals sent to the servo motor. On top of that, a remote emergency relay that can return manual control was available. We tested the system on multiple days during multiple weather conditions. The chasing trajectories driven on a road leading to the roundabout included a straight line and a U-turn. On the roundabout, the trajectories consisted of arc segments and full circles. \par
 
 
 The autonomous system followed the other car smoothly without jerky movements. For the most part, it was able to successfully chase the other RC. It was maintaining the desired distance when chasing the other car on the roundabout as well as when the pursued car was driving in a straight line. If the chased car stopped, so did the autonomous system. The only limitation of the system comes from its current reactive nature, which in some instances affected the system's ability to perform U-turn on a narrow road. \par
@@ -596,19 +607,31 @@ The autonomous chase was documented and a highlight video is available online \c
 
 \begin{figure}[]
     \centering
-    \subfloat[Image taken at $t$ seconds]{{\includegraphics[width=1\textwidth]{images/drone_shot_2.4.2-optimized.png} }}%
+    \subfloat[Steer values in time]{{\includegraphics[width=0.45\textwidth]{images/steer_vid.pdf} }}%
     \quad
-    \subfloat[Image taken at $t+1.9$ seconds]{{\includegraphics[width=1\textwidth]{images/drone_shot_2.4.3-optimized.png} }}%
-    \caption{Drone photos of the live test. The RC car on the right is driven autonomously, while the RC car on the left is manually controlled with a transmitter. The person in the center of the image controls the chased car. The person closest to the red Toyota has an emergency device that can stop the autonomous car and the third person controls the drone. Video of the autonomous car chase is available online \cite{my_yt_video}}\label{f:video}
+    \subfloat[Throttle in time]{{\includegraphics[width=0.45\textwidth]{images/throttle_vid.pdf} }}%
+    \caption[Steer and throttle during autonomous RC car drive]{Steer and throttle PWM signals during the live test. The time in the graph corresponds to the time in the video of the live test \cite{my_yt_video}. The sudden spike in the graph \textbf{(a)} is caused by a false positive detection in a single frame}%
+    \label{fig:prubeh}%
+\end{figure}
+
+\begin{figure}[]
+    \centering
+    % \subfloat[Image taken at $t$ seconds]{{\includegraphics[width=0.9\textwidth]{images/drone_shot_2.4.2-optimized.png} }}%
+    % \quad
+    % \subfloat[Image taken at $t+1.9$ seconds]{{
+    \includegraphics[width=1\textwidth]{images/drone_shot_2.4.3-optimized.png} %}}%
+    \caption[Drone photo of the live test.]{Drone photo of the live test. The RC car on the right is driven autonomously, while the RC car on the left is manually controlled with a transmitter. The person in the center of the image controls the chased car. The person closest to the red Toyota holds an emergency device that can stop the autonomous car and the third person controls the drone. Video of the autonomous car chase is available online \cite{my_yt_video}}\label{f:video}
 \end{figure}
 
 
 
 
-\chapter{Conclusion}
-We have presented a novel dual-task convolutional neural network that concurrently detects objects and performs coarse semantic segmentation. The network was trained using alternating optimization. We have developed a system, capable of autonomously chasing another vehicle, that uses the dual-task network. We have extensively evaluated different versions of the system and have shown that the system benefits from using the coarse semantic segmentation. Especially if the detector has low detection recall.\par
-Additionally, we have collected, annotated and published three datasets. The first is a car chasing dataset made in CARLA, which was used to evaluate the chasing capabilities of the system. The second is an object detection dataset consisting of 460 images of a pursued RC car. The third is a semantic segmentation dataset consisting of 460 annotated images segmented into drivable and non-drivable parts. All of these datasets will be made publicly available. \par
-Finally, we have integrated the system into a subscale vehicle platform attached to a high-speed RC car. We have demonstrated and documented \cite{my_yt_video} the system's ability to chase another car.
+
+
+\chapter{Conclusion} \label{s:conclusion}
+We have presented a novel dual-task convolutional neural network that concurrently detects objects and predicts coarse semantic segmentation. The network was trained using alternating optimization. We have developed a system, capable of autonomously chasing another vehicle, that uses the dual-task network. We have extensively evaluated different versions of the system in the CARLA simulator. For this reason, we have created a new challenging publicly available chasing dataset collected by manually driving the chased car. We have shown that the system benefits from using the coarse semantic segmentation. Especially if the detector has low detection recall.\par
+We have collected and annotated three new publicly available datasets. On top of the CARLA driving set, we have collected an object detection dataset consisting of 460 images of a pursued RC car as well as a semantic segmentation dataset consisting of 460 images segmented into drivable and non-drivable parts. \par
+Finally, we have implemented the system on a subscale vehicle platform attached to a high-speed RC car. We have demonstrated and documented \cite{my_yt_video} the system's ability to chase another car. Currently, the system works well despite using only information from a single RGB camera. The system's current biggest disadvantage comes from its reactive nature. We believe that the system could improve by using a more sophisticated trajectory planning algorithm. In the future, we would also like to more extensively evaluate the system with the RC cars.
 
 \bibliography{citations}
 \bibliographystyle{IEEEtran}
