@@ -151,7 +151,6 @@ class SemanticSegmentation:
         return smallestIndex
 
     def FindPossibleAngle(self,segmImage,bbox,maxAngle):
-        # bbox = bbox[0]
         x_Middle = 0
         y_Middle = 0
         if len(bbox) != 0:
@@ -235,7 +234,6 @@ class SemanticSegmentation:
                 line = closestRectIndex//10 #TODO if the number of rectangles changes
                 if line == 9:
                     return 0, drivableIndexes
-                # print('Line:',line,closestRectIndex)
                 drivability = []
                 closeness = []
 
@@ -259,10 +257,6 @@ class SemanticSegmentation:
                             current += 1
                     drivability.append(current)
                     closeness.append(self.EuclidianDistance(self.CoordRectangles[closestRectIndex][1],x_Middle,self.CoordRectangles[closestRectIndex][0],y_Middle))
-                    # if current > mostDrivable:
-                    #     mostDrivable = current
-                    #     mostDrivableIndex = line*10+j
-                # print(mostDrivableIndex, self.CoordRectangles[mostDrivableIndex][1],x_Middle)
                 closeness = np.array(closeness)/float(np.max(closeness))
                 closeness = 1.0 - closeness
                 for i in range(len(drivability)):

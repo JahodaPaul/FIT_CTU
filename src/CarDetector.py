@@ -29,16 +29,9 @@ class CarDetector:
         vecA = [firstP[0]-orig[0],firstP[1]-orig[1]]
         vecB = [secondP[0]-orig[0],secondP[1]-orig[1]]
         AB = vecA[0]*vecB[0] + vecA[1]*vecB[1]
-        # distA = math.sqrt(vecA[0]*vecA[0] + vecA[1]*vecA[1])
-        # distB = math.sqrt(vecB[0] * vecB[0] + vecB[1] * vecB[1])
 
-        # ang = math.degrees(math.acos(AB/(distA*distB)))
-        # print(ang)
         det = vecA[0] * vecB[1] - vecA[1] * vecB[0]  # determinant
         angle = math.degrees(math.atan2(det, AB))
-        # ang = math.degrees(math.atan2(secondP[1] - firstP[1], secondP[0] - firstP[0]) - math.atan2(firstP[1] - orig[1], firstP[0] - orig[0]))
-        # print(angle)
-        # return ang + 360 if ang < 0 else ang
         return angle
 
     def CreateBoundBoxMistakes(self, boundingBox,nOfFramesToSkip=0):
@@ -55,10 +48,6 @@ class CarDetector:
         else:
             bbBoxes = np.array(boundingBox)
             for i in range(len(bbBoxes)):
-                # print(bbBoxes)
-                # print(bbBoxes[0])
-                # print(bbBoxes[0][0])
-                # print(bbBoxes[0][0][0])
                 front_indices = [0,3,4,7] # front of the car bounding box indices
                 back_indices = [1,2,5,6] # back of the car bounding box indices
 
@@ -74,8 +63,6 @@ class CarDetector:
                 xMoveBack = (1 if np.random.randint(0, 1) == 0 else -1) * np.random.exponential(1) * sizewidthBack / VIEW_WIDTH * 10
                 yMoveBack = (1 if np.random.randint(0, 1) == 0 else -1) * np.random.exponential(1) * sizeheightBack / VIEW_HEIGHT * 10
 
-                # print(xMoveFront, yMoveFront, xMoveBack, yMoveBack)
-
                 for j in front_indices:
                     bbBoxes[i][j][0] += xMoveFront
                     bbBoxes[i][j][1] += yMoveFront
@@ -84,8 +71,6 @@ class CarDetector:
                     bbBoxes[i][j][0] += xMoveBack
                     bbBoxes[i][j][0] += yMoveBack
 
-                # for ind in indices:
-                #     boundingBox[0][ind] += 20
             return bbBoxes
 
     # Calculates rotation matrix to euler angles
@@ -136,7 +121,6 @@ class CarDetector:
                 self.exponentialMovingAverageDist = self.alpha * predicted_distance + (1 - self.alpha) * self.exponentialMovingAverageDist
                 self.exponentialMovingAverageAngle = self.alpha * predicted_angle + (1 - self.alpha) * self.exponentialMovingAverageAngle
 
-                # if self.computed == 0:
                 self.lastNDistances.append(predicted_distance)
                 self.lastNAngles.append(predicted_angle)
                 self.bboxInARow = 0
@@ -144,7 +128,6 @@ class CarDetector:
                     self.lastNDistances = self.lastNDistances[1:]
                     self.lastNAngles = self.lastNAngles[1:]
 
-                # print(self.exponentialMovingAverageAngle,predicted_angle)
                 if extrapolation:
                     return bounding_boxes, self.exponentialMovingAverageDist, self.exponentialMovingAverageAngle
                 else:
@@ -155,41 +138,24 @@ class CarDetector:
         points = [(float(bounding_boxes[i, 0]), float(bounding_boxes[i, 1])) for i in range(8)] # image points
 
         car_bb = self.boundingBoxes._create_bb_points(vehicle) # world bb coords
-        res_car_bb = []#car_bbcar_bb[0]
+        res_car_bb = []
         median_bb = []
         for i in range(len(car_bb[1])):
             median_bb.append((car_bb[1][i] + car_bb[6][i])/2.0)
-        # print(car_bb[1])
-        # print(car_bb[6])
+
         for i in range(len(car_bb)):
-            tmp = car_bb[i] - median_bb # - car_bb[0]
+            tmp = car_bb[i] - median_bb
             res_car_bb.append([tmp[0],tmp[1],tmp[2]]) # object points
         res_car_bb = np.array(res_car_bb,dtype=float)
         res_car_bb = np.reshape(res_car_bb,(8,3,1))
         points = np.array(points,dtype=float)
         points = np.reshape(points,(8,2,1))
-        # res_car_bb = res_car_bb[:3]
-        # points = points[:3]
+
 
         distortion = np.zeros((4,1))
         ret, rvecs, tvecs = cv2.solvePnP(res_car_bb, points, calibration,distortion)
 
-        # print(tvecs)
-        # if random.randrange(0,50) == 4:
-        #     exit()
-
-        # rodr = cv2.Rodrigues(rvecs)[0]
-        # print('rodr',math.degrees(math.atan2(rodr[0][0], rodr[2][0])))
-        # print('rodr',math.degrees(math.asin(rodr[2][1])))
-        # print('pred angle:',math.degrees(math.atan2(-tvecs[0][0],-tvecs[2][0])))
-        # print('predicted angle',self.getAngle([-0.3,0],[-0.3,1],[tvecs[0][0],abs(tvecs[2][0])]))
         tmp_Predicted_Angle = math.degrees(math.atan2(-tvecs[0][0],-tvecs[2][0]))
-        # print('tvecs',tvecs)
-
-
-
-
-        # print(tvecs)
         tmp_Predicted_Distance = math.sqrt(tvecs[0][0]**2+tvecs[1][0]**2+tvecs[2][0]**2)
 
         # korekce
@@ -203,8 +169,6 @@ class CarDetector:
 
         # Cosinova veta na spocteni 3. strany trojuhelnika
         predicted_distance = math.sqrt(prvniStrana**2+tmp_Predicted_Distance**2-2*prvniStrana*tmp_Predicted_Distance*math.cos(math.radians(triangleAngle)))
-        # print(predicted_distance,tmp_Predicted_Distance, triangleAngle)
-        # print(math.acos((0.3**2+predicted_distance**2-tmp_Predicted_Distance**2)/(2*0.3*predicted_distance)))
 
         tmpAngle = math.degrees(math.acos((prvniStrana**2+predicted_distance**2-tmp_Predicted_Distance**2)/(2*prvniStrana*predicted_distance)))
 
@@ -215,7 +179,6 @@ class CarDetector:
 
         predicted_Angle = self.LimitAngles(predicted_Angle)
 
-        # print(points)
         if self.bboxInARow == 0:
             self.lastNDistances.append(predicted_distance)
             self.lastNAngles.append(predicted_Angle)
@@ -252,7 +215,6 @@ class CarDetector:
         self.exponentialMovingAverageAngle = alpha * predicted_Angle + (1 - alpha) * self.exponentialMovingAverageAngle
 
         return bounding_boxes, predicted_distance, predicted_Angle
-        # print(res_car_bb)
 
 
 # # Tests

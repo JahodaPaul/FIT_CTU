@@ -6,8 +6,8 @@ The repository presents a system that can autonomously chase another vehicle - i
 
 
 ## Main contributions
-* Functional autonomous driving system. The full system is found in [src](/src). The simplified version used with the RC cars can be found in [RC_Version](/RC_Version).
-* Dual-task neural network that can concurrently detect objects and perform coarse image segmentation.
+* Functional autonomous driving system capable of chasing another vehicle based on information from a singel RGB camera. The full system is found in [src](/src). The simplified version used with the RC cars can be found in [RC_Version](/RC_Version).
+* [Dual-task neural](/dual-task%20network) network that can concurrently detect objects and perform coarse image segmentation.
  
 Detection             |  Segmentation 2019
 :-------------------------:|:-------------------------:

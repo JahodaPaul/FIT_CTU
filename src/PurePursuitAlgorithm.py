@@ -22,7 +22,6 @@ class PurePursuitAlgorithm:
         lastSeenCarY = 0 if len(self.pathCoords) == 0 else self.pathCoords[-1][1]
 
         currentDist = 10000000
-        #distFromFollowingCar = 10000000
         for coordinate in self.pathCoords:
             dist = self.EuclidianDistance(myCarX,coordinate[0],myCarY,coordinate[1])
             distFollowing = self.EuclidianDistance(lastSeenCarX, coordinate[0],lastSeenCarY, coordinate[1])
@@ -36,7 +35,6 @@ class PurePursuitAlgorithm:
                     x = coordinate[0]
                     y = coordinate[1]
                     currentDist = dist
-                    #distFromFollowingCar = distFollowing
 
         print(x,y,myCarX,myCarY,lastSeenCarX, lastSeenCarY)
 

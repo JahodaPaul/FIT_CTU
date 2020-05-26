@@ -246,8 +246,6 @@ from pygame.locals import K_s
 from pygame.locals import K_w
 from pygame.locals import K_MINUS
 from pygame.locals import K_EQUALS
-# except ImportError:
-#     raise RuntimeError('cannot import pygame, make sure pygame package is installed')
 
 class ManualControl(object):
     def __init__(self,filename,name=''):
@@ -275,7 +273,6 @@ class ManualControl(object):
             self._steer_cache = 0.0
         self._steer_cache = min(0.5, max(-0.5, self._steer_cache))
         self._control.steer = round(self._steer_cache, 1)
-        #self._control.brake = 1.0 if keys[K_DOWN] or keys[K_s] else 0.0
         self._control.hand_brake = keys[K_SPACE]
 
         if keys[K_r]:
@@ -362,9 +359,6 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
     evaluation = Evaluation()
     semantic = SemanticSegmentation()
 
-    lastX, lastY = 0, 0
-
-
     lookAheadDistance = 5
     purePursuit = PurePursuitAlgorithm(lookAheadDistance=lookAheadDistance)
 
@@ -414,9 +408,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
         collision_sensor.listen(lambda event: evaluation.CollisionHandler(event))
         actor_list.append(collision_sensor)
-        # deep copy
-        
-        # carla.Location(x=1.5, z=1.4,y=-0.3)
+
         # Find the blueprint of the sensor.
         blueprint = world.get_blueprint_library().find('sensor.camera.rgb')
         # Modify the attributes of the blueprint to set image resolution and field of view.
@@ -430,12 +422,9 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
             attach_to=vehicle)
         actor_list.append(camera_rgb)
 
-        # camera_rgb.set(FOV=90.0)
-        # camera_rgb.set_image_size(800, 600)
-
         camera_rgb2 = world.spawn_actor(
             blueprint_library.find('sensor.camera.rgb'),
-            carla.Transform(carla.Location(x=75, z=220,y=0), carla.Rotation(pitch=-90,yaw=-180)))            #x=-5.5, z=4.4,y=0
+            carla.Transform(carla.Location(x=1.5, z=1.4,y=-0.3), carla.Rotation(pitch=0)))            #x=-5.5, z=4.4,y=0
             #attach_to=vehicle)
         actor_list.append(camera_rgb2)
 
@@ -444,11 +433,6 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
             carla.Transform(carla.Location(x=1.5, z=1.4,y=0), carla.Rotation(pitch=0)), #5,3,0 # -0.3
             attach_to=vehicle)
         actor_list.append(camera_segmentation)
-
-        # IMU = world.spawn_actor(blueprint_library.find('sensor.other.imu'),
-        #                                      carla.Transform(), attach_to=vehicle)
-        #
-        # actor_list.append(IMU)
         
 
         # Create a synchronous mode context.
@@ -472,7 +456,6 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     start_pose2.location.x = start_pose.location.x
                     start_pose2.location.y = start_pose.location.y
                     start_pose2.location.z = start_pose.location.z
-                    #waypoint = m.get_waypoint(start_pose.location)
 
                     location1 = vehicle.get_transform()
                     rotation1 = location1.rotation
@@ -489,10 +472,10 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     elif abs(rotation1.yaw - 90.0) < 45.0:
                         print('4')
                         start_pose2.location.y = start_pose.location.y + 5
-                    # print(blueprint_library)
+
                     bp = blueprint_library.filter('model3')[0]
 
-                    bp.set_attribute('color', '0,101,189')#'204,0,204')
+                    bp.set_attribute('color', '0,101,189')
                     vehicleToFollow = world.spawn_actor(
                         bp,
                         start_pose2)
@@ -516,7 +499,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     vehicle.set_transform(start_pose)
 
                     start_pose2 = random.choice(m.get_spawn_points())
-                    # print(blueprint_library)
+
                     bp = blueprint_library.filter('model3')[0]
                     bp.set_attribute('color', '0,101,189')
                     vehicleToFollow = world.spawn_actor(
@@ -544,13 +527,7 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     vehicleToFollow.set_transform(currentPos)
                     counter += 1
 
-                # Choose the next waypoint and update the car location.
-                #waypoint = random.choice(waypoint.next(1.5))
-                # vehicle.set_transform(waypoint.transform)
-
-                #image_semseg.convert(carla.ColorConverter.CityScapesPalette)
                 fps = round(1.0 / snapshot.timestamp.delta_seconds)
-                # Draw the display.
 
                 # manual control
                 if not followDrivenPath:
@@ -562,7 +539,6 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                 location2 = vehicleToFollow.get_transform()
 
                 myControl.SaveCarPosition(location1)
-                # myControl.SaveCarPosition(location2)
                 newX, newY = carDetector.CreatePointInFrontOFCar(location1.location.x, location1.location.y,location1.rotation.yaw)
                 angle = carDetector.getAngle([location1.location.x, location1.location.y], [newX, newY],
                                              [location2.location.x, location2.location.y])
@@ -574,18 +550,9 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     carInTheImage = semantic.IsThereACarInThePicture(image_segmentation)
                     bbox, predicted_distance,predicted_angle = carDetector.getDistance(vehicleToFollow, camera_rgb,carInTheImage,extrapolation=extrapolate,nOfFramesToSkip=nOfFramesToSkip)
 
-
-                    if len(bbox) != 0:
-                        lastX = location2.location.x
-                        lastY = location2.location.y
-
-                    # print('real angle:', angle)
-
                     if advanced:
-                        # objectInFront, goLeftOrRight = semantic.ObjectInFrontOfChasedCar(image_segmentation,bbox)
                         possibleAngle, drivableIndexes = semantic.FindPossibleAngle(image_segmentation,bbox,predicted_angle)
 
-                        # print('predicted angle:',predicted_angle,'possible angle:',possibleAngle)
                         steer, throttle = drivingControlAdvanced.PredictSteerAndThrottle(predicted_distance, possibleAngle,None)
                     else:
                         steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
@@ -605,7 +572,6 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
                     targetX, targetY = purePursuit.GetNextPoint(location1.location.x,location1.location.y)
                     predicted_angle = carDetector.getAngle([location1.location.x,location1.location.y],[newX,newY],[targetX,targetY])
                     possibleAngle = predicted_angle
-                    # print('real angle:', angle)
                     steer, throttle = drivingControl.PredictSteerAndThrottle(predicted_distance,predicted_angle,None)
 
                     # if followDrivenPath:
@@ -668,10 +634,6 @@ def main(optimalDistance, followDrivenPath, chaseMode, evaluateChasingCar, drive
 
 import os
 if __name__ == '__main__':
-
-    # Ps = [0.01,0.1,0.5,1]
-    # Is = [0,0.001,0.01,0.1,0.5]
-    # Ds = [0.1,0.2,0.5,1,4]
     nOfFramesToSkip = 0
     try:
     # if True:

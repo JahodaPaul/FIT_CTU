@@ -8,8 +8,8 @@ class DrivingControlAdvanced:
 
 
         self.P_mult = 0.1
-        self.I_mult = 0#1/3000.0
-        self.D_mult = 1#0.1
+        self.I_mult = 0
+        self.D_mult = 1
         self.errorsArr = np.array([],dtype=float)
         self.optimalDist = optimalDistance
         self.prevError = 0
@@ -26,15 +26,12 @@ class DrivingControlAdvanced:
             steer = angleBetweenCars/180.0
         self.distChange = distance - self.prevDist
         self.prevDist = distance
-        # print('THROTTLE',self.throttle)
         self.throttle = self.PID(distance)
 
         return steer, self.throttle
 
     def PID(self, distance):
         error = (distance-self.optimalDist)
-        # if error < 0:
-        #     error *= 5
         self.errorsArr = np.append(self.errorsArr,error)
         self.errorsArr = self.errorsArr[-300:]
 
