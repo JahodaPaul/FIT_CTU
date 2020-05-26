@@ -4,6 +4,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from CarDetector import CarDetector
 
 class AnalyseResults:
     def __init__(self,dirChasing):
@@ -74,16 +75,16 @@ class AnalyseResults:
 
 def Analyse(dirChasing):
     dirChasing = dirChasing
-    dirChased = 'drives'
+    dirChased = '../drives'
     analyse = AnalyseResults(dirChasing)
 
     # chasedFiles = os.listdir(dirChased)
     # chasedFiles = ['ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p','ride19.p', 'ride20.p']
-    chasedFiles = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p']
-    # chasedFiles = ['ride1.p', 'ride2.p', 'ride3.p', 'ride4.p', 'ride5.p', 'ride6.p', 'ride7.p', 'ride8.p', 'ride9.p',
-    #               'ride10.p',
-    #                'ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p',
-    #                'ride19.p', 'ride20.p']
+    # chasedFiles = ['ride1.p','ride2.p','ride3.p','ride4.p','ride5.p','ride6.p','ride7.p','ride8.p','ride9.p','ride10.p']
+    chasedFiles = ['ride1.p', 'ride2.p', 'ride3.p', 'ride4.p', 'ride5.p', 'ride6.p', 'ride7.p', 'ride8.p', 'ride9.p',
+                  'ride10.p',
+                   'ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p',
+                   'ride19.p', 'ride20.p']
     finished = 0
     percentages = []
     maes = [];
@@ -113,7 +114,7 @@ def Analyse(dirChasing):
     return np.mean(percentages)
 
 def AverageSpeed():
-    dirChased = 'drives'
+    dirChased = '../drives'
     chasedFiles = ['ride1.p', 'ride2.p', 'ride3.p', 'ride4.p', 'ride5.p', 'ride6.p', 'ride7.p', 'ride8.p', 'ride9.p',
                    'ride10.p',
                    'ride11.p', 'ride12.p', 'ride13.p', 'ride14.p', 'ride15.p', 'ride16.p', 'ride17.p', 'ride18.p',
@@ -122,6 +123,14 @@ def AverageSpeed():
     speeds = []
     for file in chasedFiles:
         historyChased = analyse.loadPositionHistory(os.path.join(dirChased, file))
+        while(0.001 > analyse.EuclidianDistance(historyChased[0][0],historyChased[1][0],historyChased[0][1],
+                                                        historyChased[1][1],0,0)):
+            historyChased = historyChased[1:]
+
+        while(0.001 > analyse.EuclidianDistance(historyChased[-1][0],historyChased[-2][0],historyChased[-1][1],
+                                                        historyChased[-2][1],0,0)):
+            historyChased = historyChased[:-1]
+
         totalDistMeters = 0
         totalNumberOfSeconds = 0
         for i in range(len(historyChased)-1):
@@ -136,6 +145,7 @@ def AverageSpeed():
     print('AverageSpeed:',np.mean(speeds))
     print('AverageSpeed difficult:',np.mean(speeds[:10]))
     print('AverageSpeed easy:', np.mean(speeds[10:]))
+    print(speeds[:10])
     X = [0 for i in range(20)]
     colors = ['#0B6623' for i in range(20)]
     for i in range(10):
@@ -156,8 +166,8 @@ def PlotTrajectory():
     img = plt.imread("carla_view_h.png")
     fig, ax = plt.subplots()
     ax.imshow(img,extent=[ -220, 220,-95, 250])
-    dirChased = 'drives'
-    dirChasing = 'Experiment1/chaseOutput_Advanced_DifficultDrives'
+    dirChased = '../drives'
+    dirChasing = '../Experiment1/chaseOutput_Advanced_DifficultDrives'
     chasedFiles = ['ride7.p']
     analyse = AnalyseResults(dirChased)
     speeds = []
@@ -182,13 +192,114 @@ def PlotTrajectory():
     plt.savefig("trajectory_img_h.pdf", bbox_inches='tight')
     # plt.show(img)
 
+def PlotPrubehy():
+    dirChased = '../drives'
+    dirChasing = '../Experiment1/chaseOutput_Advanced_DifficultDrives'
+    chasedFiles = ['ride7.p']
+    analyse = AnalyseResults(dirChased)
+    distances = []
+
+
+    for file in chasedFiles:
+        historyChased = analyse.loadPositionHistory(os.path.join(dirChased, file))
+        historyChasing = analyse.loadPositionHistory(os.path.join(dirChasing, file))
+
+    historyChasing = np.array(historyChasing)
+    historyChased = np.array(historyChased)
+
+    for i in range(len(historyChased)-1):
+        dist = analyse.EuclidianDistance(historyChased[i][0], historyChasing[i][0], historyChased[i][1],
+                                         historyChasing[i][1], historyChased[i][2], historyChasing[i][2])
+        distances.append(dist)
+
+    plt.rc('axes', labelsize=18)
+    plt.ylabel('Distance [m]')
+    plt.xlabel('Time [s]')
+    plt.yticks(fontsize=14)
+    plt.xticks([0,600,1200,1800,2400,3000,3600],[0,600//30,1200//30,1800//30,2400//30,3000//30,3600//30],fontsize=18)
+    plt.plot(distances, color='#0065BD')
+    plt.savefig("distances.pdf", bbox_inches='tight')
+    plt.show()
+
+    speeds1 = []
+    speeds2 = []
+    for i in range(2,len(historyChased)-2):
+        dist = analyse.EuclidianDistance(historyChased[i][0], historyChased[i+1][0], historyChased[i][1],
+                                         historyChased[i+1][1], historyChased[i][2], historyChased[i+1][2])
+
+        dist2 = analyse.EuclidianDistance(historyChasing[i][0], historyChasing[i+1][0], historyChasing[i][1],
+                                         historyChasing[i+1][1], historyChasing[i][2], historyChasing[i+1][2])
+        speeds1.append(dist*30*3.6)
+        speeds2.append(dist2*30*3.6)
+
+    plt.rc('axes', labelsize=18)
+    plt.ylabel('Speed [km/h]')
+    plt.xlabel('Time [s]')
+    plt.yticks(fontsize=14)
+    plt.xticks([0, 600, 1200, 1800, 2400, 3000, 3600],
+               [0, 600 // 30, 1200 // 30, 1800 // 30, 2400 // 30, 3000 // 30, 3600 // 30], fontsize=18)
+    plt.plot(speeds2, color='#0065BD')
+    plt.plot(speeds1, color='black')
+    patchesList = []
+    patchesList.append(mpatches.Patch(color='#0065BD', label='Chasing car'))
+    patchesList.append(mpatches.Patch(color='black', label='Chased car'))
+    plt.legend(handles=patchesList)
+    plt.savefig("speeds.pdf", bbox_inches='tight')
+    plt.show()
+
+    carDetector = CarDetector()
+    angles = []
+    for i in range(2,len(historyChased)-2):
+        angle = carDetector.getAngle([historyChasing[i][0], historyChasing[i][1]], [historyChasing[i+1][0],
+                                         historyChasing[i+1][1]], [historyChased[i][0], historyChasing[i][1]])
+        angles.append(angle)
+
+    plt.rc('axes', labelsize=18)
+    plt.ylabel('Angle [degrees]')
+    plt.xlabel('Time [s]')
+    plt.yticks(fontsize=14)
+    plt.xticks([0,600,1200,1800,2400,3000,3600],[0,600//30,1200//30,1800//30,2400//30,3000//30,3600//30],fontsize=18)
+    plt.plot(angles, color='#0065BD')
+    plt.savefig("angles.pdf", bbox_inches='tight')
+    plt.show()
+
+
+    carDetector = CarDetector()
+    yawrate = []
+    yawrate2 = []
+    for i in range(2,len(historyChased)-3):
+        angle = carDetector.getAngle([0,0], [historyChasing[i+1][0] - historyChasing[i][0], historyChasing[i+1][1] - historyChasing[i][1]],
+                                     [historyChasing[i+2][0] - historyChasing[i+1][0], historyChasing[i+2][1] - historyChasing[i+1][1]])
+        if abs(angle*30) > 200:
+            angle = yawrate[-1]
+        yawrate.append(angle*30)
+
+        angle = carDetector.getAngle([0,0], [historyChased[i+1][0] - historyChased[i][0], historyChased[i+1][1] - historyChased[i][1]],
+                                     [historyChased[i+2][0] - historyChased[i+1][0], historyChased[i+2][1] - historyChased[i+1][1]])
+        if abs(angle*30) > 200:
+            angle = yawrate2[-1]
+        yawrate2.append(angle*30)
+
+    plt.rc('axes', labelsize=18)
+    plt.ylabel('Yaw rate [degrees/s]')
+    plt.xlabel('Time [s]')
+    plt.yticks(fontsize=14)
+    plt.xticks([0,600,1200,1800,2400,3000,3600],[0,600//30,1200//30,1800//30,2400//30,3000//30,3600//30],fontsize=18)
+    plt.plot(yawrate, color='#0065BD')
+    plt.plot(yawrate2, color='black')
+    plt.legend(handles=patchesList)
+    plt.savefig("yaw_rate.pdf", bbox_inches='tight')
+    plt.show()
+
 
 
 def main():
+    PlotPrubehy()
+    exit()
     # PlotTrajectory()
     # exit()
-    # AverageSpeed()
-    # exit()
+    AverageSpeed()
+    exit()
 
     finishedPercentagesWOSE = []
     finishedPercentagesFull = []
@@ -198,9 +309,9 @@ def main():
     until = 101
 
     for i in range(fromm,until,5):
-        finishedPercentagesWOSE.append(Analyse('Experiment2_NoSegmEx/chaseOutput'+str(i)))
-        finishedPercentagesFull.append(Analyse('Experiment2_Full/chaseOutput'+str(i)))
-        finishedPercentagesWOS.append(Analyse('Experiment2_NoSegm/chaseOutput'+str(i)))
+        finishedPercentagesWOSE.append(Analyse('../Experiment2_NoSegmEx/chaseOutput'+str(i)))
+        finishedPercentagesFull.append(Analyse('../Experiment2_Full/chaseOutput'+str(i)))
+        finishedPercentagesWOS.append(Analyse('../Experiment2_NoSegm/chaseOutput'+str(i)))
 
 
     plt.figure(figsize=(16, 9), dpi=1200, facecolor='w', edgecolor='k')
@@ -220,10 +331,10 @@ def main():
     patchesList = []
     patchesList.append(mpatches.Patch(color='#0065BD', label='Full Algorithm'))
     patchesList.append(mpatches.Patch(color='purple', label='W/o Segmentation'))
-    patchesList.append(mpatches.Patch(color='black', label='W/o Segmentation or Extrapolation'))
+    patchesList.append(mpatches.Patch(color='black', label='W/o Segmentation + Extrapolation'))
     plt.legend(handles=patchesList)
     plt.grid(True,dashes=(5,5))
-    plt.savefig("recall_chart7_difficult.pdf", bbox_inches='tight',dpi=1200)
+    plt.savefig("recall_chart7.pdf", bbox_inches='tight',dpi=1200)
     plt.show()
 
 

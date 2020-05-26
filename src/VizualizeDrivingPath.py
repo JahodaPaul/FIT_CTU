@@ -80,6 +80,11 @@ class VizualizeDrivingPath:
         plt.title('Angles between cars in time')
         plt.show()
 
+    def LoadMaesFiles(self):
+        with open('maes_data.txt') as f:
+            lines = [line.rstrip('\n') for line in f]
+
+
 # tmp = VizualizeDrivingPath()
 # tmp.Load()
 # tmp.ShowSpeeds()
