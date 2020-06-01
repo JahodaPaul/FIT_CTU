@@ -9,11 +9,12 @@ import math
 
 # from model import yolov3
 from shutil import copyfile
+from SemanticSegmentation import SemanticSegmentation
 
 
 class CarDetector:
     def __init__(self):
-        self.MODEL_NAME = './model/best_model_Epoch_26_step_1592_mAP_0.9788_loss_0.4212_lr_0.0001'
+        self.MODEL_NAME = './model/best_model_Epoch_18_step_8245_mAP_0.2501_loss_1.9889_lr_0.0001'
         self.new_size = [320, 320]
 
         self.height_ori, self.width_ori = 0,0
@@ -27,6 +28,7 @@ class CarDetector:
         self.alpha = 0.5
 
         self.sess = None
+        self.segmentation = SemanticSegmentation()
 
 
     def getDistanceAndAngle(self, box,width_ori,height_ori):
@@ -115,7 +117,7 @@ class CarDetector:
 
 
         # print('run TF')
-        boxes_, scores_, labels_ = self.sess.run([self.boxes, self.scores, self.labels], feed_dict={self.input_data: img})
+        boxes_, scores_, labels_, map4_ = self.sess.run([self.boxes, self.scores, self.labels,self.map4], feed_dict={self.input_data: img})
         # print('after TF')
 
         # rescale the coordinates to the original image
@@ -126,18 +128,7 @@ class CarDetector:
             boxes_[:, [0, 2]] *= (width_ori / float(self.new_size[0]))
             boxes_[:, [1, 3]] *= (height_ori / float(self.new_size[1]))
 
-        # print("box coords:")
-        # print(boxes_)
-        # print('*' * 30)
-        # print("scores:")
-        # print(scores_)
-        # print('*' * 30)
-        # print("labels:")
-        # print(labels_)
-        # print('bounding boxes analyzed')
-        # print(str(boxes_))
-
-        return boxes_, scores_
+        return boxes_, scores_, map4_[0]
 
     def Extrapolate(self):
         if len(self.lastNDistances) >= 2:
@@ -188,7 +179,7 @@ class CarDetector:
 
             with tf.variable_scope('yolov3'):
                 pred_feature_maps = self.yolo_model.forward(self.input_data, False)
-            self.pred_boxes, self.pred_confs, self.pred_probs = self.yolo_model.predict(pred_feature_maps)
+            self.pred_boxes, self.pred_confs, self.pred_probs, self.map4 = self.yolo_model.predict(pred_feature_maps)
 
             self.pred_scores = self.pred_confs * self.pred_probs
 
@@ -208,7 +199,7 @@ class CarDetector:
 
 
         # print('getting boxes')
-        boxes, scores = self.GetBoundingBox(img_name,half)
+        boxes, scores, feature_map = self.GetBoundingBox(img_name,half)
         # print('got boxes:',boxes)
         if len(boxes) != 0:
             dist, angle = self.getDistanceAndAngle(boxes[np.argmax(scores)], self.width_ori, self.height_ori)
@@ -217,10 +208,12 @@ class CarDetector:
             alpha = self.alpha if len(self.lastNDistances) > 1 else 1
             self.exponentialMovingAverageDist = alpha * dist + (1 - alpha) * self.exponentialMovingAverageDist
             self.exponentialMovingAverageAngle = alpha * angle + (1 - alpha) * self.exponentialMovingAverageAngle
-
+            angle, _ = self.segmentation.FindPossibleAngle(boxes[np.argmax(scores)],angle,feature_map,self.width_ori,self.height_ori)
         else:
             print('No box found')
             dist, angle = self.Extrapolate()
+            angle, _ = self.segmentation.FindPossibleAngle(boxes, angle, feature_map, self.width_ori,self.height_ori)
+
         self.KeepLastN()
         angle = self.LimitAngles(angle)
         dist = self.LimitDistance(dist)
