@@ -12,10 +12,23 @@
 *.log
 *.toc
 *.swp
+*.xml
+*.pyc
+*.meta
+*.index
+*.data-00000-of-00001
+*.p
 
 !foto.png
 !/Thesis%20-%20Autonomous%20Car%20Chasing/Autonomous_Car_Chasing.pdf
-!**/Thesis/images/
+!CARLA_camera_view.png
+!CARLA_top_view.png
+!ChasingDiagram.png
+!drone_shot_2.4.3-optimized.png
+!drone_shot_2.4.2-optimized.png
+!inside.jpg
+!segmented_image.png
+!YOLO.png
 
 # archives
 
@@ -37,3 +50,4 @@
 **/imgui-sfml/
 **/sol2/
 **/cmake-build-debug/
+**/.idea/
