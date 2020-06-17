@@ -1,0 +1,22 @@
+from DrivingControl import DrivingControl
+
+dr = DrivingControl(1.5)
+print(dr.PredictSteerAndThrottle(1,0))
+print(dr.PredictSteerAndThrottle(2,0))
+print(dr.PredictSteerAndThrottle(2.5,0))
+print(dr.PredictSteerAndThrottle(3,0))
+print(dr.PredictSteerAndThrottle(3,0))
+print(dr.PredictSteerAndThrottle(3,0))
+print(dr.PredictSteerAndThrottle(2.5,0))
+print(dr.PredictSteerAndThrottle(2.25,0))
+print(dr.PredictSteerAndThrottle(2,0))
+print(dr.PredictSteerAndThrottle(2,0))
+print(dr.PredictSteerAndThrottle(1.8,0))
+print(dr.PredictSteerAndThrottle(1.5,0))
+print(dr.PredictSteerAndThrottle(1.5,0))
+print(dr.PredictSteerAndThrottle(2.5,0))
+print(dr.PredictSteerAndThrottle(3.5,0))
+print(dr.PredictSteerAndThrottle(4.5,0))
+print(dr.PredictSteerAndThrottle(5.5,0))
+print(dr.PredictSteerAndThrottle(5,0))
+
