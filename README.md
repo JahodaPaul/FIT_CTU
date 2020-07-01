@@ -27,6 +27,7 @@ To share code I have written during my studies at [FIT CTU](https://en.wikipedia
 * ### 5th semester
   * [BI-BIG - Semestral project](/BIG) - _Database Technologies for Big Data_ - 25/25 points received
   * [BI-EP1](/EP1) - _Efficient Programming 1_ - Solved more problems than any other student in the course
+  * [BI-PST](/PST) - _Probability and Statistics_ - 9/10 points received
 
 * ### 6th semester
   * Selected for an exchange programme with one of the best universities in the world, [Nanyang Technological University](https://en.wikipedia.org/wiki/Nanyang_Technological_University) in [Singapore](https://en.wikipedia.org/wiki/Singapore)
@@ -34,7 +35,6 @@ To share code I have written during my studies at [FIT CTU](https://en.wikipedia
 
 * ### 7th semester
   * [BI-VZD](/VZD) - _Data Mining_ - 46/48 points received
-  * [BI-PST](/PST) - _Probability and Statistics_ - 9/10 points received
   
 * ### 8th semester
   * [BI-BAP](/Thesis%20-%20Autonomous%20Car%20Chasing) - _Bachelor thesis about autonomous car chasing_ - Final Grade - A
@@ -42,7 +42,7 @@ To share code I have written during my studies at [FIT CTU](https://en.wikipedia
 [BI-ACM](/ACM) - _Competitive programming_ - Course taken during 1st, 2nd, 3rd and 5th semester in preparation for [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest)
   
 ## Overall Results
-Finished the graduation exams with A, A and defended thesis with higher mark A - excellent. Will continue my master studies at either Technical University in Munich or FEL CVUT.
+Finished the graduation exams with A, A and defended thesis with higher mark A - excellent. Will continue my master studies at Technical University in Munich or FEL CVUT.
   
 ## Advice
 I strongly recommend against copying the code from this repository. The goal of university education is to acquire knowledge and to learn to think. To copy the code would not only harm you in your development as a person, but it could also prevent you from successfully finishing these courses as most of them have anti-cheating mechanism in use.
