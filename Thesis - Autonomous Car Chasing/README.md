@@ -14,3 +14,7 @@ Detection             |  Segmentation
 ![detection](https://i.imgur.com/1y7BDH2.png)  |  ![segmentation](https://i.imgur.com/fMWX081.png)
 * Three datasets (car chase dataset in CARLA, object detection dataset and semantic segmentation dataset) found in [datasets](/Thesis%20-%20Autonomous%20Car%20Chasing/datasets) 
 * [Bachelor thesis](/Thesis%20-%20Autonomous%20Car%20Chasing/Autonomous_Car_Chasing.pdf) about the project.
+
+
+## Overall results
+The bachelor thesis was graded with highest result: A - excellent.

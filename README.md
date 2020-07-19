@@ -42,7 +42,7 @@ To share code I have written during my studies at [FIT CTU](https://en.wikipedia
 [BI-ACM](/ACM) - _Competitive programming_ - Course taken during 1st, 2nd, 3rd and 5th semester in preparation for [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest)
   
 ## Overall Results
-Finished the graduation exams with A, A and defended thesis with higher mark A - excellent. Will continue my master studies at Technical University in Munich or FEL CVUT.
+Finished the graduation exams with A, A and defended thesis with highest mark A - excellent. I will most likely continue my master studies at [Technical University in Munich](https://en.wikipedia.org/wiki/Technical_University_of_Munich). You can find the story about my application process to the best universities in Europe [here](https://medium.com/@pjahoda6/best-universities-in-europe-for-machine-learning-8f5192d65125).
   
 ## Advice
 I strongly recommend against copying the code from this repository. The goal of university education is to acquire knowledge and to learn to think. To copy the code would not only harm you in your development as a person, but it could also prevent you from successfully finishing these courses as most of them have anti-cheating mechanism in use.
@@ -50,4 +50,3 @@ I strongly recommend against copying the code from this repository. The goal of 
 ## Links
 If you have any questions about [FIT CTU](https://fit.cvut.cz/en) or any questions in general. Feel free to leave me a message.<br>
 Here is my [LinkedIn](https://www.linkedin.com/in/pjahoda/).
-
