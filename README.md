@@ -49,4 +49,4 @@ I strongly recommend against copying the code from this repository. The goal of 
 
 ## Links
 If you have any questions about [FIT CTU](https://fit.cvut.cz/en) or any questions in general. Feel free to leave me a message.<br>
-Here is my [LinkedIn](https://www.linkedin.com/in/pjahoda/).
+Here is my [LinkedIn](https://www.linkedin.com/in/pjahoda/). I also sometimes share my experience [here - medium pjahoda6](https://pjahoda6.medium.com/).
